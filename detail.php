@@ -102,6 +102,7 @@ if (!$_PERMFORUM[$_GET['forumid']][2]) {
 $InfoMember	=	get_connected($SessLieu, $SessForum, $SessTopic);
 
 if ($_FORUMCFG['conn_topic'] == "Y") {
+    $tpl->box['statsconnectes']		=	NULLSTR;
     $tpl->box['nb_connected'] = $tpl->attlang("board_connected");
     if (!empty($InfoMember['listconnected']) && strlen($InfoMember['listconnected'])>0) {
         if ($_GENERAL[0]) {
@@ -176,6 +177,8 @@ if ($_FORUMCFG['repflash']=="Y" && $_PERMFORUM[$_GET['forumid']][3]==true && $To
 
 	$tpl->box['javascript'] 		= 	$tpl->gettemplate("entete","getjscompter");
 	$tpl->box['repflash']   		= 	$tpl->gettemplate("detail","repflash");
+} else {
+    $tpl->box['repflash'] = NULLSTR;
 }
 
 $query 	= 	$sql->query("SELECT 

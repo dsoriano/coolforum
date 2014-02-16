@@ -70,7 +70,7 @@ $table_smileys	=	getloadsmileys();
 if (!$canedit) {
 	$tpl->box['msg']	 =	$tpl->attlang("cantedit");
 	$tpl->box['editcontent'] =	$tpl->gettemplate("editpost","msgbox");
-	$tpl->box['editcontent'] .=	getjsredirect($_SERVER['HTTP_REFERER'],3000);
+	$tpl->box['editcontent'] .=	getjsredirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php',3000);
 } else {
 	// ---------------------------------
 	// Bannissement d'un membre

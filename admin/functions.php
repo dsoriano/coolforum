@@ -193,9 +193,11 @@ function get_rightfromint($tableau,$int)
 	{
 		if($int >= $Mask)
 		{
-			$tableau[$i] 	= 	'true';
+			$tableau[$i] 	= 	true;
 			$int 	       -= 	$Mask;
-		}
+		} else {
+            $tableau[$i] = false;
+        }
 		$Mask 	= $Mask >> 1;
 		$i--;
 	}
