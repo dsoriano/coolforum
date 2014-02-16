@@ -1,0 +1,75 @@
+<!--********** TPL NAME = content **********-->
+
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = accueilopt **********-->
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[export]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[export_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <form action="skindumb.php" method="post">
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="hidden" name="action" value="export"><br>
+		        <select name=id class=form>
+		        {%box[skinlist]%}
+		        </select><br><br>
+		        <input type="submit" value="{%LNG[goexport]%}" class="form"><br><br>
+		      </td>
+		      </form>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[import]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[import_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <form action="skindumb.php" method="post" enctype="multipart/form-data">
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="hidden" name="action" value="import"><br>
+		        <input type="file" name="skin" class=form><br><br>
+		        <table border=0 cellpadding=0 cellspacing=0 class=corp2>
+		          <tr>
+		            <td width=30><input type="checkbox" name="toalluser"></td>
+		            <td class=corp><font size={%::_SKIN[smallfont]%}>{%LNG[toalluser]%}</font></td>
+		          </tr>
+		          <tr>
+		            <td><input type="checkbox" name="todefaultskin"></td>
+		            <td class=corp><font size={%::_SKIN[smallfont]%}>{%LNG[todefaultskin]%}</font></td>
+		          </tr>
+		        </table><br>
+		        <input type="submit" value="{%LNG[goimport]%}" class="form"><br><br>
+		      </td>
+		      </form>
+		    </tr>
+		  </table><p>
+
+<!--********** TPL NAME = skinopt **********-->
+
+	<option value={%::j[id]%}>{%::j[valeur]%}</option>
+
+<!--********** TPL NAME = display **********-->
+
+	<p><font size={%::_SKIN[smallfont]%}>{%box[display]%}</font></p>

@@ -1,0 +1,414 @@
+<!--********** TPL NAME = pageconfig **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td bgcolor="{%::_SKIN[bgtable3]%}" {%box[affdegrad]%} class="corp" align="center">
+            <font size={%::_SKIN[smallfont]%}>
+            <a href="stats.php" class=men>{%LNG[ttgeneral]%}</a> |
+            <a href="stats.php?action=tenbesttopics" class=men>{%LNG[tt10topics]%}</a> |
+            <a href="stats.php?action=tenbestrep" class=men>{%LNG[tt10rep]%}</a> |
+            <a href="stats.php?action=tenbestuser" class=men>{%LNG[tt10mb]%}</a> |
+            <a href="stats.php?action=listmember" class=men>{%LNG[ttmblist]%}</a> |
+            <a href="stats.php?action=connected" class=men>{%LNG[ttconnectedlist]%}</a>
+            </font>
+          </td>
+        </tr>
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+{%box[statscontent]%}
+	  &nbsp;<br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>    
+
+<!--********** TPL NAME = statsgeneral **********-->
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	<tr>
+	  <td colspan=2 class="corp" bgcolor={%::_SKIN[bgtable3]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>{%LNG[statgale]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mostread]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%LNG[maxvues]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mostpop]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%LNG[forumpop]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galenbsmile]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%box[nbsmiles]%}</b></font>
+	  </td>
+	</tr>
+      </table><p>
+      
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	<tr>
+	  <td colspan=2 class="corp" bgcolor={%::_SKIN[bgtable3]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>{%LNG[galemb]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galenbban]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%box[nbbannis]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galenbwait]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%box[nbattente]%}</b></font>
+	  </td>
+	</tr>	
+{%box[groups_stats]%}
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galefrequent]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%LNG[topmembers]%}</b></font>
+	  </td>
+	</tr>
+      </table><p>
+      
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	<tr>
+	  <td colspan=2 class="corp" bgcolor={%::_SKIN[bgtable3]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>{%LNG[galemsg]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galenbtopics]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%box[nbtopics]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galenbrep]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%box[nbrep]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galenbtotmsg]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%box[nbmsg]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galemsgmonth]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%box[postthismonth]%}</b></font>
+	  </td>
+	</tr>
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galemsgday]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%box[postthisday]%}</b></font>
+	  </td>
+	</tr>
+      </table><p>
+
+<!--********** TPL NAME = groups_stats **********-->
+	<tr>
+	  <td width="240" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[grp]%} {%box[group_name]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%box[nb_users]%}</b></font>
+	  </td>
+	</tr>
+	      
+<!--********** TPL NAME = structure1 **********-->
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+          <td class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[message]%}</font></td>
+          <td width="15%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[auteur]%}</font></td>
+          <td width="6%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgrep]%}</font></td>
+          <td width="6%" class="corp" align="center" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgvu]%}</font></td>
+          <td width="17%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[lastpost]%}</font></td>
+        </tr>
+        <tr>
+          <td colspan=7><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        {%box[topicscontent]%}
+        <tr>
+          <td colspan=7><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        <tr height="25">
+          <td colspan=7 bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+          &nbsp;
+          </td>        
+        </tr>
+      </table>
+      
+<!--********** TPL NAME = lignetopic **********-->
+
+<!--  onmouseover="bgd(this,'{%::_SKIN[bgtable1]%}')" onmouseout="bgd(this,'{%::_SKIN[bgtable2]%}')" -->
+  <tr bgcolor={%::_SKIN[bgtable2]%}>
+    <td align=center bgcolor={%::_SKIN[bgtable1]%} class="corp">
+      <font size={%::_SKIN[middlefont]%}><b>{%::CptStats%}</b></font>
+    </td>
+    <td align=center>
+      <img src="icones/{%::Topics[icone]%}.gif">
+    </td>
+    <td class="corp2">
+      <font size={%::_SKIN[smallfont]%}><b>{%box[topic]%}</b>{%box[affichepages]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[loginposter]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbrep]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbvues]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>
+      {%box[gotobutton]%} {%::Topics[datederrep]%}<BR>
+      {%LNG[from]%}: {%::Topics[derposter]%}
+      </font>
+    </td>
+  </tr>
+
+<!--********** TPL NAME = linklastmsg **********-->
+
+<a href="gotopost.php?id={%::Topics[idderpost]%}" class=men><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"></a>
+
+<!--********** TPL NAME = topiclinktomsg **********-->
+
+{%box[pretopic]%}<a href="detail.php?forumid={%::Topics[idforum]%}&id={%::Topics[idtopic]%}" class="lien">{%::Topics[sujet]%}</a>
+
+<!--********** TPL NAME = structure2 **********-->
+
+      {%box[filter]%}
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+          <td class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[pseudo]%}</font></td>
+          <td width="15%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[register]%}</font></td>
+          <td width="7%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[email]%}</font></td>
+          <td width="7%" class="corp" align="center" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[web]%}</font></td>
+          <td width="17%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[nbmsg]%}</font></td>
+        </tr>
+        <tr>
+          <td colspan=6><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        {%box[topicscontent]%}
+        <tr>
+          <td colspan=6><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        <tr height="25">
+          <td colspan=6 bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center">
+          <font size={%::_SKIN[middlefont]%}>{%box[before]%}&nbsp;{%box[next]%}</font>
+          </td>        
+        </tr>
+      </table>
+
+<!--********** TPL NAME = beforelink **********-->
+<b><a href="stats.php?action=listmember&letter={%::letter%}&debut={%box[debut]%}" class="men">&lt;&lt; {%LNG[precedent]%}</a>
+
+<!--********** TPL NAME = beforenolink **********-->
+<b>&lt;&lt; {%LNG[precedent]%}</b>
+
+<!--********** TPL NAME = nextlink **********-->
+<b><a href="stats.php?action=listmember&letter={%::letter%}&debut={%box[debut]%}" class="men">{%LNG[suivant]%} &gt;&gt;</a>
+
+<!--********** TPL NAME = nextnolink **********-->
+<b>{%LNG[suivant]%} &gt;&gt;</b>
+      
+<!--********** TPL NAME = lignemb **********-->
+
+<!--  onmouseover="bgd(this,'{%::_SKIN[bgtable1]%}')" onmouseout="bgd(this,'{%::_SKIN[bgtable2]%}')" -->
+  <tr bgcolor={%::_SKIN[bgtable2]%}>
+    <td align=center bgcolor={%::_SKIN[bgtable1]%} class="corp">
+      <font size={%::_SKIN[middlefont]%}><b>{%::CptStats%}</b></font>
+    </td>
+    <td class="corp2">
+      <font size={%::_SKIN[smallfont]%}><b>&nbsp;{%::Topics[loginposter]%}</b></font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[registerdate]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%box[email]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%box[siteweb]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[middlefont]%}>
+      <b>{%::Topics[usermsg]%}</b>
+      </font>
+    </td>
+  </tr>
+  
+<!--********** TPL NAME = emaillink **********-->    
+<a href="mail.php?email={%::Topics[usermail]%}"><img src="{%::_SKIN[repimg]%}/detail_mail_{%LNG[lngimg]%}.gif" border=0></a>
+
+<!--********** TPL NAME = siteweblink **********--> 
+<a href="{%::Topics[usersite]%}" target="_blank"><img src="{%::_SKIN[repimg]%}/detail_www_{%LNG[lngimg]%}.gif" border=0></a>
+
+<!--********** TPL NAME = mbfilter **********--> 
+<table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;" class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+  <tr height="25">
+    <td align="center">
+      <font size={%::_SKIN[middlefont]%}><b>
+      <a href="stats.php?action=listmember" class=lien>{%LNG[all]%}</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=0" class=lien>#</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=A" class=lien>A</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=B" class=lien>B</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=C" class=lien>C</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=D" class=lien>D</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=E" class=lien>E</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=F" class=lien>F</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=G" class=lien>G</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=H" class=lien>H</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=I" class=lien>I</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=J" class=lien>J</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=K" class=lien>K</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=L" class=lien>L</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=M" class=lien>M</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=N" class=lien>N</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=O" class=lien>O</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=P" class=lien>P</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=Q" class=lien>Q</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=R" class=lien>R</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=S" class=lien>S</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=T" class=lien>T</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=U" class=lien>U</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=V" class=lien>V</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=W" class=lien>W</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=X" class=lien>X</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=Y" class=lien>Y</a>&nbsp; 
+      <a href="stats.php?action=listmember&letter=Z" class=lien>Z</a>&nbsp; 
+      </b></font>
+    </td>        
+  </tr>
+</table>
+<img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+
+<!--********** TPL NAME = nomb **********-->
+  <tr bgcolor={%::_SKIN[bgtable2]%} height=25>
+    <td colspan=6 align=center bgcolor={%::_SKIN[bgtable1]%} class="corp">
+      <font size={%::_SKIN[middlefont]%}><b>{%LNG[nomb]%}</b></font>
+    </td>
+  </tr>
+  
+<!--********** TPL NAME = ifpostittopic **********-->
+
+<font class=corp><b>{%LNG[ttpostit]%}</b></font>
+
+<!--********** TPL NAME = iftopicpoll **********-->
+
+<font class=corp><b>{%LNG[ttpoll]%}</b></font> 
+
+<!--********** TPL NAME = structure3 **********-->
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+          <td class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[pseudo]%}</font></td>
+          <td width="60%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[typelieu]%}</font></td>
+          <td width="15%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[pm]%}</font></td>
+        </tr>
+        <tr>
+          <td colspan=6><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        {%box[listconnected]%}
+        <tr>
+          <td colspan=6><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        <tr height="25">
+          <td colspan=6 bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center">
+          <font size={%::_SKIN[middlefont]%}>{%box[before]%}&nbsp;{%box[next]%}</font>
+          </td>        
+        </tr>
+      </table>
+
+<!--********** TPL NAME = ligneconnected **********-->
+
+<!--  onmouseover="bgd(this,'{%::_SKIN[bgtable1]%}')" onmouseout="bgd(this,'{%::_SKIN[bgtable2]%}')" -->
+  <tr bgcolor={%::_SKIN[bgtable2]%}>
+    <td align=center bgcolor={%::_SKIN[bgtable1]%} class="corp">
+      <font size={%::_SKIN[middlefont]%}><b>&nbsp;</b></font>
+    </td>
+    <td class="corp2">
+      <font size={%::_SKIN[smallfont]%}><b>&nbsp;{%::MemberInfo[pseudo]%}</b></font>
+    </td>
+    <td class="corp2">
+      <font size={%::_SKIN[middlefont]%}>
+      <font size={%::_SKIN[smallfont]%}>&nbsp;<b>{%::_FORUMCFG[catseparate]%}</b> {%box[typelieu]%}</font>
+      </font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}><a href="profile.php?p=pm&action=writemsg&idexp={%::MemberInfo[userid]%}"><img src="{%::_SKIN[repimg]%}/detail_pm_{%LNG[lngimg]%}.gif" border=0 alt="{%LNG[sendpm]%}"></A></font>
+    </td>
+  </tr>
+
+<!--********** TPL NAME = typelieuurl **********-->
+<a href="{%::TypeLieuUrl%}" class=lien>{%::TypeLieu%}</a>
+
+<!--********** TPL NAME = typelieu **********-->
+{%::TypeLieu%}
+
+<!--********** TPL NAME = typelieu_for **********-->
+<a href="list.php?forumid={%::MemberInfo[forumid]%}" class=lien>{%::ForumTitle%}</a>
+
+<!--********** TPL NAME = typelieu_top **********-->
+<b>{%::_FORUMCFG[catseparate]%}</b> <a href="detail.php?forumid={%::MemberInfo[forumid]%}&id={%::Topic[idtopic]%}&page=1" class=lien>{%::Topic[sujet]%}</a> (<a href="gotopost.php?id={%::Topic[idderpost]%}" class=lien>{%LNG[gotopost]%}</a>)
+
+<!--********** TPL NAME = nombconnected **********-->
+  <tr bgcolor={%::_SKIN[bgtable2]%} height=25>
+    <td colspan=4 align=center bgcolor={%::_SKIN[bgtable1]%} class="corp">
+      <font size={%::_SKIN[middlefont]%}><b>{%LNG[nombconnected]%}</b></font>
+    </td>
+  </tr>
+
+<!--********** TPL NAME = connectedbeforelink **********-->
+<b><a href="stats.php?action=connected&debut={%box[debut]%}" class="men">&lt;&lt; {%LNG[precedent]%}</a>
+
+<!--********** TPL NAME = connectedbeforenolink **********-->
+<b>&lt;&lt; {%LNG[precedent]%}</b>
+
+<!--********** TPL NAME = connectednextlink **********-->
+<b><a href="stats.php?action=connected&debut={%box[debut]%}" class="men">{%LNG[suivant]%} &gt;&gt;</a>
+
+<!--********** TPL NAME = connectednextnolink **********-->
+<b>{%LNG[suivant]%} &gt;&gt;</b>

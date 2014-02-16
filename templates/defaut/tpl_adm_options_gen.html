@@ -1,0 +1,217 @@
+<!--********** TPL NAME = optionslist **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <form action="options_gen.php" method="post">
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart1]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[newsacc]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[newsacc_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <textarea name="configz[indexnews]" cols=50 rows=4 class=form>{%::configuration[indexnews]%}</textarea>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart2]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[edmsg]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[edmsg_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[viewmsgedit]" class=form>
+		        <option value="Y"{%::IsSelected[1]%}>{%LNG[edmsg_chx1]%}
+		        <option value="N"{%::IsSelected[2]%}>{%LNG[edmsg_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[bbsign]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[bbsign_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[bbcodeinsign]" class=form>
+		        <option value="Y"{%::IsSelected[3]%}>{%LNG[bbsign_chx1]%}
+		        <option value="N"{%::IsSelected[4]%}>{%LNG[bbsign_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[smsign]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[smsign_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[smileinsign]" class=form>
+		        <option value="Y"{%::IsSelected[5]%}>{%LNG[smsign_chx1]%}
+		        <option value="N"{%::IsSelected[6]%}>{%LNG[smsign_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[msgcach]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[msgcach_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[canpostmsgcache]" class=form>
+		        <option value="Y"{%::IsSelected[7]%}>{%LNG[msgcach_chx1]%}
+		        <option value="N"{%::IsSelected[8]%}>{%LNG[msgcach_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[censuremot]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[censuremot_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <textarea name="configz[censuredwords]" cols=50 rows=4 class=form>{%::configuration[censuredwords]%}</textarea>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[repflash]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[repflash_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[repflash]" class=form>
+		        <option value="Y"{%::IsSelected[13]%}>{%LNG[repflash_chx1]%}
+		        <option value="N"{%::IsSelected[14]%}>{%LNG[repflash_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+		  		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart3]%}</u></b></font></div><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[affcon]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[affcon_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}>
+		        <input type="checkbox" name="configz[conn_accueil]" value="Y"{%::IsChecked[0]%}> {%LNG[conn_accueil]%}<br>
+		        <input type="checkbox" name="configz[conn_forum]" value="Y"{%::IsChecked[1]%}> {%LNG[conn_forum]%}<br>
+		        <input type="checkbox" name="configz[conn_topic]" value="Y"{%::IsChecked[2]%}> {%LNG[conn_topic]%}<br>
+		        </font>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[fj]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[fj_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[forumjump]" class=form>
+		        <option value="Y"{%::IsSelected[9]%}>{%LNG[fj_chx1]%}
+		        <option value="N"{%::IsSelected[10]%}>{%LNG[fj_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[catsep]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[catsep_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="configz[catseparate]" value="{%::configuration[catseparate]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[defaultskin]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[defaultskin_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[defaultskin]" class=form>
+		        {%box[skinlist]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  
+		  <input type="hidden" name="action" value="save">
+		  <input type="submit" Value="{%LNG[valid]%}" class="form">
+		  </form>
+		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = skinlist **********-->
+		  <option value="{%::j[id]%}"{%::selected%}>{%::j[valeur]%}            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            

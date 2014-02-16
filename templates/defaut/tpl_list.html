@@ -1,0 +1,236 @@
+<!--********** TPL NAME = boxlist **********-->
+<script language="javascript">
+<!--
+if( window.addEventListener )
+	document.addEventListener('keypress',gotorep,true);
+else if( window.attachEvent )
+	document.attachEvent('onkeypress',gotorep);
+function gotorep(evnt)
+{
+	cle1 = document.all ? event.keyCode : evnt.which;
+	cle2 = document.all ? event.shiftKey : evnt.shiftKey;
+	if( (cle1 == 115 || cle1 == 83) && cle2 == true )
+		window.location = 'repondre.php?forumid={%::ForumInfo[forumid]%}&parent=0';
+}
+function bgd(nom,col) { 
+	nom.style.background=col; 
+}
+//-->
+</script>
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=0 width="100%" style="padding-bottom:5">
+        <tr>
+          <td width=50% class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[numberpages]%}
+            </font>
+          </td>
+          <td align=right style="padding-bottom:5">
+            <a href="repondre.php?forumid={%::ForumInfo[forumid]%}&parent=0" class=men><img src="{%::_SKIN[repimg]%}/newmsg_{%LNG[lngimg]%}.gif" border=0></a>
+            {%box[buttonpoll]%}<br>
+          </td>
+        </tr>
+      </table>
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" align=center>{%box[searchmy]%}</td>
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+          <td class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[message]%}</font></td>
+          <td width="15%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[auteur]%}</font></td>
+          <td width="6%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgrep]%}</font></td>
+          <td width="6%" class="corp" align="center" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgvu]%}</font></td>
+          <td width="17%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[lastpost]%}</font></td>
+        </tr>
+        <tr>
+          <td colspan=7><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        {%box[forumcontent]%}
+        <tr>
+          <td colspan=7><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        <tr height="25">
+          <form action="list.php?forumid={%::ForumInfo[forumid]%}" method="get">
+          <td colspan=7 bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+            <font size={%::_SKIN[smallfont]%}>
+            <b>{%LNG[listmsg]%} {%box[debut]%} {%LNG[tomsg]%} {%box[fin]%} 
+            - {%LNG[sortby0]%}
+              <select name="sortby" class=form2 align=absmiddle>
+              <option value="1"{%::checksortby[1]%}>{%LNG[sortby1]%}</option>
+              <option value="2"{%::checksortby[2]%}>{%LNG[sortby2]%}</option>
+              <option value="3"{%::checksortby[3]%}>{%LNG[sortby3]%}</option>
+              </select>
+            - {%LNG[inorder0]%} 
+              <select name="orderby" class=form2 align=absmiddle>
+              <option value="1"{%::checkorder[1]%}>{%LNG[inorder1]%}</option>
+              <option value="2"{%::checkorder[2]%}>{%LNG[inorder2]%}</option>
+              </select> 
+            - {%LNG[from0]%} 
+              <select name="fromdate" class=form2 align=absmiddle>
+              <option value="1"{%::checkfromdate[1]%}>{%LNG[from1]%}</option>
+              <option value="2"{%::checkfromdate[2]%}>{%LNG[from2]%}</option>
+              <option value="3"{%::checkfromdate[3]%}>{%LNG[from3]%}</option>
+              </select>
+              &nbsp;<input type="hidden" name="forumid" value="{%::ForumInfo[forumid]%}"><input type="submit" class="form2" value="{%LNG[valid]%}">
+            </b><br>
+            </font>
+          </td>
+          </form>
+        </tr>
+      </table>
+
+      <table border=0 width="100%" style="padding-top:5">
+        <tr>
+          <td width=50% class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[numberpages]%}
+            </font>
+          </td>
+          <td align=right style="padding-bottom:5">
+            <a href="repondre.php?forumid={%::ForumInfo[forumid]%}&parent=0" class=men><img src="{%::_SKIN[repimg]%}/newmsg_{%LNG[lngimg]%}.gif" border=0></A>
+            {%box[buttonpoll]%}<br>
+          </td>
+        </tr>
+      </table>
+
+      {%box[boxforumjump]%}
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=0 cellspacing=0 style="border: 1px solid; border-collapse: collapse;">
+        <tr height="20">
+          <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" style="padding-left:4;" width=200><font size={%::_SKIN[middlefont]%}><b>{%LNG[legend]%}</b></font></td>
+          <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" style="padding-left:4;"><font size={%::_SKIN[middlefont]%}><b>{%LNG[info]%}</b></font></td>
+        </tr>
+        <tr>
+          <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}" style="padding:4;">
+	    <font size={%::_SKIN[smallfont]%} align=left>
+	    <img src="{%::_SKIN[repimg]%}/on.gif" align="absmiddle"> {%LNG[newpost]%}<br>
+	    <img src="{%::_SKIN[repimg]%}/off.gif" align="absmiddle"> {%LNG[nonewpost]%}<br>
+	    <img src="{%::_SKIN[repimg]%}/closed.gif" align="absmiddle"> {%LNG[topicclo]%}<br>
+	    </font>
+          </td>
+          <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}" style="padding:4;">
+            <font size={%::_SKIN[smallfont]%}>
+            <img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"> <b>{%box[canread]%}</b> {%LNG[canread]%}<br>
+            <img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"> <b>{%box[cantopic]%}</b> {%LNG[cantopic]%}<br>
+            <img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"> <b>{%box[canrep]%}</b> {%LNG[canrep]%}<br>
+            <img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"> <b>{%box[canpoll]%}</b> {%LNG[canpoll]%}<br>
+            </font>
+          </td>
+        </tr>
+      </table>
+      &nbsp;<br>
+      </center>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = buttonaddpoll **********-->
+
+<a href="repondre.php?forumid={%::ForumInfo[forumid]%}&parent=0&newpoll=true" class=men><img src="{%::_SKIN[repimg]%}/newpoll_{%LNG[lngimg]%}.gif" border=0>
+
+<!--********** TPL NAME = leftpagearrowlink **********-->
+
+<a href="list.php?forumid={%::ForumInfo[forumid]%}&page=1{%::stringtoinsert%}" class="men">&lt;&lt;</a> <a href="list.php?forumid={%::ForumInfo[forumid]%}&page={%box[pagebefore]%}{%::stringtoinsert%}" class="men">&lt;</a> 
+
+<!--********** TPL NAME = leftpagearrow **********-->
+
+&lt;&lt; &lt; 
+
+<!--********** TPL NAME = rightpagearrowlink **********-->
+
+ <a href="list.php?forumid={%::ForumInfo[forumid]%}&page={%box[pageafter]%}{%::stringtoinsert%}" class="men">&gt;</A> <a href="list.php?forumid={%::ForumInfo[forumid]%}&page={%::nbpages%}{%::stringtoinsert%}" class=men>&gt;&gt;</A>
+
+<!--********** TPL NAME = rightpagearrow **********-->
+
+ &gt; &gt;&gt; 
+
+<!--********** TPL NAME = ourpage **********-->
+
+<font size={%::_SKIN[smallfont]%}><b>{%box[pagenumber]%}</b></font>
+
+<!--********** TPL NAME = otherpage **********-->
+
+<a href="list.php?forumid={%::ForumInfo[forumid]%}&page={%box[pagenumber]%}{%::stringtoinsert%}" class="men">{%box[pagenumber]%}</a>
+
+<!--********** TPL NAME = boxpages **********-->
+
+<b>{%LNG[page]%} : {%box[navpages]%}</b><br>
+
+<!--********** TPL NAME = ifnomsg **********-->
+
+<tr>
+  <td colspan=7 class=corp2 bgcolor="{%::_SKIN[bgtable2]%}" style="padding:4;">
+    <font size={%::_SKIN[smallfont]%}>
+    <b>{%LNG[nomsg]%}</b>
+    </font>
+  </td>
+</tr>
+
+<!--********** TPL NAME = boxforumjump **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <TR>
+    <TD align=right>
+      {%box[forumjump]%}
+    </TD>
+  </TR>
+</table>
+
+<!--********** TPL NAME = lignetopic **********-->
+
+  <tr bgcolor={%::_SKIN[bgtable2]%} onmouseover="bgd(this,'{%::_SKIN[bgtable1]%}')" onmouseout="bgd(this,'{%::_SKIN[bgtable2]%}')">
+    <td align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <img src="{%::_SKIN[repimg]%}/{%::Topics[icontopic]%}">
+    </td>
+    <td align=center>
+      <img src="icones/{%::Topics[icone]%}.gif">
+    </td>
+    <td class="corp2">
+      <font size={%::_SKIN[smallfont]%}><b>{%box[topic]%}</b>{%box[affichepages]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[loginposter]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbrep]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbvues]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>
+      {%box[gotobutton]%} {%::Topics[datederrep]%}<BR>
+      {%LNG[from]%}: {%::Topics[derposter]%}
+      </font>
+    </td>
+  </tr>
+
+<!--********** TPL NAME = linklastmsg **********-->
+
+<a href="gotopost.php?id={%::Topics[idderpost]%}" class=men><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"></a>
+
+<!--********** TPL NAME = topiclinktomsg **********-->
+
+{%box[pretopic]%}<a href="{%box[linkpage]%}.php?forumid={%::ForumInfo[forumid]%}&id={%::Topics[idtopic]%}&page={%::page%}" class="lien">{%::Topics[sujet]%}</a>
+
+<!--********** TPL NAME = ifpostittopic **********-->
+
+<font class=corp><b>{%LNG[ttpostit]%}</b></font>
+
+<!--********** TPL NAME = iftopicpoll **********-->
+
+<font class=corp><b>{%LNG[ttpoll]%}</b></font> 
+
+<!--********** TPL NAME = iftopicannonce **********-->
+
+<font class=corp><b>{%LNG[ttannonce]%}</b></font> 
+
+<!--********** TPL NAME = searchmy **********-->
+
+<a href="search.php?action=find&forumsearch={%::ForumInfo[forumid]%}&idmembre={%::_USER[userid]%}"><img src="{%::_SKIN[repimg]%}/detail_search.gif" border=0 alt="{%LNG[searchmy]%}"></a>

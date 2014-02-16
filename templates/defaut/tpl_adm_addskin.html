@@ -1,0 +1,393 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%box[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = formulaire **********-->
+<script language="javascript">
+<!--
+function preview(page, acti, dest)
+{
+	document.formulaire.action = page;
+	document.formulaire.act.value = acti;
+	document.formulaire.target = dest;
+	document.formulaire.submit();
+}
+-->
+</script>
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[addskingal]%}</u></b></font></div><p>
+		  {%box[errorbox]%}
+		  <form name="formulaire" action="{%box[targetform]%}" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_skinname]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_skinname]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[skinname]" class="form2" value="{%::skins[skinname]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_repimg]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_repimg]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[repimg]" class="form2" value="{%::skins[repimg]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_reptpl]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_reptpl]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[reptpl]" class="form2" value="{%::skins[reptpl]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_affdegrad]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_affdegrad]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <select name="skins[affdegrad]" class="form2">
+	                  <option value="Y"{%::degrad[1]%}>{%LNG[affdegrad_chx1]%}
+	                  <option value="N"{%::degrad[2]%}>{%LNG[affdegrad_chx2]%}
+	                </select>
+	              </td>
+	            </tr>
+	          </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[addskinfont]%}</u></b></font></div><p>
+		    
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_font]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_font]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <select name="skins[font]" class="form2">
+			  <option value="arial"{%::fonts[arial]%}>Arial
+			  <option value="courier"{%::fonts[courier]%}>Courier
+			  <option value="garamond"{%::fonts[garamond]%}>Garamond
+			  <option value="helvetica"{%::fonts[helvetica]%}>Helvetica
+			  <option value="tahoma"{%::fonts[tahoma]%}>Tahoma
+			  <option value="times"{%::fonts[times]%}>Times
+			  <option value="verdana"{%::fonts[verdana]%}>Verdana	                
+	                </select>
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_smallfont]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_smallfont]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <select name="skins[smallfont]" class="form2">
+	                  <option value="1"{%::smallfont[1]%}>1
+	                  <option value="2"{%::smallfont[2]%}>2
+	                  <option value="3"{%::smallfont[3]%}>3
+	                  <option value="4"{%::smallfont[4]%}>4
+	                  <option value="5"{%::smallfont[5]%}>5
+	                  <option value="6"{%::smallfont[6]%}>6
+	                  <option value="7"{%::smallfont[7]%}>7
+	                </select>
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_middlefont]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_middlefont]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <select name="skins[middlefont]" class="form2">
+	                  <option value="1"{%::middlefont[1]%}>1
+	                  <option value="2"{%::middlefont[2]%}>2
+	                  <option value="3"{%::middlefont[3]%}>3
+	                  <option value="4"{%::middlefont[4]%}>4
+	                  <option value="5"{%::middlefont[5]%}>5
+	                  <option value="6"{%::middlefont[6]%}>6
+	                  <option value="7"{%::middlefont[7]%}>7
+	                </select>
+	              </td>
+	            </tr>	            	            	          	            	            
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_bigfont]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_bigfont]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <select name="skins[bigfont]" class="form2">
+	                  <option value="1"{%::bigfont[1]%}>1
+	                  <option value="2"{%::bigfont[2]%}>2
+	                  <option value="3"{%::bigfont[3]%}>3
+	                  <option value="4"{%::bigfont[4]%}>4
+	                  <option value="5"{%::bigfont[5]%}>5
+	                  <option value="6"{%::bigfont[6]%}>6
+	                  <option value="7"{%::bigfont[7]%}>7
+	                </select>
+	              </td>
+	            </tr>
+	          </table><p>
+	          
+	          <hr color="{%::_SKIN[bordercolor]%}">
+	          <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[addskincolmb]%}</u></b></font></div><p>
+	          
+	          <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+{%box[groupscols]%}
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_colban]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_colban]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[bangrp]" class="form2" value="{%::skins[bangrp]%}">
+	              </td>
+	            </tr>
+	          </table><p>
+	          
+	          <hr color="{%::_SKIN[bordercolor]%}">
+	          <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[addskincollink]%}</u></b></font></div><p>
+		    
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_lien1norm]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_lien1norm]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[lien1col]" class="form2" value="{%::skins[lien1col]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_lien1visit]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_lien1visit]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[lien1visit]" class="form2" value="{%::skins[lien1visit]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_lien1hov]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_lien1hov]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[lien1hov]" class="form2" value="{%::skins[lien1hov]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_lien2norm]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_lien2norm]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[lien2col]" class="form2" value="{%::skins[lien2col]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_lien2visit]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_lien2visit]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[lien2visit]" class="form2" value="{%::skins[lien2visit]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_lien2hov]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_lien2hov]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[lien2hov]" class="form2" value="{%::skins[lien2hov]%}">
+	              </td>
+	            </tr>
+	          </table><p>
+	          
+	          <hr color="{%::_SKIN[bordercolor]%}">
+	          <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[addskincolgal]%}</u></b></font></div><p>
+		    
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_textcol1]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_textcol1]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[textcol1]" class="form2" value="{%::skins[textcol1]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_textcol2]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_textcol2]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[textcol2]" class="form2" value="{%::skins[textcol2]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_searchcolor]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_searchcolor]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[searchcolor]" class="form2" value="{%::skins[searchcolor]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_bordcol]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_bordcol]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[bordercolor]" class="form2" value="{%::skins[bordercolor]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_bgtable1]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_bgtable1]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[bgtable1]" class="form2" value="{%::skins[bgtable1]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_bgtable2]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_bgtable2]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[bgtable2]" class="form2" value="{%::skins[bgtable2]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_bgtable3]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_bgtable3]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[bgtable3]" class="form2" value="{%::skins[bgtable3]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_bg1]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_bg1]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[bg1]" class="form2" value="{%::skins[bg1]%}">
+	              </td>
+	            </tr>
+
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_bg2]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_bg2]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[bg2]" class="form2" value="{%::skins[bg2]%}">
+	              </td>
+	            </tr>
+	            	            	            	            	            	            	            	            	            	            	            	            	            	            	            	            	            	            
+	            <tr>
+	              <td colspan=2 align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+	                <input type="button" value="{%LNG[skin_previewindex]%}" onclick="preview('../index.php', 'preview', '_blank')" class="form2">
+	              </td>
+	            </tr>
+	            <tr>
+	              <td colspan=2 align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+	                <input type="button" value="{%LNG[skin_save]%}" onclick="preview('{%box[targetform]%}', 'saveskin', '_self')" class="form2">
+	              </td>
+	            </tr>
+	          </table>
+		  <input type="hidden" name="act" value="saveskin">
+		  <input type="hidden" name="Id" value="{%::Id%}">
+	          </form>
+
+<!--********** TPL NAME = groupscols **********-->
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="50%">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_grpcolor]%}</u></b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[cm_grpcolor]%}</font><br>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" width="50%">
+	                <input type="text" name="skins[grp{%::id_group%}]" class="form2" value="{%::valuecolor%}">
+	              </td>
+	            </tr>
+	          
+<!--********** TPL NAME = errorbox **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%::error%}</b></font>
+	              </td>
+	            </tr>
+	          </table><p>
+	          
+<!--********** TPL NAME = saveok **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[skinsaved]%}</b></font>
+	              </td>
+	            </tr>
+	          </table><p>
+
+<!--********** TPL NAME = tableskin **********-->	          
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=350 cellpadding=5>
+	            <tr>
+	              <td class="corp" colspan="2" bgcolor="{%::_SKIN[bgtable3]%}" align="center">
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_skinedit]%}</u></b></font><br>
+	              </td>
+	            </tr>
+	            {%box[ligneskin]%}
+	          </table>
+	          
+<!--********** TPL NAME = ligneskin **********-->
+	            <tr>
+	              <td class="corp" width=30 bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+	                <font size={%::_SKIN[middlefont]%}><b>{%::Skin[id]%}</b></font><br>
+	              </td>
+	              <td class="corp" width="320" bgcolor="{%::_SKIN[bgtable1]%}">
+	                <font size={%::_SKIN[middlefont]%}><a href="modifskin.php?action=modify&id={%::Skin[id]%}" class="men">{%::Skin[valeur]%}</a></font><br>
+	              </td>
+	            </tr>

@@ -1,0 +1,51 @@
+<!--********** TPL NAME = hierarchy **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=4 cellspacing=0 style="border: 1px solid; border-collapse: collapse;">
+	<tr>
+	  <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" style="padding-left:10">
+	    <font size={%::_SKIN[smallfont]%}><b>{%treenavs%}</b></font><br>
+	  </td>
+	</tr>
+        {%box[boxconnected]%}
+      </table>
+      &nbsp;<br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = treeviewcat **********-->
+
+<a href="index.php" class=men>{%::_FORUMCFG[forumname]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> {%::CatInfo[cattitle]%}</font>
+
+<!--********** TPL NAME = treelist **********-->
+
+<a href="index.php" class=men>{%::_FORUMCFG[forumname]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="viewcat.php?catid={%::ForumInfo[catid]%}" class=men>{%::ForumInfo[cattitle]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> {%::ForumInfo[forumtitle]%}
+
+<!--********** TPL NAME = treedetail **********-->
+
+<a href="index.php" class=men>{%::_FORUMCFG[forumname]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="viewcat.php?catid={%::ForumInfo[catid]%}" class=men>{%::ForumInfo[cattitle]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="list.php?forumid={%::_GET[forumid]%}&page={%::page%}" class=men>{%::ForumInfo[forumtitle]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> {%::TopicInfo[sujet]%}
+
+<!--********** TPL NAME = treereppage **********-->
+
+<a href="index.php" class=men>{%::_FORUMCFG[forumname]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="viewcat.php?catid={%::ForumInfo[catid]%}" class=men>{%::ForumInfo[cattitle]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="list.php?forumid={%::ForumID%}" class=men>{%::ForumInfo[forumtitle]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> {%LNG[addmsgtitle]%}
+
+<!--********** TPL NAME = treesearch **********-->
+
+<a href="index.php" class=men>{%::_FORUMCFG[forumname]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="search.php" class="men">{%LNG[searchtitle]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> {%::KeyWords%}
+
+<!--********** TPL NAME = treeprofil **********-->
+
+<a href="index.php" class=men>{%::_FORUMCFG[forumname]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="profile.php" class=men>{%LNG[accprofil]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> {%LNG[optpage]%}
+
+<!--********** TPL NAME = treeeditpost **********-->
+
+<a href="index.php" class=men>{%::_FORUMCFG[forumname]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="viewcat.php?catid={%::ForumInfo[catid]%}" class=men>{%::ForumInfo[cattitle]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="list.php?forumid={%::forumid%}" class=men>{%::ForumInfo[forumtitle]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> <a href="detail.php?forumid={%::forumid%}&id={%::parent%}&p={%::p%}" class=men>{%::TopicSujet%}</a>
+
+<!--********** TPL NAME = treenewmsg **********-->
+
+<a href="index.php" class=men>{%::_FORUMCFG[forumname]%}</a> <b>{%::_FORUMCFG[catseparate]%}</b> {%::KeyWords%}

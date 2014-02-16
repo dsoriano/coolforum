@@ -1,0 +1,161 @@
+<!--********** TPL NAME = infopersoform **********-->
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function Compter(Target)
+{
+	StrLen = Target.value.length
+	if (StrLen > {%::_USER[Max_Desc]%} )
+	{
+		Target.value = Target.value.substring(0,{%::_USER[Max_Desc]%});
+	}
+}
+//-->
+</SCRIPT>
+            <form action="profile.php" method="post" name="formulaire">
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	      <tr>
+	        <td colspan=2 class="corp" bgcolor={%::_SKIN[bgtable3]%}>
+	          <font size={%::_SKIN[middlefont]%}><b>{%LNG[infocomp]%}</b></font>
+		</td>
+	      </tr>
+	      {%box[error]%}
+	      <tr>
+	        <td width="220" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[youricq]%} :</u></b></font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+		  <font size={%::_SKIN[middlefont]%}><b><input type="text" name="icq" value="{%::Result[icq]%}" size="40" class="form" maxlength="9"></b></font>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td width="220" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[youraim]%} :</u></b></font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+		  <font size={%::_SKIN[middlefont]%}><B><input type="text" name="aim" value="{%::Result[aim]%}" size="40" class="form"></B></font>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td width="220" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[youryahoo]%} :</u></b></font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+		  <font size={%::_SKIN[middlefont]%}><B><input type="text" name="yahoomsg" value="{%::Result[yahoomsg]%}" size="40" class="form"></B></font>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td width="220" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[yourmsn]%} :</u></b></font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+		  <font size={%::_SKIN[middlefont]%}><B><input type="text" name="msn" value="{%::Result[msn]%}" size="40" class="form" maxlength="50"></B></font>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td width="220" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[yourbirth]%} :</u></b></font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+		  <font size={%::_SKIN[middlefont]%}><B>
+		  {%LNG[day]%}
+		  {%box[day]%}
+		  {%LNG[month]%}
+		  {%box[month]%}
+		  {%LNG[year]%} <input type="text" value="{%box[year]%}" name="year" size="4" MAXLENGTH="4" class="form">
+		  </B></font>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td width="220" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[yoursex]%} :</u></b></font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+		  <font size={%::_SKIN[middlefont]%}><B>{%box[sexe]%}</B></font>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td width="220" class="corp" bgcolor={%::_SKIN[bgtable1]%} valign="top" nowrap>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[description]%} :</u></b></font><br>
+		  <font size={%::_SKIN[smallfont]%}>{%LNG[cmdescription]%}<p>
+		  </font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+		  <textarea name="description" cols="60" rows="7" onFocus="Compter(this)" onKeyDown="Compter(this)" onKeyUp="Compter(this)" onBlur="Compter(this)" class=form>{%::Result[description]%}</textarea>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td colspan=2 class="corp" bgcolor={%::_SKIN[bgtable1]%} align="center">
+	          <input type="hidden" name="p" value="infoperso">
+	          <input type="hidden" name="action" value="update">
+	          <input type=submit value="{%LNG[valid]%}" class=form2>
+		  <input type=reset Value="{%LNG[restart]%}" class=form2>
+		</td>
+	      </tr>
+	    </table><p>
+	    
+<!--********** TPL NAME = errorbox **********-->
+	      <tr>
+	        <td colspan=2 class="corp" bgcolor={%::_SKIN[bgtable3]%} align="center">
+	          <font size={%::_SKIN[middlefont]%}><b>*** {%::Error%} ***</b></font>
+		</td>
+	      </tr>
+	      
+<!--********** TPL NAME = annifday **********-->
+		  <select name="day" class="form">
+		  <option value="">{%LNG[day]%}</option>
+		  <option value="01"{%::selectedd[1]%}>01</option>
+		  <option value="02"{%::selectedd[2]%}>02</option>
+		  <option value="03"{%::selectedd[3]%}>03</option>
+		  <option value="04"{%::selectedd[4]%}>04</option>
+		  <option value="05"{%::selectedd[5]%}>05</option>
+		  <option value="06"{%::selectedd[6]%}>06</option>
+		  <option value="07"{%::selectedd[7]%}>07</option>
+		  <option value="08"{%::selectedd[8]%}>08</option>
+		  <option value="09"{%::selectedd[9]%}>09</option>
+		  <option value="10"{%::selectedd[10]%}>10</option>
+		  <option value="11"{%::selectedd[11]%}>11</option>
+		  <option value="12"{%::selectedd[12]%}>12</option>
+		  <option value="13"{%::selectedd[13]%}>13</option>
+		  <option value="14"{%::selectedd[14]%}>14</option>
+		  <option value="15"{%::selectedd[15]%}>15</option>
+		  <option value="16"{%::selectedd[16]%}>16</option>
+		  <option value="17"{%::selectedd[17]%}>17</option>
+		  <option value="18"{%::selectedd[18]%}>18</option>
+		  <option value="19"{%::selectedd[19]%}>19</option>
+		  <option value="20"{%::selectedd[20]%}>20</option>
+		  <option value="21"{%::selectedd[21]%}>21</option>
+		  <option value="22"{%::selectedd[22]%}>22</option>
+		  <option value="23"{%::selectedd[23]%}>23</option>
+		  <option value="24"{%::selectedd[24]%}>24</option>
+		  <option value="25"{%::selectedd[25]%}>25</option>
+		  <option value="26"{%::selectedd[26]%}>26</option>
+		  <option value="27"{%::selectedd[27]%}>27</option>
+		  <option value="28"{%::selectedd[28]%}>28</option>
+		  <option value="29"{%::selectedd[29]%}>29</option>
+		  <option value="30"{%::selectedd[30]%}>30</option>
+		  <option value="31"{%::selectedd[31]%}>31</option>
+		  </select>
+		  
+<!--********** TPL NAME = annifmonth **********-->
+		  <select name="month" class="form">
+		  <option value="">{%LNG[month]%}</option>
+		  <option value="01"{%::selectedm[1]%}>{%LNG[january]%}</option>
+		  <option value="02"{%::selectedm[2]%}>{%LNG[february]%}</option>
+		  <option value="03"{%::selectedm[3]%}>{%LNG[march]%}</option>
+		  <option value="04"{%::selectedm[4]%}>{%LNG[april]%}</option>
+		  <option value="05"{%::selectedm[5]%}>{%LNG[may]%}</option>
+		  <option value="06"{%::selectedm[6]%}>{%LNG[june]%}</option>
+		  <option value="07"{%::selectedm[7]%}>{%LNG[july]%}</option>
+		  <option value="08"{%::selectedm[8]%}>{%LNG[august]%}</option>
+		  <option value="09"{%::selectedm[9]%}>{%LNG[september]%}</option>
+		  <option value="10"{%::selectedm[10]%}>{%LNG[october]%}</option>
+		  <option value="11"{%::selectedm[11]%}>{%LNG[november]%}</option>
+		  <option value="12"{%::selectedm[12]%}>{%LNG[december]%}</option>
+		  </select>
+		  
+<!--********** TPL NAME = sexbox **********-->
+		  <select name="sex" class="form">
+		  <option value="M"{%::sexM%}>{%LNG[male]%}</option>
+		  <option value="F"{%::sexF%}>{%LNG[female]%}</option>
+		  </select>
+		  

@@ -1,0 +1,356 @@
+<!--********** TPL NAME = affsmileys **********-->
+<center>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr height="89">
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautgauche.gif"></td>
+    <td background="{%::_SKIN[repimg]%}/bghaut.jpg">&nbsp;</td>
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautdroit.gif"></td>
+  </tr>
+</table>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td class="corp" colspan=2 align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%LNG[ttsmileys]%}</b></font>
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable1]%}">
+          <td class="corp" width=50% align="center">
+            <font size={%::_SKIN[middlefont]%}><b>:: {%LNG[ttimg]%} ::</b></font>
+          </td>
+          <td class="corp" width=50% align="center">
+            <font size={%::_SKIN[middlefont]%}><b>:: {%LNG[ttcode]%} ::</b>
+          </td>
+        </tr>
+        {%box[listsmileys]%}
+      </table><P>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+<!--********** TPL NAME = profile **********-->
+<center>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr height="89">
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautgauche.gif"></td>
+    <td background="{%::_SKIN[repimg]%}/bghaut.jpg">&nbsp;</td>
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautdroit.gif"></td>
+  </tr>
+</table>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr height="21">
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%LNG[pf_title]%}</b></font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable2]%}">
+            <table border=0 width=100%>
+              <tr>
+                <td class="corp" width="150" align="center" nowrap>
+                  <b>{%box[avatar]%}</b>
+                </td>
+                <td class="corp2" valign="top">
+                  <font size={%::_SKIN[middlefont]%}>
+                  <b>{%LNG[pf_status]%} : {%box[userstatus]%}</b><br>
+                  <b>{%LNG[pf_register]%} :</b> {%box[registerdate]%}<br>
+                  <b>{%LNG[pf_mail]%} :</b> {%box[usermail]%}<br>
+                  <b>{%LNG[pf_web]%} :</b> {%box[usersite]%}<p>
+            
+                  <b>{%LNG[pf_naissance]%} :</b> {%box[birthday]%}<br>
+                  <b>{%LNG[pf_sexe]%} :</b> {%box[usersex]%}<br>
+                  {%box[description]%}
+                  </font>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center">
+            <font size={%::_SKIN[middlefont]%}>&nbsp;</font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+            <font size={%::_SKIN[middlefont]%}>
+            <b>{%LNG[pf_icq]%} :</b> {%::InfosMB[icq]%}<br>
+            {%box[infoicq]%}
+            <b>{%LNG[pf_aim]%} :</b> {%::InfosMB[aim]%}<br>
+            <b>{%LNG[pf_msn]%} :</b> {%::InfosMB[msn]%}<br>
+            <b>{%LNG[pf_yahoo]%} :</b> {%::InfosMB[yahoomsg]%}<br>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center">
+            <font size={%::_SKIN[middlefont]%}>&nbsp;</font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+	    <font size={%::_SKIN[middlefont]%}>
+	    <b>{%LNG[pf_nbtotalmsg]%} :</b> {%::InfosMB[usermsg]%}<br>
+	    {%box[statperday]%}
+	    <b>{%LNG[pf_lngused]%} :</b> {%::InfosDIV[langue]%}<br>
+	    <b>{%LNG[pf_skinused]%} :</b> {%::InfosDIV[valeur]%}<p>
+	    
+	    </font>	
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center">
+            <font size={%::_SKIN[middlefont]%}><a href="javascript:;" onclick="window.close()" class="men">{%LNG[pf_closewin]%}</a></font>
+          </td>
+        </tr> 
+      </table><p>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = pf_description **********-->
+
+<br><b>{%LNG[pf_description]%} :</b><br>{%::InfosMB[description]%}
+
+<!--********** TPL NAME = pf_avatar **********-->
+
+<img src="logos/{%::InfosMB[userlogo]%}">
+
+<!--********** TPL NAME = pf_extavatar **********-->
+
+<img src={%::InfosMB[userlogo]%}>
+
+<!--********** TPL NAME = pf_mail **********-->
+
+<a href="mail.php?email={%box[tempmail]%}" class="lien" target="_blank">{%box[tempmail]%}</a>
+
+<!--********** TPL NAME = pf_site **********-->
+
+<a href="{%::InfosMB[usersite]%}" class="lien" target="_blank">{%::InfosMB[usersite]%}</a>
+
+<!--********** TPL NAME = pf_statperday **********-->
+
+&nbsp;&nbsp;&nbsp;&nbsp;{%LNG[pf_statperday]%}<p>
+
+<!--********** TPL NAME = pf_infoicq **********-->
+&nbsp;&nbsp;&nbsp;{%LNG[icqstatus]%} : <img src="http://web.icq.com/whitepages/online?icq={%::InfosMB[icq]%}&img=10" align="absmiddle"> - <a href="http://wwp.icq.com/scripts/search.dll?to={%::InfosMB[icq]%}" class="lien">{%LNG[icqaddlist]%}</a><p>
+
+<!--********** TPL NAME = lignesmileys **********-->
+
+        <tr bgcolor="{%::_SKIN[bgtable2]%}">
+          <td align="center">
+            <img src="smileys/{%box[smileimg]%}">
+          </td>
+          <td align="center" class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            <b><a href="javascript:;" onClick="window.opener.addsmile('{%box[code_retour]%}'); window.opener.Compter(window.opener.formulaire.msg,window.opener.formulaire.limitchar); window.close();" class="lien">{%box[smilecode]%}</a></b>
+            </font>
+          </td>
+        </tr>
+
+<!--********** TPL NAME = avatarliste **********-->
+
+<script language="javascript">
+<!--
+function checkavatar(avatar)
+{
+	window.opener.document.formulaire.infologo.value = avatar;
+	window.close();	
+}
+-->
+</script>
+
+<center>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr height="89">
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautgauche.gif"></td>
+    <td background="{%::_SKIN[repimg]%}/bghaut.jpg">&nbsp;</td>
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautdroit.gif"></td>
+  </tr>
+</table>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td class="corp" colspan=3 align="center">
+            <font size={%::_SKIN[middlefont]%}><b>- {%LNG[ttavatar]%} -</b></font><br>
+            <font size={%::_SKIN[smallfont]%}><b>{%LNG[cmavatar]%}</b></font>
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable1]%}">
+          <td class="corp" colspan=3 align="right">
+            <font size={%::_SKIN[smallfont]%}>{%box[navigpage]%}</font>
+          </td>
+        </tr>
+                
+        <tr bgcolor="{%::_SKIN[bgtable2]%}" height="80">
+          <td class="corp" align="center">
+            {%::avatar[1]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[2]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[3]%}
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable2]%}" height="80">
+          <td class="corp" align="center">
+            {%::avatar[4]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[5]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[6]%}
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable2]%}" height="80">
+          <td class="corp" align="center">
+            {%::avatar[7]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[8]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[9]%}
+          </td>
+        </tr>        
+        <tr bgcolor="{%::_SKIN[bgtable2]%}" height="80">
+          <td class="corp" align="center">
+            {%::avatar[10]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[11]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[12]%}
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable2]%}" height="80">
+          <td class="corp" align="center">
+            {%::avatar[13]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[14]%}
+          </td>
+          <td class="corp" align="center">
+            {%::avatar[15]%}
+          </td>
+        </tr>
+
+        <tr bgcolor="{%::_SKIN[bgtable1]%}">
+          <td class="corp" colspan=3 align="center">
+            <font size={%::_SKIN[middlefont]%}><a href="javascript:;" onclick="window.close()" class="men">{%LNG[closepage]%}</a></font>
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable1]%}">
+          <td class="corp" colspan=3 align="right">
+            <font size={%::_SKIN[smallfont]%}>{%box[navigpage]%}</font>
+          </td>
+        </tr>
+      </table><P>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = logosource **********-->
+
+<a href="javascript:;" onclick="checkavatar('default{%::idavatar%}{%::extavatar%}');"><img src="logos/default{%::idavatar%}{%::extavatar%}" border=0></a>
+
+<!--********** TPL NAME = leftpagearrowlink **********-->
+
+<a href="popup.php?action=avatar&page=1" class="men">&lt;&lt;</a> <a href="popup.php?action=avatar&page={%box[pagebefore]%}" class="men">&lt;</a> 
+
+<!--********** TPL NAME = leftpagearrow **********-->
+
+&lt;&lt; &lt; 
+
+<!--********** TPL NAME = rightpagearrowlink **********-->
+
+ <a href="popup.php?action=avatar&page={%box[pageafter]%}" class="men">&gt;</A> <a href="popup.php?action=avatar&page={%::nbpages%}" class=men>&gt;&gt;</A>
+
+<!--********** TPL NAME = rightpagearrow **********-->
+
+ &gt; &gt;&gt; 
+
+<!--********** TPL NAME = ourpage **********-->
+
+<font size={%::_SKIN[smallfont]%}><b>{%box[pagenumber]%}</b></font>
+
+<!--********** TPL NAME = otherpage **********-->
+
+<a href="popup.php?action=avatar&page={%box[pagenumber]%}" class="men">{%box[pagenumber]%}</a>
+
+<!--********** TPL NAME = printmess **********-->
+
+<font size={%::_SKIN[middlefont]%}><b><img src="icones/{%::DetailMsg[icone]%}.gif"> {%box[sujet]%} {%LNG[posted]%} : {%::DetailMsg[date]%} - {%LNG[author]%} : {%::DetailMsg[pseudo]%}</b></font>
+<hr size=1 color=black>
+<font size={%::_SKIN[smallfont]%}>{%::DetailMsg[msg]%}</font>
+<hr size=3 color=black>
+
+<!--********** TPL NAME = printstruc **********-->
+
+<script language="Javascript">
+<!--
+print();
+//-->
+</script>
+<font color=black face={%::_SKIN[font]%}>
+<center><font size={%::_SKIN[middlefont]%}><b>{%LNG[msg]%} : {%::TopicInfo[sujet]%}</b></font></center>
+<hr size=3 color=black>
+{%box[printmess]%}
+<center><font size={%::_SKIN[smallfont]%}>{%::_FORUMCFG[urlforum]%} - Powered by CoolForum v.{%::ForumVersion%} - Copyright &copy;2001-2005 <b>CoolForum.net</b></font></center>
+</font>
+
+<!--********** TPL NAME = printsujet **********-->
+{%LNG[topicis]%} : {%::DetailMsg[sujet]%} - 
+
+
+<!--********** TPL NAME = popuppm **********-->
+<center>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr height="89">
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautgauche.gif"></td>
+    <td background="{%::_SKIN[repimg]%}/bghaut.jpg">&nbsp;</td>
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautdroit.gif"></td>
+  </tr>
+</table>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td class="corp" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%LNG[ttpopuppm]%}</b></font>
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable2]%}">
+          <td class="corp2" width=50% align="center" style="padding:10px;">
+            <font size={%::_SKIN[middlefont]%}>
+            {%box[popuppmcmt]%}<br><br>
+            <a href="javascript:;" OnClick="window.opener.location='profile.php?p=pm';window.close();" class=lien>{%LNG[pmlink]%}</a><br><br>
+            <a href="javascript:;" onclick="javascript:window.close();" class=lien>{%LNG[closepage]%}</a>
+            </font>
+          </td>
+        </tr>
+      </table><P>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>

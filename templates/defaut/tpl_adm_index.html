@@ -1,0 +1,88 @@
+<!--********** TPL NAME = accueil **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[wlc]%}</u></b></font><p>
+
+		  <table border=0 width=80%>
+		    <tr>
+		      <td class="corp2" style="text-align:justify;">
+			<font size={%::_SKIN[smallfont]%}>
+			{%LNG[admininfo]%}
+			</font>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=0>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" colspan=2>
+		        <font size={%::_SKIN[middlefont]%}><b>:: {%LNG[titlestats]%} ::</b></font>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="180" valign="top" nowrap>
+		        <font size={%::_SKIN[smallfont]%}>
+		        &nbsp;<br>
+		        <b>{%LNG[titleconfig]%}</b>
+		        </font>
+		      </td>
+		      <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+		        <font size={%::_SKIN[smallfont]%}>
+		        <ul>
+		          <li>{%LNG[forumis]%} <b>{%box[openforum]%}</b>
+		          <li>{%LNG[confirm]%} <b>{%box[confirm]%}</b>
+		          <li>{%LNG[cookieiniis]%}: <b>{%box[lastcookieini]%}</b>
+		          <li>{%LNG[forumjumpis]%} <b>{%box[forumjump]%}</b> 
+		        </ul>
+		        </font>  
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="180" valign="top" nowrap>
+		        <font size={%::_SKIN[smallfont]%}>
+		        &nbsp;<br>
+		        <b>{%LNG[titlemsg]%}</b>
+		        </font>
+		      </td>
+		      <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+		        <font size={%::_SKIN[smallfont]%}>
+		        <ul>
+		          <li>{%LNG[nbtopics]%} <b>{%::_FORUMCFG[statnbtopics]%}</b>
+		          <li>{%LNG[nbrep]%} <b>{%::_FORUMCFG[statnbposts]%}</b>
+		          <li>{%LNG[nbmsgtot]%} <b>{%::nbtotmsg%}</b>
+		          <li>{%LNG[nbpm]%}: <b>{%::nbtotpm%}</b>
+		          <ul>
+		            <li> <b>{%::nbpm%}</b> {%LNG[areread]%}
+		            <li> <b>{%::nbpmnonlu%}</b> {%LNG[arenotread]%}
+		          </ul>
+		        </ul>
+		        </font>  
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="180" valign="top" nowrap>
+		        <font size={%::_SKIN[smallfont]%}>
+		        &nbsp;<br>
+		        <b>{%LNG[titlemb]%}</b>
+		        </font>
+		      </td>
+		      <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+		        <font size={%::_SKIN[smallfont]%}>
+		        <ul>
+		          <li>{%LNG[nbmbtot]%}: <b>{%::nbtotmembers%}</b>
+		          <li>{%LNG[nbban]%}: <b>{%box[nbbannis]%}</b>
+		          <li>{%LNG[nbwait]%}: <b>{%box[nbattente]%}</b>
+{%box[groups_stats]%}
+		        </ul>
+		        </font>  
+		      </td>
+		    </tr>
+		  </table><p>
+                </td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = groups_stats **********-->
+		          <li>{%LNG[grp]%} {%box[group_name]%}: <b>{%box[nb_users]%}</b>

@@ -1,0 +1,89 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = listmembre **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" colspan=2 align="center">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[ttatmembers]%}</u></b></font>
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[mbname]%}</b></font>
+		      </td>
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[mbdeban]%}</b></font>
+		      </td>
+		    </tr>
+		    {%box[listmember]%}
+		  </table><p>
+
+		  <font size={%::_SKIN[middlefont]%}><b>{%::Error%}</b></font><br>
+		  <form action="ban.php" method="post">
+		  <font size={%::_SKIN[smallfont]%}><b>{%LNG[pseudotoban]%}</b></font> <input type=text name="pseudo" class="form"> <input type=submit value="{%LNG[search]%}" class="form">
+		  <input type="hidden" name="action" value="search">
+		  /*<input type="hidden" name="forumid" value="{%::_REQUEST[forumid]%}">*/
+		  </form>
+		  </form>
+
+<!--********** TPL NAME = ifnobanmb **********-->
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" colspan=2 align="center">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[nobanmb]%}</b></font>
+		      </td>
+		    </tr>
+
+<!--********** TPL NAME = lignemember **********-->
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp">
+		        <font size={%::_SKIN[middlefont]%}>{%::Mb[login]%}</font>
+		      </td>
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><a href="ban.php?action=deban&idmb={%::Mb[userid]%}" class=men>{%LNG[deban]%}</a></font>
+		      </td>
+		    </tr>            
+ 
+<!--********** TPL NAME = memberchoice **********-->            
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[searchonpseudo]%}</u></b></font><p>
+		  
+		  <font size={%::_SKIN[smallfont]%}><b>{%LNG[numberresult]%}</b></font><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" align="center">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[ttpseudo]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" align="center">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[ttaction]%}</u></b></font>
+		      </td>
+		    </tr>
+		    {%box[lignemembre]%}
+		  </table><p>            
+            
+ <!--********** TPL NAME = lignemembre **********-->
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+		        <font size={%::_SKIN[middlefont]%}><b>{%::Noms[login]%}</b></font>
+		      </td>
+		      <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><a href="ban.php?action=ban&idmb={%::Noms[userid]%}" class="lien">{%LNG[banmb]%}</a></font>
+		      </td>		      
+		    </tr>            
+            
+            
+            

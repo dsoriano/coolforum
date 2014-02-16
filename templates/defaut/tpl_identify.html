@@ -1,0 +1,165 @@
+<!--********** TPL NAME = identifyaccueil **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td class="corp">&nbsp;</td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable2]%}">
+          <td align=center class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            &nbsp;<br>
+            {%box[logincontent]%}<p>
+            </font>
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td class="corp">&nbsp;</td>
+        </tr>
+      </table>
+      &nbsp;<br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table> 
+
+<!--********** TPL NAME = loginbox **********-->
+			{%box[errorbox]%}
+            <form action="login.php" method="post">
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="400" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+              <tr bgcolor="{%::_SKIN[bgtable3]%}">
+                <td class="corp" align="center" colspan="2">
+                  <font size={%::_SKIN[middlefont]%}><b>{%LNG[logintitle]%}</b></font>
+                </td>
+              </tr>
+              <tr>
+                <td class="corp" align="right" width="200" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+                  <font size={%::_SKIN[smallfont]%}>{%LNG[yourlogin]%} :</font>
+                </td>
+                <td align="center">
+                  <input type=text name="pseudo" class=form>
+                </td>
+              </tr>
+              <TR>
+                <td class="corp" align="right" width="200" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+                  <font size={%::_SKIN[smallfont]%}>{%LNG[yourmdp]%} :</font>
+                </TD>
+                <TD align="center">
+                  <input type=password name="password" class=form>
+                </TD>
+              </TR>
+              <TR>
+                <td class="corp" align="right" width="200" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+                  <font size={%::_SKIN[smallfont]%}>{%LNG[timeid]%} :</font>
+                </TD>
+                <TD align="center">
+                  <select name="duree" class=form>
+                  <option value="0"> {%LNG[duree1]%}
+                  <option value="1"> {%LNG[duree2]%}
+                  <option value="2"> {%LNG[duree3]%}
+                  <option value="3"> {%LNG[duree4]%}
+                  </select>
+                </TD>
+              </TR>
+              <TR height="30">
+                <TD colspan=2 align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+                  <input type=submit value="{%LNG[valid]%}" class=form2>
+                  <input type=reset Value="{%LNG[restart]%}" class=form2>
+                </TD>
+              </TR>
+            </table>
+            </form><P>
+
+            <font size={%::_SKIN[smallfont]%}><a href="identify.php?action=mdp" class="lien">{%LNG[mdplostlink]%}</a></font><P>
+
+<!--********** TPL NAME = errorbox **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="400" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+              <tr bgcolor="{%::_SKIN[bgtable3]%}">
+                <td class="corp" align="center">
+                  <font size="{%::_SKIN[middlefont]%}"><b>{%LNG[errorlogin]%}</b></font>
+                </td>
+              </tr>
+            </table><p>
+
+<!--********** TPL NAME = alreadylogged **********-->
+
+<B>{%LNG[alreadylogged]%}</B>
+
+<!--********** TPL NAME = askmdpbox **********-->
+
+            <form action="identify.php?action=sendmdp" method="post">
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="400" cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+              <tr>
+                <td class="corp" align="center" bgcolor="{%::_SKIN[bgtable3]%}" colspan="2">
+	          <font size={%::_SKIN[middlefont]%}><b>{%LNG[mdplosttitle]%}</b></font>
+            	</td>
+              </tr>
+              <tr>
+                <td class="corp" align="right" width="200" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+	          <font size={%::_SKIN[smallfont]%}>{%LNG[yourlogin]%} :</font>
+            	</td>
+            	<td align="center">
+            	  <input type=text name="pseudo" class=form>
+            	</td>
+              </tr>
+              <tr>
+            	<td class="corp" align="right" width="200" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+            	  <font size={%::_SKIN[smallfont]%}>{%LNG[yourmail]%} :</font>
+            	</td>
+            	<td align="center">
+	          <input type=text name="mail" class=form>
+	        </td>
+              </tr>
+              <tr height="30">
+	        <td colspan=2 align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+	          <input type=submit value="{%LNG[valid]%}" class=form2> 
+	          <input type=reset Value="{%LNG[restart]%}" class=form2>
+	        </td>
+              </tr>
+            </table>
+            </form><p>
+
+<!--********** TPL NAME = askquestrep **********-->
+
+            <form action="identify.php" method="post">
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="400" cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+              <tr>
+                <td class="corp" align="center" bgcolor="{%::_SKIN[bgtable3]%}" colspan="2">
+	          <font size={%::_SKIN[middlefont]%}><b>{%LNG[questreptitle]%}</b></font>
+            	</td>
+              </tr>
+              <tr>
+                <td class="corp" width="100" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+	          <font size={%::_SKIN[smallfont]%}><b><u>{%LNG[quest]%} :</u></b></font>
+            	</td>
+            	<td class="corp2">
+            	  <font size={%::_SKIN[smallfont]%}><b>{%::Result[question]%}</b></font>
+            	</td>
+              </tr>
+              <tr>
+            	<td class="corp" width="100" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+            	  <font size={%::_SKIN[smallfont]%}><b><u>{%LNG[yourrep]%} :</u></b></font>
+            	</td>
+            	<td>
+	          <input type=text name="repuser" class=form>
+	        </td>
+              </tr>
+              <tr height="30">
+	        <td colspan=2 align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+	          <input type=hidden name="action" value="questrep">
+	          <input type=hidden name="idident" value="{%::Result[userid]%}">
+	          <input type=submit value="{%LNG[valid]%}" class=form2> 
+	          <input type=reset Value="{%LNG[restart]%}" class=form2>
+	        </td>
+              </tr>
+            </table>
+            </form><p>
+
+
+
+<!--********** TPL NAME = affmdp **********-->
+
+{%LNG[yourpassis]%} : <B>{%tmp[passwd]%}</B></font><P>

@@ -1,0 +1,347 @@
+<!--********** TPL NAME = htmlheader **********-->
+<html>
+
+<head>
+
+<title>{%::_FORUMCFG[forumname]%}{%::TopicName%}</title>
+
+<style type="text/css">
+body{margin:.0 in .0 in;
+	scrollbar-face-color: {%::_SKIN[bgtable3]%};
+	scrollbar-Base-Color : {%::_SKIN[textcol1]%};
+	scrollbar-arrow-color: {%::_SKIN[textcol1]%};
+	scrollbar-track-color: {%::_SKIN[bgtable2]%};
+	scrollbar-3d-light-color: {%::_SKIN[bgtable2]%};
+	scrollbar-darkshadow-color: {%::_SKIN[textcol1]%};
+	scrollbar-Highlight-Color :{%::_SKIN[textcol1]%};
+}
+
+a.men:link{color: {%::_SKIN[lien1col]%}; text-decoration:underline;}
+a.men:visited{color: {%::_SKIN[lien1visit]%}; text-decoration:underline;}
+a.men:hover{color: {%::_SKIN[lien1hov]%}; text-decoration:none;}
+
+a:link{color: {%::_SKIN[lien1col]%}; text-decoration:underline;}
+a:visited{color: {%::_SKIN[lien1visit]%}; text-decoration:underline;}
+a:hover{color: {%::_SKIN[lien1hov]%}; text-decoration:none;}
+
+a.lien:link{color: {%::_SKIN[lien2col]%}; text-decoration: underline;}
+a.lien:visited{color: {%::_SKIN[lien2visit]%}; text-decoration: underline;}
+a.lien:hover{color: {%::_SKIN[lien2hov]%}; text-decoration:none;}
+
+
+{%box[cssform]%}
+
+.corp{font-family:{%::_SKIN[font]%}; color:{%::_SKIN[textcol1]%};}
+.corp2{font-family:{%::_SKIN[font]%}; color:{%::_SKIN[textcol2]%};}
+
+{%box[grpcolor]%}
+
+a.infombban:link{color: {%::_SKIN[bangrp]%}; text-decoration: underline;}
+a.infombban:visited{color: {%::_SKIN[bangrp]%}; text-decoration: underline;}
+a.infombban:hover{color: {%::_SKIN[bangrp]%}; text-decoration:none;}
+.fixembban{color: {%::_SKIN[bangrp]%};}
+
+.onboutton {border-style: outset; border-width: 2px;}
+.outboutton {border-style: none; border-width: 0px;}
+
+.quote_class{
+	background: {%::_SKIN[bgtable3]%};
+	border: 1px solid {%::_SKIN[textcol1]%};
+	color: {%::_SKIN[textcol1]%};
+	font-size: 10px;
+	margin: 8px auto 0 auto;
+	padding: 3px;
+}
+
+.code_class{
+	background: {%::_SKIN[bgtable2]%};
+	border: 1px solid {%::_SKIN[textcol1]%};
+	color: {%::_SKIN[textcol2]%};
+	font-size: 10px;
+	margin: 8px auto 0 auto;
+	padding: 3px;
+}
+
+</style>
+
+	<script language="javascript">
+	<!--
+	function popup(url,width,height)
+	{
+	  newwin=window.open(url,'NewFenetre','toolbar=no, location=no, menubar=no, scrollbars=yes, resizable=yes, width='+width+', height='+height); 
+	}
+	-->
+	</script>
+
+</head>
+
+<body bgcolor={%::_SKIN[bg1]%}>
+
+<!--********** TPL NAME = groupscolor **********-->
+a.infomb{%::gpcolor%}:link{color: {%::groupcolor%}; text-decoration: underline;}
+a.infomb{%::gpcolor%}:visited{color: {%::groupcolor%}; text-decoration: underline;}
+a.infomb{%::gpcolor%}:hover{color: {%::groupcolor%}; text-decoration:none;}
+.fixemb{%::gpcolor%}{color: {%::groupcolor%};}
+
+<!--********** TPL NAME = formie **********-->
+
+.form{background:{%::_SKIN[bgtable3]%}; color:{%::_SKIN[textcol1]%}; font: 8pt {%::_SKIN[font]%}; border-style:solid; border-color:{%::_SKIN[bordercolor]%}; border-width:1;}
+.form2{background:{%::_SKIN[bgtable2]%}; color:{%::_SKIN[textcol2]%}; font: 8pt {%::_SKIN[font]%}; border-style:solid; border-color:{%::_SKIN[bordercolor]%}; border-width:1;}
+.form3{background:{%::_SKIN[bgtable1]%}; color:{%::_SKIN[textcol1]%}; font: 8pt {%::_SKIN[font]%}; border-style:solid; border-color:{%::_SKIN[bordercolor]%}; border-width:1;}
+
+<!--********** TPL NAME = formns **********-->
+
+.form{font: 8pt {%::_SKIN[font]%};}
+.form2{font: 8pt {%::_SKIN[font]%};}
+.form3{font: 8pt {%::_SKIN[font]%};}
+
+<!--********** TPL NAME = logo **********-->
+
+<center>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr height="89">
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautgauche.gif"></td>
+    <td width="273" background="{%::_SKIN[repimg]%}/bghaut.jpg"><a href="index.php"><img src="{%::_SKIN[repimg]%}/logo.jpg" border=0></a></td>
+    <td background="{%::_SKIN[repimg]%}/bghaut.jpg">{%box[ajouthtml]%}</td>
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautdroit.gif"></td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = ads **********-->
+<div align="right"><a href="redirect.php?id={%::idads%}" target="_blank"><img src="{%::adsban%}" border=0></a></div>
+
+
+<!--********** TPL NAME = navbar **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0 height="25" rules="none">
+        <tr height="25">
+          <td class="corp" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" style="padding-left:10;">
+            <font size={%::_SKIN[middlefont]%}>
+            <b>{%::_FORUMCFG[forumname]%}</b> {%box[administrer]%}
+            </font>
+          </td>
+          <td class="corp" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" align="right" style="padding-right:4;">
+            <a href="identify.php"><img src="{%::_SKIN[repimg]%}/identifier_{%LNG[lngimg]%}.gif" border="0"></a><a href="profile.php"><img src="{%::_SKIN[repimg]%}/profil_{%LNG[lngimg]%}.gif" border="0"></a><a href="register.php"><img src="{%::_SKIN[repimg]%}/inscription_{%LNG[lngimg]%}.gif" border="0"></a>{%box[affstatlink]%}<a href="search.php"><img src="{%::_SKIN[repimg]%}/search_{%LNG[lngimg]%}.gif" border="0"></a><a href="aide.php"><img src="{%::_SKIN[repimg]%}/aide_{%LNG[lngimg]%}.gif" border="0"></a><a href="index.php"><img src="{%::_SKIN[repimg]%}/accueil_{%LNG[lngimg]%}.gif" border="0"></a><br>
+          </td>
+        </tr>
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = affdegrad **********-->
+background="{%::_SKIN[repimg]%}/bgdegrad.jpg"
+
+<!--********** TPL NAME = affstatlink **********-->
+
+<a href="stats.php"><img src="{%::_SKIN[repimg]%}/stats_{%LNG[lngimg]%}.gif" border="0"></a>
+
+<!--********** TPL NAME = administrer **********-->
+
+<font size={%::_SKIN[smallfont]%}>(<a href="admin/index.php" class="men">{%LNG[administrer]%}</a>)</font>
+
+<!--********** TPL NAME = structforumjump **********-->
+
+<form action="list.php" method="get">
+<select name="forumid" class=form2 style="font-weight:bold;">
+<option value="-1" SELECTED>{%LNG[chooseotforum]%}
+<option value="-1">-------------------------------
+{%box[forumlist]%}
+</select>
+<input type="submit" value="Go" class="form">
+</form>
+
+<!--********** TPL NAME = forumjumpcat **********-->
+
+<option value="-1">&nbsp;
+<option value="-1">{%box[FJcatname]%}
+<option value="-1">=================
+
+<!--********** TPL NAME = forumjumpfor **********-->
+
+<option value="{%box[FJforumid]%}">&nbsp;&nbsp;{%box[FJforumname]%}
+
+<!--********** TPL NAME = mbpseudolink **********-->
+
+<a href="javascript:;" onclick="popup('popup.php?action=profile&id={%box[mbuserid]%}',600,550)" class="infomb{%box[mbstatus]%}">{%box[mbpseudo]%}</a>
+
+<!--********** TPL NAME = mbpseudo **********-->
+
+<font class="fixemb{%box[mbstatus]%}">{%box[mbpseudo]%}</font>
+
+<!--********** TPL NAME = bbcodeopen **********-->
+
+<div class="code_class"><pre><font size={%::_SKIN[middlefont]%}>
+
+<!--********** TPL NAME = bbcodeclose **********-->
+
+</font></pre></div>
+
+<!--********** TPL NAME = bburlauto1 **********-->
+
+<a href="\\1://\\2" target="_blank" class=men>\\1://\\2</a>
+
+<!--********** TPL NAME = bburlauto2 **********-->
+
+\\1<a href="http://www.\\2" target="_blank" class=men>www.\\2</a>
+
+<!--********** TPL NAME = oublie **********-->
+
+<EMBED src="\\1" quality=high bgcolor=#000000 WIDTH=\\2 HEIGHT=\\3 TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"></EMBED>
+
+<!--********** TPL NAME = bbswf **********-->
+
+<object type="application/x-shockwave-flash" data="\\1" width="\\2" height="\\3">
+<param name="movie" value="\\1" />
+<param name="quality" value="high" />
+<param name="menu" value="false" />
+</object>
+<!--********** TPL NAME = bbmail **********-->
+
+<a href="mail.php?email=\\1{%::_FORUMCFG[emailmask]%}\\2" target="_blank" class=men>\\1{%::_FORUMCFG[emailmask]%}\\2</a>
+
+<!--********** TPL NAME = bbimg **********-->
+
+<img src="\\1" border=0>
+
+<!--********** TPL NAME = bbbold **********-->
+
+<b>\\1</b>
+
+<!--********** TPL NAME = bbita **********-->
+
+<i>\\1</i>
+
+<!--********** TPL NAME = bbunder **********-->
+
+<u>\\1</u>
+
+<!--********** TPL NAME = bbcenter **********-->
+
+<center>\\1</center>
+
+<!--********** TPL NAME = bbleft **********-->
+
+<div align="left">\\1</div>
+
+<!--********** TPL NAME = bbright **********-->
+
+<div align="right">\\1</div>
+
+<!--********** TPL NAME = bbfontopen **********-->
+
+<font face="\\1">
+
+<!--********** TPL NAME = bbfontclose **********-->
+
+</font>
+
+<!--********** TPL NAME = bbsizeopen **********-->
+
+<font size="\\1">
+
+<!--********** TPL NAME = bbsizeclose **********-->
+
+</font>
+
+<!--********** TPL NAME = bbcoloropen **********-->
+
+<font color="\\1">
+
+<!--********** TPL NAME = bbcolorclose **********-->
+
+</font>
+
+<!--********** TPL NAME = bburl **********-->
+
+<a href="\\1" target="_blank" class=men>\\2</a>
+
+<!--********** TPL NAME = bbquoteopen **********-->
+
+<div class="quote_class"><font size={%::_SKIN[smallfont]%}>
+
+<!--********** TPL NAME = bbquoteclose **********-->
+
+</font></div>
+
+<!--********** TPL NAME = msgcache1 **********-->
+<b>{%LNG[msgcacheview]%}</b><br>\\1
+
+<!--********** TPL NAME = msgcache2 **********-->
+<i>-- {%LNG[msgcachenoview]%} --</i>
+
+<!--********** TPL NAME = topicgotopage **********-->
+({%LNG[gotopagetopic]%}: {%box[cachepages]%})
+
+<!--********** TPL NAME = topicgotopagelink **********-->
+ <a href="detail.php?forumid={%::forumid%}&id={%tmp[id]%}&page={%tmp[page]%}&p={%tmp[i]%}" class=men>{%tmp[i]%}</a>
+ 
+<!--********** TPL NAME = formatbirth **********-->
+<b>{%box[user]%}</b> ({%box[age]%})
+
+<!--********** TPL NAME = jspopuppm **********-->
+<script language="Javascript">
+<!--
+popup('popup.php?action=popuppm',500,370);
+//-->
+</script>
+
+<!--********** TPL NAME = boxconnectes **********-->
+
+        <tr height="20">
+          <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" style="padding-left:4;"><font size={%::_SKIN[middlefont]%}><b>{%LNG[connect]%}</b></font></td>
+        </tr>
+        <tr>
+          <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}" style="padding:4; padding-left:10; padding-right:10;">
+            <font size={%::_SKIN[smallfont]%}>
+            <b>{%::InfoMember[nbtotalvisit]%}</b> {%box[nb_connected]%}: <b>{%::InfoMember[nbmembres]%}</b> {%LNG[members]%} | <b>{%::InfoMember[nbguests]%}</b> {%LNG[guest]%} {%box[statsconnectes]%}<br>
+   	    {%box[listconnected]%}
+            </font>
+          </td>
+        </tr>
+
+<!--********** TPL NAME = listconnectes **********-->
+
+            <hr align="center" color="{%::_SKIN[textcol2]%}" width=95% size=1 style="border-width: 1px solid;">
+            {%::InfoMember[listconnected]%}
+
+<!--********** TPL NAME = statsconnectes **********-->
+| <a href="stats.php?action=connected" class=lien>{%LNG[statsconnected]%}</a>
+            
+<!--********** TPL NAME = getjsredirect **********-->
+<script language="javascript">
+<!--
+setTimeout("window.location='{%box[urlredirect]%}'",{%box[timeredirect]%});
+-->
+</script>
+
+<!--********** TPL NAME = getjscompter **********-->
+<script language="javascript">
+<!--
+var wysiwyg = false;
+
+function Compter(Target, nomchamp)
+{
+	var regexp   = new RegExp("\\\r\\\n|\\\r|\\\n","gi");
+	var HtmlLess = Target.value.replace(regexp,"");
+	
+	StrLen = HtmlLess.length
+	if (StrLen > {%::LimiteLength%} && {%::LimiteLength%}>0)
+	{
+		Target.value = Target.value.substring(0,{%::LimiteLength%});
+		CharsLeft = {%::LimiteLength%};								
+	}
+	else
+	{
+		CharsLeft = StrLen;
+	}
+	nomchamp.value = CharsLeft;
+}
+-->
+</script>

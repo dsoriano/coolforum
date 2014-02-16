@@ -1,0 +1,437 @@
+<!--********** TPL NAME = boxdetail **********-->
+<script language="Javascript">
+<!--
+function copylink(id)
+{
+	if(window.clipboardData)
+	{
+		var link = window.location.href;
+		var pos = link.lastIndexOf('#');
+		if(pos>0)
+			link = link.substring(0,pos);
+		window.clipboardData.setData('Text',link+'#'+id);
+	}
+}
+//-->
+</script>
+
+{%box[affpoll]%}
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=0 width=100% cellpadding=2 cellspacing=0>
+       <tr>
+         <td class="corp2" valign="middle">
+           <font size={%::_SKIN[smallfont]%}>
+           {%box[numberpages]%}
+           </font>
+         </td>
+         <td align="right">
+           {%box[nextpost]%}
+           <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+           {%box[barrebouttons]%}<br>
+         </td>
+       </tr>
+      </table>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;" class="corp" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">
+        <tr height="25">
+          <td align=center width="180" nowrap>
+            <font size={%::_SKIN[middlefont]%}>{%LNG[author]%}</font>
+          </td>
+          <td align=center>
+            <a href="javascript:;" OnClick="javascript:popup('popup.php?action=print&{%::PrintRedirect%}&forumid={%::_GET[forumid]%}',640,480);"><img src="{%::_SKIN[repimg]%}/print.gif" border=0 align=right alt="{%LNG[printtopic]%}"></a>
+            <font size={%::_SKIN[middlefont]%}>{%LNG[msg]%}</font>
+          </td>
+        </tr>
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+{%box[forumcontent]%}
+
+{%box[repflash]%}
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=0 width=100% cellpadding=2 cellspacing=0>
+       <tr>
+         <td class="corp2" valign="middle">
+           <font size={%::_SKIN[smallfont]%}>
+           {%box[numberpages]%}
+           </font>
+         </td>
+         <td align="right">
+           {%box[barrebouttons]%}<br>
+           <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+           {%box[nextpost]%}<br>
+         </td>
+       </tr>
+      </table>
+      </center><P>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = leftpagearrowlink **********-->
+
+<a href="detail.php?forumid={%::_GET[forumid]%}&id={%::_GET[id]%}&p=1&page={%::page%}&vu=1" class="men">&lt;&lt;</a> <a href="detail.php?forumid={%::_GET[forumid]%}&id={%::_GET[id]%}&p={%box[pagebefore]%}&page={%::page%}&vu=1" class="men">&lt;</a> 
+
+<!--********** TPL NAME = leftpagearrow **********-->
+
+&lt;&lt; &lt; 
+
+<!--********** TPL NAME = rightpagearrowlink **********-->
+
+ <a href="detail.php?forumid={%::_GET[forumid]%}&id={%::_GET[id]%}&p={%box[pageafter]%}&page={%::page%}&vu=1" class="men">&gt;</A> <a href="detail.php?forumid={%::_GET[forumid]%}&id={%::_GET[id]%}&p={%::nbpages%}&page={%::page%}&vu=1" class=men>&gt;&gt;</A>
+
+<!--********** TPL NAME = rightpagearrow **********-->
+
+ &gt; &gt;&gt; 
+
+<!--********** TPL NAME = ourpage **********-->
+
+<font size={%::_SKIN[smallfont]%}><b>{%box[pagenumber]%}</b></font>
+
+<!--********** TPL NAME = otherpage **********-->
+
+<a href="detail.php?forumid={%::_GET[forumid]%}&id={%::_GET[id]%}&p={%box[pagenumber]%}&page={%::page%}&vu=1" class="men">{%box[pagenumber]%}</a>
+
+<!--********** TPL NAME = boxpages **********-->
+
+<b>{%LNG[page]%} : {%box[navpages]%}</b><br>
+
+<!--********** TPL NAME = boxbuttons **********-->
+
+     <a href="repondre.php?forumid={%::_GET[forumid]%}&parent=0" class=men><img src="{%::_SKIN[repimg]%}/newmsg_{%LNG[lngimg]%}.gif" border=0></A>
+     {%box[buttonpoll]%}
+     <a href="repondre.php?forumid={%::_GET[forumid]%}&parent={%::_GET[id]%}" class=men><img src="{%::_SKIN[repimg]%}/repondre_{%LNG[lngimg]%}.gif" border=0></A>
+     
+<!--********** TPL NAME = buttonaddpoll **********-->
+     <a href="repondre.php?forumid={%::_GET[forumid]%}&parent=0&newpoll=true" class=men><img src="{%::_SKIN[repimg]%}/newpoll_{%LNG[lngimg]%}.gif" border=0></A>
+
+<!--********** TPL NAME = boxsondage **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+      <form action="login.php" method=post>
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td class="corp">
+            <font size={%::_SKIN[middlefont]%}><b>{%LNG[poll]%}</b></font>
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable2]%}">
+          <td class="corp2">
+            <font size={%::_SKIN[middlefont]%}><b>{%box[questpoll]%}</b></font><p>
+            <table border=0 cellpadding=0 cellspacing=0 width=100%>
+{%box[pollchoice]%}
+            </table>
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td class="corp" align="center">
+            <font size={%::_SKIN[smallfont]%}>
+            <input type="hidden" name="action" value="savepoll">
+            <input type="hidden" name="forumid" value="{%::_GET[forumid]%}">
+            <input type="hidden" name="id" value="{%::_GET[id]%}">
+            <input type="hidden" name="idpoll" value="{%::sd[id]%}">{%box[buttonvote]%} ({%::nbtotalrep%} {%LNG[votants]%})</font>
+          </td>
+        </tr>
+      </form>
+      </table><p>        
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>      
+      
+<!--********** TPL NAME = lignesondage **********-->
+
+              <tr bgcolor="{%::pollbgcolor%}">
+                <td width=110 align=right class="corp2">
+                  <img src="{%::_SKIN[repimg]%}/imgpoll.jpg" width="{%::percent%}" height=8>
+                </td>
+                <td class="corp2" width=50>
+                  <font size={%::_SKIN[smallfont]%}>&nbsp; {%::percent%}%</font>
+                </td>
+                {%box[radiopoll]%}
+                <td class="corp2">
+                  <font size={%::_SKIN[middlefont]%}>
+                  {%box[altpoll]%}
+                  </font>
+                </td>
+              </tr>
+
+<!--********** TPL NAME = votebutton **********-->
+
+<input type="submit" value="{%LNG[btnvote]%}" class="form2">
+
+<!--********** TPL NAME = votechoice **********-->
+
+<TD width=30 align=center><input type="radio" name="choixpoll" value="{%::i%}"></TD>
+
+<!--********** TPL NAME = topicnavig **********-->
+
+<table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="260" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+  <tr>
+    <td class="corp" align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+	<font size={%::_SKIN[smallfont]%}><b>
+	<a href="gotopost.php?forumid={%::_GET[forumid]%}&id={%::_GET[id]%}&action=prec" class=men>&lt;&lt;{%LNG[prevpost]%}</A>
+	&nbsp;&nbsp;&nbsp;
+	<a href="gotopost.php?forumid={%::_GET[forumid]%}&id={%::_GET[id]%}&action=suiv" class=men>{%LNG[nxtpost]%}&gt;&gt;</A>
+	</b></font>
+    </td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = boxmsg **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td class="corp2" bgcolor={%::_SKIN[bgtable2]%} valign=top width="180" nowrap>
+            <font size={%::_SKIN[smallfont]%}>
+            <a name="{%::DetailMsg[idpost]%}"></A><img src="icones/{%::DetailMsg[iconpost]%}.gif" align=right>
+            <font size={%::_SKIN[middlefont]%}><b>{%::DetailMsg[formatpseudo]%}</b></font> {%box[buttonsearch]%}<br>
+            {%box[affusergrade]%}
+            {%box[affuserlogo]%}
+            {%box[affusercitation]%}
+            {%box[affregisterdate]%}
+            {%box[isconnected]%}
+            </font>
+          </td>
+          <td bgcolor={%::_SKIN[bgtable1]%} height=100% class="corp" valign="top">
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[affsujetpost]%}
+            <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[posted]%} :</u></b></font> {%::DetailMsg[datepost]%}
+            <HR color={%::_SKIN[textcol1]%}>
+            <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[msgpost]%} :</u></b></font><p>
+            {%box[affmessage]%}<P>
+            {%box[affusersign]%}
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable3]%} align=right valign=middle style="padding-right:8;">
+            <a href="#{%::DetailMsg[idpost]%}" OnClick="javascript:copylink('{%::DetailMsg[idpost]%}');" class=men><img src="{%::_SKIN[repimg]%}/dlink.gif" border=0 alt="{%LNG[dlink]%}"></a>
+            <a href="javascript:;" OnClick="javascript:popup('popup.php?action=print&{%::PrintRedirect%}&forumid={%::_REQUEST[forumid]%}',640,480);"><img src="{%::_SKIN[repimg]%}/print.gif" border=0 alt="{%LNG[printmsg]%}"></a>
+            <a href="#bottom"><img src="{%::_SKIN[repimg]%}/bottompage.gif" border=0 alt="{%LNG[bottompage]%}"></A>
+            <a href="#top"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0 alt="{%LNG[toppage]%}"></A>
+          </td>
+          <td bgcolor={%::_SKIN[bgtable3]%}>
+	    {%box[buttonip]%}
+	    {%box[buttonedit]%}
+	    {%box[buttonalert]%}
+		
+	    {%box[buttonmail]%} 
+	    {%box[buttonsite]%}
+	    {%box[buttonpm]%}
+	    {%box[buttonquote]%}
+          </td>
+        </tr>
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+		
+<!--********** TPL NAME = usercitation **********-->
+
+	<font class="corp2"><i>{%::DetailMsg[usercitation]%}</i></font>
+
+<!--********** TPL NAME = connecty **********-->
+	
+	<br><img src="{%::_SKIN[repimg]%}/connecty.gif" align="absmiddle"> <b>{%LNG[connected]%}</b>
+
+<!--********** TPL NAME = connectn **********-->
+	
+	<br><img src="{%::_SKIN[repimg]%}/connectn.gif" align="absmiddle"> <b>{%LNG[notconnected]%}</b>
+		
+<!--********** TPL NAME = userlogo **********-->
+
+	<P><center><img src="logos/{%::DetailMsg[userlogo]%}"><P></center>
+
+<!--********** TPL NAME = imgpins **********-->
+<img src="{%::_SKIN[repimg]%}/grades.gif" hspace=1 vspace=2>
+
+<!--********** TPL NAME = usergrade **********-->
+	<div style="padding-left: 10px;">
+	{%box[affpins]%}<br>
+	<font size="{%::_SKIN[smallfont]%}"><b>{%box[grade]%}</b></font>
+	</div>
+	
+<!--********** TPL NAME = extuserlogo **********-->
+
+	<P><center><img src={%::DetailMsg[userlogo]%}><P></center>
+	
+<!--********** TPL NAME = userinfo **********-->
+
+	<P><b>{%LNG[register]%}</b> {%::DetailMsg[registerdate]%}<BR>
+		<b>{%LNG[nbposts]%}:</b> {%::DetailMsg[usermsg]%}
+		
+<!--********** TPL NAME = msgsujet **********-->
+
+	<font size={%::_SKIN[middlefont]%}><b><u>{%LNG[topicis]%} :</u></b></font> {%::DetailMsg[sujetpost]%}<br>
+	
+<!--********** TPL NAME = usersignature **********-->
+
+	<hr color={%::_SKIN[textcol1]%}>{%::DetailMsg[usersign]%}
+		
+<!--********** TPL NAME = buttonedit **********-->
+
+	<a href="editpost.php?forumid={%::_REQUEST[forumid]%}&post={%::DetailMsg[idpost]%}&parent={%::_GET[id]%}&p={%::p%}"><img src="{%::_SKIN[repimg]%}/detail_edit_{%LNG[lngimg]%}.gif" align=right border=0 alt="{%LNG[editpost]%}"></A>
+
+<!--********** TPL NAME = buttonmail **********-->
+
+	<a href="mail.php?email={%::DetailMsg[postermail]%}" target="_blank"><img src="{%::_SKIN[repimg]%}/detail_mail_{%LNG[lngimg]%}.gif" border=0 alt="{%LNG[sendmail]%} {%::DetailMsg[pseudo]%}!!!"></A>
+	
+<!--********** TPL NAME = buttonweb **********-->
+
+	<a href="{%::DetailMsg[postersite]%}" target="_blank"><img src="{%::_SKIN[repimg]%}/detail_www_{%LNG[lngimg]%}.gif" border=0 alt="{%LNG[visitweb]%}"></A>
+	
+<!--********** TPL NAME = buttonicq **********-->
+
+	<a href="http://wwp.icq.com/scripts/search.dll?to={%::DetailMsg[usericq]%}"><img src="{%::_SKIN[repimg]%}/detail_icq.gif" border=0 alt="{%LNG[addicq]%}"></A> 
+	
+<!--********** TPL NAME = buttonpm **********-->
+
+	<a href="profile.php?p=pm&action=writemsg&idexp={%::DetailMsg[posterid]%}"><img src="{%::_SKIN[repimg]%}/detail_pm_{%LNG[lngimg]%}.gif" border=0 alt="{%LNG[sendpm]%}"></A> 
+	
+<!--********** TPL NAME = buttonsearch **********-->
+
+	<a href="search.php?posterid={%::DetailMsg[posterid]%}"><img src="{%::_SKIN[repimg]%}/detail_search.gif" border=0 align="absmiddle"></A>
+	
+<!--********** TPL NAME = buttonquote **********-->
+
+	<a href="repondre.php?forumid={%::_REQUEST[forumid]%}&parent={%::_GET[id]%}&quote={%::DetailMsg[idpost]%}"><img src="{%::_SKIN[repimg]%}/detail_quote_{%LNG[lngimg]%}.gif" border=0 alt="{%LNG[quote]%}"></A>
+
+<!--********** TPL NAME = buttonip **********-->
+
+	<a href="viewip.php?forumid={%::_REQUEST[forumid]%}&post={%::DetailMsg[idpost]%}"><img src="{%::_SKIN[repimg]%}/detail_ip_{%LNG[lngimg]%}.gif" align=right border=0></A>
+
+<!--********** TPL NAME = buttonalert **********-->
+
+	<a href="alert.php?idpost={%::DetailMsg[idpost]%}"><img src="{%::_SKIN[repimg]%}/detail_alert_{%LNG[lngimg]%}.gif" align=right border=0 alt="{%LNG[alert]%}"></A>
+	
+<!--********** TPL NAME = SearchMask **********-->
+<font color="{%::_SKIN[searchcolor]%}"><b>{%::SearchMask%}</b></font>
+
+
+<!--********** TPL NAME = repflash **********-->
+{%box[javascript]%}
+<script language="javascript">
+<!--
+var submit=false;
+function testsubmit()
+{
+	if((submit==false) && (document.formulaire.msg.value.length > 0))
+	{
+		submit=true
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function InitGotorep()
+{
+	if( window.addEventListener )
+		document.addEventListener('keydown',gotorep,true);
+	else if( window.attachEvent )
+		document.attachEvent('onkeydown',gotorep);
+}
+function StopGotorep()
+{
+	if( window.addEventListener )
+		document.removeEventListener('keypress',gotorep,true);
+	else if( window.attachEvent )
+		document.detachEvent('onkeypress',gotorep);
+}
+function gotorep(evnt)
+{
+	cle1 = document.all ? event.keyCode : evnt.which;
+	cle2 = document.all ? event.altKey : evnt.altKey;
+	if( (cle1 == 115 || cle1 == 83) && cle2 == true )
+	{
+		if(testsubmit())
+		{
+			document.formulaire.submit();
+		}
+	}
+
+}
+InitGotorep();
+
+//-->
+</script>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <form name="formulaire" onsubmit="return testsubmit()" action="repondre.php" method="post">
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr height=25>
+          <td class="corp" align="left" bgcolor="{%::_SKIN[bgtable3]%}" style="padding-left:4px;">
+	      <font size={%::_SKIN[middlefont]%}><b>{%LNG[repflashtitle]%}</b> (<input type="text" size=5 name="limitchar" class="form2"> / {%box[limitmsgdef]%})</font>
+          </td>
+        </tr>
+        <tr>
+          <td class="corp2" align="center" bgcolor="{%::_SKIN[bgtable2]%}" style="padding:15px;">
+            <table border=0 cellpadding=0 cellspacing=0>
+              <tr>
+                <td>
+                  {%box[pseudobox]%}
+                  <textarea name="msg" COLS=110 ROWS=15 WRAP="soft" class=form onFocus="Compter(this,formulaire.limitchar);" onKeyDown="Compter(this,formulaire.limitchar);" onKeyUp="Compter(this,formulaire.limitchar);" onBlur="Compter(this,formulaire.limitchar);"></textarea><BR>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr height=25>
+          <td class="corp" align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+	      <input type=submit value="{%LNG[form_valid]%}" accesskey="S" class=form2> <input type=button value="{%LNG[form_advanced]%}" OnClick="javascript:window.location = 'repondre.php?forumid={%::_GET[forumid]%}&parent={%::_GET[id]%}';" class=form2>
+          </td>
+        </tr>
+      </table><br>
+    </td>
+    <input type="hidden" name="sujet" value="">
+    <input type="hidden" name="icon" value="icon1">
+    <input type="hidden" name="parent" value="{%::_GET[id]%}">
+    <input type="hidden" name="forumid" value="{%::_GET[forumid]%}">
+    <input type="hidden" name="repflash" value="Y">
+    <input type="hidden" name="action" value="savemsg">
+    </form>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = boxguest **********-->
+<font size={%::_SKIN[middlefont]%}><b>{%LNG[pseudo_guest]%} <input type="text" name="pseudo" size=50 maxlength="{%::_FORUMCFG[limitloginlength]%}" onFocus="StopGotorep();" onBlur="InitGotorep();" class=form></b></font><br><br>
+
+<!--********** TPL NAME = boxmembre **********-->
+<input type="hidden" name="idmembre" value="{%::_USER[userid]%}">
+<input type="hidden" name="pseudo" value="{%::posteurpseudo%}">

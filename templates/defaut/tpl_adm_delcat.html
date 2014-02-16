@@ -1,0 +1,92 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = forumlist **********-->
+
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[warning]%}</u></b><br>
+		  {%LNG[cmwarning]%}</font><p>
+
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80%>
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td align="center" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[forumname]%}</b></font>
+		      </td>
+		      <td align="center" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[actiondel]%}</b></font>
+		      </td>
+		    </tr>
+		    {%box[catforum]%}
+		  </table><p>
+		  
+<!--********** TPL NAME = nocatfound **********-->
+
+		    <tr bgcolor="{%::_SKIN[bgtable2]%}">
+		      <td align="center" class="corp" colspan=2><font size={%::_SKIN[smallfont]%}><b>{%LNG[nocatfound]%}</b></font></td>
+		    </tr>
+		    
+<!--********** TPL NAME = lignecat **********-->
+
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;{%::Cats[cattitle]%}</b></font>
+		      </td>
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[middlefont]%}><a href="delcat.php?action=avert&catid={%::Cats[catid]%}" class=men>{%LNG[dellink]%}</a></font>
+		      </td>
+		    </tr>
+		    
+<!--********** TPL NAME = avertdel **********-->
+		  
+		  <form action="delcat.php" method=post>
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80%>
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td align="center" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[warning]%}</b></font>
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td align="center" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[realywant]%}</b></font><p>
+		        <input type="hidden" name="action" value="del">
+		        <input type="hidden" name="catid" value="{%::_GET[catid]%}">
+		        <input type="submit" value="{%LNG[confdelforum]%}" class="form2"><p>
+		      </td>
+		    </tr>
+		  </table>
+		  </form>
+		  
+<!--********** TPL NAME = actiondel **********-->
+
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[txttodelcat]%}</u></b><p>
+		  
+		  {%box[delforumresult]%}<p>
+		  
+		  {%box[delcatresult]%}<p>
+		  
+		  {%LNG[enddelcat]%}<br>
+		  </font></center>
+		  
+<!--********** TPL NAME = delforum **********-->
+		  <b>{%LNG[forumtodel]%}</b><br>
+		  {%box[table1]%}<br>
+		  {%box[table2]%}<br>
+		  {%box[table3]%}<br>
+		  {%box[table4]%}<br>
+		  {%box[table5]%}<p>
+		  

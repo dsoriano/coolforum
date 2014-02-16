@@ -1,0 +1,135 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[ttdelmb]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+
+<!--********** TPL NAME = accueil **********-->
+<table border=0 width=60%>
+  <tr>
+    <td class="corp2" style="text-align:justify;">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[delmbcmt]%}</font>
+    </td>
+  </tr>
+</table>
+<form action=delmb.php method=POST>
+<table border=1 bordercolor={%::_SKIN[bordercolor]%} cellpadding=4 cellspacing=0 width=60% style="border-collapse: collapse;">
+  <tr>
+    <td width=50% class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[selusermsg]%}</font>
+    </td>
+    <td width=50% class="corp2" bgcolor="{%::_SKIN[bgtable1]%}">
+      <select name=usermsg class=form2 style="width:90%;">
+      <option value=0>{%LNG[nomsg]%}</option>
+      <option value=1>1 {%LNG[msg]%}</option>
+      <option value=2>2 {%LNG[msg]%}</option>
+      <option value=3>3 {%LNG[msg]%}</option>
+      <option value=4>4 {%LNG[msg]%}</option>
+      <option value=5>5 {%LNG[msg]%}</option>
+      <option value=10>10 {%LNG[msg]%}</option>
+      <option value=15>15 {%LNG[msg]%}</option>
+      <option value=20>20 {%LNG[msg]%}</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td width=50% class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[selregisterdate]%}</font>
+    </td>
+    <td width=50% class="corp2" bgcolor="{%::_SKIN[bgtable1]%}">
+      <select name=registerdate class=form2 style="width:90%;">
+      <option value=0>{%LNG[no]%}</option>
+      <option value=30>{%LNG[onemonth]%}</option>
+      <option value=60>{%LNG[twomonths]%}</option>
+      <option value=90>{%LNG[threemonths]%}</option>
+      <option value=180>{%LNG[sixmonths]%}</option>
+      <option value=365>{%LNG[oneyear]%}</option>
+      <option value=545>{%LNG[threehalfyear]%}</option>
+      <option value=730>{%LNG[twoyears]%}</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td width=50% class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[sellastvisit]%}</font>
+    </td>
+    <td width=50% class="corp2" bgcolor="{%::_SKIN[bgtable1]%}">
+      <select name=lastvisit class=form2 style="width:90%;">
+      <option value=0>{%LNG[no]%}</option>
+      <option value=30>{%LNG[onemonth]%}</option>
+      <option value=60>{%LNG[twomonths]%}</option>
+      <option value=90>{%LNG[threemonths]%}</option>
+      <option value=180>{%LNG[sixmonths]%}</option>
+      <option value=365>{%LNG[oneyear]%}</option>
+      <option value=545>{%LNG[threehalfyear]%}</option>
+      <option value=730>{%LNG[twoyears]%}</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td width=50% class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[sellastpost]%}</font>
+    </td>
+    <td width=50% class="corp2" bgcolor="{%::_SKIN[bgtable1]%}">
+      <select name=lastpost class=form2 style="width:90%;">
+      <option value=0>{%LNG[no]%}</option>
+      <option value=30>{%LNG[onemonth]%}</option>
+      <option value=60>{%LNG[twomonths]%}</option>
+      <option value=90>{%LNG[threemonths]%}</option>
+      <option value=180>{%LNG[sixmonths]%}</option>
+      <option value=365>{%LNG[oneyear]%}</option>
+      <option value=545>{%LNG[threehalfyear]%}</option>
+      <option value=730>{%LNG[twoyears]%}</option>
+      </select>
+    </td>
+  </tr>
+</table><p>
+<input type=hidden name=action value=delmb>
+<input type=submit value="{%LNG[submit]%}" class=form>
+</form>
+
+<!--********** TPL NAME = confirm **********-->
+<p><font size={%::_SKIN[smallfont]%}>{%LNG[howmanytodel]%}</font></p>
+<table border=1 bordercolor={%::_SKIN[bordercolor]%} cellpadding=4 cellspacing=0 width=30% style="border-collapse: collapse;">
+  <tr>
+    <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" align=center><font size={%::_SKIN[middlefont]%}><b>{%LNG[mblist]%}</b></font></td>
+  </tr>
+  {%box[listmb]%}
+</table>
+<form action=delmb.php method=POST>
+<input type=hidden name=usermsg value="{%::UserMsg%}">
+<input type=hidden name=registerdate value="{%::RegisterDate%}">
+<input type=hidden name=lastvisit value="{%::LastVisit%}">
+<input type=hidden name=lastpost value="{%::LastPost%}">
+<input type=hidden name=confirm value=Y>
+<input type=hidden name=action value=delmb>
+{%box[submit]%} <input type=button value="{%LNG[goback]%}" OnClick="javascript:window.location.replace('delmb.php');" class=form>
+</form>
+
+<!--********** TPL NAME = delok **********-->
+<font size={%::_SKIN[smallfont]%}>{%LNG[howmanyisdel]%}</font><br><br>
+<input type=button value="{%LNG[goback]%}" OnClick="javascript:window.location.replace('delmb.php');" class=form><p>
+
+<!--********** TPL NAME = lignemb **********-->
+  <tr>
+    <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" align=center><font size={%::_SKIN[smallfont]%}>{%::Mb[username]%}</font></td>
+  </tr>
+
+<!--********** TPL NAME = nomb **********-->
+  <tr>
+    <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}"><font size={%::_SKIN[smallfont]%}>{%LNG[nomb]%}</font></td>
+  </tr>
+
+<!--********** TPL NAME = submit **********-->
+<input type=submit value="{%LNG[confirm]%}" class=form>

@@ -1,0 +1,289 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+
+<!--********** TPL NAME = accueilpub **********-->
+<script language="javascript">
+function idvalid(formvalue,id)
+{
+	formvalue.idvalue.value=id;
+	formvalue.submit();
+}
+</script>
+		  <table border=0 width="70%">
+		    <tr>
+		      <td class="corp2" style="text-align:justify;">
+		        <font size={%::_SKIN[middlefont]%}>{%LNG[pubavert]%}</font>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+	              <td colspan="8" align="center" class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[ttcampagne]%}</b></font>
+	              </td>
+	            </tr>
+	            <form name="formulaire2" method="POST" action="campagne.php">
+	            <input type="hidden" name="action" value="campform">
+	            <input type="hidden" name="idvalue" value="1">
+	            <tr bgcolor="{%::_SKIN[bgtable1]%}">
+	              <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}><b>{%LNG[ttnom]%}</b></font></td>
+	              <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}><b>{%LNG[ttdebut]%}</b></font></td>
+	  	      <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}><b>{%LNG[ttfin]%}</b></font></td>
+		      <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}><b>{%LNG[ttpoids]%}</b></font></td>
+		      <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}><b>{%LNG[ttaffichage]%}</b></font></td>
+		      <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}><b>{%LNG[ttaffperday]%}</b></font></td>
+		      <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}><b>{%LNG[ttclicks]%}</b></font></td>
+		      <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}><b>%</b></font></td>
+		    </tr>
+		    {%box[camplist]%}
+		    </form>
+		  </table><p>
+		  
+		  <center>
+		  <form action="campagne.php" method="POST">
+		  <input type="hidden" name="action" value="campform">
+		  <input type="submit" class="form" value="{%LNG[newcamp]%}">
+		  </form>
+		  </center>
+
+<!--********** TPL NAME = lignecamp **********-->
+	       	    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp">
+		        <input type="button" value="»" onclick="idvalid(document.formulaire2,{%::Camp[id]%})" class="form2" style="font-weight:bold;">
+		        <b><font size={%::_SKIN[middlefont]%}>{%::CampName%}</font></b>
+		      </td>
+		      <td bgcolor="{%::_SKIN[bgtable2]%}" align="right" class="corp2"><font size={%::_SKIN[middlefont]%}>{%::DteDebut%}</font></td>
+		      <td bgcolor="{%::_SKIN[bgtable2]%}" align="right" class="corp2"><font size={%::_SKIN[middlefont]%}>{%::DteFin%}</font></td>
+		      <td align="center" class="corp"><font size={%::_SKIN[middlefont]%}>{%::Camp[ratio]%}</font></td>
+		      <td align="right" bgcolor="{%::_SKIN[bgtable2]%}"><font size={%::_SKIN[middlefont]%}>{%::Camp[nbaffichages]%}</font></td>
+		      <td align="right" bgcolor="{%::_SKIN[bgtable2]%}"><font size={%::_SKIN[middlefont]%}>{%::AffPerDay%}</font></td>
+		      <td align="right" class="corp"><font size={%::_SKIN[middlefont]%}>{%::Camp[clicks]%}</font></td>
+		      <td align="right" class="corp"><font size={%::_SKIN[middlefont]%}>{%::clickratio%}</font></td>
+		    </tr>
+
+<!--********** TPL NAME = nocamp **********-->
+	       	    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td colspan="8" class="corp">
+		        <font size={%::_SKIN[middlefont]%}>{%LNG[nocampagne]%}</font>
+		      </td>
+		    </tr>
+
+<!--********** TPL NAME = campform **********-->
+		  {%box[statslink]%}
+
+		  <form method="POST" action="campagne.php" name="formulaire">
+	      	  <input type="hidden" name="action" value="savecamp">
+	      	  <input type="hidden" name="idvalue" value="{%::idvalue%}">
+    		  <center>
+				
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td align="center" class="corp" colspan="2" bgcolor="{%::_SKIN[bgtable3]%}">
+		        <font size={%::_SKIN[middlefont]%}><b>{%box[ttcampagne]%}</b></font>
+		      </td>
+		    </tr>
+		    {%box[error]%}
+	            <tr>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+	                <font size={%::_SKIN[middlefont]%}>{%LNG[campname]%} : </font>
+	              </td>
+	              <td>
+	                <input type="text" name="CampName" value="{%::CampName%}" class="form">
+	              </td>
+	            </tr>
+	            <tr>
+	              <td valign="top" bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+	                <font size={%::_SKIN[middlefont]%}>{%LNG[ratiocamp]%} :</font>
+	              </td>
+	              <td valign="top">
+	                <input type="text" name="CampRatio" size="2" value="{%::CampRatio%}" class="form"><br>
+		        <font size={%::_SKIN[middlefont]%}>{%LNG[ratio_cmt]%}</font></td>
+	            </tr>
+	            <tr>
+	              <td colspan="2" align="center" class="corp" bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}><b>{%LNG[campdate]%} :</b></font></td>
+	            </tr>
+	            <tr>
+	              <td valign="top" class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+	                <font size={%::_SKIN[middlefont]%}>{%LNG[dtedebut]%} :</font>
+	              </td>
+	              <td>
+	                <input type="text" name="CampStart" size="11" value="{%::CampStart%}" class="form">
+		        <font size={%::_SKIN[middlefont]%}>{%LNG[dateformat]%}<br>
+		        <em>{%LNG[dateexemple]%}</em></font>
+		      </td>
+	            </tr>
+	            <tr>
+	              <td valign="top" class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+	                <font size={%::_SKIN[middlefont]%}>{%LNG[dtefin]%} :</font>
+	              </td>
+	              <td class="corp2">
+	          	<table border="0" cellspacing="0">
+	            	  <tr>
+	              	    <td valign="top"><input type="text" name="CampEnd" size="11" value="{%::CampEnd%}" class="form">&nbsp; </td>
+	              	    <td class="corp2">
+	              	      <font size={%::_SKIN[middlefont]%}>
+	              	      <input type="radio" name="CampType" value="aff"{%::TypeEnd[1]%}> {%LNG[endtypeaff]%}<br>
+	              	      <input type="radio" name="CampType" value="click"{%::TypeEnd[2]%}> {%LNG[endtypeclic]%}<br>
+	              	      <input type="radio" name="CampType" value="date"{%::TypeEnd[3]%}> {%LNG[endtypedate]%}</font>
+	              	    </td>
+	            	  </tr>
+	          	</table>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td colspan="2" align="center" class="corp" bgcolor="{%::_SKIN[bgtable3]%}"><b><font size={%::_SKIN[middlefont]%}>{%LNG[banprop]%} :</font></b></td>
+	            </tr>
+	            <tr>
+	              <td valign="top" bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+	                <font size={%::_SKIN[middlefont]%}>{%LNG[siteurl]%} :</font>
+	              </td>
+	              <td class="corp2">
+	                <input type="text" name="CampUrl" size="40" value="{%::CampUrl%}" class="form"><br>
+		        <font size={%::_SKIN[middlefont]%}>{%LNG[siteurl_cmt]%}</font>
+		      </td>
+	            </tr>
+	            <tr>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+	                <font size={%::_SKIN[middlefont]%}>{%LNG[banurl]%} :</font>
+	              </td>
+	              <td>
+	                <input type="text" name="CampBan" size="40" value="{%::CampBan%}" class="form">
+	              </td>
+	            </tr>
+        	    <tr>
+          	      <td valign="top" bgcolor="{%::_SKIN[bgtable1]%}" colspan="2" class="corp">
+            	        <center><font size={%::_SKIN[middlefont]%}><b>{%LNG[ttcoderegie]%}:</b></font></center><p>
+            	        
+                        <blockquote>
+	                <font size={%::_SKIN[middlefont]%}>{%LNG[coderegie_cmt]%}</font>
+	                </blockquote>
+	                
+                        <center>
+                        <textarea rows="5" name="CampRegie" cols="70" class="form">{%::CampRegie%}</textarea><p>
+                      </td>
+        	    </tr>	                
+	          </table><P>
+	          <center><p>
+	          <input type="submit" value="{%LNG[valid]%}" class="form">
+	          </center>
+    		  </form>     
+
+<!--********** TPL NAME = error **********-->
+		    <tr>
+		      <td align="center" class="corp" colspan="2" bgcolor="{%::_SKIN[bgtable3]%}">
+		        <font size={%::_SKIN[middlefont]%}><b>**** {%::error%} ****</b></font>
+		      </td>
+		    </tr>
+
+<!--********** TPL NAME = statsform **********-->
+		  <center>
+		  <font size={%::_SKIN[middlefont]%}><b>
+		  <a href="campagne.php?action=stats&id={%::idvalue%}" class="lien">{%LNG[viewstats]%}</a> |
+		  <a href="campagne.php?action=del&idvalue={%::idvalue%}" class="lien">{%LNG[delcamp]%}</a>
+		  </b></font>
+		  </center><p>
+
+<!--********** TPL NAME = statistiques **********-->
+<script language="javascript">
+function idvalid(formvalue,id)
+{
+	formvalue.idvalue.value=id;
+	formvalue.submit();
+}
+</script>
+		  <center>
+		  <font size={%::_SKIN[middlefont]%}><b>{%LNG[statmonth]%}</b></font>
+		  </center><p>
+
+		  <table border=0 cellpadding=0 cellspacing=0>
+		    <tr>
+		      <td valign=top><font face=arial size=1>{%::maxvue%}&nbsp;</font></td>
+		      <td>
+			<table bordercolor=black cellpadding=0 cellspacing=0 style="border-left:1px solid;">
+			  <tr height=250>
+			    {%box[colonstat]%}
+			  </tr>
+			</table>
+			<table bordercolor=black cellpadding=0 cellspacing=0 style="border-left:1px solid; border-bottom:1px solid">
+			  <tr>
+			    {%box[abscisse]%}
+			  </tr>
+			</table>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" cellpadding=5>
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td width=100 align="center" class="corp"><font size={%::_SKIN[middlefont]%}><b>{%LNG[statjour]%}</b></font></td>
+		      <td width=150 align="center" class="corp"><font size={%::_SKIN[middlefont]%}><b>{%LNG[stataff]%}</b></font></td>
+		      <td width=150 align="center" class="corp"><font size={%::_SKIN[middlefont]%}><b>{%LNG[statclic]%}</b></font></td>
+		      <td width=150 align="center" class="corp"><font size={%::_SKIN[middlefont]%}><b>{%LNG[statpercent]%}</b></font></td>
+		    </tr>
+		    {%box[lignestats]%}
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}><b>{%LNG[stattotal]%}</b></font></td>
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}>{%::totalstats[nbvues]%}</font></td>
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}>{%::totalstats[nbclicks]%}</font></td>
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}>{%::totalstats[percent]%}</font></td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}><b>{%LNG[statmoy]%}</b></font></td>
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}>{%::moyennestats[nbvues]%}</font></td>
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}>{%::moyennestats[nbclicks]%}</font></td>
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}>{%::moyennestats[percent]%}</font></td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=0>
+		  <form method="POST" action="campagne.php" name="formulaire">
+		  <input type=hidden name="action" value="stats">
+		  <input type=hidden name="idvalue" value="">
+		  <input type=hidden name="id" value="{%::id%}">
+		    <tr>
+		      <td valign=top width=200 class="corp2">
+		        <font size={%::_SKIN[middlefont]%}>
+		        <center><u><b>{%LNG[statslastmonth]%}:</b></u></center><p>
+		        
+		        {%box[othermonth]%}
+		      </td>
+		    </tr>
+		  </form>
+		  </table><p>  
+		  
+		  <form action="campagne.php" method="post">
+		  <input type="submit" value="{%LNG[goback]%}" class="form">
+		  </form>		  
+		  
+
+<!--********** TPL NAME = colonstat **********-->
+<td valign=bottom><img src="{%::_SKIN[repimg]%}/imgstat.jpg" height="{%::result_recap%}" width=15>
+
+<!--********** TPL NAME = abscisse **********-->
+<td width=15 valign=bottom align=center><font face=arial size=1>{%::i%}</font></td>
+
+<!--********** TPL NAME = lignestat **********-->
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center"><font size={%::_SKIN[middlefont]%}><b>{%::StDay%}</b></font></td>
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}>{%::StVu%}</font></td>
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}>{%::StClick%}</font></td>
+		      <td class="corp" align="center"><font size={%::_SKIN[middlefont]%}>{%::StPercent%}</font></td>
+		    </tr>
+
+<!--********** TPL NAME = othermonth **********-->
+<input type="button" value="&gt;&gt;" onclick="idvalid(document.formulaire,'{%::transdate%}')" align=absmiddle class="form"> {%::showmonth%} {%::showyear%}<br>

@@ -1,0 +1,158 @@
+<!--********** TPL NAME = boxlist **********-->
+
+<script language="javascript">
+<!--
+function bgd(nom,col) { 
+	nom.style.background=col; 
+}
+//-->
+</script>
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=0 width="100%" style="padding-bottom:5">
+        <tr>
+          <td width=50% class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[numberpages]%}
+            </font>
+          </td>
+          <td align=right style="padding-bottom:5">
+	    &nbsp;
+          </td>
+        </tr>
+      </table>
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td colspan=7 bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+            <font size={%::_SKIN[middlefont]%}>
+	    <b>{%LNG[newmsg]%}</b> {%LNG[howmany]%}
+            </font>
+          </td>
+        </tr>
+        <tr height="25">
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+          <td class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[message]%}</font></td>
+          <td width="15%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[auteur]%}</font></td>
+          <td width="6%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgrep]%}</font></td>
+          <td width="6%" class="corp" align="center" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgvu]%}</font></td>
+          <td width="17%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[lastpost]%}</font></td>
+        </tr>
+        <tr>
+          <td colspan=7><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        {%box[topiclist]%}
+        <tr>
+          <td colspan=7><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        <tr height="25">
+          <td colspan=7 bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+            <font size={%::_SKIN[smallfont]%}>
+	    &nbsp;
+            </font>
+          </td>
+        </tr>
+      </table>
+
+      <table border=0 width="100%" style="padding-top:5">
+        <tr>
+          <td width=50% class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[numberpages]%}
+            </font>
+          </td>
+          <td align=right style="padding-bottom:5">
+	    &nbsp;
+          </td>
+        </tr>
+      </table><p>
+      </center>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = nonewmsg **********-->
+
+  <tr bgcolor={%::_SKIN[bgtable2]%}>
+    <td colspan=7 align=center class="corp2">
+      <font size={%::_SKIN[middlefont]%}><b>{%LNG[nonewmsg]%}</b></font>
+    </td>
+  </tr>
+
+<!--********** TPL NAME = leftpagearrowlink **********-->
+
+<a href="listspe.php?page=1" class="men">&lt;&lt;</a> <a href="listspe.php?page={%box[pagebefore]%}" class="men">&lt;</a> 
+
+<!--********** TPL NAME = leftpagearrow **********-->
+
+&lt;&lt; &lt; 
+
+<!--********** TPL NAME = rightpagearrowlink **********-->
+
+ <a href="listspe.php?page={%box[pageafter]%}" class="men">&gt;</A> <a href="listspe.php?page={%::nbpages%}" class=men>&gt;&gt;</A>
+
+<!--********** TPL NAME = rightpagearrow **********-->
+
+ &gt; &gt;&gt; 
+
+<!--********** TPL NAME = ourpage **********-->
+
+<font size={%::_SKIN[smallfont]%}><b>{%box[pagenumber]%}</b></font>
+
+<!--********** TPL NAME = otherpage **********-->
+
+<a href="listspe.php?page={%box[pagenumber]%}" class="men">{%box[pagenumber]%}</a>
+
+<!--********** TPL NAME = boxpages **********-->
+
+<b>{%LNG[page]%} : {%box[navpages]%}</b><br>
+
+<!--********** TPL NAME = lignetopic **********-->
+
+  <tr bgcolor={%::_SKIN[bgtable2]%} onmouseover="bgd(this,'{%::_SKIN[bgtable1]%}')" onmouseout="bgd(this,'{%::_SKIN[bgtable2]%}')">
+    <td align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <img src="{%::_SKIN[repimg]%}/{%::Topics[icontopic]%}">
+    </td>
+    <td align=center>
+      <img src="icones/{%::Topics[icone]%}.gif">
+    </td>
+    <td class="corp2">
+      <font size={%::_SKIN[smallfont]%}><b>{%box[topic]%}</b>{%box[affichepages]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[loginposter]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbrep]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbvues]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>
+      {%box[gotobutton]%} {%::Topics[datederrep]%}<BR>
+      {%LNG[from]%}: {%::Topics[derposter]%}
+      </font>
+    </td>
+  </tr>
+
+<!--********** TPL NAME = linklastmsg **********-->
+
+<a href="gotopost.php?id={%::Topics[idderpost]%}" class=men><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"></A>
+
+<!--********** TPL NAME = topiclinktomsg **********-->
+
+{%box[pretopic]%}<a href="{%box[linkpage]%}.php?forumid={%::Topics[forumid]%}&id={%::Topics[idtopic]%}&p={%::page%}&s={%::KeyWords%}" class="lien">{%::Topics[sujet]%}</a>
+
+<!--********** TPL NAME = iftopicpoll **********-->
+
+<font class=corp><b>{%LNG[ttpoll]%}</b></font> 
+
+<!--********** TPL NAME = iftopicannonce **********-->
+
+<font class=corp><b>{%LNG[ttannonce]%}</b></font>

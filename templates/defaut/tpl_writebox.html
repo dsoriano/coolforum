@@ -1,0 +1,312 @@
+<!--********** TPL NAME = wrtboxaccueil **********-->
+<script language="javascript">
+<!--
+ie = document.selection;
+moz = document.getSelection;
+
+if(navigator.userAgent.indexOf("Opera") != -1)
+{
+	ie = false;
+	moz = true;
+}
+
+var bbcode=new Array('false','[mail]','[/mail]','false','[img]','[/img]','false','[swf]url:',' largeur: hauteur: [/swf]','false','[bold]','[/bold]','false','[ita]','[/ita]','false','[code]','[/code]','false','[quote]','[/quote]','false','[center]','[/center]','false','[under]','[/under]','false','[url=]','[/url]','false','[cache]','[/cache]');
+var openbb='';
+var help=new Array();
+help[0]="{%LNG[nfo_mail]%}";
+help[3]="{%LNG[nfo_img]%}";
+help[6]="{%LNG[nfo_swf]%}";
+help[9]="{%LNG[nfo_bold]%}";
+help[12]="{%LNG[nfo_ita]%}";
+help[15]="{%LNG[nfo_code]%}";
+help[18]="{%LNG[nfo_quote]%}";
+help[21]="{%LNG[nfo_center]%}";
+help[24]="{%LNG[nfo_under]%}";
+help[27]="{%LNG[nfo_url]%}";
+help[30]="{%LNG[nfo_cache]%}";
+
+var selectbb=new Array('[font=','[/font]','[size=','[/size]','[color=','[/color]');
+
+
+function affhelp(status)
+{
+	if (document.all||document.getElementById)
+	{
+		tochange=document.getElementById? document.getElementById("helptext"):document.all.helptext
+		tochange.innerHTML=help[status];
+	}
+}
+
+function addbbcode(status)
+{
+	textselect = document.formulaire.msg;
+	
+	if(moz){
+		StartPos  = textselect.selectionStart;
+		EndPos    = textselect.selectionEnd;
+		LengthPos = EndPos - StartPos;
+	}
+	
+	
+	if(ie && textselect.c.text.length>0)
+		textselect.c.text = bbcode[status+1]+textselect.c.text+bbcode[status+2];
+	else if(moz && LengthPos > 0){
+		textselect.value  = textselect.value.substr(0,StartPos) + bbcode[status+1] + textselect.value.substr(StartPos,LengthPos) + bbcode[status+2] + textselect.value.substr(EndPos);
+	}
+	else
+	{
+	
+		if(bbcode[status]=='false')
+		{
+			if(ie)
+				textselect.c.text = bbcode[status+1];
+			else if(moz)			
+				textselect.value  = textselect.value.substr(0,StartPos) + bbcode[status+1] + textselect.value.substr(EndPos);
+			bbcode[status]='true';
+			if(openbb.length>0)
+				openbb=status+','+openbb;
+			else
+				openbb+=status;
+		}
+		else
+		{
+			explode  = new Array();
+			transit  = new Array();
+			explode  = openbb.split(",");
+			
+			chaine='';
+			j=0;
+			while(explode[j])
+			{
+				pos=parseInt(explode[j]);
+	
+				chaine += bbcode[pos+2];
+				bbcode[pos] = 'false';
+				delete(explode[j]);
+				j++;
+				if(pos==status) break;
+			}
+			
+			i=0
+			while(explode[j])
+			{
+				transit[i]=explode[j];
+				i++;
+				j++;
+			}
+			
+			openbb=transit.join(",");
+			if(ie)
+				textselect.c.text = chaine;
+			else if(moz)
+				textselect.value  = textselect.value.substr(0,StartPos) + chaine + textselect.value.substr(EndPos);
+		}	
+	
+	}
+
+	textselect.focus();
+}
+
+function addselect(status,kelform)
+{
+	if(kelform.value.length>0)
+	{
+		textselect = document.formulaire.msg;
+		
+		if(ie)
+			textselect.c.text=selectbb[status]+kelform.value+']'+textselect.c.text+selectbb[status+1];
+		else if(moz){
+			StartPos  = textselect.selectionStart;
+			EndPos    = textselect.selectionEnd;
+			LengthPos = EndPos - StartPos;
+			
+			textselect.value = textselect.value.substr(0,StartPos) + selectbb[status]+kelform.value+']'+ textselect.value.substr(StartPos,LengthPos) +selectbb[status+1] + textselect.value.substr(EndPos);
+		}
+	}
+	textselect.focus();
+}
+function addsmile(smile)
+{
+	textselect=document.formulaire.msg;
+
+	if(ie){
+		if(textselect.c)
+			textselect.c.text=textselect.c.text + smile;
+		else
+			textselect.value +=smile;}
+	else if(moz){
+		StartPos  = textselect.selectionStart;
+		EndPos    = textselect.selectionEnd;
+		LengthPos = EndPos - StartPos;
+		
+		textselect.value  = textselect.value.substr(0,StartPos) + smile + textselect.value.substr(EndPos);
+	}
+	textselect.focus();
+}
+
+function loadpos(textselect)
+{
+	textselect=document.formulaire.msg;
+	
+	if(textselect.createTextRange){
+		textselect.c = document.selection.createRange();}
+	else if(textselect.getSelection){
+		textselect.c = document.getSelection();}
+	else return;
+}
+
+
+function setfocus()
+{
+	textselect=document.formulaire.msg;
+	textselect.focus();
+}
+
+window.onload	=	setfocus;
+-->
+</script>
+
+  <tr>
+    <td bgcolor={%::_SKIN[bgtable1]%} class="corp" valign="top" width="150">
+      <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pstr_msg]%}</u></b></font><p>
+      <center>
+      <font size={%::_SKIN[smallfont]%}><b>{%LNG[smileys]%}</b></font>
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=90% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable2]%} class="corp" align=center>
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[smileybox]%}<p>
+            <a href="javascript:;" onclick="popup('{%::cachedir%}popup.php',550,400);" class="lien">{%LNG[seeallsmileys]%}</A>
+            </font>
+          </td>
+        </tr>
+      </table><p>
+      
+      <script language="javascript">
+	if (document.all||document.getElementById)
+	document.write('<font size={%::_SKIN[smallfont]%}><b>{%LNG[info]%}</b></font><table width=90% height=100 class=form><TR><TD class=jaune valign=top bgcolor={%::_SKIN[bgtable3]%}><font size={%::_SKIN[smallfont]%}><div id="helptext" width=100% height=100%>&nbsp;</div></font></TD></TR></table>');
+      </script>
+      </center>
+    </td>
+    <td bgcolor={%::_SKIN[bgtable2]%} valign="top">
+      <table border=0 cellpadding=0 cellspacing=0>
+        <tr>
+          <td class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+	    <table border=0 width=100%>
+	      <tr>
+	        <td align=center>
+	          <input type="button" onmouseover="affhelp(9)" onClick="addbbcode(9); Compter(formulaire.msg,formulaire.limitchar)" value="G" class=form style="font-weight:bold;">
+		  <input type="button" onmouseover="affhelp(12)" onClick="addbbcode(12); Compter(formulaire.msg,formulaire.limitchar)" value="I" class=form style="font-style:italic;">
+		  <input type="button" onmouseover="affhelp(24)" onClick="addbbcode(24); Compter(formulaire.msg,formulaire.limitchar)" value="U" class=form style="text-decoration:underline;">
+		  <input type="button" onmouseover="affhelp(0)" onClick="addbbcode(0); Compter(formulaire.msg,formulaire.limitchar)" value="@" class=form style="font-weight:bold;">
+		  <select class=form onChange="addselect(0,this)">
+		    <option value="">{%LNG[btn_font]%}
+		    <option value="arial">Arial
+		    <option value="Courrier">Courrier
+		    <option value="Times">Times
+		  </select>
+	
+		  <select class=form onChange="addselect(2,this)">
+		    <option value="">{%LNG[btn_size]%}
+		    <option value="1">1
+		    <option value="2">2
+		    <option value="3">3
+		    <option value="4">4
+		    <option value="5">5
+		    <option value="6">6
+		    <option value="7">7
+		  </select>
+	
+		  <select class=form onChange="addselect(4,this)">
+		    <option value="">{%LNG[btn_color]%}
+		    <option style="color:blue;" value="blue">{%LNG[blue]%}
+		    <option style="color:red;" value="red">{%LNG[red]%}
+		    <option style="color:green;" value="green">{%LNG[green]%}
+		    <option style="color:white;" value="white">{%LNG[white]%}
+		    <option style="color:orange;" value="orange">{%LNG[orange]%}
+		    <option style="color:purple;" value="purple">{%LNG[purple]%}
+		    <option style="color:gray;" value="gray">{%LNG[gray]%}
+		  </select>
+		</td>
+              </tr>
+	      <tr>
+	        <td align=center>
+		  <input type="button" onmouseover="affhelp(21)" onClick="addbbcode(21); Compter(formulaire.msg,formulaire.limitchar)" value="{%LNG[btn_center]%}" class=form>
+		  <input type="button" onmouseover="affhelp(27)" onClick="addbbcode(27); Compter(formulaire.msg,formulaire.limitchar)" value="{%LNG[btn_web]%}" class=form>
+		  <input type="button" onmouseover="affhelp(3)" onClick="addbbcode(3); Compter(formulaire.msg,formulaire.limitchar)" value="{%LNG[btn_img]%}" class=form>
+		  <input type="button" onmouseover="affhelp(6)" onClick="addbbcode(6); Compter(formulaire.msg,formulaire.limitchar)" value="{%LNG[btn_flash]%}" class=form>
+		  <input type="button" onmouseover="affhelp(15)" onClick="addbbcode(15); Compter(formulaire.msg,formulaire.limitchar)" value="{%LNG[btn_code]%}" class=form>
+		  <input type="button" onmouseover="affhelp(18)" onClick="addbbcode(18); Compter(formulaire.msg,formulaire.limitchar)" value="{%LNG[btn_quote]%}" class=form>
+		  {%box[cancache]%}
+       		</td>
+       	      </tr>
+            </table>
+	    <textarea name="msg" COLS=91 ROWS=18 WRAP="soft" class=form onFocus="loadpos(this);Compter(this,formulaire.limitchar)" onKeyDown="Compter(this,formulaire.limitchar)" onKeyUp="Compter(this,formulaire.limitchar)" onBlur="Compter(this,formulaire.limitchar)" onclick="loadpos(this)" onkeyup="loadpos(this)" onselect="loadpos(this)">{%box[quotemsg]%}</textarea><BR>
+
+	    {%LNG[nbcarac]%} <input type=text size=5 name="limitchar" class=form> ({%LNG[limitcarac]%} : {%box[limitmsgdef]%})</font><P>
+	    
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+              <tr>
+                <td bgcolor={%::_SKIN[bgtable1]%} class="corp">
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[options]%}</u></b></font><p>
+                  <font size={%::_SKIN[smallfont]%}>
+	          <input type="checkbox" name="smilecode" value="non"{%box[smilechecked]%}> {%LNG[nosmiles]%}<br>
+	          <input type="checkbox" name="bbcode" value="non"{%box[bbcodechecked]%}> {%LNG[noBBcode]%}<br>
+	          {%box[mailnotify]%}
+	          {%box[sondage]%}
+	          </font>
+	        </td>
+	      </tr>
+	    </table>
+          </td>
+        </tr>
+      </table>
+
+<!--********** TPL NAME = addcachebutton **********-->
+
+<input type="button" onmouseover="affhelp(30)" onClick="addbbcode(30); Compter(formulaire.msg,formulaire.limitchar)" value="{%LNG[btn_cache]%}" class="form">
+
+<!--********** TPL NAME = mailnotify **********-->
+
+<input type="checkbox" name="notifyme" value="oui"{%box[notifychecked]%}> {%LNG[notifyme]%}
+
+<!--********** TPL NAME = msgpreview **********-->
+
+<center>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr height="89">
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautgauche.gif"></td>
+    <td background="{%::_SKIN[repimg]%}/bghaut.jpg">&nbsp;</td>
+    <td width="30" nowrap><img src="{%::_SKIN[repimg]%}/bghautdroit.gif"></td>
+  </tr>
+</table>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td class="corp" colspan=2 align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%LNG[msgpreviewtt]%}</b></font>
+          </td>
+        </tr>
+	<tr>
+	  <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+	    <font size={%::_SKIN[smallfont]%}>
+	    <b>{%LNG[pstr_msg]%}</b><p>
+	    {%box[affmessage]%}<p>
+	    </font>	  
+	  </td>
+	</tr>
+        /*{%box[listsmileys]%}*/
+        <tr>
+          <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" align="center">
+            <font size={%::_SKIN[middlefont]%}><b><a href="javascript:;" onclick="window.close()" class=men>{%LNG[winclose]%}</a></b></font>
+          </td>
+        </tr>
+      </table><P>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>

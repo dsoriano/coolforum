@@ -1,0 +1,111 @@
+<!--********** TPL NAME = changemdpform **********-->
+            <form action="profile.php" method="post">
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+              <tr>
+                <td class="corp" bgcolor={%::_SKIN[bgtable3]%} align="center" colspan="2">
+                  <font size={%::_SKIN[middlefont]%}><B>{%LNG[modifmdp]%}</font>
+                </td>
+              </tr>
+              {%box[error1]%}
+              <tr>
+                <td class="corp" bgcolor={%::_SKIN[bgtable1]%} width="220" nowrap>
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[oldmdp]%} :</u></b></font>
+                </td>
+                <td bgcolor={%::_SKIN[bgtable2]%}>
+                  <input type=password name="oldmdp" class=form>
+                </td>
+              </tr>
+              <tr>
+                <td class="corp" bgcolor={%::_SKIN[bgtable1]%} width="220" nowrap>
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[newmdp]%} :</u></b></font>
+                </td>
+                <td bgcolor={%::_SKIN[bgtable2]%}>
+                  <input type=password name="newmdp1" class=form>
+                </td>
+              </tr>
+              <tr>
+                <td class="corp" bgcolor={%::_SKIN[bgtable1]%} width="220" nowrap>
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[renewmdp]%} :</u></b></font>
+                </td>
+                <td bgcolor={%::_SKIN[bgtable2]%}>
+                  <input type=password name="newmdp2" class=form></font>
+                </td>
+              </tr>
+              <tr heigth="30">
+                <td colspan=2 align=center bgcolor={%::_SKIN[bgtable1]%}>
+                  <input type=submit value="{%LNG[valid]%}" class=form2> 
+                  <input type=reset Value="{%LNG[restart]%}" class=form2>
+                </td>
+              </tr>
+            </table>
+            <input type=hidden name="action" value="updatemdp">
+            <input type=hidden name="p" value="mdp">
+            </form><p>
+            
+<!--********** TPL NAME = questrepform **********-->
+
+	    <form action="profile.php" method="post">
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+              <tr>
+                <td class="corp" bgcolor={%::_SKIN[bgtable3]%} align="center" colspan="2">
+                  <font size={%::_SKIN[middlefont]%}><B>{%LNG[modifquestrep]%}</font>
+                </td>
+              </tr>
+              {%box[error2]%}
+	      <tr>
+	        <td class="corp" bgcolor={%::_SKIN[bgtable1]%} width="220" nowrap>
+	          <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[quest]%}:</u></b></font><BR>
+	          <font size={%::_SKIN[smallfont]%}>{%LNG[cmquest]%}</font>
+	        </td>
+	        <td bgcolor={%::_SKIN[bgtable2]%}>
+	          <input type=text name="quest" value="{%::Result[question]%}" class=form>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td class="corp" bgcolor={%::_SKIN[bgtable1]%} width="220" nowrap>
+	          <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[rep]%}:</u></b></font><BR>
+	          <font size={%::_SKIN[smallfont]%}>{%LNG[cmrep]%}</font>
+	        </td>
+	        <td bgcolor={%::_SKIN[bgtable2]%}>
+	          <input type=text name="rep" value="{%::Result[reponse]%}" class=form>
+	        </td>
+	      </tr>
+              <tr heigth="30">
+                <td colspan=2 align=center bgcolor={%::_SKIN[bgtable1]%}>
+                  <input type=submit value="{%LNG[valid]%}" class=form2> 
+                  <input type=reset Value="{%LNG[restart]%}" class=form2>
+                </td>
+              </tr>
+	    </table>
+	    <input type=hidden name="action" value="updatequestrep">
+            <input type=hidden name="p" value="mdp">
+            </form><p>
+            
+<!--********** TPL NAME = errorbox **********-->
+
+              <tr>
+                <td class="corp" bgcolor={%::_SKIN[bgtable3]%} align="center" colspan="2">
+                  <font size={%::_SKIN[middlefont]%}><B>*** {%LNG[error1]%} ***</font>
+                </td>
+              </tr>
+              
+<!--********** TPL NAME = majmdpok **********-->
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>
+            {%LNG[updatemdpok]%}<br>
+	    {%LNG[pleasewait]%}
+	    </b></font>
+          </td>
+        </tr>
+      </table><p>
+
+<!--********** TPL NAME = majmdpnotok **********-->
+
+              <tr>
+                <td class="corp" bgcolor={%::_SKIN[bgtable3]%} align="center" colspan="2">
+                  <font size={%::_SKIN[middlefont]%}><B>*** {%LNG[error2]%} ***</font>
+                </td>
+              </tr>

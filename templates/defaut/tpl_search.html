@@ -1,0 +1,289 @@
+<!--********** TPL NAME = accueilsearch **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td align=center class="corp" bgcolor="{%::_SKIN[bgtable3]%}" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">
+            <font size={%::_SKIN[smallfont]%}><b>&nbsp;</b></font>
+          </td>
+        </tr>
+       </table>
+       <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>
+            &nbsp;<br>
+{%box[searchcontent]%}<p>
+            </font>
+          </td>
+        </tr>
+      </table><p>       
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = searchform **********-->
+
+           <form action="search.php" method=post>
+           <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+             <tr>
+               <td colspan=2 align=center bgcolor={%::_SKIN[bgtable3]%} class="corp">
+                 <font size={%::_SKIN[middlefont]%}><b>{%LNG[searchtitle]%}</b></font>
+               </td>
+             </tr>
+             <tr>
+               <td width=50% align=center>
+                 <table border=0 cellpadding=4 cellspacing=0>
+	           <tr>
+	             <td class="corp2">			<font size={%::_SKIN[smallfont]%}><b>{%LNG[lookfor]%}</b></font>	</td>
+	             <td>   	                	<input type=text name="keyword" class=form>	</td>
+	           </tr>
+	           <tr>
+	             <td class="corp2" valign=top>	<font size={%::_SKIN[smallfont]%}><b>{%LNG[ttleormsg]%}</b></font>	</td>
+	             <td class="corp2">	                <font size={%::_SKIN[smallfont]%}>
+	               					<input type=radio name="in" value="1" CHECKED>{%LNG[stitle]%}<br>
+	               					<input type=radio name="in" value="2">{%LNG[smsg]%}
+	               					</font>						</td>
+	           </tr>
+	           <tr>
+	             <td class="corp2">			<font size={%::_SKIN[smallfont]%}><b>{%LNG[since]%}</b></font>		</td>
+	             <td>
+	               <select name=fromtime class=form>
+	               <option value="1">{%LNG[time0]%}
+	               <option value="2">{%LNG[time1]%}
+	               <option value="3">{%LNG[time2]%}
+	               </select>
+	             </td>
+	           </tr>
+                 </table>
+               </td>
+               <td width=50% align=left valign=top>
+                 <table border=0 cellpadding=4 cellspacing=0>
+	           <tr>
+	             <td class="corp2">			<font size={%::_SKIN[smallfont]%}><b>{%LNG[bypseudo]%}</b></font>		</td>
+	             <td>				<input type=text name="pseudosearch" value="{%box[pseudosearch]%}" class=form>
+	             												</td>
+	           </tr>
+	           <tr>
+	             <td class="corp2" valign=top>	<font size={%::_SKIN[smallfont]%}><b>{%LNG[soptions]%}</b></font>		</td>
+	             <td class="corp2">
+	               <font size={%::_SKIN[smallfont]%}>
+	               <input type=radio name="parampseudo" value="1" CHECKED>{%LNG[psexact]%}<BR>
+	               <input type=radio name="parampseudo" value="2">{%LNG[pslike]%}
+	               </font>
+	             </td>
+	           </tr>
+	           <tr>
+	             <td class="corp2">			<font size={%::_SKIN[smallfont]%}><b>{%LNG[inforum]%}</b></font>		</td>
+           	     <td class="corp2">
+	               <select name="forumsearch" class=form>
+	               <option value="-1" SELECTED>{%LNG[allforums]%}
+	               {%box[forumlist]%}
+	               </select>
+	             </td>
+	           </tr>
+                 </table>
+               </td>
+             </tr>
+             <tr>
+               <td colspan=2 align=center bgcolor={%::_SKIN[bgtable3]%}>
+                 <input type=submit value="{%LNG[search]%}" class="form2">
+                 <input type=reset value="{%LNG[restart]%}" class="form2">
+               </td>
+             </tr>
+           <input type=hidden name="action" value="find">
+           </table>
+           </form>
+
+<!--********** TPL NAME = cantsearch **********-->
+
+<b>{%LNG[cantsearch]%}</b>
+           
+<!--********** TPL NAME = addforumform **********-->
+
+<option value="{%::Forums[forumid]%}">&nbsp;&nbsp;{%::Forums[forumtitle]%}
+
+<!--********** TPL NAME = addcatform **********-->
+
+<option value="-1">&nbsp;
+<option value="-1">{%::Cats[cattitle]%}
+<option value="-1">=================
+
+<!--********** TPL NAME = pleasewait **********-->
+
+<b>{%LNG[pleasewait]%}</b>
+
+<!--********** TPL NAME = nofound **********-->
+
+<b>{%LNG[nofound]%}</b>
+
+<!--********** TPL NAME = boxlist **********-->
+
+<script language="javascript">
+function bgd(nom,col) { 
+	nom.style.background=col; 
+}
+</script>
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=0 width="100%" style="padding-bottom:5">
+        <tr>
+          <td width=50% class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[numberpages]%}
+            </font>
+          </td>
+          <td align=right style="padding-bottom:5">
+	    &nbsp;
+          </td>
+        </tr>
+      </table>
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td colspan=7 bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+            <font size={%::_SKIN[middlefont]%}>
+	    <b>{%LNG[resultstring]%}</b> {%LNG[howmany]%}
+            </font>
+          </td>
+        </tr>
+        <tr height="25">
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+          <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+          <td class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[message]%}</font></td>
+          <td width="15%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[auteur]%}</font></td>
+          <td width="6%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgrep]%}</font></td>
+          <td width="6%" class="corp" align="center" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgvu]%}</font></td>
+          <td width="17%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[lastpost]%}</font></td>
+        </tr>
+        <tr>
+          <td colspan=7><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        {%box[topiclist]%}
+        <tr>
+          <td colspan=7><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        <tr height="25">
+          <td colspan=7 bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+            <font size={%::_SKIN[smallfont]%}>
+	    &nbsp;
+            </font>
+          </td>
+        </tr>
+      </table>
+
+      <table border=0 width="100%" style="padding-top:5">
+        <tr>
+          <td width=50% class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[numberpages]%}
+            </font>
+          </td>
+          <td align=right style="padding-bottom:5">
+	    &nbsp;
+          </td>
+        </tr>
+      </table><p>
+      </center>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = leftpagearrowlink **********-->
+
+<a href="find.php?ssearch={%::_GET[ssearch]%}&page=1" class="men">&lt;&lt;</a> <a href="find.php?ssearch={%::_GET[ssearch]%}&page={%box[pagebefore]%}" class="men">&lt;</a> 
+
+<!--********** TPL NAME = leftpagearrow **********-->
+
+&lt;&lt; &lt; 
+
+<!--********** TPL NAME = rightpagearrowlink **********-->
+
+ <a href="find.php?ssearch={%::_GET[ssearch]%}&page={%box[pageafter]%}" class="men">&gt;</A> <a href="find.php?ssearch={%::_GET[ssearch]%}&page={%::nbpages%}" class=men>&gt;&gt;</A>
+
+<!--********** TPL NAME = rightpagearrow **********-->
+
+ &gt; &gt;&gt; 
+
+<!--********** TPL NAME = ourpage **********-->
+
+<font size={%::_SKIN[smallfont]%}><b>{%box[pagenumber]%}</b></font>
+
+<!--********** TPL NAME = otherpage **********-->
+
+<a href="find.php?ssearch={%::_GET[ssearch]%}&page={%box[pagenumber]%}" class="men">{%box[pagenumber]%}</a>
+
+<!--********** TPL NAME = boxpages **********-->
+
+<b>{%LNG[page]%} : {%box[navpages]%}</b><br>
+
+<!--********** TPL NAME = lignetopic **********-->
+
+  <tr bgcolor={%::_SKIN[bgtable2]%} onmouseover="bgd(this,'{%::_SKIN[bgtable1]%}')" onmouseout="bgd(this,'{%::_SKIN[bgtable2]%}')">
+    <td align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <img src="{%::_SKIN[repimg]%}/{%::Topics[icontopic]%}">
+    </td>
+    <td align=center>
+      <img src="icones/{%::Topics[icone]%}.gif">
+    </td>
+    <td class="corp2">
+      <font size={%::_SKIN[smallfont]%}><b>{%box[topic]%}</b>{%box[affichepages]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[loginposter]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbrep]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbvues]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>
+      {%box[gotobutton]%} {%::Topics[datederrep]%}<BR>
+      {%LNG[from]%}: {%::Topics[derposter]%}
+      </font>
+    </td>
+  </tr>
+
+<!--********** TPL NAME = linklastmsg **********-->
+
+<a href="gotopost.php?id={%::Topics[idderpost]%}" class=men><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"></A>
+
+<!--********** TPL NAME = topiclinktomsg **********-->
+
+{%box[pretopic]%}<a href="{%box[linkpage]%}.php?forumid={%::Topics[forumid]%}&id={%::Topics[idtopic]%}&s={%::KeyWords%}" class="lien">{%::Topics[sujet]%}</a>
+
+<!--********** TPL NAME = iftopicpoll **********-->
+
+<font class=corp><b>{%LNG[ttpoll]%}</b></font> 
+
+<!--********** TPL NAME = iftopicannonce **********-->
+
+<font class=corp><b>{%LNG[ttannonce]%}</b></font>
+  
+<!--********** TPL NAME = errorsearch **********-->
+        <tr bgcolor={%::_SKIN[bgtable2]%}>
+          <td colspan=7 class="corp2">
+	    <font size={%::_SKIN[smallfont]%}>
+	    <b>{%LNG[nosearchfound]%}</b>
+	    </font>
+          </td>
+        </tr>

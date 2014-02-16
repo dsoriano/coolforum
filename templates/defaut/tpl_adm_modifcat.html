@@ -1,0 +1,86 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = choosecat **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=50% align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[cat_name]%}</b></font>
+	              </td>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=50% align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[cat_order]%}</b></font>
+	              </td>
+	            </tr>
+		    {%box[catlist]%}
+	            <tr>
+	              <td class="corp" colspan=2 align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[cmclick]%}</b></font>
+	              </td>
+	            </tr>
+	          </table>
+
+<!--********** TPL NAME = nocatfound **********-->
+	            <tr>
+	              <td class="corp" colspan=2 align="center" bgcolor="{%::_SKIN[bgtable2]%}">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[nocatfound]%}</b></font>
+	              </td>
+	            </tr>
+	            
+<!--********** TPL NAME = lignecat **********-->
+	            <tr>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+	                <font size={%::_SKIN[middlefont]%}><a href="modifcat.php?action=modify&id={%::lescat[catid]%}" class=men>{%::lescat[cattitle]%}</a></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+	                <font size={%::_SKIN[middlefont]%}>{%box[orderlist]%}</font>
+	              </td>
+	            </tr>
+	            
+<!--********** TPL NAME = setorder **********-->
+<a href="modifcat.php?action=changepos&cat={%::lescat[catid]%}&place={%::lescat[catorder]%}&changeto={%::Pos[catorder]%}" class=men>{%::Pos[catorder]%}</a> 
+
+<!--********** TPL NAME = actualorder **********-->
+<b>{%::Pos[catorder]%}</b> 
+
+<!--********** TPL NAME = modifform **********-->
+		  <form action="modifcat.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=250>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[cat_title]%}</u></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}">
+	                <input type="text" name="nom" class="form2" size="60" value="{%::Lescat[cattitle]%}">
+	              </td>
+	            </tr>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=250>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[cat_coment]%}</u></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}">
+	                <input type="text" name="coment" class="form2" size="60" value="{%::Lescat[catcoment]%}">
+	              </td>
+	            </tr>
+	            <tr>
+	              <td colspan=2 align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+	                <input type="submit" value="{%LNG[cat_save]%}" class="form2">
+	              </td>
+	            </tr>
+	          </table>
+		  <input type="hidden" name="action" value="save">
+		  <input type="hidden" name="id" value="{%::_REQUEST[id]%}">
+	          </form>

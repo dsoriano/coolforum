@@ -1,0 +1,59 @@
+<!--********** TPL NAME = endhtml **********-->
+
+/*****************************************
+* MERCI DE NE PAS SUPPRIMER LE COPYRIGHT *
+* IL FAIT PARTI DES TERMES DE LA LICENSE *
+* QUE VOUS AVEZ ACCEPTE !!               *
+******************************************/
+<a name="bottom"></a>
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr height="21">
+    <td width="16" nowrap><img src="{%::_SKIN[repimg]%}/bgbasgauche.gif"></td>
+    <td bgcolor="{%::_SKIN[bg2]%}" valign="top" background="{%::_SKIN[repimg]%}/bgbas.gif">
+      <table border=0 height="20" cellspacing="0" width="100%">
+        <tr>
+          <td class="corp" align=center bgcolor="{%::_SKIN[bgtable3]%}">
+            <font size={%::_SKIN[middlefont]%}><b>[<a href="mail.php?email={%::_FORUMCFG[contactmail]%}" target="_blank" class="men">{%LNG[admincontact]%}</a>] {%box[forumsite]%}</b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td width="16" nowrap><img src="{%::_SKIN[repimg]%}/bgbasdroite.gif"></td>
+  </tr>
+</table><p>
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr height="21">
+    <td width="15" nowrap>&nbsp;</td>
+    <td valign="top">
+      <table border=1 bgcolor="{%::_SKIN[bg2]%}" bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 style="border-collapse:collapse;">
+        <tr>
+          <td valign=top class="corp2">
+	      <center><font size={%::_SKIN[smallfont]%}>[<b>{%::NBRequest%}</b> {%LNG[nbreq]%}] - [{%LNG[tmpexec]%} <b>{%::tps%}</b> {%LNG[second]%}]</font></center>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td width="15" nowrap>&nbsp;</td>
+  </tr>
+</table><p>
+
+<center>
+{%::_FORUMCFG[htmlbas]%}
+</center>
+<table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;">
+  <tr>
+     <td class="corp2" align=center bgcolor="{%::_SKIN[bgtable2]%}" style="padding:4;">
+	    <font size={%::_SKIN[smallfont]%}>
+      	    Powered by <b>CoolForum v.{%::ForumVersion%}</b><br>
+            Copyright &copy;2001-2006 <b><a href="http://www.coolforum.net" target="_blank" class="lien">CoolForum.net</a></b><br>
+            </font>
+          </td>
+        </tr>
+      </table><p>
+</body>
+</html>
+
+<!--********** TPL NAME = siteurl **********-->
+| [<a href="{%::_FORUMCFG[siteurl]%}" class="men">{%LNG[linksite]%} {%::_FORUMCFG[sitename]%}</a>]

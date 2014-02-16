@@ -1,0 +1,219 @@
+<!--********** TPL NAME = optionslist **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <form action="options_config.php" method="post">
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart1]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[forumname]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[forumname_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" name="configz[forumname]" value="{%::configuration[forumname]%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[sitename]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[sitename_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" name="configz[sitename]" value="{%::configuration[sitename]%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart2]%}</u></b></font></div><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[openboard]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[openboard_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[openforum]" class=form>
+		        <option value="Y"{%::IsSelected[1]%}>{%LNG[openforum_chx1]%}
+		        <option value="N"{%::IsSelected[2]%}>{%LNG[openforum_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[msgclosedboard]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[msgclosedboard_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <textarea name="configz[closeforummsg]" cols=50 rows=4 class=form>{%::configuration[closeforummsg]%}</textarea>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[inscriptions]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[inscriptions_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[openinscriptions]" class=form>
+		        <option value="Y"{%::IsSelected[3]%}>{%LNG[openinscr_chx1]%}
+		        <option value="N"{%::IsSelected[4]%}>{%LNG[openinscr_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[msgclosedregister]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[msgclosedregister_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <textarea name="configz[closeregmsg]" cols=50 rows=4 class=form>{%::configuration[closeregmsg]%}</textarea>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[msgmustident]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[msgmustident_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[mustbeidentify]" class=form>
+		        <option value="Y"{%::IsSelected[5]%}>{%LNG[msgmustident_chx1]%}
+		        <option value="N"{%::IsSelected[6]%}>{%LNG[msgmustident_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+		  		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart3]%}</u></b></font></div><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[urlsite]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[urlsite_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="configz[siteurl]" value="{%::configuration[siteurl]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[urlforum]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[urlforum_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="configz[urlforum]" value="{%::configuration[urlforum]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mailcontact]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[mailcontact_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="configz[contactmail]" value="{%::configuration[contactmail]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart4]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[fuseaudef]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[fuseaudef_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[defaulttimezone]" class=form>
+		  	<option value="-12"{%::timezn2[0]%}>GMT -12:00, Eniwetok</option>
+		  	<option value="-11"{%::timezn2[1]%}>GMT -11:00, Samoa</option>
+		  	<option value="-10"{%::timezn2[2]%}>GMT -10:00, Hawaii</option>
+		  	<option value="-9"{%::timezn2[3]%}>GMT -9:00, Alaska</option>
+		  	<option value="-8"{%::timezn2[4]%}>GMT -8:00, PST, Pacific US</option>
+		  	<option value="-7"{%::timezn2[5]%}>GMT -7:00, MST, Mountain US</option>
+		  	<option value="-6"{%::timezn2[6]%}>GMT -6:00, CST, Central US</option>
+		  	<option value="-5"{%::timezn2[7]%}>GMT -5:00, EST, Eastern US</option>
+		  	<option value="-4"{%::timezn2[8]%}>GMT -4:00, Atlantic, Canada</option>
+		  	<option value="-3"{%::timezn2[9]%}>GMT -3:00, Brazilia, Buenos Aries</option>
+		  	<option value="-2"{%::timezn2[10]%}>GMT -2:00, Mid-Atlantic</option>
+		  	<option value="-1"{%::timezn2[11]%}>GMT -1:00, Cape Verdes</option>
+		  	<option value="0"{%::timezn2[12]%}>GMT, Greenwich, London, Lisbon, Casablanca</option>
+		  	<option value="1"{%::timezn2[13]%}>GMT +1:00, Berlin, Rome, Madrid, Paris</option>
+		  	<option value="2"{%::timezn2[14]%}>GMT +2:00, Israel, Cairo</option>
+		  	<option value="3"{%::timezn2[15]%}>GMT +3:00, Moscow, Kuwait, Baghdad</option>
+		  	<option value="4"{%::timezn2[16]%}>GMT +4:00, Abu Dhabi, Muscat</option>
+		  	<option value="5"{%::timezn2[17]%}>GMT +5:00, Islamabad, Karachi</option>
+		  	<option value="6"{%::timezn2[18]%}>GMT +6:00, Almaty, Dhaka</option>
+		  	<option value="7"{%::timezn2[19]%}>GMT +7:00, Bangkok, Jakarta</option>
+		  	<option value="8"{%::timezn2[20]%}>GMT +8:00, Hong Kong, Beijing</option>
+		  	<option value="9"{%::timezn2[21]%}>GMT +9:00, Tokyo, Osaka</option>
+		  	<option value="10"{%::timezn2[22]%}>GMT +10:00, Sydney, Melbourne, Guam</option>
+		  	<option value="11"{%::timezn2[23]%}>GMT +11:00, Magadan, Soloman Is.</option>
+		  	<option value="12"{%::timezn2[24]%}>GMT +12:00, Fiji, Wellington, Auckland</option>		        
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  
+		  <input type="hidden" name="action" value="save">
+		  <input type="submit" Value="{%LNG[valid]%}" class="form">
+		  </form>
+		  		  		      
+		</td>
+              </tr>
+            </table>

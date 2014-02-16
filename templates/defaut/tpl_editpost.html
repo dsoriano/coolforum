@@ -1,0 +1,298 @@
+<!--********** TPL NAME = pagestruct **********-->
+
+{%box[javascript]%}
+
+<script language="javascript">
+<!--
+var submit=false;
+
+function testsubmit()
+{
+	if(wysiwyg){
+	  if(ie){
+		document.formulaire.msg.value = edit.innerHTML;
+	  }
+	  else{
+		document.formulaire.msg.value = editelem.body.innerHTML;
+	  }
+	}
+	if (submit==false)
+	{
+		submit=true
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function copysubject()
+{
+	document.editform.sujet.value = document.formulaire.sujet.value;
+}
+-->
+</script>
+
+{%box[treenav]%}
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+{%box[editcontent]%}    
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+
+<!--********** TPL NAME = optionsstruct **********-->
+      <form name="editform" action="editpost.php" method="post" onsubmit="javascript:copysubject();return testsubmit();">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" colspan="2">
+            <font size={%::_SKIN[middlefont]%}><b>-- {%LNG[optionstitle]%} --</b></font>
+          </td>
+        </tr>
+        {%box[afferrormodo]%}
+      {%box[affoptions]%}
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" colspan="2" align="center">
+            <input type=hidden name="post" value="{%::_REQUEST[post]%}">
+            <input type=hidden name="parent" value="{%::EditForum[parent]%}">
+            <input type=hidden name="forumid" value="{%::_REQUEST[forumid]%}">
+            <input type=hidden name="posterid" value="{%::EditForum[posterid]%}">
+			<input type=hidden name="sujet" value="">
+            <input type="hidden" name="url" value="{%::url%}">
+            <input type="hidden" name="IsTopic" value="{%::IsTopic%}">
+            <input type="submit" value="{%LNG[valid]%}" class="form2">
+          </td>
+        </tr>
+      </table>
+      </form>
+      
+      {%box[forumjump]%}
+
+<!--********** TPL NAME = afferrormodo **********-->
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" colspan="2">
+            <font size={%::_SKIN[middlefont]%}><b>**** {%box[msgerrormodo]%} ****</b></font>
+          </td>
+        </tr>
+
+
+<!--********** TPL NAME = opclotopic **********-->
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="200" nowrap>
+            <font size={%::_SKIN[middlefont]%}>
+            <input type="radio" name="action" value="closetopic">
+            <b>{%box[titleopclo]%}</b></font>
+            <input type="hidden" name="opentopic" value="{%box[opclotovalid]%}">
+          </td>
+          <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+            <font size={%::_SKIN[smallfont]%}>{%LNG[cmopclotopic]%}</font>
+          </td>
+        </tr>
+
+<!--********** TPL NAME = postittopic **********-->
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="200" nowrap>
+            <font size={%::_SKIN[middlefont]%}>
+            <input type="radio" name="action" value="addpostit">
+            <b>{%box[postit]%}</b></font>
+            <input type="hidden" name="addpostit" value="{%box[addpostit]%}">
+          </td>
+          <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+            <font size={%::_SKIN[smallfont]%}>{%LNG[cmpostit]%}</font>
+          </td>
+        </tr>
+        
+<!--********** TPL NAME = splittopic **********-->
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="200" nowrap>
+            <font size={%::_SKIN[middlefont]%}>
+            <input type="radio" name="action" value="split">
+            <b>{%LNG[titlesplittopic]%}</b></font>
+          </td>
+          <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+            <font size={%::_SKIN[smallfont]%}>{%LNG[cmsplittopic]%}</font>
+          </td>
+        </tr>
+        
+<!--********** TPL NAME = deltopic **********-->
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="200" nowrap>
+            <font size={%::_SKIN[middlefont]%}>
+            <input type="radio" name="action" value="delete">
+            <b>{%box[titledeltopic]%}</b></font>
+          </td>
+          <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+            <font size={%::_SKIN[smallfont]%}>{%box[cmdeltopic]%}</font>
+          </td>
+        </tr>
+
+<!--********** TPL NAME = banboxok **********-->
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="200" nowrap>
+            <font size={%::_SKIN[middlefont]%}>
+            <input type="radio" name="action" value="banmember">
+            <b>{%LNG[ttcanban]%}</b></font>
+          </td>
+          <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+            <font size={%::_SKIN[smallfont]%}>{%LNG[cmcanban]%}</font>
+          </td>
+        </tr>
+
+<!--********** TPL NAME = banned **********-->
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="200" nowrap>
+            <font size={%::_SKIN[middlefont]%}>
+            <b>{%LNG[ttbanned]%}</b></font>
+          </td>
+          <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+            <font size={%::_SKIN[smallfont]%}>{%LNG[cmbanned]%}</font>
+          </td>
+        </tr>
+
+         
+<!--********** TPL NAME = editmsgbox **********-->
+      <form name="formulaire" action="editpost.php" method="post" onsubmit="return testsubmit()">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        {%box[error]%}
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable1]%} class="corp" valign="top">
+            <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[edtpseudo]%}</u></b></font>
+          </td>
+          <td bgcolor={%::_SKIN[bgtable2]%} class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            <b>{%::EditForum[pseudo]%}</b>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable1]%} class="corp" width="150" valign="top">
+            <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[edttopic]%}</u></b></font>
+          </td>
+          <td bgcolor={%::_SKIN[bgtable2]%} class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            <input type="text" name="sujet" size="40" class=form maxlength={%::_FORUMCFG[limittopiclength]%} value="{%::EditForum[sujet]%}">
+            </font>
+          </td>
+        </tr>
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable1]%} class="corp" valign=top>
+            <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[edticon]%}</u></b></font>
+          </td>
+          <td bgcolor={%::_SKIN[bgtable2]%} class="corp">
+	                  <input type="radio" name="icon" value="icon1" {%::Icon_Select[1]%}><img src="icones/icon1.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon2" {%::Icon_Select[2]%}><img src="icones/icon2.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon3" {%::Icon_Select[3]%}><img src="icones/icon3.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon4" {%::Icon_Select[4]%}><img src="icones/icon4.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon5" {%::Icon_Select[5]%}><img src="icones/icon5.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon6" {%::Icon_Select[6]%}><img src="icones/icon6.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon7" {%::Icon_Select[7]%}><img src="icones/icon7.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon8" {%::Icon_Select[8]%}><img src="icones/icon8.gif"><br>
+		
+	                  <input type="radio" name="icon" value="icon9" {%::Icon_Select[9]%}><img src="icones/icon9.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon10" {%::Icon_Select[10]%}><img src="icones/icon10.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon11" {%::Icon_Select[11]%}><img src="icones/icon11.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon12" {%::Icon_Select[12]%}><img src="icones/icon12.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon13" {%::Icon_Select[13]%}><img src="icones/icon13.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon14" {%::Icon_Select[14]%}><img src="icones/icon14.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon15" {%::Icon_Select[15]%}><img src="icones/icon15.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon16" {%::Icon_Select[16]%}><img src="icones/icon16.gif">
+          </td>
+        </tr>
+	{%box[writebox]%}
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td colspan=2 align="center">
+            <input type="hidden" name="post" value="{%::_REQUEST[post]%}">
+            <input type="hidden" name="forumid" value="{%::_REQUEST[forumid]%}">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="parent" value="{%::EditForum[parent]%}">
+            <input type="hidden" name="IsTopic" value="{%::IsTopic%}">
+            <input type="hidden" name="p" value="{%::p%}">
+            <input type="submit" value="{%LNG[edtchange]%}" class=form2> 
+          </td>
+        </tr>
+      </table><p>
+
+<!--********** TPL NAME = errorbox **********-->
+	<tr>
+  	  <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" valign="top" colspan="2">
+    	    <center><font size={%::_SKIN[middlefont]%}><b>*** {%::error%} ***</b></font></center>
+  	  </td>
+	</tr>
+<!--********** TPL NAME = editline **********-->
+
+<br>
+<br>
+{%::bbita1%}*** {%LNG[editline]%} ***{%::bbita2%}
+<br>
+
+<!--********** TPL NAME = editok **********-->
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%LNG[editok]%}</b></font>
+          </td>
+        </tr>
+      </table><p>
+
+<!--********** TPL NAME = editnok **********-->
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%LNG[editnok]%}</b></font>
+          </td>
+        </tr>
+      </table><p>
+
+<!--********** TPL NAME = msgbox **********-->
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%box[msg]%}</b></font>
+          </td>
+        </tr>
+      </table><p>
+      
+<!--********** TPL NAME = structforumjump **********-->
+
+      <form action="editpost.php" method="post">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width="200" nowrap>
+            <font size={%::_SKIN[middlefont]%}>
+            <b>{%LNG[titlemove]%}</b></font>
+            <input type="hidden" name="opentopic" value="{%box[opclotovalid]%}">
+          </td>
+          <td bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+	    <select name="forumdest" class=form style="font-weight:bold;">
+	    <option value="-1" SELECTED>{%LNG[topicmove]%}
+	    <option value="-1">-------------------------------
+	    {%box[forumlist]%}
+	    </select>
+	    <input type="submit" value="Go" class="form">
+	    <input type=hidden name="action" value="changeforum">
+	    <input type=hidden name="post" value="{%::_REQUEST[post]%}">
+	    <input type=hidden name="parent" value="{%::EditForum[parent]%}">
+	    <input type=hidden name="forumid" value="{%::_REQUEST[forumid]%}">
+          </td>
+        </tr>
+      </table>
+      </form>
+
+<!--********** TPL NAME = forumjumpcat **********-->
+
+<option value="-1">&nbsp;
+<option value="-1">{%box[FJcatname]%}
+<option value="-1">=================
+
+<!--********** TPL NAME = forumjumpfor **********-->
+
+<option value="{%box[FJforumid]%}">&nbsp;&nbsp;{%box[FJforumname]%}

@@ -1,0 +1,103 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[ttdelpm]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+
+<!--********** TPL NAME = accueil **********-->
+<table border=0 width=60%>
+  <tr>
+    <td class="corp2" style="text-align:justify;">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[delpmcmt]%}</font>
+    </td>
+  </tr>
+</table>
+<form action=delpm.php method=POST>
+<table border=1 bordercolor={%::_SKIN[bordercolor]%} cellpadding=4 cellspacing=0 width=60% style="border-collapse: collapse;">
+  <tr>
+    <td width=50% class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[selold]%}</font>
+    </td>
+    <td width=50% class="corp2" bgcolor="{%::_SKIN[bgtable1]%}">
+      <select name=old class=form2 style="width:90%;">
+      <option value=30>{%LNG[onemonth]%}</option>
+      <option value=60>{%LNG[twomonths]%}</option>
+      <option value=90>{%LNG[threemonths]%}</option>
+      <option value=180>{%LNG[sixmonths]%}</option>
+      <option value=365>{%LNG[oneyear]%}</option>
+      <option value=0>{%LNG[nolimit]%}</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td width=50% class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[selstatut]%}</font>
+    </td>
+    <td width=50% class="corp2" bgcolor="{%::_SKIN[bgtable1]%}">
+      <select name=statut class=form2 style="width:90%;">
+      <option value=lu>{%LNG[lu]%}</option>
+      <option value=nonlu>{%LNG[nonlu]%}</option>
+      <option value="">{%LNG[no]%}</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td width=50% class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[sellastvisit]%}</font>
+    </td>
+    <td width=50% class="corp2" bgcolor="{%::_SKIN[bgtable1]%}">
+      <select name=lastvisit class=form2 style="width:90%;">
+      <option value=0>{%LNG[no]%}</option>
+      <option value=30>{%LNG[onemonth]%}</option>
+      <option value=60>{%LNG[twomonths]%}</option>
+      <option value=90>{%LNG[threemonths]%}</option>
+      <option value=180>{%LNG[sixmonths]%}</option>
+      <option value=365>{%LNG[oneyear]%}</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td width=50% class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[selnbpm]%}</font>
+    </td>
+    <td width=50% class="corp2" bgcolor="{%::_SKIN[bgtable1]%}">
+      <select name=nbpm class=form2 style="width:90%;">
+      <option value=0>{%LNG[no]%}</option>
+      <option value=25>25 {%LNG[msg]%}</option>
+      <option value=50>50 {%LNG[msg]%}</option>
+      <option value=75>75 {%LNG[msg]%}</option>
+      <option value=100>100 {%LNG[msg]%}</option>
+      </select>
+    </td>
+  </tr>
+</table><p>
+<input type=hidden name=action value=delpm>
+<input type=submit value="{%LNG[submit]%}" class=form>
+</form>
+
+<!--********** TPL NAME = confirm **********-->
+<font size={%::_SKIN[smallfont]%}>{%LNG[howmanytodel]%}</font>
+<form action=delpm.php method=POST>
+<input type=hidden name=old value="{%::Old%}">
+<input type=hidden name=statut value="{%::_POST[statut]%}">
+<input type=hidden name=lastvisit value="{%::LastVisit%}">
+<input type=hidden name=nbpm value="{%::NbPm%}">
+<input type=hidden name=confirm value=Y>
+<input type=hidden name=action value=delpm>
+<input type=submit value="{%LNG[confirm]%}" class=form> <input type=button value="{%LNG[goback]%}" OnClick="javascript:window.location.replace('delpm.php');" class=form>
+</form>
+
+<!--********** TPL NAME = delok **********-->
+<font size={%::_SKIN[smallfont]%}>{%LNG[howmanyisdel]%}</font><br><br>
+<input type=button value="{%LNG[goback]%}" OnClick="javascript:window.location.replace('delpm.php');" class=form><p>

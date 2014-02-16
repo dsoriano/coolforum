@@ -1,0 +1,126 @@
+<!--********** TPL NAME = optionslist **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <form action="options_emails.php" method="post">
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart1]%}</u></b></font></div><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[usemails]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[usemails_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[usemails]" class=form>
+		        <option value="Y"{%::IsSelected[1]%}>{%LNG[usemails_chx1]%}
+		        <option value="N"{%::IsSelected[2]%}>{%LNG[usemails_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+		  		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[confmail]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[confmail_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[confirmparmail]" class=form>
+		        <option value="3"{%::IsSelected[3]%}>{%LNG[confmail_chx1]%}
+		        <option value="2"{%::IsSelected[4]%}>{%LNG[confmail_chx2]%}
+		        <option value="1"{%::IsSelected[5]%}>{%LNG[confmail_chx3]%}
+		        <option value="0"{%::IsSelected[6]%}>{%LNG[confmail_chx4]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[notmail]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[notmail_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[mailnotify]" class=form>
+		        <option value="Y"{%::IsSelected[7]%}>{%LNG[notmail_chx1]%}
+		        <option value="N"{%::IsSelected[8]%}>{%LNG[notmail_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[sendpmbymail]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[sendpmbymail_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[sendpmbymail]" class=form>
+		        <option value="Y"{%::IsSelected[9]%}>{%LNG[sendpmbymail_chx1]%}
+		        <option value="N"{%::IsSelected[10]%}>{%LNG[sendpmbymail_chx2]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mailfunction]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[mailfunction_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[mailfunction]" class=form>
+		        <option value="normal"{%::IsSelected[11]%}>{%LNG[mails1]%}
+		        <option value="online"{%::IsSelected[12]%}>{%LNG[mails2]%}
+		        <option value="nexen"{%::IsSelected[13]%}>{%LNG[mails3]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart2]%}</u></b></font></div><p>		  
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mask]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[mask_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="configz[emailmask]" value="{%::configuration[emailmask]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  
+		  <input type="hidden" name="action" value="save">
+		  <input type="submit" Value="{%LNG[valid]%}" class="form">
+		  </form>
+		  		  		      
+		</td>
+              </tr>
+            </table>		  

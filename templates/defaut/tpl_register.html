@@ -1,0 +1,148 @@
+<!--********** TPL NAME = accueilregister **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      {%box[content]%}
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = registerform **********-->
+
+	<script language="javascript">
+	var submit=false;
+	
+	function testsubmit()
+	{
+		if (submit==false)
+		{
+			submit=true
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	</script>
+	    <form action="register.php" name="formulaire" method="post" onsubmit="return testsubmit()">
+	    <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width="100%" cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	      <tr>
+	        <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" colspan="2">
+	          <font size={%::_SKIN[middlefont]%}><b>{%LNG[registertt]%}</b></font>
+	        </td>
+	      </tr>
+	      {%box[errorbox]%}
+  	      <tr>
+    	        <td class="corp" width="220" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+    	          <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pseudo]%} :</u></b></font><br>
+    	          <font size={%::_SKIN[smallfont]%}>{%LNG[pseudo_cmt]%}</font><br>
+  	        </td>
+  	        <td bgcolor="{%::_SKIN[bgtable2]%}">
+   	          <input type=text name="pseudo" class=form MAXLENGTH={%::_FORUMCFG[limitloginlength]%} value="{%::Result[pseudo]%}">
+   	        </td>
+ 	      </tr>
+ 	      <tr>
+  	        <td class="corp" width="220" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+  	          <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mdp]%} :</u></b></font><br>
+  	          <font size={%::_SKIN[smallfont]%}>{%LNG[mdp_cmt]%}</font><br>
+  	        </td>
+  	        <td bgcolor="{%::_SKIN[bgtable2]%}">
+  	          <input type=password name="password1" class=form>
+  	        </td>
+  	      </tr>
+ 	      <tr>
+  	        <td class="corp" width="220" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+   	          <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pass]%} :</u></b></font><br>
+   	          <font size={%::_SKIN[smallfont]%}>{%LNG[pass_cmt]%}</font><br>
+  	        </td>
+  	        <td bgcolor="{%::_SKIN[bgtable2]%}">
+   	          <input type=password name="password2" class=form>
+  	        </td>
+ 	      </tr>
+  	      <tr>
+ 	        <td class="corp" width="220" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+  	          <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mail]%}  :</u></b></font><br>
+  	          <font size={%::_SKIN[smallfont]%}>{%LNG[mail_cmt]%}</font><br>
+  	        </td>
+  	        <td bgcolor="{%::_SKIN[bgtable2]%}">
+   	          <input type=text name="email" class=form value="{%::Result[email]%}">
+   	        </td>
+ 	      </tr>
+	      {%box[isquestion]%}
+ 	      <tr height="30">
+  	        <td colspan=2 align=center bgcolor="{%::_SKIN[bgtable1]%}">
+   	          <input type=submit value="{%LNG[valid]%}" class=form>
+   	          <input type=reset Value="{%LNG[restart]%}" class=form>
+   	        </td>
+ 	      </tr>
+	    </table>
+	    <input type="hidden" name="action" value="save">
+	    </form><P>
+
+<!--********** TPL NAME = questrepform **********-->
+              <tr>
+  	        <td class="corp" width="220" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[question]%} :</u></b><br>
+                  <font size={%::_SKIN[smallfont]%}>{%LNG[question_cmt]%}</font><br>
+                  </font>
+                </td>
+                <td bgcolor="{%::_SKIN[bgtable2]%}">
+                  <input type=text name="question" class=form>
+                </td>
+              </tr>
+              <tr>
+  	        <td class="corp" width="220" style="padding-right:10;" bgcolor="{%::_SKIN[bgtable1]%}" nowrap>
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[reponse]%} :</u></b></font><br>
+                  <font size={%::_SKIN[smallfont]%}>{%LNG[reponse_cmt]%}</font><br>
+                </td>
+                <td bgcolor="{%::_SKIN[bgtable2]%}">
+                  <input type=text name="reponse" class=form>
+                </td>
+              </tr>
+
+<!--********** TPL NAME = charte **********-->
+	    <center>
+	    <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+	      <tr>
+	        <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+	          <font size={%::_SKIN[smallfont]%}><b>{%LNG[titlecharte]%}</b></font><br>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+	          <font size={%::_SKIN[smallfont]%}>
+{%LNG[charte]%}
+                  </font>
+                </td>
+              </tr>
+	      <tr>
+	      <form action="register.php" method=post>
+	        <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" align="center">
+                  <input type="hidden" name="action" value="formulaire">
+                  <input type="submit" value="{%LNG[charteok]%}" class="form2">
+	        </td>
+	      </form>
+	      </tr>              
+              </table><p>
+
+<!--********** TPL NAME = errorbox **********-->
+	      <tr>
+	        <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" colspan="2">
+	          <font size={%::_SKIN[middlefont]%}><b>*** {%::error%} ***</b></font>
+	        </td>
+	      </tr>
+  
+<!--********** TPL NAME = infobox **********-->
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%box[infomsg]%}</b></font>
+          </td>
+        </tr>
+      </table>
+      &nbsp;<br>

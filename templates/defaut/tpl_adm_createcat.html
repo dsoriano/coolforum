@@ -1,0 +1,52 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = formulaire **********-->
+
+		  <form action="createcat.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=250>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[cat_title]%}</u></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}">
+	                <input type="text" name="nom" class="form2" size="60">
+	              </td>
+	            </tr>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=250>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[cat_coment]%}</u></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}">
+	                <input type="text" name="coment" class="form2" size="60">
+	              </td>
+	            </tr>
+	            <tr>
+	              <td colspan=2 align="center" bgcolor="{%::_SKIN[bgtable3]%}">
+	                <input type="submit" value="{%LNG[cat_save]%}" class="form2">
+	              </td>
+	            </tr>
+	          </table>
+		  <input type="hidden" name="action" value="create">
+	          </form>
+	          
+<!--********** TPL NAME = createresult **********-->
+		  <font size={%::_SKIN[middlefont]%}>
+		  <b>{%box[result]%}</b><p>
+		  
+		  <a href="createcat.php" class="lien">{%LNG[newcat]%}</a><p>
+		  </font>        

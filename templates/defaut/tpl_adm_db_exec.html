@@ -1,0 +1,95 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = formsql **********-->
+		  {%box[resultrequest]%}
+
+		  <table border=0 width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp2" style="text-align:justify;">
+		        <font size={%::_SKIN[middlefont]%}>
+		        <center><b><u>{%LNG[warning]%}</b></u></center><p>
+		        {%LNG[warning_cmt]%}
+		        </font>
+		      </td>
+		    </tr>
+		  </table><p>
+		              
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[yourrequest]%}</u></b></font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <form action="db_exec.php" method="post">
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="hidden" name="action" value="exec">
+		        <textarea name="request" COLS=91 ROWS=10 class="form">{%::request%}</textarea><p>
+		        <input type="submit" value="{%LNG[gogo]%}" class="form">
+		      </td>
+		      </form>
+		    </tr>
+		  </table><p>
+
+<!--********** TPL NAME = sqlok **********-->
+		  <table border=0 width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp2" style="text-align:justify;">
+		        <font size={%::_SKIN[middlefont]%}>
+		        <b>{%LNG[requestok]%}</b><p>
+		        <font size={%::_SKIN[smallfont]%}>{%::TheRequest%}</font><p>
+		        {%LNG[affectedrows]%} : {%::NbLgnChange%}
+		        </font>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+
+<!--********** TPL NAME = sqlnok **********-->
+		  <table border=0 width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp2" style="text-align:justify;">
+		        <font size={%::_SKIN[middlefont]%}>
+		        <b>{%LNG[requestnok]%}</b><p>
+		        <font size={%::_SKIN[smallfont]%}>{%::TheRequest%}</font><p>
+		        {%LNG[error]%} {%::errnumber%}: {%::errphrase%}
+		        </font>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

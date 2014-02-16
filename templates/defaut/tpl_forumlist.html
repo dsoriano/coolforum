@@ -1,0 +1,51 @@
+<!--********** TPL NAME = ifforum **********-->
+
+        <tr bgcolor="{%::_SKIN[bgtable2]%}">
+          <td bgcolor="{%::_SKIN[bgtable1]%}" align="center">
+            <img src="{%::_SKIN[repimg]%}/{%::Forums[imgforum]%}.gif">
+          </td>
+          <td class=corp2 style="padding:2;">
+            <font size={%::_SKIN[middlefont]%}><b><a href="list.php?forumid={%::Forums[forumid]%}" class="lien">{%::Forums[forumtitle]%}</a></b></font><br>
+            <font size={%::_SKIN[smallfont]%}>{%::Forums[forumcomment]%}</font><br>
+          </td>
+          <td class=corp style="padding:2;" align="center" bgcolor="{%::_SKIN[bgtable1]%}">
+            <font size={%::_SKIN[middlefont]%}>{%::Forums[forumtopic]%}</font>
+          </td>
+          <td class=corp style="padding:2;" align="center" bgcolor="{%::_SKIN[bgtable1]%}">
+            <font size={%::_SKIN[middlefont]%}>{%::Forums[forumposts]%}</font>
+          </td>
+          <td class=corp2 style="padding:2;" align="center">
+            {%box[infolastpost]%}
+          </td>
+          <td class=corp2 style="padding:2;" align="center">
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[modolist]%}
+            </font>
+          </td>
+        </tr>
+<!--********** TPL NAME = ifnoforum **********-->
+
+  <TR bgcolor={%::_SKIN[color2]%}>
+    <TD colspan=6 class=jaune>
+      <font size={%::_SKIN[smallfont]%}>
+      {%LNG[noforums]%}
+      </font>
+    </TD>
+  </TR>
+
+<!--********** TPL NAME = iflastpost **********-->
+
+
+<font size={%::_SKIN[smallfont]%}><a href="gotopost.php?id={%::Forums[lastidpost]%}"><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"></A> {%::Forums[lastdatepost]%}<BR>{%LNG[from]%} {%::Forums[lastforumposter]%}</font></TD>
+
+<!--********** TPL NAME = ifnolastpost **********-->
+
+<font size={%::_SKIN[smallfont]%}>{%LNG[nolastpost]%}</font>
+
+<!--********** TPL NAME = modolist **********-->
+            <select class="form" style="width:90%;">
+            {%box[modonames]%}
+            </select>
+            
+<!--********** TPL NAME = modonames **********-->
+<option>{%::modoname%}

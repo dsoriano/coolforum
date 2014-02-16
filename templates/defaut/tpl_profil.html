@@ -1,0 +1,61 @@
+<!--********** TPL NAME = profilaccueil **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td align=center class="corp" bgcolor="{%::_SKIN[bgtable3]%}" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">
+            <font size={%::_SKIN[smallfont]%}><b>
+            <a href="profile.php" class=men>{%LNG[accueil]%}</A> | 
+            <a href="profile.php?p=profile" class=men>{%LNG[profil]%}</A> |
+            <a href="profile.php?p=infoperso" class=men>{%LNG[infoperso]%}</A> | 
+            <a href="profile.php?p=pm" class=men>{%LNG[pm]%}</A> | 
+            <a href="profile.php?p=mdp" class=men>{%LNG[mdp]%}</A>
+            {%box[notifylink]%}
+            </b></font>
+          </td>
+        </tr>
+       </table>
+       <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">       
+{%box[profilcontent]%}
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+
+<!--********** TPL NAME = idrequired **********-->
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%LNG[errornotid]%}</b></font>
+          </td>
+        </tr>
+      </table><p>
+
+
+<!--********** TPL NAME = welcome **********-->
+
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%LNG[welcome]%}</b></font>
+          </td>
+        </tr>
+      </table>
+      &nbsp;<br>
+
+<!--********** TPL NAME = notifylink **********-->
+
+| <a href="profile.php?p=notify" class=men>{%LNG[notify]%}</A>

@@ -1,0 +1,103 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+
+<!--********** TPL NAME = mailingform **********-->
+
+		  <table border=0 width="80%">
+		    <tr>
+		      <td class="corp2" style="text-align:justify;">
+		        <font size={%::_SKIN[middlefont]%}>
+		        {%LNG[mailing_cmt]%}
+		        </font>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  {%box[error]%}
+		  
+		  <form action="mailing.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mailtitle]%}</u></b></font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" name="Titre" value="{%::Titre%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mailmsg]%}</u></b></font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <textarea name="Message" COLS=91 ROWS=10 class="form">{%::Message%}</textarea><p>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <input type="hidden" name="action" value="savemailing">
+		  <input type="submit" value="{%LNG[sendmail]%}" class="form">
+		  </form>
+
+<!--********** TPL NAME = error **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>**** {%::error%} ****</b></font><br>
+		      </td>
+		    </tr>
+		  </table><p>
+
+<!--********** TPL NAME = endmailing **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[mailingend]%}</b></font><br>
+		      </td>
+		    </tr>
+		  </table><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

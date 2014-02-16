@@ -1,0 +1,71 @@
+<!--********** TPL NAME = optionslist **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <form action="options_cookies.php" method="post">
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart1]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[cookiedom]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[cookiedom_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" name="configz[cookiedomain]" value="{%::configuration[cookiedomain]%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[cookierep]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[cookierep_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" name="configz[cookierep]" value="{%::configuration[cookierep]%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>		  
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart2]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[smallfont]%}>
+		        {%LNG[explain]%}
+		        </font>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <font size={%::_SKIN[middlefont]%}>
+		        {%LNG[lastinit]%} : {%::configuration[initialise]%}<p>
+		        <input type="checkbox" name="initialize" value="Y" class="form"> {%LNG[wantinit]%}
+		        </font>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  
+		  <input type="hidden" name="action" value="save">
+		  <input type="submit" Value="{%LNG[valid]%}" class="form">
+		  </form>
+		  		  		      
+		</td>
+              </tr>
+            </table>

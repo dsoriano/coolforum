@@ -1,0 +1,436 @@
+<!--********** TPL NAME = wrtboxaccueil **********-->
+  <tr>
+    <td bgcolor={%::_SKIN[bgtable1]%} class="corp" valign="top" width="150">
+      <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pstr_msg]%}</u></b></font><p>
+      <center>
+      <font size={%::_SKIN[smallfont]%}><b>{%LNG[smileys]%}</b></font>
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=90% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable2]%} class="corp" align=center>
+            <font size={%::_SKIN[smallfont]%}>
+            {%box[smileybox]%}<p>
+            <a href="javascript:;" onclick="popup('{%::cachedir%}popup.php',550,400);" class="lien">{%LNG[seeallsmileys]%}</A>
+            </font>
+          </td>
+        </tr>
+      </table><p>
+      
+      <script language="javascript">
+	if (document.all||document.getElementById)
+	document.write('<font size={%::_SKIN[smallfont]%}><b>{%LNG[info]%}</b></font><table width=90% height=100 class=form><TR><TD class=jaune valign=top bgcolor={%::_SKIN[bgtable3]%}><font size={%::_SKIN[smallfont]%}><div id="helptext" width=100% height=100%>&nbsp;</div></font></TD></TR></table>');
+      </script>
+      </center>
+    </td>
+    <td bgcolor={%::_SKIN[bgtable2]%} valign="top">
+      <table border=0 cellpadding=0 cellspacing=0>
+        <tr>
+          <td class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+	    <table border=0>
+	      <tr>
+	        <td>
+	          <table border=0>
+	            <tr>
+	              <td height="24">
+		        <select class="form" id="fontname" onChange="SelectChanges(this)">
+		          <option value="">{%LNG[btn_font]%}</option>
+		          <option value="arial">Arial</option>
+		          <option value="Courrier">Courrier</option>
+		          <option value="Times">Times</option>
+		          <option value="Verdana">Verdana</option>
+		        </select>
+		      </td>
+		      <td>	
+		        <select class="form" id="fontsize" onChange="SelectChanges(this)">
+		          <option value="">{%LNG[btn_size]%}
+		          <option value="1">1
+		          <option value="2"><font size=2>2</font>
+		          <option value="3">3
+		          <option value="4">4
+		          <option value="5">5
+		          <option value="6">6
+		          <option value="7">7
+		        </select>
+		      </td>
+		      <td width="22"><div id="forecolor" onclick="OpenPalette(event);" onmouseover="overbutton(this,12)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_colfont.gif"></div></td>
+		    </tr>	            
+	          </table>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td>
+	          <table border=0>
+	            <tr>
+	              <td width="22" height="24"><div id="bold" onclick="ButtonClick(this);" onmouseover="overbutton(this,0)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_bold.gif"></div></td>
+	              <td width="22" height="24"><div id="italic" onclick="ButtonClick(this);" onmouseover="overbutton(this,1)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_italic.gif"></div></td>
+	              <td width="22" height="24"><div id="underline" onclick="ButtonClick(this);" onmouseover="overbutton(this,2)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_underline.gif"></div></td>
+                      <td width="1"><img src="{%::_SKIN[repimg]%}/html_sep.gif"></td>
+                      <td width="22" height="24"><div id="justifyleft" onclick="ButtonClick(this);" onmouseover="overbutton(this,3)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_left.gif"></div></td>
+	              <td width="22" height="24"><div id="justifycenter" onclick="ButtonClick(this);" onmouseover="overbutton(this,4)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_center.gif"></div></td>
+	              <td width="22" height="24"><div id="justifyright" onclick="ButtonClick(this);" onmouseover="overbutton(this,5)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_right.gif"></div></td>
+ 		      <td width="1"><img src="{%::_SKIN[repimg]%}/html_sep.gif"></td>
+ 		      <td width="22" height="24"><div id="createlink" onclick="ButtonClick(this);" onmouseover="overbutton(this,6)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_link.gif"></div></td>
+	              <td width="22" height="24"><div id="insertmail" onclick="ButtonClick(this);" onmouseover="overbutton(this,7)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_mail.gif"></div></td>
+	              <td width="22" height="24"><div id="InsertImage" onclick="ButtonClick(this);" onmouseover="overbutton(this,8)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_img.gif"></div></td>
+	              <td width="1"><img src="{%::_SKIN[repimg]%}/html_sep.gif"></td>
+	              <td width="22" height="24"><div id="InsertCode" onclick="ButtonClick(this);" onmouseover="overbutton(this,9)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_code.gif"></div></td>
+	              <td width="22" height="24"><div id="InsertQuote" onclick="ButtonClick(this);" onmouseover="overbutton(this,10)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_quote.gif"></div></td>
+	              {%box[cancache]%}                   
+                    </tr>
+                  </table>
+                  
+			<div id="colortable" style="position:absolute; width:154; height:170; visibility:hidden; z-index:4;">
+			<table border=1 cellpadding=0 cellspacing=0 bordercolor=#DBD8D1>
+			  <tr height=18>
+			    <td width=18 id="#000000" bgcolor="#000000" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#993400" bgcolor="#993400" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#333300" bgcolor="#333300" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#013300" bgcolor="#013300" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#003466" bgcolor="#003466" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#010080" bgcolor="#010080" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#343399" bgcolor="#343399" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#333333" bgcolor="#333333" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			  </tr>                                
+			  <tr height=18>                          
+			    <td width=18 id="#800001" bgcolor="#800001" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#FF6600" bgcolor="#FF6600" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#7F8000" bgcolor="#7F8000" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#008002" bgcolor="#008002" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#008081" bgcolor="#008081" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#0000FE" bgcolor="#0000FE" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#666698" bgcolor="#666698" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#808080" bgcolor="#808080" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			  </tr>                                
+			  <tr height=18>                       
+			    <td width=18 id="#FF0101" bgcolor="#FF0101" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#FE9900" bgcolor="#FE9900" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#98CB00" bgcolor="#98CB00" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#329A67" bgcolor="#329A67" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#32CCCC" bgcolor="#32CCCC" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#3366FF" bgcolor="#3366FF" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#81007F" bgcolor="#81007F" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#999999" bgcolor="#999999" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			  </tr>                                
+			  <tr height=18>                       
+			    <td width=18 id="#FF00FF" bgcolor="#FF00FF" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#FFCC01" bgcolor="#FFCC01" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#FFFF00" bgcolor="#FFFF00" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#00FF01" bgcolor="#00FF01" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#00FFFF" bgcolor="#00FFFF" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#00CCFF" bgcolor="#00CCFF" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#993365" bgcolor="#993365" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#C0C0C0" bgcolor="#C0C0C0" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			  </tr>                                
+			  <tr height=18>                       
+			    <td width=18 id="#FF99CB" bgcolor="#FF99CB" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#FFCC9A" bgcolor="#FFCC9A" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#FEFF99" bgcolor="#FEFF99" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#CDFFCC" bgcolor="#CDFFCC" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#CCFFFF" bgcolor="#CCFFFF" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#99CDFF" bgcolor="#99CDFF" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#CC99FF" bgcolor="#CC99FF" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			    <td width=18 id="#FFFFFF" bgcolor="#FFFFFF" onclick="ChgForeColor(this);"><img width="1" height="1"></td>
+			  </tr>
+			</table>
+			</div>
+                  
+                </td>
+              </tr>
+            </table>
+        <div style="width: 0px; height: 0px; visibility:hidden;position: absolute;"><textarea name="msg" id="msg">{%box[quotemsg]%}</textarea></div>
+	<script language="javascript">
+	<!--
+	if(ie)
+	{
+		document.write('<div id="edit" contentEditable="true" style="height: 250; width: 550; border: inset black 1px; ; z-index:0; overflow: auto; padding:10px; margin:10px;" class="form3" onFocus="CompteCarac(formulaire.limitchar)" onKeyDown="CompteCarac(formulaire.limitchar)" onKeyUp="CompteCarac(formulaire.limitchar)" onBlur="CompteCarac(formulaire.limitchar)"></div>');
+		
+	}
+	else
+	{
+		document.write('<iframe id="edit" style="height: 250; width: 550; border: solid black 1px; overflow-x:visible; overflow-y:auto; margin:10px;"></iframe><br>');
+	}
+	-->
+	</script>
+	    {%LNG[nbcarac]%} <input type=text size=5 name="limitchar" class="form"> ({%LNG[limitcarac]%} : {%box[limitmsgdef]%})</font><P>
+	    
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+              <tr>
+                <td bgcolor={%::_SKIN[bgtable1]%} class="corp">
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[options]%}</u></b></font><p>
+                  <font size={%::_SKIN[smallfont]%}>
+	          <input type="checkbox" name="smilecode" value="non"{%box[smilechecked]%}> {%LNG[nosmiles]%}<br>
+	          <input type="checkbox" name="bbcode" value="non"{%box[bbcodechecked]%}> {%LNG[noBBcode]%}<br>
+	          {%box[mailnotify]%}
+	          {%box[sondage]%}
+	          </font>
+	        </td>
+	      </tr>
+	    </table>
+          </td>
+        </tr>
+      </table>
+
+<!--********** TPL NAME = wysiwygjs **********-->
+
+<script language="javascript">
+<!-- 
+var editelem;
+var openpalette = false;
+var wysiwyg	= true;
+var r;
+
+ie = document.all;
+moz = document.getElementById;
+
+var help=new Array();
+help[0]="{%LNG[nfo_wysiwyg_bold]%}";
+help[1]="{%LNG[nfo_wysiwyg_ita]%}";
+help[2]="{%LNG[nfo_wysiwyg_under]%}";
+help[3]="{%LNG[nfo_wysiwyg_left]%}";
+help[4]="{%LNG[nfo_wysiwyg_center]%}";
+help[5]="{%LNG[nfo_wysiwyg_right]%}";
+help[6]="{%LNG[nfo_wysiwyg_link]%}";
+help[7]="{%LNG[nfo_wysiwyg_mail]%}";
+help[8]="{%LNG[nfo_wysiwyg_link]%}";
+help[9]="{%LNG[nfo_wysiwyg_code]%}";
+help[10]="{%LNG[nfo_wysiwyg_quote]%}";
+help[11]="{%LNG[nfo_wysiwyg_cache]%}";
+help[12]="{%LNG[nfo_wysiwyg_coltext]%}";
+
+function Start(){
+	if(ie){
+		editelem = document;
+		colorpalette	=	colortable;
+		edit.innerHTML = document.formulaire.msg.value;
+	}
+	else{
+		editelem = document.getElementById('edit').contentWindow.document;
+		colorpalette	=	document.getElementById('colortable');
+		editelem.body.innerHTML = document.formulaire.msg.value;
+		
+		// FONCTIONS TESTS DE LONGUEUR
+		editelem.addEventListener("focus", CompteCarac,true);
+		editelem.addEventListener("keydown", CompteCarac,true);
+		editelem.addEventListener("keyup", CompteCarac,true);
+		editelem.addEventListener("blur", CompteCarac,true);
+		
+		// DEFINITION STYLE
+		editelem.body.style.background = '{%::_SKIN[bgtable1]%}';
+		editelem.body.style.color      = '{%::_SKIN[textcol1]%}';
+		editelem.body.style.font       = '8pt {%::_SKIN[font]%}';
+		
+  		document.getElementById('edit').contentWindow.document.designMode = "on";
+  	}
+}
+
+function overbutton(objet,index)
+{
+	objet.className = 'onboutton';
+	
+	tochange=document.getElementById? document.getElementById("helptext"):document.all.helptext
+	tochange.innerHTML=help[index];
+}
+
+function outterbutton(objet)
+{
+	objet.className = 'outboutton';
+
+	tochange=document.getElementById? document.getElementById("helptext"):document.all.helptext
+	tochange.innerHTML="";
+}
+
+function set_focus(){
+	if(ie){
+		edit.focus();
+	}
+	else{
+		document.getElementById('edit').contentWindow.focus();
+	}	
+}
+
+function Special_Insert(InsertNode){
+	if(ie){
+		r = document.selection.createRange();
+		
+		if(r.text.length > 0){
+			InsertNode.innerHTML = r.htmlText;
+			r.pasteHTML(InsertNode.outerHTML);
+		}
+		else{
+			alert('{%LNG[errjs]%}');}
+	}
+	else{
+		// On enregistre le texte sélectionné
+		var sel = document.getElementById('edit').contentWindow.getSelection();
+		var range = sel.getRangeAt(0);
+		
+		if(range.toString().length > 0)
+		{
+			// On insère la sélection dans l'élément à réafficher (le dernier fils)
+			glouglou = range.cloneContents();
+			InsertNode.appendChild(glouglou);
+		
+			// On supprime la sélection courante	
+			sel.removeAllRanges();
+			range.deleteContents();
+			var container = range.startContainer;
+			var pos = range.startOffset;
+			
+			// Nouvelle insertion
+			range=document.createRange();
+			
+			if (InsertNode.nodeType==3) // si l'insertion est du texte
+			{
+				container = container.splitText(pos);
+				container.parentNode.insertBefore(InsertNode, container);	
+			}
+			else // si c'est un élement
+			{
+				if(container.nodeType == 3){
+					container = container.splitText(pos);
+					container.parentNode.insertBefore(InsertNode, container);
+				}
+				else{
+					container.insertBefore(InsertNode, container.childNodes[pos]);
+				}
+			}
+		}
+		else
+			alert('{%LNG[errjs]%}');
+	}
+}
+
+function ButtonClick(objet){
+	set_focus();
+		
+	if(objet.id == "createlink"){
+		UzLink = prompt("Enter a URL:", "http://");
+		editelem.execCommand("CreateLink",false,UzLink);
+	}
+	else if (objet.id == "InsertImage"){
+		UzLink = prompt("Enter a URL:", "http://");
+		editelem.execCommand(objet.id, false, UzLink);
+	}
+	else if (objet.id == "insertmail"){
+		UzLink = prompt("Enter a mail:", "");
+		editelem.execCommand("CreateLink", false, "mailto:"+UzLink);
+	}
+	else if (objet.id == "InsertCode"){
+		NewNode = document.createElement("div");
+		if(ie)
+			NewNode.setAttribute("class","code_class");
+		else{
+			NewNode.setAttribute("style","background: {%::_SKIN[bgtable2]%}; border: 1px solid {%::_SKIN[textcol1]%}; color: {%::_SKIN[textcol2]%}; font-size: 10px; margin: 8px auto 0 auto; padding: 3px;");
+			NewNode.setAttribute("class","code_class");
+		}
+		Special_Insert(NewNode);
+	}
+	else if (objet.id == "InsertQuote"){
+		NewNode = document.createElement("div");
+		if(ie)
+			NewNode.setAttribute("class","quote_class");
+		else{
+			NewNode.setAttribute("style","background: {%::_SKIN[bgtable3]%}; border: 1px solid {%::_SKIN[textcol1]%}; color: {%::_SKIN[textcol1]%}; font-size: 10px; margin: 8px auto 0 auto; padding: 3px;");
+			NewNode.setAttribute("class","quote_class");
+		}
+		Special_Insert(NewNode);
+	}
+	else{
+		editelem.execCommand(objet.id, false, null);
+	}
+	
+	set_focus();
+}
+
+function SelectChanges(objet){
+	set_focus();
+	editelem.execCommand(objet.id, false, objet.value);
+	set_focus();	
+}
+
+function OpenPalette(evt)
+{
+	if(ie){
+		r = document.selection.createRange();
+	}
+
+	PosX = evt.clientX;
+	PosY = evt.clientY;
+	
+	colorpalette.style.left = PosX + 5;
+	colorpalette.style.top = PosY + 5;
+	
+	if(!openpalette){
+		colorpalette.style.visibility = 'visible';
+	}
+	else{
+		colorpalette.style.visibility = 'hidden';
+	}
+	
+	openpalette = !openpalette;
+	
+}
+
+function ChgForeColor(objet)
+{
+	if(ie && r.text.length > 0){
+		r.select();
+	}
+	set_focus();
+	editelem.execCommand('forecolor', false, objet.id);
+	colorpalette.style.visibility = 'hidden';
+	openpalette = false;
+	//set_focus();
+}
+
+function addsmile(img)
+{
+	set_focus();
+	editelem.execCommand('insertimage', false, '{%::_FORUMCFG[urlforum]%}smileys/'+img);
+	set_focus();	
+}
+
+function CompteCarac()
+{
+	nomchamp = document.formulaire.limitchar;
+	
+	if(ie){
+		StrValue = edit.innerHTML;}
+	else{
+		StrValue = editelem.body.innerHTML;}
+	
+	// L'expression régulière
+	var regexp   = new RegExp("<.*?>|\\\r\\\n|\\\r|\\\n","gi");
+	var HtmlLess = StrValue.replace(regexp,"");
+	
+	//regexp		= new RegExp("\n","gi");
+	//HtmlLess	= HtmlLess.replace(regexp,"");	
+		
+	StrLen = HtmlLess.length;
+	
+	if (StrLen > {%::LimiteLength%} && {%::LimiteLength%}>0)
+	{
+		StrValue = StrValue.substring(0,{%::LimiteLength%});
+		if(ie){
+			edit.innerHTML = StrValue;}
+		else{
+			editelem.body.innerHTML = StrValue;}
+		CharsLeft = {%::LimiteLength%};								
+	}
+	else
+	{
+		CharsLeft = StrLen;
+	}
+	nomchamp.value = CharsLeft;
+}
+
+window.onload = Start;
+-->
+</script>
+
+<!--********** TPL NAME = addcachebutton **********-->
+<td width="22" height="24"><div id="InsertCache" onclick="ButtonClick(this);" onmouseover="overbutton(this,11)" onmouseout="outterbutton(this)"><img src="{%::_SKIN[repimg]%}/html_cache.gif"></div></td>
+
+<!--********** TPL NAME = mailnotify **********-->
+
+<input type="checkbox" name="notifyme" value="oui"{%box[notifychecked]%}> {%LNG[notifyme]%}

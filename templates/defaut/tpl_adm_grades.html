@@ -1,0 +1,178 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = list_grades **********-->
+		  <form action="grades.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}">
+		        <input type="checkbox" name="use_grades" value="Y" class="form"{%::Check_Use_Grade%}>
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[usegrades]%}</b></font>
+		        <input type="submit" value="{%LNG[valid]%}" class="form2">
+		        <input type="hidden" name="action" value="usegrade">
+		      </td>
+		    </tr>
+		  </table>
+		  </form>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" colspan=5 align="center">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[allgrades]%}</u></b></font>
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[gd_name]%}</b></font>
+		      </td>
+		      <td class="corp" align="center" width="50">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[gd_minposts]%}</b></font>
+		      </td>
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[gd_nbpins]%}</b></font>
+		      </td>
+		      <td class="corp" align="center" width="50">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[gd_edit]%}</b></font>
+		      </td>
+		      <td class="corp" align="center" width="50">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[gd_delete]%}</b></font>
+		      </td>
+		    </tr>
+		    {%box[ligne_grades]%}
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  
+		  {%box[afferror]%}
+		  
+		  <form action="grades.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" colspan=2 align="center">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[addgrades]%}</u></b></font>
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[form_gd_name]%}</b></font>
+		      </td>
+		      <td class="corp">
+		        <input type="text" name="gd_nom" class="form">
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[form_gd_msg]%}</b></font>
+		      </td>
+		      <td class="corp">
+		        <input type="text" name="gd_nbmsg" class="form">
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[form_gd_pins]%}</b></font>
+		      </td>
+		      <td class="corp">
+		        <input type="text" name="gd_nbpins" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+		  <input type="hidden" name="action" value="save">
+		  <input type="submit" value="{%LNG[valid]%}" class="form">
+		  </form>
+		  
+<!--********** TPL NAME = ligne_grades **********-->
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>{%::Grade[0]%}</b></font>
+		      </td>
+		      <td class="corp" align="center" width="50">
+		        <font size={%::_SKIN[middlefont]%}><b>{%::Grade[1]%}</b></font>
+		      </td>
+		      <td class="corp" width="150">
+		        {%box[nbpins]%}
+		      </td>
+		      <td class="corp" align="center" width="50">
+		        <a href="grades.php?action=editgrade&id={%::key%}"><img src="{%::_SKIN[repimg]%}/edit.gif" alt="{%LNG[gd_edit]%}" title="{%LNG[gd_edit]%}" border=0></a>
+		      </td>
+		      <td class="corp" align="center" width="50">
+		        <a href="grades.php?action=delgrade&id={%::key%}"><img src="{%::_SKIN[repimg]%}/corbeille.gif" alt="{%LNG[gd_delete]%}" title="{%LNG[gd_delete]%}" border=0></a>
+		      </td>
+		    </tr>
+		    
+<!--********** TPL NAME = img_grades **********-->
+<img src="{%::_SKIN[repimg]%}/grades.gif" hspace=1>
+
+<!--********** TPL NAME = edit_grade **********-->
+		  {%box[afferror]%}
+		  
+		  <form action="grades.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" colspan=2 align="center">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[editgrades]%}</u></b></font>
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[form_gd_name]%}</b></font>
+		      </td>
+		      <td class="corp">
+		        <input type="text" name="gd_nom" class="form" value="{%::gd_nom%}">
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[form_gd_msg]%}</b></font>
+		      </td>
+		      <td class="corp">
+		        <input type="text" name="gd_nbmsg" class="form" value="{%::gd_nbmsg%}">
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[form_gd_pins]%}</b></font>
+		      </td>
+		      <td class="corp">
+		        <input type="text" name="gd_nbpins" class="form" value="{%::gd_nbpins%}">
+		      </td>
+		    </tr>
+		  </table><p>
+		  <input type="hidden" name="action" value="confirmedit">
+		  <input type="hidden" name="id" value="{%::id%}">
+		  <input type="submit" value="{%LNG[valid]%}" class="form">
+		  </form>
+
+<!--********** TPL NAME = formdelgrade **********-->
+		  <form action="grades.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=50% bgcolor="{%::_SKIN[bgtable3]%}">
+		    <tr>
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[middlefont]%}>
+		        <b>{%LNG[delgrade]%}</b>
+		        </font>
+		      </td>
+		    </tr>
+		  </table><P>
+		  <center>
+		  <input type="submit" value="{%LNG[valid]%}" class="form">
+		  <input type="hidden" name="action" value="confdelgrade">
+		  <input type="hidden" name="id" value="{%::id%}">
+		  </form>
+		  
+<!--********** TPL NAME = afferror **********-->
+<font size={%::_SKIN[middlefont]%}><b>{%::error%}</b></font><p>

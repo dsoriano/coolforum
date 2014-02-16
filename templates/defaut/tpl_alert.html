@@ -1,0 +1,48 @@
+<!--********** TPL NAME = accueilalert **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td align=center class="corp" bgcolor="{%::_SKIN[bgtable3]%}" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">
+            <font size={%::_SKIN[smallfont]%}><b>&nbsp;</b></font>
+          </td>
+        </tr>
+       </table>
+       <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>
+            &nbsp;<br>
+{%box[alertcontent]%}<p>
+            </font>
+          </td>
+        </tr>
+      </table><p>       
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = msgalert **********-->
+
+	    {%LNG[msgalert]%}<p>
+
+            <form action="alert.php" method="post">
+            <input type=hidden name="idpost" value="{%box[idpost]%}">
+            <input type=hidden name="url" value="{%box[HTTP_REFERER]%}">
+            <input type=hidden name="action" value="sendmail">
+            <input type=submit value="{%LNG[confirm]%}" class="form">
+            <input type=button onclick="window.location='{%box[HTTP_REFERER]%}'" value="{%LNG[annul]%}" class="form">
+            </form>

@@ -1,0 +1,273 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+
+<!--********** TPL NAME = listannonces **********-->
+		  <table border=0 width=50%>
+		    <tr>
+		      <td class="corp2" style="text-align:justify;">
+		        <font size={%::_SKIN[smallfont]%}>
+		        {%LNG[infoann]%}
+		        </font>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[anninuse]%}</u></b></font><p>
+		  
+		  {%box[listannonces]%}
+		  
+		  <form action="annonces.php" method=post>
+		  <input type=submit value="{%LNG[addann]%}" class="form">
+		  <input type=hidden name="action" value="edit">
+		  <input type=hidden name="id" value="0">
+		  </form>
+
+<!--********** TPL NAME = ifnoann **********-->
+<b>{%LNG[noann]%}</b>
+
+<!--********** TPL NAME = tableannonces **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+		        <font size={%::_SKIN[smallfont]%}>
+		        <b>{%LNG[ttannonce]%}:</b> {%::Ann[sujet]%}
+		        </font>
+		      </td>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="150">
+		        <font size={%::_SKIN[smallfont]%}>
+		        <b>{%LNG[from]%}:</b> {%::Ann[login]%}
+		        </font>
+		      </td>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="150">
+		        <font size={%::_SKIN[smallfont]%}>
+		        <b>{%LNG[date]%}:</b> {%::Ann[date]%}
+		        </font>
+		      </td>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" width="100" align="center">
+		        <font size={%::_SKIN[smallfont]%}>
+		        <a href="annonces.php?action=edit&id={%::Ann[idpost]%}" class="men">{%LNG[edit]%}</a>
+		        </font>
+		      </td>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" width="100" align="center">
+		        <font size={%::_SKIN[smallfont]%}>
+		        <a href="annonces.php?action=avert&id={%::Ann[idpost]%}" class="men">{%LNG[delete]%}</a>
+		        </font>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td class="corp" colspan="5" bgcolor="{%::_SKIN[bgtable1]%}">
+		      <font size={%::_SKIN[smallfont]%}><b>{%LNG[forumapp]%}:</b> {%box[forumslist]%}<br>{%box[poll]%}</font>
+		      </td>
+		    </tr>
+		  </table><p>
+
+<!--********** TPL NAME = avert **********-->
+		  <font size={%::_SKIN[middlefont]%}><b>{%LNG[confdelann]%}</b></font><p>
+		  <form action="annonces.php" method=post>
+		  <input type=submit value="{%LNG[delthisann]%}" class="form">
+		  <input type=hidden name="action" value="delann">
+		  <input type=hidden name="id" value="{%::_GET[id]%}">
+		  </form>
+
+<!--********** TPL NAME = formannonce **********-->
+{%box[javascript]%}
+<script language="javascript">
+<!--
+var submit=false;
+
+function testsubmit()
+{
+	if(wysiwyg){
+	  if(ie){
+		document.formulaire.msg.value = edit.innerHTML;
+	  }
+	  else{
+		document.formulaire.msg.value = editelem.body.innerHTML;
+	  }
+	}
+	if (submit==false)
+	{
+		submit=true
+		document.formulaire.target = "";
+		document.formulaire.action.value="saveann";
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function preview()
+{
+	largeur=screen.width - 150;
+	hauteur=screen.height - 150;
+	gauche=(screen.width - largeur) / 2;
+	haut = (screen.height - hauteur) / 2;
+	
+	document.formulaire.action.value="preview";
+	document.formulaire.target = "MyWindow";
+	window.open("","MyWindow","height="+hauteur+", width="+largeur+",scrollbars=yes,left="+gauche+",top="+haut+",titlebar=no,toolbar=no,personalbar=no,menubar=no"); 
+	document.formulaire.submit();
+}
+-->
+</script>
+
+      <form name="formulaire" onsubmit="return testsubmit()" action="annonces.php" method="post">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=95% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td colspan=2 class="corp">
+            <font size={%::_SKIN[middlefont]%}><B>{%LNG[addmsgtitle]%}</B></font>
+          </td>
+        </tr>
+        {%box[errorbox]%}
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable1]%} class="corp" valign="top">
+            <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pstr_pseudo]%}</u></b></font>
+          </td>
+          <td bgcolor={%::_SKIN[bgtable2]%} class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            <b>{%::_USER[username]%}</b>
+            <input type="hidden" name="idmembre" value="{%::_USER[userid]%}">
+            <input type="hidden" name="pseudo" value="{%::_USER[username]%}">
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable1]%} class="corp" width="150" valign="top">
+            <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pstr_sujet]%}</u></b></font>
+          </td>
+          <td bgcolor={%::_SKIN[bgtable2]%} class="corp2">
+            <font size={%::_SKIN[smallfont]%}>
+            <input type="text" name="sujet" size="40" class=form maxlength={%::_FORUMCFG[limittopiclength]%} value="{%::Ann[sujet]%}">
+            </font>
+          </td>
+        </tr>
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=95% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable1]%} class="corp" valign=top>
+            <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pstr_icon]%}</u></b></font>
+          </td>
+          <td bgcolor={%::_SKIN[bgtable2]%} class="corp">
+	                  <input type="radio" name="icon" value="icon1" {%::Icon_Select[1]%}><img src="../icones/icon1.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon2" {%::Icon_Select[2]%}><img src="../icones/icon2.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon3" {%::Icon_Select[3]%}><img src="../icones/icon3.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon4" {%::Icon_Select[4]%}><img src="../icones/icon4.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon5" {%::Icon_Select[5]%}><img src="../icones/icon5.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon6" {%::Icon_Select[6]%}><img src="../icones/icon6.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon7" {%::Icon_Select[7]%}><img src="../icones/icon7.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon8" {%::Icon_Select[8]%}><img src="../icones/icon8.gif"><br>
+		
+	                  <input type="radio" name="icon" value="icon9" {%::Icon_Select[9]%}><img src="../icones/icon9.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon10" {%::Icon_Select[10]%}><img src="../icones/icon10.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon11" {%::Icon_Select[11]%}><img src="../icones/icon11.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon12" {%::Icon_Select[12]%}><img src="../icones/icon12.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon13" {%::Icon_Select[13]%}><img src="../icones/icon13.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon14" {%::Icon_Select[14]%}><img src="../icones/icon14.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon15" {%::Icon_Select[15]%}><img src="../icones/icon15.gif">
+	      &nbsp;&nbsp;<input type="radio" name="icon" value="icon16" {%::Icon_Select[16]%}><img src="../icones/icon16.gif">
+          </td>
+        </tr>
+        {%box[boxwritepage]%}
+        <tr>
+          <td bgcolor={%::_SKIN[bgtable1]%} class="corp" valign=top>
+            <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pstr_forums]%}</u></b></font>
+          </td>
+          <td bgcolor={%::_SKIN[bgtable2]%} class="corp2">
+            <font size={%::_SKIN[middlefont]%}>
+	    {%box[listforum]%}
+	    </font>
+          </td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td colspan=2 align="center">
+            <input type="hidden" name="action" value="saveann">
+            <input type="hidden" name="id" value="{%::_REQUEST[id]%}">
+            <input type="submit" value="{%LNG[valid]%}" class=form2> 
+            <input type="button" name="view" value="{%LNG[preview]%}" onclick="preview()" class=form2> 
+          </td>
+        </tr>
+      </table><p>
+      {%box[affpoll]%}
+    </form>
+
+<!--********** TPL NAME = errorbox **********-->
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td colspan=2 class="corp">
+            <font size={%::_SKIN[middlefont]%}><B>**** {%::error%} ****</B></font>
+          </td>
+        </tr>
+
+
+<!--********** TPL NAME = checkforum **********-->
+<input type=checkbox name="forumapp[{%::zz[forumid]%}]" value="{%::zz[forumid]%}"{%::ForumLst%}> {%::zz[forumtitle]%}<br>
+
+<!--********** TPL NAME = ifnoforum **********-->
+<b> !! {%LNG[noforum]%} !! </b>
+
+
+<!--********** TPL NAME = pagepoll **********-->
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=95% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td colspan=2 class="corp">
+            <font size={%::_SKIN[middlefont]%}><B>{%LNG[sondagett]%}</B></font>
+          </td>
+        </tr>
+	<tr>
+	  <td width="220" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[question]%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b><input type="text" name="pollquest" value="{%::pollquest%}" size="40" class="form"></b>
+	    <input type="hidden" name="newpoll" value="true"></font>
+	  </td>
+	</tr>
+	<tr bgcolor="{%::_SKIN[bgtable1]%}">
+          <td colspan=2 class="corp">
+            <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+          </td>
+        </tr>        
+{%box[pollchoix]%}
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=95% cellpadding=4 cellspacing=0 style="border-collapse: collapse;">
+        <tr bgcolor="{%::_SKIN[bgtable3]%}">
+          <td class="corp">
+            <font size={%::_SKIN[smallfont]%}><B>{%LNG[sondhelp]%}</B></font>
+          </td>
+        </tr>
+	<tr>
+          <td colspan=2 class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+            <font size={%::_SKIN[smallfont]%}>{%LNG[sondhelp_cmt]%}</font><br>
+          </td>
+        </tr>
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+
+<!--********** TPL NAME = pagepollchoice **********-->
+	<tr>
+	  <td width="220" class="corp" bgcolor={%::_SKIN[bgtable1]%} nowrap>
+	    <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[choix]%} {%::i%} :</u></b></font>
+	  </td>
+	  <td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+	    <font size={%::_SKIN[middlefont]%}><b><input type="text" name="choixvote[{%::i%}]" value="{%::pollvalue%}" size="40" class="form"></b></font>
+	  </td>
+	</tr> 

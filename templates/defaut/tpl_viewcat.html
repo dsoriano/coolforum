@@ -1,0 +1,54 @@
+<!--********** TPL NAME = accueilgeneral **********-->
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td width="30" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap>&nbsp;</td>
+          <td class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[forumlist]%}</font></td>
+          <td width="70" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap><font size={%::_SKIN[middlefont]%}>{%LNG[threads]%}</font></td>
+          <td width="70" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap><font size={%::_SKIN[middlefont]%}>{%LNG[posts]%}</font></td>
+          <td width="140" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap><font size={%::_SKIN[middlefont]%}>{%LNG[lastmsg]%}</font></td>
+          <td width="140" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap><font size={%::_SKIN[middlefont]%}>{%LNG[moderators]%}</font></td>
+        </tr>
+        <tr>
+          <td colspan=6><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        
+  {%box[affforumcontent]%}
+  
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+      
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border: 1px solid; border-collapse: collapse;">
+        <tr height="20">
+          <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" style="padding-left:4;"><font size={%::_SKIN[middlefont]%}><b>{%LNG[legend]%}</b></font></td>
+        </tr>
+        <tr>
+	     	  <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}" style="padding:4;">
+		    <font size={%::_SKIN[smallfont]%}>
+		    <img src="{%::_SKIN[repimg]%}/on.gif" align="absmiddle"> {%LNG[newmsg]%}<br>
+		    <img src="{%::_SKIN[repimg]%}/off.gif" align="absmiddle"> {%LNG[nonewmsg]%}<br>
+		    <img src="{%::_SKIN[repimg]%}/closed.gif" align="absmiddle"> {%LNG[forumclosed]%}<br>
+		    </font>
+		  </td>          
+        </tr>
+      </table><p>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = affcategorie **********-->
+
+        <tr height="20">
+          <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" style="padding-left:4;" colspan=6>
+            <font size={%::_SKIN[middlefont]%}><b><u>{%::CatInfo[cattitle]%}</u></b></font><br>
+            {%box[catcoment]%}
+          </td>
+        </tr>
+
+<!--********** TPL NAME = catcoment **********-->
+
+<font size={%::_SKIN[smallfont]%}>&nbsp;&nbsp;{%::CatInfo[catcoment]%}</font><br>

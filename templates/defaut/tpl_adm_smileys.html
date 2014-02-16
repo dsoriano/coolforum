@@ -1,0 +1,180 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+
+<!--********** TPL NAME = smileyslist **********-->
+
+<script language="JavaScript">
+<!--
+function changeorder(neworder,idtochange)
+{
+	var index = neworder.selectedIndex;
+	if(neworder.options[index].value != '0')
+	{
+		document.formulaire.id.value = idtochange;
+		document.formulaire.to.value = neworder.options[index].value;
+		document.formulaire.submit();
+	}
+}
+
+// -->
+</script>
+
+		  <font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[ttaddsmile]%}</u></b><p>
+		  
+		  {%box[error1]%}
+		  
+		  <form action="smileys.php" method=post>
+		  {%LNG[addimgname]%}: <input type=text name="img" class="form">&nbsp;&nbsp;&nbsp; 
+		  {%LNG[addsmcode]%}: <input type=text name="code" class="form">&nbsp;&nbsp;&nbsp;
+		  <input type=submit value="{%LNG[addsave]%}" class="form">
+		  <input type=hidden name="action" value="addsmiley"></form>
+		  
+		  <table border=0 width=50%>
+		    <tr>
+		      <td class="corp2" style="text-align:justify;">
+		        <font size={%::_SKIN[smallfont]%}>
+		        {%LNG[addsmcmt]%}
+			</font>
+		      </td>
+		    </tr>
+		  </table>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  <b><u>{%LNG[smdispos]%}</u></b><P>
+		  
+		  {%box[error2]%}
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr bgcolor={%::_SKIN[bgtable3]%}>
+		      <td class="corp" colspan=6 align=center><font size={%::_SKIN[middlefont]%}><B>{%LNG[smtable]%}</B></font></td>
+		    </tr>
+		    <tr bgcolor={%::_SKIN[bgtable3]%}>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}><B>{%LNG[ttsmileys]%}</B></font></td>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}><B>{%LNG[ttcode]%}</B></td>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}><B>{%LNG[ttimg]%}</B></td>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}><B>{%LNG[ttorder]%}</B></td>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}><B>{%LNG[ttmodif]%}</B></td>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}><B>{%LNG[ttdel]%}</B></td>
+		    </tr>
+		    <form action="smileys.php" method=POST name=formulaire>
+		    {%box[smilelist]%}
+		    <input type=hidden name=id value=""><input type=hidden name=to value=""><input type=hidden name=action value=changeorder>
+		    </form>
+		  </table><P>
+		  </font>
+
+<!--********** TPL NAME = smileligne **********-->
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td align=center><img src="../smileys/{%::Sml[imgsmile]%}"></td>
+		      <td class="corp2" align=center bgcolor="{%::_SKIN[bgtable2]%}"><font size={%::_SKIN[smallfont]%}><b>{%::Sml[codesmile]%}</b></font></td>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}>{%::Sml[imgsmile]%}</font></td>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}>{%box[changeorder]%}</font></td>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}><a href="smileys.php?action=modify&id={%::Sml[idsmile]%}" class=men>{%LNG[smupdate]%}</A></font></td>
+		      <td class="corp" align=center><font size={%::_SKIN[smallfont]%}><a href="smileys.php?action=avert&id={%::Sml[idsmile]%}" class=men>{%LNG[smdel]%}</A></font></td>
+		    </tr>
+
+<!--********** TPL NAME = error **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}>**** {%::error%} ****</font>
+		      </td>
+		    </tr>
+		  </table>
+
+<!--********** TPL NAME = avert **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr bgcolor={%::_SKIN[bgtable3]%}>
+		      <td class="corp" align=center>
+		        <font size={%::_SKIN[middlefont]%}>
+		        <B>{%LNG[warning]%}</B><p>
+		        {%LNG[delwarn]%}<P>
+		        
+		        <form action="smileys.php" method=post>
+			<input type=submit value="{%LNG[delete]%}" class=form2>
+			<input type=hidden name="action" value="delete">
+			<input type=hidden name="id" value="{%::_GET[id]%}">
+			</form>
+		        </font>
+		      </td>
+		    </tr>
+		  </table><P>
+
+<!--********** TPL NAME = modify **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr bgcolor={%::_SKIN[bgtable3]%}>
+		      <td class="corp" align=center>
+		        <font size={%::_SKIN[middlefont]%}>
+		        <u>{%LNG[updsmile]%}: <img src="../smileys/{%::Sm[imgsmile]%}"></u><p>
+		        <form action="smileys.php" method=post>
+			{%LNG[addimgname]%}: <input type=text name="img" class=form2 value="{%::Sm[imgsmile]%}">&nbsp;&nbsp;&nbsp; 
+			{%LNG[addsmcode]%}: <input type=text name="code" value="{%::Sm[codesmile]%}" class=form2>&nbsp;&nbsp;&nbsp;
+			<input type=submit value="{%LNG[ttmodif]%}" class=form2>
+			<input type=hidden name="action" value="update">
+			<input type=hidden name="id" value="{%::_GET[id]%}">
+			<input type=hidden name="oldcode" value="{%::Sm[codesmile]%}">
+			</form>
+			{%LNG[updcmt]%}
+		        </font>
+		      </td>
+		    </tr>
+		  </table><P>
+
+<!--********** TPL NAME = update **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr bgcolor={%::_SKIN[bgtable3]%}>
+		      <td class="corp">
+		        <font size={%::_SKIN[middlefont]%}>
+		        <center><b>{%LNG[updsmile]%}</b></center><p>
+		        
+		        <b>{%box[isupdated]%}</b><p>
+		        
+		        <ul>
+		        <li>{%LNG[msgupdated]%}
+		        <li>{%LNG[pmupdated]%}
+		        <li>{%LNG[citupdated]%}
+		        </ul>
+		        
+		        </font>
+		      </td>
+		    </tr>
+		  </table><P>
+
+<!--********** TPL NAME = changeorder **********-->
+<select name="changeorder[{%::Sml[idsmile]%}]" class=form OnChange="javascript:changeorder(this,'{%::Sml[idsmile]%}');">
+<option value=0>--</option>
+<option value=1 {%::checked[1]%}>1</option>
+<option value=2 {%::checked[2]%}>2</option>
+<option value=3 {%::checked[3]%}>3</option>
+<option value=4 {%::checked[4]%}>4</option>
+<option value=5 {%::checked[5]%}>5</option>
+<option value=6 {%::checked[6]%}>6</option>
+<option value=7 {%::checked[7]%}>7</option>
+<option value=8 {%::checked[8]%}>8</option>
+<option value=9 {%::checked[9]%}>9</option>
+<option value=10 {%::checked[10]%}>10</option>
+<option value=11 {%::checked[11]%}>11</option>
+<option value=12 {%::checked[12]%}>12</option>
+<option value=13 {%::checked[13]%}>13</option>
+<option value=14 {%::checked[14]%}>14</option>
+<option value=15 {%::checked[15]%}>15</option>
+<option value=16 {%::checked[16]%}>16</option>
+<option value=17 {%::checked[17]%}>17</option>
+<option value=18 {%::checked[18]%}>18</option>
+</select>

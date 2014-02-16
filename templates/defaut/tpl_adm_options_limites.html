@@ -1,0 +1,114 @@
+<!--********** TPL NAME = optionslist **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <form action="options_limites.php" method="post">
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart1]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[maxtopicpage]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[maxtopicpage_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" name="configz[topicparpage]" value="{%::configuration[topicparpage]%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[maxmsgpage]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[maxmsgpage_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" name="configz[msgparpage]" value="{%::configuration[msgparpage]%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart2]%}</u></b></font></div><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[maxcaracsujet]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[maxcaracsujet_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" name="configz[limittopiclength]" value="{%::configuration[limittopiclength]%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart3]%}</u></b></font></div><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[maxpseudo]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[maxpseudo_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="configz[limitloginlength]" value="{%::configuration[limitloginlength]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[titlepart4]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[timelimit]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[timelimit_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="configz[limittimepost]" value="{%::configuration[limittimepost]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[maxpoll]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[maxpoll_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="configz[limitpoll]" value="{%::configuration[limitpoll]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  
+		  <input type="hidden" name="action" value="save">
+		  <input type="submit" Value="{%LNG[valid]%}" class="form">
+		  </form>
+		  		  		      
+		</td>
+              </tr>
+            </table>

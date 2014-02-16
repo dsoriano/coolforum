@@ -1,0 +1,417 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = list_groups **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=25% align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[grp_name]%}</b></font>
+	              </td>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=25% align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[grp_droitsgen]%}</b></font>
+	              </td>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=25% align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[grp_droitsfor]%}</b></font>
+	              </td>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=25% align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[grp_delete]%}</b></font>
+	              </td>
+	            </tr>
+		    {%box[ligne_group]%}
+	          </table><p>
+
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  	          
+	          <form action="groups.php" method="post">
+	          <font size={%::_SKIN[middlefont]%}><b>{%LNG[createnewgroup]%}</b></font><br>
+	          <select name="parentgroup" class="form">
+	          {%box[grpselect]%}
+	          </select><p>
+	          <input type="submit" value="{%LNG[createnow]%}" class="form">
+	          <input type="hidden" name="action" value="newgroup">
+	          </form>
+	    	          
+<!--********** TPL NAME = ligne_group **********-->
+	            <tr>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+	                <font size={%::_SKIN[middlefont]%}><b>{%::Nom_group%}</b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+	                <font size={%::_SKIN[smallfont]%}><b><a href="groups.php?action=dgen&id={%::id_group%}" class=men>{%LNG[grp_define]%}</a></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+	                <font size={%::_SKIN[smallfont]%}><b><a href="groups.php?action=dfor&id={%::id_group%}" class=men>{%LNG[grp_define]%}</a></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+	                <font size={%::_SKIN[smallfont]%}><b>{%box[linkdelete]%}</b></font>
+	              </td>
+	            </tr>
+
+<!--********** TPL NAME = linkdelete **********-->
+<a href="groups.php?action=delgrp&id={%::id_group%}" class=men>{%LNG[grp_delete]%}</a>
+
+<!--********** TPL NAME = grpselect **********-->
+	            <option value="{%::id_group%}">{%::Nom_group%}
+
+<!--********** TPL NAME = formdroits_gen **********-->
+
+		  <form action="groups.php" method="post">
+		  
+		  {%box[defdroits_gen]%}
+		  
+		  <center><input type="submit" value="{%LNG[valid]%}" class="form"></center>
+		  <input type="hidden" name="action" value="savedgen">
+		  <input type="hidden" name="id" value="{%::id%}">
+		  </form>
+
+<!--********** TPL NAME = errormsg **********-->
+<font size={%::_SKIN[middlefont]%}><b>*** {%LNG[error1]%}</b></font>
+		  		  
+<!--********** TPL NAME = defdroits_gen **********-->
+{%box[defdroits_gen_limit]%}
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_autorisations]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" width=400><font size={%::_SKIN[middlefont]%}>{%LNG[canstats]%}</font></td>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" width=50 align="center"><input type="checkbox" name="ShowSelected[0]" value="true" class=form{%::ShowSelected[0]%}></td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp"><font size={%::_SKIN[middlefont]%}>{%LNG[cansearch]%}</font></td>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center"><input type="checkbox" name="ShowSelected[1]" value="true" class=form{%::ShowSelected[1]%}></td>
+		    </tr>
+{%box[defdroits_gen_autho]%}
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+
+<!--********** TPL NAME = defdroits_gen_limit **********-->
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_limites]%}</u></b></font></div><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[maxcitation]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[maxcitation_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="Droits_gen[Max_Cit]" value="{%::Droits_gen[Max_Cit]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[maxsign]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[maxsign_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="Droits_gen[Max_Sign]" value="{%::Droits_gen[Max_Sign]%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[maxcaracpm]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[maxcaracpm_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" size=25 name="Droits_gen[Max_Pm]" value="{%::Droits_gen[Max_Pm]%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[maxcaracdesc]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[maxcaracdesc_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type="text" size=25 name="Droits_gen[Max_Desc]" value="{%::Droits_gen[Max_Desc]%}" class="form">
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+<!--********** TPL NAME = defdroits_gen_autho **********-->
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp"><font size={%::_SKIN[middlefont]%}>{%LNG[canmoderate]%}</font></td>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center"><input type="checkbox" name="ShowSelected[19]" value="true" class=form{%::ShowSelected[19]%}></td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp"><font size={%::_SKIN[middlefont]%}>{%LNG[canadmin]%}</font></td>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp" align="center"><input type="checkbox" name="ShowSelected[20]" value="true" class=form{%::ShowSelected[20]%}></td>
+		    </tr>
+		  
+<!--********** TPL NAME = addgroup **********-->
+<script language="javascript">
+<!--
+NbGroup = {%::nbforums%}
+  function checkcolon(id)
+  {
+    for(i=0;i<NbGroup;i++)
+    {
+      elem = ((i*8) + 8)+id
+      if(document.formulaire.elements[elem].checked)
+        document.formulaire.elements[elem].checked = false;
+      else
+      	document.formulaire.elements[elem].checked = true;
+    }
+  }
+  
+  function checkligne(id)
+  {
+    for(i=0;i<8;i++)
+    {
+      elem = ((id-1)*8)+8+i;
+      if(document.formulaire.elements[elem].checked)
+        document.formulaire.elements[elem].checked = false;
+      else
+      	document.formulaire.elements[elem].checked = true;
+    }  
+  }
+  
+  function setmaxchar()
+  {
+    for(i=1;i<NbGroup+1;i++)
+    {
+      elem = ((i*8) + 7)
+      document.formulaire.elements[elem].value = document.formulaire.UpdMaxChar.value;
+    }  
+  }
+
+-->
+</script>
+
+		  {%box[errormsg]%}
+		  <form action="groups.php" name="formulaire" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[group_name]%}</u></b></font>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <input type=text size=25 name="Grp_Name" value="{%::Grp_Name%}" class=form>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  
+		  {%box[droitsgen]%}
+		  
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_forumrights]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr bgcolor="{%::_SKIN[bgtable3]%}">
+	              <td class="corp" align="center"><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_titre]%}</b></font></td>
+	              <td class="corp" align="center" width=15><font size={%::_SKIN[smallfont]%}>&nbsp;</font></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_voitfor]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_voittt]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_voitmsg]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_addrep]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_addtt]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_addsond]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_freeedit]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_maxmsg]%}</font></b></td>
+	            </tr>
+	            {%box[listedroits]%}
+	            <tr bgcolor="{%::_SKIN[bgtable3]%}">
+	              <td class="corp" align="center"><font size={%::_SKIN[smallfont]%}>&nbsp;</font></td>
+	              <td class="corp" align="center"><font size={%::_SKIN[smallfont]%}>&nbsp;</font></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(0)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(1)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(2)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(3)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(4)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(5)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(6)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><font size={%::_SKIN[smallfont]%}><a href="javascript:setmaxchar()"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0 align="middle"></a> <input type="text" name="UpdMaxChar" class="form2" size=4></font></td>
+	            </tr>
+	          </table><p>
+
+		  <center><input type="submit" value="{%LNG[valid]%}" class="form"></center>
+		  <input type="hidden" name="action" value="savenewgroup">
+		  <input type="hidden" name="parentgroup" value="{%::parentgroup%}">
+		  </form>
+<!--********** TPL NAME = lignecat **********-->
+
+		    <tr bgcolor="{%::_SKIN[bgtable2]%}">
+		      <td class="corp2" colspan=10><font size={%::_SKIN[middlefont]%}><b>{%::Cats[cattitle]%}</b></font></td>
+		    </tr>
+		    
+<!--********** TPL NAME = ligne_droits **********-->
+	            <tr bgcolor="{%::_SKIN[bgtable1]%}">
+	              <td align="left" class="corp"><b><font size={%::_SKIN[smallfont]%}>{%::MyForum[forumtitle]%}</font></b></td>
+	              <td align="left" align="center"><a href="javascript:checkligne({%::i%})"><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0></a></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][0]" value="true" class="form"{%::AffRights[0]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][1]" value="true" class="form"{%::AffRights[1]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][2]" value="true" class="form"{%::AffRights[2]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][3]" value="true" class="form"{%::AffRights[3]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][4]" value="true" class="form"{%::AffRights[4]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][5]" value="true" class="form"{%::AffRights[5]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][6]" value="true" class="form"{%::AffRights[6]%}></td>
+	              <td align="center"><input type="text" name="MaxChar[{%::MyForum[forumid]%}]" value="{%::DefMaxChar%}" class="form" size=6></td>
+	            </tr>
+
+<!--********** TPL NAME = ligne_droits_guests **********-->
+	            <tr bgcolor="{%::_SKIN[bgtable1]%}">
+	              <td align="left" class="corp"><b><font size={%::_SKIN[smallfont]%}>{%::MyForum[forumtitle]%}</font></b></td>
+	              <td align="left" align="center"><a href="javascript:checkligne({%::i%})"><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0></a></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][0]" value="true" class="form"{%::AffRights[0]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][1]" value="true" class="form"{%::AffRights[1]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][2]" value="true" class="form"{%::AffRights[2]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][3]" value="true" class="form"{%::AffRights[3]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::MyForum[forumid]%}][4]" value="true" class="form"{%::AffRights[4]%}></td>
+	              <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}>-</font></td>
+	              <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}>-</font></td>
+	              <td align="center"><input type="text" name="MaxChar[{%::MyForum[forumid]%}]" value="{%::DefMaxChar%}" class="form" size=6></td>
+	            </tr>
+	            
+<!--********** TPL NAME = edit_forumdroits **********-->
+<script language="javascript">
+<!--
+IDGroup  = {%::id%}
+NbForums = {%::nbforums%}
+
+  function checkcolon(id)
+  {
+    if(IDGroup==1){
+      nboptions = 6;}
+    else{
+      nboptions = 8;}
+  
+    if((IDGroup==1 && id<5) || (IDGroup>1))
+    {
+      pos = id;
+      
+      if(document.formulaire.elements[pos].checked){
+    	checkcase=true;}
+      else{
+    	checkcase=false;}      
+      
+      for(i=0;i<NbForums;i++)
+      {
+        if(checkcase)
+          document.formulaire.elements[pos].checked = false;
+        else
+      	  document.formulaire.elements[pos].checked = true;
+      	pos += nboptions;
+      }
+    }
+  }
+  
+  function checkligne(id)
+  {
+    for(i=0;i<8;i++)
+    {
+      elem = ((id-1)*8)+i;
+      if(document.formulaire.elements[elem].checked)
+        document.formulaire.elements[elem].checked = false;
+      else
+      	document.formulaire.elements[elem].checked = true;
+    }  
+  }
+  
+  function setmaxchar()
+  {
+    for(i=0;i<NbForums;i++)
+    {
+      elem = ((i*8)+7)
+      document.formulaire.elements[elem].value = document.formulaire.UpdMaxChar.value;
+    }  
+  }
+
+-->
+</script>
+
+		  <form action="groups.php" name="formulaire" method="post">
+		  <div align="left"><font size={%::_SKIN[middlefont]%}><b><u>{%LNG[tt_forumrights]%}</u></b></font></div><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr bgcolor="{%::_SKIN[bgtable3]%}">
+	              <td class="corp" align="center"><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_titre]%}</b></font></td>
+	              <td class="corp" align="center" width=15><font size={%::_SKIN[smallfont]%}>&nbsp;</font></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_voitfor]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_voittt]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_voitmsg]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_addrep]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_addtt]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_addsond]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_freeedit]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_maxmsg]%}</font></b></td>
+	            </tr>
+	            {%box[listedroits]%}
+	            <tr bgcolor="{%::_SKIN[bgtable3]%}">
+	              <td class="corp" align="center"><font size={%::_SKIN[smallfont]%}>&nbsp;</font></td>
+	              <td class="corp" align="center"><font size={%::_SKIN[smallfont]%}>&nbsp;</font></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(0)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(1)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(2)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(3)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(4)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(5)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(6)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><font size={%::_SKIN[smallfont]%}><a href="javascript:setmaxchar()"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0 align="middle"></a> <input type="text" name="UpdMaxChar" class="form2" size=4></font></td>
+	            </tr>
+	          </table><p>
+
+		  <center><input type="submit" value="{%LNG[valid]%}" class="form"></center>
+		  <input type="hidden" name="action" value="savedfor">
+		  <input type="hidden" name="id" value="{%::id%}">
+		  </form>
+		  
+<!--********** TPL NAME = delgrp **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=50% bgcolor="{%::_SKIN[bgtable3]%}">
+		    <tr>
+		      <td class="corp" style="text-align:justify;">
+		        <font size={%::_SKIN[middlefont]%}>
+		        {%LNG[chooseothergroup]%}
+		        </font>
+		      </td>
+		    </tr>
+		  </table><P>
+		  
+		  <form action="groups.php" method="post">
+		  <select name="idgroup" class="form">
+		  {%box[lignedelgrp]%}
+		  </select><p>
+		  <input type="hidden" name="id" value="{%::id%}">
+		  <input type="hidden" name="action" value="confdelgrp">
+		  <input type="submit" value="{%LNG[valid]%}" class="form">
+		  </form>
+		  
+<!--********** TPL NAME = lignedelgrp **********-->
+<option value="{%::Grps[id_group]%}"{%::selected%}>{%::Grps[Nom_group]%}
+
+		  
+	          	  

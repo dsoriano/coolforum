@@ -1,0 +1,240 @@
+*********************************************************************************
+*                                                                               *
+*                  CoolForum v.0.8.5 Beta : Forum de discussion                   *
+*              Copyright ©2001-2014 SORIANO Denis alias Cool Coyote		          *
+*                                                                               *
+*                                                                               *
+*         This program is free software; you can redistribute it and/or         *
+*       modify it under the terms of the GNU General Public License             *
+*       as published by the Free Software Foundation; either version 2          *
+*       of the License, or (at your option) any later version.                  *
+*                                                                               *
+*       This program is distributed in the hope that it will be useful,         *
+*       but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+*       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+*       GNU General Public License for more details.                            *
+*                                                                               *
+*       You should have received a copy of the GNU General Public License       *
+*       along with this program; if not, write to the Free Software             *
+*       Foundation, Inc., 59 Temple Place - Suite 330,                          *
+*       Boston, MA  02111-1307, USA.                                            *
+*                                                                               *
+*                                                                               *
+*       Forum Créé par SORIANO Denis (Cool Coyote)                              *
+*       contact : coyote@coolcoyote.net                                         *
+*       site web et téléchargement : http://www.coolforum.net                   *
+*                                                                               *
+*********************************************************************************
+
+- Sommaire -
+=============
+
+	1 . Configuration nécessaire
+	2 . Caractéristiques
+	3 . Installation Complète
+	4 . Mise à jour de la version 0.8.3 beta à 0.8.4 beta
+	5 . Conseils
+	6 . En cas de problèmes
+	7 . Copyrights
+	8 . Les extensions de CoolForum
+	9 . Remerciements
+
+===================================================================================
+1 . Configuration nécessaire
+==============================
+
+	Pour pouvoir utiliser ce forum sur votre site, il faudra que votre hébergeur
+puissent exécuter des scripts PHP 4 et possède un serveur de base de données MySQL.
+Vous aurez en outre besoin de certains codes pour son installation : l'adresse
+de votre serveur MySQL, votre login et votre mot de passe, rien de plus. Si vous ne
+les connaissez pas, ces renseignements vous sont fournis par votre hébergeur.
+
+	N'hésitez pas à visiter notre site Web http://www.coolforum.net pour
+connaître les meilleurs hébergeurs aptes à supporter votre forum.
+
+
+2 . Caractéristiques
+======================
+
+	CoolForum est ce que l'on appelle un forum de discussion. Il vous permet
+d'agrémenter votre site web d'un outil interactif avec vos visiteurs afin de leur
+donner la parole et de converser avec eux. Grâce à la base de donnée, tous les
+messages sont conservés et vos visiteurs pourront ainsi consulter à n'importe
+quel moment les archives des messages.
+
+	CoolForum vous propose de nombreuses options que vous pourrez découvrir à
+mesure que vous l'utiliserez. Au fil des versions, il se révèle être un véritable
+logiciel d'application internet, simple et intuitif. Aucune connaissance en
+programmation n'est requise et son installation sur votre hébergement internet
+s'effectue en quelques minutes. Vous découvrirez rapidement qu'il tend à devenir
+un véritable forum professionnel grâce à ses nombreuses options et possibilités.
+
+
+3 . Installation Complète
+==========================
+
+	L'installation de CoolForum est trés simple : avant de transférer vos fichiers
+sur votre hébergement internet, dans le répertoire "secret", renommez le fichier
+"connect.base.php en "connect.php" puis éditez le avec un éditeur de texte comme
+le bloc-note par exemple. Vous devez à présent y rajouter quelques informations qui
+vous permettront de vous connecter au serveur MySQL de votre hébergeur.
+
+Ce fichier se présente ainsi:
+
+<?php
+//------------- CONNECTION A LA BASE -------------------
+class My_SQL
+{
+	var $host	=	"xxxxx"; 		// serveur hôte
+	var $user 	= 	"xxxxx";		// nom d'utilisateur
+	var $pass 	= 	"xxxxx";		// mot de passe de connexion
+	var $bdd 	= 	"xxxxx";		// nom de la base de donnée
+}
+$_PRE="CF_";
+?>
+
+les xxxxx représentent les renseignements à modifier. Ces codes vous sont fournis par votre
+hébergeur. Une fois configuré, sauvegardez vos modifications.
+
+Transférez vos fichiers sur votre espace d'hébergement grâce à votre client FTP en
+respectant la hiérarchie des dossiers et des fichiers du forum.
+
+Toujours à l'aide de votre logiciel FTP, passez le répertoire "logos" en chmod 777 afin de
+donner les droits d'écriture, sinon les logos ne pourront être uploadés.
+
+Note: les comptes sur Free ou Online par exemple ne permettent pas de passer un répertoire
+en chmod 777, cependant l'upload de fichiers fonctionne quand même.
+
+Avec votre navigateur, rendez-vous ensuite à l'adresse de votre forum dans le dossier "install"
+sur la page "install.php". Choisissez l'option "installation complète" et laissez vous guider.
+
+Une fois le message de fin d'installation affiché, Vous DEVEZ supprimer complètement le
+dossier "install" de votre compte et rejoindre l'administration pour configurer votre forum.
+
+Vous pouvez vous rendre dans l'administration en allant dans le répertoire "admin" du
+forum. Vous aurez à vous identifier, puis vous aurez accès à l'administration.
+
+	Nous avons finalement préféré vous laisser configurer vos codes de connexions à MySQL
+afin d'éviter tout problème d'installation pour ceux qui n'ont pas les autorisations pour
+écrire et modifier des fichiers avec les fonctions PHP prévues à cet effet.
+
+
+4 . Mise à jour de la version 0.8.4 beta à 0.8.5 beta
+=====================================================
+
+La mise à jour de la version 0.8.4 à la version 0.8.5 ne contient aucune modification de base
+de donnée, seulement des mises à jour de fichiers :
+    - Tous les fichiers ".php" à la racine du forum
+    - Tous les fichiers ".php" du dossier "admin"
+    - Tous les fichiers ".php" du dossier "lng/fr"
+
+Changelog apporté par cette nouvelle version:
+---------------------------------------------
+
+	- Nettoyage du code afin d'améliorer la compatibilité avec les version de PHP 5.2, 5.3, 5.4.
+	La prise en charge de PHP 5.5 n'a pas été testée.
+
+5 . Conseils
+==============
+	A Propos des emails!
+	--------------------
+		Certains hébergeurs ne permettent pas l'envoi d'email en PHP.
+	Si vous l'installez sur ce type d'hébergement, n'oubliez pas de désactiver dans
+	l'administration les fonctions relatives aux emails.
+		Egalement certains autres hébergeurs n'utilisent pas la fonction mail()
+	classique mais la fonction email(). Le forum supporte désormais cette fonction chez
+	les hébergeurs Online et Nexen, n'oubliez pas de le configurer dans votre 
+	administration !!
+
+	Les Nouvelles versions !!!
+	--------------------------
+		A partir de la version 0.7, vous avez la possibilité de verifier à partir de
+	votre forum si une nouvelle version est sortie. Ce système fait une requête http sur
+	le site officiel afin de vérifier si une nouvelle version est sortie. Nous 
+	garantissons qu'il n'y a aucun spyware et qu'aucune information n'est relevée lors de
+	ces requêtes. Cependant, pour ceux qui en douteraient, l'option de vérification de
+	nouvelle version ne se fait pas automatiquement et nécessite une action de 
+	l'administrateur.
+
+	N'oubliez pas cependant que les nouvelles versions peuvent apporter des corrections
+	de bugs et de sécurité importantes, donc ne les négligez pas et maintenez vos forums
+	à jour !!!
+
+
+6 . En cas de problèmes
+========================
+
+	En cas de problème au niveau de l'installation ou de l'utilisation du forum,
+n'hésitez pas à consulter la FAQ et les forums de supports du site http://www.coolforum.net.
+Vous y trouverez de l'aide, des conseils, et vous contriburez à l'amélioration du
+forum pour les prochaines versions en faisant part des bugs rencontrés et pourquoi
+pas de vos idées d'améliorations.
+
+	N'hésitez pas non plus à venir consulter régulièrement le site internet afin de vous
+tenir au courant des mises à jours, des améliorations, et des nouveaux skins disponibles.
+
+ATTENTION! En aucun cas je ne pourrai être tenu responsable en cas de piratage ou de perte
+des données qui constituent votre forum !
+
+Note:
+-----
+	Il est inutile de m'envoyer des emails pour réclamer de l'aide, je ne répondrai pas.
+Utilisez plutôt le forum support du site pour faire parvenir vos messages. Plusieurs
+membres actifs sont là pour vous aider rapidement et de cette façon tout le monde pourra 
+profiter de ces messages.
+
+
+7 . Copyrights
+===============
+
+	Ce forum est, pour le moment publié en licence GPL. Le texte original de la licence
+accompagne ce forum (licence.txt), ainsi qu'une traduction non officielle en français. Nous
+vous rapellons que vous avez le droit de modifier le code source de ce programme et d'y insérer 
+votre nom. Cependant vous êtes dans l'obligation de laisser aussi le copyright original. 
+Vous avez également la possibilité de redistribuer ce forum à qui vous voulez, à condition d'y 
+laisser le copyright original ainsi que les textes relatifs à la licence GPL.
+	Nous vous rappellons également que vous n'êtes pas autorisés à réaliser des bénéfices avec
+ce programme. Il ne peut donc être utilisé à des fins commerciales.
+
+	CoolForum 0.8 beta propose une nouvelle galerie d'avatars par défaut pour les sites qui ne peuvent
+pas uploader les avatars des visiteurs. Ces avatars ont été tout spécialement créés pour CoolForum par
+piouPiouM. Pour en savoir plus vous pouvez vous rendre à l'adresse : http://pioupioum.deviantart.com/
+
+
+8 . Les extensions de CoolForum
+===============================
+
+	Si vous cherchez de nouveaux skins pour votre forum, vous pouvez vous rendre à l'adresse
+http://cfskin.teamfr.com/ qui est le site officiel des skins de CoolForum. Une section téléchargement
+vous y proposera de nombreuses interfaces.
+
+	Si vous désirez créer un site web qui utilise les même bases de données que CoolForum pour
+gérer vos membres, TiGeR vous propose CFPortal, un portail qui se base sur CoolForum afin de
+rapprocher le forum de la partie site. Vous trouverez ce portail à l'adresse : http://cfp.coolforum.net
+
+
+9 . Remerciements
+===================
+
+	Des remerciements particuliers à toutes les personnes qui participent au développement
+de CoolForum, les modérateurs, beta-testeurs, développeurs et graphistes:
+
+	- TiGeR
+	- JeanGlode
+	- piouPiouM
+	- MalMok
+	- versgui
+	- colonel_freeze
+	- greg113
+	- Bruno
+
+	Un merci spécial à la GoOCorp pour l'espace qu'ils m'ont prêté afin de tester le forum, 
+particulièrement à PingOo et Alkpone de www.pingoo.com.
+
+	Merci à tous ceux qui participent activement sur le forum support, qui me signalent
+les bugs importants et qui participent aux suggestions.
+
+	Merci bien évidemment à vous, qui utilisez ce forum et contribuez à son succès et
+son évolution.
+
+

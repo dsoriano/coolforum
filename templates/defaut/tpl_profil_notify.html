@@ -1,0 +1,173 @@
+<!--********** TPL NAME = interfaceaccueil **********-->
+
+<script language="Javascript">
+<!--
+var Nbtotal = {%::total%};
+function checkall()
+{
+	if((Nbtotal>0) && (document.formulaire.elements[0].checked == true))
+	{
+		checkcase = false;
+	}
+	else
+	{
+		checkcase = true;
+	}
+	
+	for(i=0;i<{%::total%};i++)
+	{
+		document.formulaire.elements[i].checked = checkcase;
+	}
+}
+function bgd(nom,col)
+{ 
+	nom.style.background=col;
+}
+//-->
+</script>
+
+<table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+  <tr height="30">
+    <td class="corp2" bgcolor={%::_SKIN[bgtable2]%} colspan=5>
+      <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[accueilnotify]%}</u></b></font><br>
+      <font size={%::_SKIN[smallfont]%}>{%box[accueilnotifycmt]%}</font>
+    </td>
+  </tr>
+</table><br>
+
+<form action="profile.php" method=post name="formulaire">
+
+<table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+  <tr height="25">
+    <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" align=center>&nbsp;</td>
+    <td width="4%" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">&nbsp;</td>
+    <td class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[message]%}</font></td>
+    <td width="15%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[auteur]%}</font></td>
+    <td width="6%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgrep]%}</font></td>
+    <td width="6%" class="corp" align="center" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[msgvu]%}</font></td>
+    <td width="17%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[lastpost]%}</font></td>
+    <td width="6%" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><a href="javascript:checkall()"><img src="{%::_SKIN[repimg]%}/bottompage.gif" border=0></a></td>
+  </tr>
+  <tr>
+    <td colspan=8><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+  </tr>
+  {%box[notifycontent]%}
+  <tr>
+    <td colspan=8><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+  </tr>
+  <tr bgcolor="{%::_SKIN[bgtable3]%}" class="corp" style="padding-left:4;">
+    <td colspan=8>
+      &nbsp;{%box[numberpages]%}
+    </td>
+  </tr>
+</table><br>
+
+<table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+  <tr bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+    <td style="padding-left:4;">
+      <font size={%::_SKIN[middlefont]%}><b>{%LNG[legend]%}</b></font>
+    </td>
+    <td style="padding-left:4;">
+      <font size={%::_SKIN[middlefont]%}><b>{%LNG[info]%}</b></font>
+    </td>
+  </tr>
+  <tr bgcolor="{%::_SKIN[bgtable2]%}" class="corp2">
+    <td style="padding:4;">
+      <font size=1 align=left>
+      <img src="{%::_SKIN[repimg]%}/on.gif" align="absmiddle"> {%LNG[newpost]%}<br>
+      <img src="{%::_SKIN[repimg]%}/off.gif" align="absmiddle"> {%LNG[nonewpost]%}<br>
+      <img src="{%::_SKIN[repimg]%}/closed.gif" align="absmiddle"> {%LNG[topicclo]%}<br>
+      </font>
+    </td>
+    <td align=center>
+      <input type=hidden name="p" value="notify">
+      <input type=hidden name="action" value="stopnotify">
+      <input type=hidden name="page" value="{%::page%}">
+      <input type=submit value="{%LNG[stopnotify]%}" class="form">
+    </td>
+  </tr>
+</table><br>
+
+</form>
+
+<!--********** TPL NAME = nonotify **********-->
+
+  <tr bgcolor={%::_SKIN[bgtable1]%}>
+    <td class="corp" colspan=8>
+      <font size={%::_SKIN[smallfont]%}><b>{%LNG[nonotify]%}</b></font><br>
+    </td>
+  </tr>
+
+<!--********** TPL NAME = lignetopic **********-->
+
+  <tr bgcolor={%::_SKIN[bgtable2]%} onmouseover="bgd(this,'{%::_SKIN[bgtable1]%}')" onmouseout="bgd(this,'{%::_SKIN[bgtable2]%}')">
+    <td align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <img src="{%::_SKIN[repimg]%}/{%::Topics[icontopic]%}">
+    </td>
+    <td align=center>
+      <img src="icones/{%::Topics[icone]%}.gif">
+    </td>
+    <td class="corp2">
+      <font size={%::_SKIN[smallfont]%}><b>{%box[topic]%}</b>{%box[affichepages]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[loginposter]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbrep]%}</font>
+    </td>
+    <td class="corp2" align=center>
+      <font size={%::_SKIN[smallfont]%}>{%::Topics[nbvues]%}</font>
+    </td>
+    <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+      <font size={%::_SKIN[smallfont]%}>
+      {%box[gotobutton]%} {%::Topics[datederrep]%}<BR>
+      {%LNG[from]%}: {%::Topics[derposter]%}
+      </font>
+    </td>
+    <td class="corp2" align=center>
+      <input name="stop[{%::Topics[idtopic]%}]" value="{%::Topics[idtopic]%}" type=checkbox>
+    </td>
+  </tr>
+
+<!--********** TPL NAME = linklastmsg **********-->
+<a href="gotopost.php?id={%::Topics[idderpost]%}" class=men><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0 align="absmiddle"></a>
+
+<!--********** TPL NAME = topiclinktomsg **********-->
+{%box[pretopic]%}<a href="{%box[linkpage]%}.php?forumid={%::Topics[idforum]%}&id={%::Topics[idtopic]%}&p=1" class="lien">{%::Topics[sujet]%}</a>
+
+<!--********** TPL NAME = ifpostittopic **********-->
+<font class=corp><b>{%LNG[ttpostit]%}</b></font>
+
+<!--********** TPL NAME = iftopicpoll **********-->
+<font class=corp><b>{%LNG[ttpoll]%}</b></font> 
+
+<!--********** TPL NAME = leftpagearrowlink **********-->
+<a href="profile.php?p=notify&page=1{%::stringtoinsert%}" class="men">&lt;&lt;</a> <a href="profile.php?p=notify&page={%box[pagebefore]%}{%::stringtoinsert%}" class="men">&lt;</a> 
+
+<!--********** TPL NAME = leftpagearrow **********-->
+&lt;&lt; &lt; 
+
+<!--********** TPL NAME = rightpagearrowlink **********-->
+<a href="profile.php?p=notify&page={%box[pageafter]%}{%::stringtoinsert%}" class="men">&gt;</A> <a href="profile.php?p=notify&page={%::nbpages%}{%::stringtoinsert%}" class=men>&gt;&gt;</A>
+
+<!--********** TPL NAME = rightpagearrow **********-->
+&gt; &gt;&gt; 
+
+<!--********** TPL NAME = ourpage **********-->
+<b>{%box[pagenumber]%}</b>
+
+<!--********** TPL NAME = otherpage **********-->
+<a href="profile.php?p=notify&page={%box[pagenumber]%}{%::stringtoinsert%}" class="men">{%box[pagenumber]%}</a>
+
+<!--********** TPL NAME = boxpages **********-->
+<font size={%::_SKIN[smallfont]%}><b>{%LNG[page]%} : {%box[navpages]%}</b></font>
+
+<!--********** TPL NAME = infobox **********-->
+<table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+  <tr>
+    <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+      <font size={%::_SKIN[middlefont]%}><b>{%box[infomsg]%}</b></font>
+    </td>
+  </tr>
+</table><br>

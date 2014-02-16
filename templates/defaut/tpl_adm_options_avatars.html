@@ -1,0 +1,135 @@
+<!--********** TPL NAME = optionslist **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <form action="options_avatars.php" method="post">
+		 
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><input type="checkbox" name="activateLogos" value="Y"{%::checked[0]%}> <b>{%LNG[activelogos]%}</b></font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}>
+		        <blockquote>
+		  	<input type="checkbox" name="activeDefaultLogo" value="Y"{%::checked[2]%}> {%LNG[activegalerie]%}<br>
+		  	<input type="checkbox" name="activePersoLogo" value="Y"{%::checked[1]%}> {%LNG[activeupload]%}<br>
+		  	<table border=0>
+		  	 <tr>
+		  	   <td class="corp" align="right" style="padding-left:45px;">
+		  	     <font size={%::_SKIN[middlefont]%}>{%LNG[maxlarg]%} : </font> 
+		  	   </td>
+		  	   <td class="corp">
+		  	     <input type="text" name="WidthLogo" size="5" value="{%::_LOGO[4]%}" class="form2">
+		  	   </td>
+		  	 </tr>
+		  	 <tr>
+		  	   <td class="corp" align="right" style="padding-left:45px;">
+		  	     <font size={%::_SKIN[middlefont]%}>{%LNG[maxhaut]%} : </font>
+		  	   </td>
+		  	   <td class="corp">
+		  	     <input type="text" name="HeightLogo" size="5" value="{%::_LOGO[5]%}" class="form2">
+		  	   </td>
+		  	 </tr>
+		  	 <tr>
+		  	   <td class="corp" align="right" style="padding-left:45px;">
+		  	     <font size={%::_SKIN[middlefont]%}>{%LNG[maxko]%} : </font>
+		  	   </td>
+		  	   <td class="corp">
+		  	     <input type="text" name="SizeLogo" size="5" value="{%::_LOGO[6]%}" class="form2">
+		  	   </td>
+		  	 </tr>
+		  	</table>
+		  	<input type="checkbox" name="activeExtLogo" value="Y"{%::checked[3]%}> {%LNG[activeext]%}<br>
+		  	</blockquote>
+		  	<center>
+		  	<input type="hidden" name="action" value="save">
+		        <input type="submit" Value="{%LNG[submit]%}" class="form"><p>
+		        </center>
+		        </font>
+		      </td>
+		    </tr>
+		  </table><p>
+		  </form>
+		  
+		  {%box[defaultlogos]%}
+		  
+		</td>
+              </tr>
+            </table>
+
+<!--********** TPL NAME = defaultlogos **********-->
+
+  <hr color="{%::_SKIN[bordercolor]%}"><p>
+  
+  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+    <tr>
+      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+        <font size={%::_SKIN[middlefont]%}><b>{%LNG[titlegalerie]%}</b></font><br>
+      </td>
+    </tr>
+    <tr>
+      <form action="options_avatars.php" method=POST enctype="multipart/form-data">
+      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+        <font size={%::_SKIN[smallfont]%}><br>
+        <blockquote>
+        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galerieuptitle]%}</u></b></font><br>
+        {%LNG[galerieupcmt]%}<p>
+  	<center><input type="file" name="logo" class=form><p><input type=submit value="{%LNG[galerieupgo]%}" class=form></center><P>
+  	</blockquote>
+  	</font>
+      </td>
+      <input type=hidden name=action value="uploadnewlogo">
+      </form>
+    </tr>
+    <tr>
+      <form action="options_avatars.php#autosearch" method=POST>
+      <a name="autosearch"></a>
+      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp">
+        <font size={%::_SKIN[smallfont]%}><br>
+        <blockquote>
+        {%box[listadd]%}
+        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[galerieautotitle]%}</u></b></font><br>
+        {%LNG[galerieautocmt]%}<p>
+  	<center><input type=submit value="{%LNG[galerieautogo]%}" class=form></center><P>
+  	</blockquote>
+  	</font>
+      </td>
+      <input type=hidden name=action value="autosearch">
+      </form>
+    </tr>
+    <tr>
+      <a name="list"></a>
+      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align=center>
+        <table width=100% cellpadding=20 cellspacing=0 border=0 class=corp>
+          <tr>
+            {%box[listlogos]%}
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table><p>
+
+<!--********** TPL NAME = caselogo **********-->
+<td align=center valign=bottom>
+  <font size={%::_SKIN[smallfont]%}>
+  <img src="../logos/default{%::j[idlogo]%}{%::j[ext]%}"><br>
+  <a href="options_avatars.php?action=delete&id={%::j[idlogo]%}#list" class=men>{%LNG[deletelogo]%}</a>
+  </font>
+</td>
+<!--********** TPL NAME = separatelogo **********-->
+</tr><tr>
+<!--********** TPL NAME = nologo **********-->
+<td align=center>{%LNG[nologo]%}</td>
+<!--********** TPL NAME = listadd **********-->
+<center>
+{%::howmanyadd%} {%LNG[howmanyadd]%}<p>
+{%::listadd%}<p>
+</center>

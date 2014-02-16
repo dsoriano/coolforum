@@ -1,0 +1,631 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = searchmember **********-->
+		  {%box[errorbox]%}
+		  <form action="searchmember.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="200">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pseudosearch]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+		        <input type="text" name="pseudo" class="form2">
+		        <input type="hidden" name="action" value="searchbypseudo">
+		        <input type="submit" value="{%LNG[search]%}" class="form2">
+		      </td>
+		    </tr>
+		  </table>
+		  </form><p>
+		  
+		  <form action="searchmember.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width="200">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[memberlist]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+		        <font size={%::_SKIN[middlefont]%}>
+		        {%LNG[nbpseudopage]%}
+		        <select name="number" class=form2>
+		          <option value="10">10
+		          <option value="20">20
+		          <option value="30">30
+		          <option value="40">40
+		          <option value="50">50
+		        </select><p>
+		        
+		        {%LNG[afftype]%}
+		        <select name="sortby" class="form2">
+			  <option value="1">{%LNG[ssalpha]%}
+			  <option value="2">{%LNG[ssold]%}
+			  <option value="3">{%LNG[ssnbmsg]%}
+			  <option value="4">{%LNG[ssvalid]%}
+			  <option value="5">{%LNG[ssmbban]%}
+{%box[group_list]%}
+			</select><p>
+			
+			<center>
+			<input type="hidden" name="action" value="affichetout">
+			<input type="submit" value="{%LNG[btnaffiche]%}" class=form2></center>
+		        </font>
+		      </td>
+		    </tr>
+		  </table><p>
+
+<!--********** TPL NAME = optionsearch **********-->
+			  <option value="{%box[idgrp]%}">{%LNG[grp]%} {%box[group_name]%}
+			  
+<!--********** TPL NAME = errorboxsearch **********-->
+<font size=2><b>**** {%::error%} ****</b></font><p>
+		  
+<!--********** TPL NAME = structtablepseudo **********-->		  		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[smallfont]%}><b>{%LNG[pseudomb]%}</b></font>
+		      </td> 
+		      <td class="corp" align="center" width=50>
+		        <font size={%::_SKIN[smallfont]%}><b>{%LNG[nbposts]%}</b></font>
+		      </td> 
+		      <td class="corp" align="center" width=110>
+		        <font size={%::_SKIN[smallfont]%}><b>{%LNG[registerdate]%}</b></font>
+		      </td> 
+		      <td class="corp" align="center" width=200>
+		        <font size={%::_SKIN[smallfont]%}><b>{%LNG[affemail]%}</b></font>
+		      </td> 
+		      <td class="corp" align="center" width="100">
+		        <font size={%::_SKIN[smallfont]%}><b>{%LNG[affstatus]%}</b></font>
+		      </td> 
+		      <td class="corp" align="center" width="80">
+		        <font size={%::_SKIN[smallfont]%}><b>{%LNG[viewinfo]%}</b></font>
+		      </td>
+		    </tr>
+		    {%box[pseudolist]%}
+		  </table>
+
+<!--********** TPL NAME = structlignepseudo **********-->
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp">
+		        <font size={%::_SKIN[smallfont]%}><b>{%::LnPseudo[login]%}</font>
+		      </td> 
+		      <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}" align="center">
+		        <font size={%::_SKIN[smallfont]%}>{%::LnPseudo[usermsg]%}</font>
+		      </td> 
+		      <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}" align="center">
+		        <font size={%::_SKIN[smallfont]%}>{%::LnPseudo[registerdate]%}</font>
+		      </td> 
+		      <td class="corp">
+		        <font size={%::_SKIN[smallfont]%}><a href="../mail.php?email={%::LnPseudo[usermail]%}" target="_blank" class="men">{%::LnPseudo[usermail]%}</a></font>
+		      </td> 
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[smallfont]%}>{%::LnPseudo[status]%}</font>
+		      </td> 
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[smallfont]%}><b><a href="searchmember.php?action=detailmb&id={%::LnPseudo[userid]%}" class="men">+</a></b></font>
+		      </td>
+		    </tr>
+
+<!--********** TPL NAME = listmembers **********-->
+		  <font size={%::_SKIN[middlefont]%}>
+		  <b>{%LNG[cmaffmember]%}</b><p>
+		  <b><u>{%LNG[numbermb]%}</u></b>
+		  </font><p>
+		  
+		  {%box[tablemember]%}<p>
+		  
+		  {%box[pagebox]%}<p>	  
+
+<!--********** TPL NAME = leftpagearrowlink **********-->
+
+<a href="searchmember.php?action=affichetout&number={%::_REQUEST[number]%}&sortby={%::_REQUEST[sortby]%}&page=1" class="men">&lt;&lt;</a> <a href="searchmember.php?action=affichetout&number={%::_REQUEST[number]%}&sortby={%::_REQUEST[sortby]%}&page={%box[pagebefore]%}" class="men">&lt;</a> 
+
+<!--********** TPL NAME = leftpagearrow **********-->
+
+&lt;&lt; &lt; 
+
+<!--********** TPL NAME = rightpagearrowlink **********-->
+
+ <a href="searchmember.php?action=affichetout&number={%::_REQUEST[number]%}&sortby={%::_REQUEST[sortby]%}&page={%box[pageafter]%}" class="men">&gt;</A> <a href="searchmember.php?action=affichetout&number={%::_REQUEST[number]%}&sortby={%::_REQUEST[sortby]%}&page={%::nbpages%}" class=men>&gt;&gt;</A>
+
+<!--********** TPL NAME = rightpagearrow **********-->
+
+ &gt; &gt;&gt; 
+
+<!--********** TPL NAME = ourpage **********-->
+
+<font size={%::_SKIN[smallfont]%}><b>{%box[pagenumber]%}</b></font>
+
+<!--********** TPL NAME = otherpage **********-->
+
+<a href="searchmember.php?action=affichetout&number={%::_REQUEST[number]%}&sortby={%::_REQUEST[sortby]%}&page={%box[pagenumber]%}" class="men">{%box[pagenumber]%}</a>
+
+<!--********** TPL NAME = boxpages **********-->
+
+<font size={%::_SKIN[middlefont]%}><b>{%LNG[page]%} : {%box[navpages]%}</b></font><br>
+		    
+<!--********** TPL NAME = detailmembre **********-->
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function Compter(Target)
+{
+	StrLen = Target.value.length
+	if (StrLen > {%::Result[Max_Sign]%} )
+	{
+		Target.value = Target.value.substring(0,{%::Result[Max_Sign]%});
+	}
+}
+//-->
+</SCRIPT>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=95% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	            <tr>
+	              <td width="50%" class="corp" bgcolor={%::_SKIN[bgtable3]%} align="center" nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><a href="searchmember.php?action=confdelmb&id={%::Id%}" class="men">{%LNG[delthismb]%}</a></b></font>
+		      </td>
+		      <td width="50%" class="corp" bgcolor={%::_SKIN[bgtable3]%} align="center">
+		        <font size={%::_SKIN[middlefont]%}><b><a href="searchmember.php?action=newpass&id={%::Id%}" class="men">{%LNG[genpass]%}</a></b></font>
+	              </td>
+	            </tr>
+	          </table><p>
+
+		  <form action="searchmember.php" method="post" name="formulaire" enctype="multipart/form-data">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=95% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+{%box[error]%}
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[login]%}</u></b></font>
+		        <input type="hidden" name="pseudoorig" value="{%::Result[login]%}">
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <input type=text name="userlogin" value="{%::Result[login]%}" size=40 class=form>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[group]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <select name="userstatus" class="form">
+		        <option value="-{%::Result[userstatus]%}"{%::userstat[-1]%}>{%LNG[mbbanned]%}
+		        <option value="0"{%::userstat[0]%}>{%LNG[mbwait]%}
+{%box[groups_list]%}
+		        </select>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mail]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <input type=text name="usermail" value="{%::Result[usermail]%}" size=40 class=form>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[website]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <input type=text name="usersite" value="{%::Result[usersite]%}" size=40 class=form>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[viewmail]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[smallfont]%}>
+		        <input type=radio name="showmail" value="Y" {%::Result[checkmailY]%}> {%LNG[yes]%}<BR>
+		        <input type=radio name="showmail" value="N" {%::Result[checkmailN]%}> {%LNG[no]%}
+		        </font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[viewsite]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[smallfont]%}>
+		        <input type=radio name="showusersite" value="Y" {%::Result[checksiteY]%}> {%LNG[yes]%}<BR>
+		        <input type=radio name="showusersite" value="N" {%::Result[checksiteN]%}> {%LNG[no]%}
+		        </font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[timezone]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[smallfont]%}>
+		        <select name="timezone" class=form>
+		        <option value="-12"{%::timezn[0]%}>GMT -12:00, Eniwetok</option>
+		        <option value="-11"{%::timezn[1]%}>GMT -11:00, Samoa</option>
+		        <option value="-10"{%::timezn[2]%}>GMT -10:00, Hawaii</option>
+		        <option value="-9"{%::timezn[3]%}>GMT -9:00, Alaska</option>
+		        <option value="-8"{%::timezn[4]%}>GMT -8:00, PST, Pacific US</option>
+		        <option value="-7"{%::timezn[5]%}>GMT -7:00, MST, Mountain US</option>
+		        <option value="-6"{%::timezn[6]%}>GMT -6:00, CST, Central US</option>
+		        <option value="-5"{%::timezn[7]%}>GMT -5:00, EST, Eastern US</option>
+		        <option value="-4"{%::timezn[8]%}>GMT -4:00, Atlantic, Canada</option>
+		        <option value="-3"{%::timezn[9]%}>GMT -3:00, Brazilia, Buenos Aries</option>
+		        <option value="-2"{%::timezn[10]%}>GMT -2:00, Mid-Atlantic</option>
+		        <option value="-1"{%::timezn[11]%}>GMT -1:00, Cape Verdes</option>
+		        <option value="0"{%::timezn[12]%}>GMT, Greenwich, London, Lisbon, Casablanca</option>
+		        <option value="1"{%::timezn[13]%}>GMT +1:00, Berlin, Rome, Madrid, Paris</option>
+		        <option value="2"{%::timezn[14]%}>GMT +2:00, Israel, Cairo</option>
+		        <option value="3"{%::timezn[15]%}>GMT +3:00, Moscow, Kuwait, Baghdad</option>
+		        <option value="4"{%::timezn[16]%}>GMT +4:00, Abu Dhabi, Muscat</option>
+		        <option value="5"{%::timezn[17]%}>GMT +5:00, Islamabad, Karachi</option>
+		        <option value="6"{%::timezn[18]%}>GMT +6:00, Almaty, Dhaka</option>
+		        <option value="7"{%::timezn[19]%}>GMT +7:00, Bangkok, Jakarta</option>
+		        <option value="8"{%::timezn[20]%}>GMT +8:00, Hong Kong, Beijing</option>
+		        <option value="9"{%::timezn[21]%}>GMT +9:00, Tokyo, Osaka</option>
+		        <option value="10"{%::timezn[22]%}>GMT +10:00, Sydney, Melbourne, Guam</option>
+		        <option value="11"{%::timezn[23]%}>GMT +11:00, Magadan, Soloman Is.</option>
+		        <option value="12"{%::timezn[24]%}>GMT +12:00, Fiji, Wellington, Auckland</option>
+		        </select>
+		        </font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[citation]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[cmcitation]%}</font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <input type=text name="usercitation" value="{%::Result[usercitation]%}" size=40 class=form MAXLENGTH={%::Result[Max_Cit]%}>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} valign="top" nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[sign]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[cmsign]%}<p>
+		        {%::Result[canusebbcode]%}<br>
+		        {%::Result[canusesmileys]%}<br>
+		        </font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <textarea name="usersign" cols="40" rows="7" onFocus="Compter(this)" onKeyDown="Compter(this)" onKeyUp="Compter(this)" onBlur="Compter(this)" class=form>{%::Result[usersign]%}</textarea>
+	              </td>
+	            </tr>
+	            <tr>
+            	      <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[popuppm]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[cmpopuppm]%}</font><br>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+	                <font size={%::_SKIN[smallfont]%}>
+		        <input type=radio name="popuppm" value="Y" {%::Result[checkpopuppmY]%}> {%LNG[yes]%}<BR>
+		        <input type=radio name="popuppm" value="N" {%::Result[checkpopuppmN]%}> {%LNG[no]%}
+	  	        </font>
+	              </td>
+	            </tr>
+	            {%box[mailnotify]%}
+	            {%box[logotpl]%}
+	      		{%box[mailing]%}
+		        <tr>
+		          <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+			        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[wysiwyg]%}</u></b></font><br>
+			        <font size={%::_SKIN[smallfont]%}>{%LNG[wysiwyg_cmt]%}</font><br>
+			      </td>
+			      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		            <font size={%::_SKIN[smallfont]%}>
+			        <input type=radio name="wysiwyg" value="Y" {%::Result[wysiwygY]%}> {%LNG[yes]%}<BR>
+			        <input type=radio name="wysiwyg" value="N" {%::Result[wysiwygN]%}> {%LNG[no]%}
+		  	        </font>
+		          </td>
+		        </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[skin]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <select name="skin" class="form">
+		        {%box[skinlist]%}
+		        </select>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[langage]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <select name="lng" class="form">
+		        {%box[lnglist]%}
+		        </select>
+	              </td>
+	            </tr>
+	            <tr height="30">
+	              <td colspan=2 align=center bgcolor={%::_SKIN[bgtable3]%}>
+	                <input type=submit value="{%LNG[valid]%}" class=form2>
+		        <input type=reset Value="{%LNG[restart]%}" class=form2>
+	              </td>
+	            </tr>
+                  </table>
+                  <input type=hidden name="action" value="updatemember">
+                  <input type=hidden name="id" value="{%::Id%}">
+	          </form><p>
+
+<!--********** TPL NAME = groups_list **********-->
+		        <option value="{%::LstGrp[id_group]%}"{%::userstat[2]%}>{%::LstGrp[Nom_group]%}
+
+<!--********** TPL NAME = isallowed **********-->
+
+{%box[whatis]%} <b>{%box[yesorno]%}</b>
+
+
+<!--********** TPL NAME = notifyok **********-->
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[notification]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[cmnotification]%}</font><br>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+	                <font size={%::_SKIN[smallfont]%}>
+		        <input type=radio name="notifypm" value="Y" {%::Result[checknotifypmY]%}> {%LNG[yes]%}<BR>
+		        <input type=radio name="notifypm" value="N" {%::Result[checknotifypmN]%}> {%LNG[no]%}
+	  	        </font>
+	              </td>
+	            </tr>
+
+<!--********** TPL NAME = logotpl **********-->
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} valign="top" nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[logo]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[cmlogo1]%}<p>
+		        {%LNG[cmlogo2]%}</font><br>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[smallfont]%}>
+		        {%box[persologo]%}
+		
+		        {%box[defaultlogo]%}
+		        
+		        {%box[extlogo]%}
+
+		        {%box[logo]%}
+		        </font>
+	              </td>
+	            </tr>
+	      
+<!--********** TPL NAME = affavatar **********-->
+
+{%LNG[logonow]%} : <img src="avatar.php?img={%::Result[userlogo]%}" align=absmiddle><br>
+<input type="checkbox" name="deletelogo" value="Y"> {%LNG[dellogo]%}
+
+<!--********** TPL NAME = affextavatar **********-->
+
+{%LNG[logonow]%} : <img src={%::Result[userlogo]%} align=absmiddle><br>
+<input type="checkbox" name="deletelogo" value="Y"> {%LNG[dellogo]%}
+
+<!--********** TPL NAME = errorbox **********-->
+	            <tr>
+	              <td colspan="2" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b>*** {%::Error%} ***</b></font>
+		      </td>
+	            </tr>
+
+<!--********** TPL NAME = uploadlogobox **********-->
+		      {%LNG[logoonhd]%}:<br>
+		      <input type="file" name="logo" class=form><P>
+		
+<!--********** TPL NAME = logocollection **********-->
+		      {%LNG[logooncollec]%}<br>
+		      <input type="text" name="infologo" class=form readonly><input type="hidden" name="monlogo" value=""> <input type="button" value="Choisir" onclick="popup('../popup.php?action=avatar',600,500)" class=form><p>
+
+<!--********** TPL NAME = extlogo **********-->
+		{%LNG[extlogo]%}<br>
+		<input type="text" name="extlogo" class=form><p>
+
+<!--********** TPL NAME = mailing **********-->
+	      <tr>
+	        <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[mailing]%}</u></b></font><br>
+		  <font size={%::_SKIN[smallfont]%}>{%LNG[mailing_cmt]%}</font><br>
+		</td>
+		<td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		  <font size={%::_SKIN[smallfont]%}>
+		  <input type=radio name="mailing" value="Y" {%::Result[mailingY]%}> {%LNG[yes]%}<BR>
+		  <input type=radio name="mailing" value="N" {%::Result[mailingN]%}> {%LNG[no]%}
+		  </font>
+	        </td>
+	      </tr>
+
+<!--********** TPL NAME = skinlist **********-->
+		  <option value="{%::j[id]%}"{%::selected%}>{%::j[valeur]%}
+		  
+<!--********** TPL NAME = lnglist **********-->
+		  <option value="{%::j[code]%}"{%::selected%}>{%::j[langue]%}
+
+<!--********** TPL NAME = infopersoform **********-->
+		  <form action="searchmember.php" method="post">
+                  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=95% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+         	  {%box[error2]%}
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[youricq]%}</u></b></font>
+		      </td>
+		      <td class="corp2" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[middlefont]%}><b><input type="text" name="icq" value="{%::Results[icq]%}" size="40" class="form" maxlength="9"></b></font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[youraim]%}</u></b></font>
+		      </td>
+		      <td class="corp2" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[middlefont]%}><B><input type="text" name="aim" value="{%::Results[aim]%}" size="40" class="form"></B></font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[youryahoo]%}</u></b></font>
+		      </td>
+		      <td class="corp2" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[middlefont]%}><B><input type="text" name="yahoomsg" value="{%::Results[yahoomsg]%}" size="40" class="form"></B></font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[yourmsn]%}</u></b></font>
+		      </td>
+		      <td class="corp2" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[middlefont]%}><B><input type="text" name="msn" value="{%::Results[msn]%}" size="40" class="form" maxlength="50"></B></font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[yourbirth]%}</u></b></font>
+		      </td>
+		      <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[smallfont]%}><B>
+		        {%LNG[day]%}
+		        {%box[day]%}
+		        {%LNG[month]%}
+		        {%box[month]%}
+		        {%LNG[year]%} <input type="text" value="{%box[year]%}" name="year" size="4" MAXLENGTH="4" class="form">
+		        </B></font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[yoursex]%}</u></b></font>
+		      </td>
+		      <td class="corp2" bgcolor={%::_SKIN[bgtable1]%}>
+		        <font size={%::_SKIN[middlefont]%}><B>{%box[sexe]%}</B></font>
+	              </td>
+	            </tr>
+	      <tr>
+	        <td width="220" class="corp" bgcolor={%::_SKIN[bgtable3]%} valign="top" nowrap>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[description]%} :</u></b></font><br>
+		  <font size={%::_SKIN[smallfont]%}>{%LNG[cmdescription]%}<p>
+		  </font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable1]%}>
+		  <textarea name="description" cols="60" rows="7" onFocus="Compter(this)" onKeyDown="Compter(this)" onKeyUp="Compter(this)" onBlur="Compter(this)" class=form>{%::Results[description]%}</textarea>
+	        </td>
+	      </tr>
+	            <tr>
+	              <td colspan=2 class="corp" bgcolor={%::_SKIN[bgtable3]%} align="center">
+	                <input type="hidden" name="action" value="updateinfocomp">
+	                <input type="hidden" name="id" value="{%::Id%}">
+	                <input type=submit value="{%LNG[valid]%}" class=form2>
+		        <input type=reset Value="{%LNG[restart]%}" class=form2>
+		      </td>
+	            </tr>
+	          </table><p>
+
+<!--********** TPL NAME = annifday **********-->
+		  <select name="day" class="form">
+		  <option value="">{%LNG[day]%}</option>
+		  <option value="01"{%::selectedd[1]%}>01</option>
+		  <option value="02"{%::selectedd[2]%}>02</option>
+		  <option value="03"{%::selectedd[3]%}>03</option>
+		  <option value="04"{%::selectedd[4]%}>04</option>
+		  <option value="05"{%::selectedd[5]%}>05</option>
+		  <option value="06"{%::selectedd[6]%}>06</option>
+		  <option value="07"{%::selectedd[7]%}>07</option>
+		  <option value="08"{%::selectedd[8]%}>08</option>
+		  <option value="09"{%::selectedd[9]%}>09</option>
+		  <option value="10"{%::selectedd[10]%}>10</option>
+		  <option value="11"{%::selectedd[11]%}>11</option>
+		  <option value="12"{%::selectedd[12]%}>12</option>
+		  <option value="13"{%::selectedd[13]%}>13</option>
+		  <option value="14"{%::selectedd[14]%}>14</option>
+		  <option value="15"{%::selectedd[15]%}>15</option>
+		  <option value="16"{%::selectedd[16]%}>16</option>
+		  <option value="17"{%::selectedd[17]%}>17</option>
+		  <option value="18"{%::selectedd[18]%}>18</option>
+		  <option value="19"{%::selectedd[19]%}>19</option>
+		  <option value="20"{%::selectedd[20]%}>20</option>
+		  <option value="21"{%::selectedd[21]%}>21</option>
+		  <option value="22"{%::selectedd[22]%}>22</option>
+		  <option value="23"{%::selectedd[23]%}>23</option>
+		  <option value="24"{%::selectedd[24]%}>24</option>
+		  <option value="25"{%::selectedd[25]%}>25</option>
+		  <option value="26"{%::selectedd[26]%}>26</option>
+		  <option value="27"{%::selectedd[27]%}>27</option>
+		  <option value="28"{%::selectedd[28]%}>28</option>
+		  <option value="29"{%::selectedd[29]%}>29</option>
+		  <option value="30"{%::selectedd[30]%}>30</option>
+		  <option value="31"{%::selectedd[31]%}>31</option>
+		  </select>
+		  
+<!--********** TPL NAME = annifmonth **********-->
+		  <select name="month" class="form">
+		  <option value="">{%LNG[month]%}</option>
+		  <option value="01"{%::selectedm[1]%}>{%LNG[january]%}</option>
+		  <option value="02"{%::selectedm[2]%}>{%LNG[february]%}</option>
+		  <option value="03"{%::selectedm[3]%}>{%LNG[march]%}</option>
+		  <option value="04"{%::selectedm[4]%}>{%LNG[april]%}</option>
+		  <option value="05"{%::selectedm[5]%}>{%LNG[may]%}</option>
+		  <option value="06"{%::selectedm[6]%}>{%LNG[june]%}</option>
+		  <option value="07"{%::selectedm[7]%}>{%LNG[july]%}</option>
+		  <option value="08"{%::selectedm[8]%}>{%LNG[august]%}</option>
+		  <option value="09"{%::selectedm[9]%}>{%LNG[september]%}</option>
+		  <option value="10"{%::selectedm[10]%}>{%LNG[october]%}</option>
+		  <option value="11"{%::selectedm[11]%}>{%LNG[november]%}</option>
+		  <option value="12"{%::selectedm[12]%}>{%LNG[december]%}</option>
+		  </select>
+		  
+<!--********** TPL NAME = sexbox **********-->
+		  <select name="sex" class="form">
+		  <option value="M"{%::sexM%}>{%LNG[male]%}</option>
+		  <option value="F"{%::sexF%}>{%LNG[female]%}</option>
+		  </select>
+	
+<!--********** TPL NAME = confdelmb **********-->
+		  <form action="searchmember.php" method="post">
+                  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=400 cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	            <tr>
+	              <td class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+	                <font size={%::_SKIN[middlefont]%}>
+			<center><b>{%LNG[confdelmb]%}</b></center><p>
+		        <blockquote>
+			<input type=radio name=msg value=keep CHECKED>&nbsp;{%LNG[keepmsg]%}<br>
+		        <input type=radio name=msg value=delete>&nbsp;{%LNG[deletemsg]%}<br>
+		        </blockquote>
+		        <input type="hidden" name="id" value="{%::_GET[id]%}">
+		        <input type="hidden" name="action" value="delmember">
+		        <center><input type="submit" value="{%LNG[valid]%}" class="form2"></center><p>
+		        </font>
+		      </td>
+	            </tr>
+	          </table>
+	          </form>
+
+<!--********** TPL NAME = affnewpass **********-->
+                  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=400 cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	            <tr>
+	              <td class="corp" bgcolor={%::_SKIN[bgtable3]%} nowrap>
+			<center>
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[thisisnewpass]%}</b></font><p>
+			<font size={%::_SKIN[bigfont]%}><b>{%::FinalPass%}</b></font><p>
+		      </td>
+	            </tr>
+	          </table>
+
+		  
+		  		  
+
+	      
+
+
+
+
+		

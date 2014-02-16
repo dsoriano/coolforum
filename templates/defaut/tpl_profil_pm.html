@@ -1,0 +1,262 @@
+<!--********** TPL NAME = interfaceaccueil **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+              <tr height="30">
+                <td class="corp2" bgcolor={%::_SKIN[bgtable2]%} colspan=5>
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[accueilpm]%}</u></b></font><br>
+                  <font size={%::_SKIN[smallfont]%}>{%box[nbnewpm]%}</font>
+                </td>
+              </tr>
+            </table><p>
+
+            <form action="profile.php" method=post>
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+              <tr height="25">
+                <td width="40" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap>
+                  &nbsp;
+                </td>
+                <td class="corp" align=center {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">
+                  <font size={%::_SKIN[middlefont]%}>{%LNG[sujet]%}</font>
+                </td>
+                <td width="140" class="corp" align=center {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap>
+                  <font size={%::_SKIN[middlefont]%}>{%LNG[from]%}</font>
+                </td>
+                <td width="140" class="corp" align=center {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap>
+                  <font size={%::_SKIN[middlefont]%}>{%LNG[date]%}</font>
+                </td>
+                <td width="80" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap>
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan=5><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+              </tr>
+              <tr>
+                <td class="corp" bgcolor={%::_SKIN[bgtable3]%} colspan=5>
+                  <font size={%::_SKIN[middlefont]%}><b>{%LNG[titleinbox]%}</b></font>
+                </td>
+              </tr>
+              {%box[pmcontent]%}
+              <tr>
+                <td colspan=5><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+              </tr>
+              <tr bgcolor={%::_SKIN[bgtable3]%}>
+                <td class="corp" colspan=4>
+                  <font size={%::_SKIN[smallfont]%}>
+                  <img src="{%::_SKIN[repimg]%}/nonlu.gif" align="absmiddle"> : {%LNG[lgnonlu]%}<br>
+                  <img src="{%::_SKIN[repimg]%}/lu.gif" align="absmiddle"> : {%LNG[lglu]%}<br>
+                  </font>
+                </td>
+                <td align=center>
+                  <input type=hidden name="p" value="pm">
+                  <input type=hidden name="action" value="delmsg">
+                  <input type=submit value="{%LNG[delete]%}" class="form2">
+                </td>
+              </tr>
+            </table>
+            </form>
+            <form action="profile.php" method=post>
+            <input type=hidden name="p" value="pm">
+            <input type=hidden name="action" value="writemsg">
+            <table border=0 width=95%>
+            <TR><TD><input type=submit value="{%LNG[sendnewpm]%}" class=form> <input type=button value="{%LNG[deleteall]%}" class=form OnClick="javascript:window.location.replace('profile.php?p=pm&action=delallmsg');"> {%box[sendpmbymail]%}</TD></TR></table>
+            </form>
+
+<!--********** TPL NAME = nonewpm **********-->
+
+	    <tr bgcolor={%::_SKIN[bgtable1]%}>
+	      <td class="corp" colspan=5>
+	        <font size={%::_SKIN[smallfont]%}><b>{%LNG[nopm]%}</b></font><br>
+	      </td>
+	    </tr>
+
+<!--********** TPL NAME = viewpms **********-->
+
+	    <tr bgcolor={%::_SKIN[bgtable2]%}>
+	      <td align=center bgcolor={%::_SKIN[bgtable1]%}>
+	        <img src="{%::_SKIN[repimg]%}/{%::Respm[imgpm]%}.gif">
+	      </td>
+	      <td class="corp2">
+	        <font size={%::_SKIN[smallfont]%}>
+	        <a href="profile.php?p=pm&action=readmsg&id={%::Respm[id]%}" class="lien"><b>{%::Respm[sujet]%}</b></A>
+	        </font>
+	      </td>
+	      <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+	        <font size={%::_SKIN[smallfont]%}>{%::Respm[pseudo]%}</font>
+	      </td>
+	      <td class="corp" align=center bgcolor={%::_SKIN[bgtable1]%}>
+	        <font size={%::_SKIN[smallfont]%}>{%::Respm[date]%}</font>
+	      </td>
+	      <td align=center>
+	        <input name="del[{%::Respm[id]%}]" value="{%::Respm[id]%}" type=checkbox class=form>
+	      </td>
+	    </tr>
+	    
+<!--********** TPL NAME = sendmessagebox **********-->
+{%box[javascript]%}
+<script language="javascript">
+<!--
+var submit=false;
+
+function testsubmit()
+{
+	if(wysiwyg){
+	  if(ie){
+		document.formulaire.msg.value = edit.innerHTML;
+	  }
+	  else{
+		document.formulaire.msg.value = editelem.body.innerHTML;
+	  }
+	}
+	if (submit==false)
+	{
+		submit=true
+		document.formulaire.target = "";
+		document.formulaire.action.value="sendmsg";
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+-->
+</script>
+
+            <form name="formulaire" action="profile.php" method=post onsubmit="return testsubmit()">
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	      <tr bgcolor={%::_SKIN[bgtable3]%}>
+	        <td colspan=2 class="corp">
+		  <font size={%::_SKIN[middlefont]%}><B>{%LNG[sendboxtitle]%}</B></font>
+		</td>
+	      </tr>
+	      {%box[errorbox]%}
+	      <tr>
+	        <td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[exp]%}</u></b></font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+		  <font size={%::_SKIN[middlefont]%}><B>{%::posteurpseudo%}</B></font>
+		</td>
+	      </tr>
+	      <tr>
+		<td valign="top" class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[dest]%}</u></b></font>
+		</td>
+		<td class="corp2" bgcolor={%::_SKIN[bgtable2]%}>
+		  <font size={%::_SKIN[smallfont]%}>
+		  <b>{%box[loginform]%}</b><p>
+		  {%LNG[searchmb]%} : <input type=text name="pseudosearch" class=form> <input type=button value="{%LNG[btngo]%}" onclick="window.location='profile.php?p=pm&action=writemsg&pseudosearch='+document.formulaire.pseudosearch.value" class=form><p>
+		  </font>
+		</td>
+	      </tr>
+	      <tr>
+		<td class="corp" bgcolor={%::_SKIN[bgtable1]%}>
+		  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[pmsujet]%}</u></b></font>
+		</td>
+		<td bgcolor={%::_SKIN[bgtable2]%}>
+		  <input type="text" name="sujet" value="{%box[subject]%}" class=form>
+		</td>
+	      </tr>
+                {%box[boxwritepage]%}
+	      </tr>
+	      <tr>
+		<td align=center colspan=2 bgcolor={%::_SKIN[bgtable1]%}>
+		  <input type=submit value="{%LNG[valid]%}" class=form> <input type=reset value="{%LNG[restart]%}" class=form>
+		</td>
+	      </tr>
+            </table><p>
+            <input type=hidden name="p" value="pm">
+            <input type=hidden name="action" value="sendmsg">
+            </form><p>
+
+<!--********** TPL NAME = errorbox **********-->
+	      <tr bgcolor={%::_SKIN[bgtable3]%}>
+	        <td colspan=2 class="corp">
+		  <font size={%::_SKIN[middlefont]%}><B>*** {%::error%} ***</B></font>
+		</td>
+	      </tr>
+	      
+<!--********** TPL NAME = loginselect **********-->
+		  <select name="dest" class=form>
+		  {%box[loginlist]%}
+		  </select>
+
+<!--********** TPL NAME = loginoption **********-->
+		  <option value="{%::j[userid]%}"{%::selected%}>{%::j[login]%}
+            
+<!--********** TPL NAME = readpmbox **********-->
+/**************************************
+* ID=6 - Boîte de lecture de message *
+***************************************/
+
+            <form action="profile.php" method=post name=formulaire>
+
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=2 cellspacing=0 style="border-collapse: collapse;">
+	      <tr height="25" bgcolor={%::_SKIN[bgtable1]%}>
+	        <td class="corp" align="center" width=20% {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">
+	          <font size={%::_SKIN[middlefont]%}>{%LNG[authortt]%}</font>
+	        </td>
+            	<td class="corp" align=center {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}">
+            	  <font size={%::_SKIN[middlefont]%}>{%LNG[msgtt]%}</font>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td colspan="2">
+	          <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+	        </td>
+	      </tr>
+              <tr>
+                <td class="corp2" bgcolor={%::_SKIN[bgtable2]%} valign=top width="180" nowrap>
+                  <font size="2" class="infomb{%::DetailMsg[userstatus]%}">
+                  <b>{%tmp[pseudo]%}</b>
+                  </font>
+                </td>
+                <td bgcolor={%::_SKIN[bgtable1]%} height=100% class="corp" valign="top">
+                  <font size={%::_SKIN[smallfont]%}>
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[readsujet]%} :</u></b></font> {%tmp[sujet]%}<br>
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[whensend]%} :</u></b></font> {%tmp[date]%}
+                  <HR color={%::_SKIN[textcol1]%}>
+                  <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[readmsg]%} :</u></b></font><p>
+                  {%tmp[msg]%}<p>
+                  </font>
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor={%::_SKIN[bgtable3]%} colspan="2" align="right">
+		  <input type=submit value="{%LNG[answer]%}" class="form2">
+		  <input type=button value="{%LNG[delete]%}" onclick="window.location='profile.php?p=pm&action=delmsg&del[1]={%tmp[id]%}'" class="form2"> 
+                </td>
+              </tr>
+            </table>
+            <input type=hidden name="p" value="pm">
+            <input type=hidden name="action" value="writemsg">
+            <input type=hidden name="idpm" value="{%tmp[id]%}">
+            </form><p>
+            
+<script language="javascript">
+<!--
+if( window.addEventListener )
+	document.addEventListener('keypress',gotorep,true);
+else if( window.attachEvent )
+	document.attachEvent('onkeypress',gotorep);
+function gotorep(evnt)
+{
+	cle1 = document.all ? event.keyCode : evnt.which;
+	cle2 = document.all ? event.shiftKey : evnt.shiftKey;
+	if( (cle1 == 115 || cle1 == 83) && cle2 == true )
+		document.formulaire.submit();
+}
+//-->
+</script>
+
+<!--********** TPL NAME = infobox **********-->
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr>
+          <td align="center" bgcolor="{%::_SKIN[bgtable2]%}" class="corp2" align="center">
+            <font size={%::_SKIN[middlefont]%}><b>{%box[infomsg]%}</b></font>
+          </td>
+        </tr>
+      </table><p>
+
+<!--********** TPL NAME = sendpmbymail **********-->
+      <input type=button value="{%LNG[sendpmbymail]%}" OnClick="javascript:window.location.replace('profile.php?p=pm&action=sendpmbymail');" class=form>

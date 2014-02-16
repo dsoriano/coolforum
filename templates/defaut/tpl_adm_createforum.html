@@ -1,0 +1,374 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%box[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = formulaire **********-->
+<script language="javascript">
+<!--
+NbGroup = {%::NbGroups%}
+  function checkcolon(id)
+  {
+    if(id<5){
+    	pos = 4+id;
+    	startgroup = 0;}
+    else{
+    	pos = 10+id;
+    	startgroup = 1;}
+    	
+    if(document.formulaire.elements[pos].checked){
+    	checkcase=true;}
+    else{
+    	checkcase=false;}
+    	
+    for(i=startgroup;i<NbGroup;i++)
+    {
+      if(checkcase){
+      	document.formulaire.elements[pos].checked = false;}
+      else{
+      	document.formulaire.elements[pos].checked = true;}
+      	
+      if(i==0){
+      	pos = pos+6;}
+      else{
+      	pos = pos+8;}
+    }
+  }
+  
+  function checkligne(id)
+  {
+    if(id==1){
+    	pos = 4;
+    	nboptions = 6;}
+    else{
+    	pos = 10 + ((id-2)*8);
+    	nboptions = 8;}
+
+    if(document.formulaire.elements[pos].checked){
+    	checkcase=true;}
+    else{
+    	checkcase=false;}
+    	
+    for(i=0;i<nboptions;i++)
+    {
+      if(checkcase)
+        document.formulaire.elements[pos].checked = false;
+      else
+      	document.formulaire.elements[pos].checked = true;
+      pos++;
+    }  
+  }
+  
+  function setmaxchar()
+  {
+    pos = 9;
+    
+    for(i=0;i<NbGroup;i++)
+    {
+      document.formulaire.elements[pos].value = document.formulaire.UpdMaxChar.value;
+      pos +=8;
+    }  
+  }
+
+-->
+</script>
+
+		  {%box[IsSaved]%}
+		  <form name="formulaire" action="{%box[pagedest]%}" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=150>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[forum_title]%}</u></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}">
+	                <input type="text" name="forumname" class="form2" size="60" value="{%::InfosForum[forumtitle]%}">
+	              </td>
+	            </tr>
+	            
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=150>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[forum_cat]%}</u></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}">
+	                <select name="cat" class="form2">
+	                {%box[catlist]%}
+	                </select>
+	              </td>
+	            </tr>
+	            
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=150>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[forum_coment]%}</u></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}">
+	                <input type="text" name="forumcoment" class="form2" size="60" value="{%::InfosForum[forumcomment]%}">
+	              </td>
+	            </tr>
+	            
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=150>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[forum_opstat]%}</u></b></font>
+	              </td>
+	              <td bgcolor="{%::_SKIN[bgtable1]%}">
+	                <select name="openorclose" class="form2">
+	                <option value="Y"{%::OpenForum[0]%}>{%LNG[foropen]%}
+	                <option value="N"{%::OpenForum[1]%}>{%LNG[forclosed]%}
+	                </select>
+	              </td>
+	            </tr>
+	            	            	            	            
+	          </table><p>
+	          
+	          <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr bgcolor="{%::_SKIN[bgtable3]%}">
+	              <td class="corp" align="center"><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_titre]%}</b></font></td>
+	              <td class="corp" align="center" width=15><font size={%::_SKIN[smallfont]%}>&nbsp;</font></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_voitfor]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_voittt]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_voitmsg]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_addrep]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_addtt]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_addsond]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_freeedit]%}</font></b></td>
+	              <td class="corp" align="center" width=65><b><font size={%::_SKIN[smallfont]%}>{%LNG[dr_maxmsg]%}</font></b></td>
+	            </tr>
+	            {%box[listedroits]%}
+	            <tr bgcolor="{%::_SKIN[bgtable3]%}">
+	              <td class="corp" align="center"><font size={%::_SKIN[smallfont]%}>&nbsp;</font></td>
+	              <td class="corp" align="center"><font size={%::_SKIN[smallfont]%}>&nbsp;</font></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(0)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(1)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(2)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(3)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(4)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(5)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><a href="javascript:checkcolon(6)"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0></a></td>
+	              <td class="corp" align="center"><font size={%::_SKIN[smallfont]%}><a href="javascript:setmaxchar()"><img src="{%::_SKIN[repimg]%}/toppage.gif" border=0 align="middle"></a> <input type="text" name="UpdMaxChar" class="form2" size=4></font></td>
+	            </tr>
+	          </table><p>
+	          
+	          <input type="submit" value="{%LNG[forum_save]%}" class="form">
+	          
+	          <input type="hidden" name="id" value="{%::_REQUEST[id]%}">
+		  <input type="hidden" name="action" value="save">
+	          </form>	          
+<!--********** TPL NAME = selectcat **********-->
+<option value="{%::Cats[catid]%}"{%::Selected%}>{%::Cats[cattitle]%}
+
+<!--********** TPL NAME = nocat **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[nocat]%}</b></font>
+	              </td>
+	            </tr>
+	          </table>
+	          
+<!--********** TPL NAME = ligne_droits **********-->
+	            <tr bgcolor="{%::_SKIN[bgtable1]%}">
+	              <td align="left" class="corp"><b><font size={%::_SKIN[smallfont]%}>{%::Grp[Nom_group]%}</font></b></td>
+	              <td align="left" align="center"><a href="javascript:checkligne({%::i%})"><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0></a></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][0]" value="true" class="form"{%::AffRights[0]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][1]" value="true" class="form"{%::AffRights[1]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][2]" value="true" class="form"{%::AffRights[2]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][3]" value="true" class="form"{%::AffRights[3]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][4]" value="true" class="form"{%::AffRights[4]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][5]" value="true" class="form"{%::AffRights[5]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][6]" value="true" class="form"{%::AffRights[6]%}></td>
+	              <td align="center"><input type="text" name="MaxChar[{%::i%}]" value="{%::DefMaxChar%}" class="form" size=6></td>
+	            </tr>	          
+
+<!--********** TPL NAME = ligne_droits_guests **********-->
+	            <tr bgcolor="{%::_SKIN[bgtable1]%}">
+	              <td align="left" class="corp"><b><font size={%::_SKIN[smallfont]%}>{%::Grp[Nom_group]%}</font></b></td>
+	              <td align="left" align="center"><a href="javascript:checkligne({%::i%})"><img src="{%::_SKIN[repimg]%}/linkmsg.gif" border=0></a></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][0]" value="true" class="form"{%::AffRights[0]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][1]" value="true" class="form"{%::AffRights[1]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][2]" value="true" class="form"{%::AffRights[2]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][3]" value="true" class="form"{%::AffRights[3]%}></td>
+	              <td align="center"><input type="checkbox" name="droits[{%::i%}][4]" value="true" class="form"{%::AffRights[4]%}></td>
+	              <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}>-</font></td>
+	              <td align="center" class="corp"><font size={%::_SKIN[smallfont]%}>-</font></td>
+	              <td align="center"><input type="text" name="MaxChar[{%::i%}]" value="{%::DefMaxChar%}" class="form" size=6></td>
+	            </tr>
+
+<!--********** TPL NAME = savemsg **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%box[savemsg]%}</b></font>
+	              </td>
+	            </tr>
+	          </table><p>
+	          
+<!--********** TPL NAME = forumlist **********-->
+
+		  <font size={%::_SKIN[smallfont]%}><b>{%LNG[clickonforum]%}</b></font><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80%>
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td align="center" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[forumname]%}</b></font>
+		      </td>
+		      <td align="center" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[forumorder]%}</b></font>
+		      </td>
+		    </tr>
+		    {%box[catforum]%}
+		  </table>
+		  
+<!--********** TPL NAME = nocatfound **********-->
+
+		    <tr bgcolor="{%::_SKIN[bgtable2]%}">
+		      <td align="center" class="corp" colspan=2><font size={%::_SKIN[smallfont]%}><b>{%LNG[nocatfound]%}</b></font></td>
+		    </tr>
+		    
+<!--********** TPL NAME = ligneforum **********-->
+
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b>&nbsp;&nbsp;<a href="modifforum.php?action=modify&id={%::MyForum[forumid]%}" class="men">{%::MyForum[forumtitle]%}</a></b></font>
+		      </td>
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[middlefont]%}>{%::MyForum[position]%}</font>
+		      </td>
+		    </tr>
+		    
+<!--********** TPL NAME = lignecat **********-->
+
+		    <tr bgcolor="{%::_SKIN[bgtable2]%}">
+		      <td class="corp2" colspan=2><font size={%::_SKIN[middlefont]%}><b>{%::Cats[cattitle]%}</b></font></td>
+		    </tr>
+		    
+<!--********** TPL NAME = posactual **********-->
+<B>{%::pos[forumorder]%}</B> 
+
+<!--********** TPL NAME = posdest **********-->
+<a href="modifforum.php?action=changepos&cat={%::Cats[catid]%}&forumid={%::MyForum[forumid]%}&place={%::MyForum[forumorder]%}&changeto={%::pos[forumorder]%}" class="men">{%::pos[forumorder]%}</a> 
+
+<!--********** TPL NAME = modolist **********-->
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  <center><font size={%::_SKIN[smallfont]%}>{%LNG[modohelp]%}</font></center><p>
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=50% align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[mododispo]%}</b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[clickonmodo]%}</font><br>
+	              </td>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=50% align="center">
+	                <font size={%::_SKIN[middlefont]%}><b>{%LNG[modoselected]%}</b></font><br>
+	                <font size={%::_SKIN[smallfont]%}>{%LNG[clicktoedit]%}</font><br>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" valign="top">
+	              	<font size={%::_SKIN[smallfont]%}>
+	                {%box[mododispolist]%}
+	                </font>
+	              </td>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" valign="top">
+	                <font size={%::_SKIN[smallfont]%}>
+	                {%box[modoselectlist]%}
+	                </font>
+	              </td>
+	            </tr>
+	          </table><p>
+
+<!--********** TPL NAME = modotochoose **********-->
+<a href="modifforum.php?action=addmodo&id={%::_REQUEST[id]%}&identuser={%::ModoDispo[userid]%}" class=men>{%::ModoDispo[login]%}</a><BR>
+
+<!--********** TPL NAME = tblemodolist **********-->
+	                <table border=0 width=98% cellspacing=0 cellpadding=0>
+	                  <tr>
+	                    <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=50% align="center">
+	                      <font size={%::_SKIN[smallfont]%}>{%LNG[listmodoname]%}</font><br>
+	                    </td>
+	                    <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=50% align="center">
+	                      <font size={%::_SKIN[smallfont]%}>{%LNG[listmodoorder]%}</font><br>
+	                    </td>
+	                  </tr>
+	                  {%box[lgnemodo]%}
+	                </table>
+
+<!--********** TPL NAME = lgnemodo **********-->
+	                  <tr>
+	                    <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+	                      <font size={%::_SKIN[smallfont]%}><a href="modifforum.php?action=editmodo&id={%::_REQUEST[id]%}&identuser={%::ModoSelect[idusermodo]%}" class="men">{%::ModoSelect[modologin]%}</a></font>
+	                    </td>
+	                    <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}"align="center">
+	                      <font size={%::_SKIN[smallfont]%}>{%box[modoorder]%}</font>
+	                    </td>
+	                  </tr>
+
+<!--********** TPL NAME = posmodoactual **********-->
+<B>{%::pos[modoorder]%}</B>
+
+<!--********** TPL NAME = posmododest **********-->
+<a href="modifforum.php?action=changeposmodo&forumid={%::_REQUEST[id]%}&place={%::ModoSelect[modoorder]%}&changeto={%::pos[modoorder]%}&modo={%::ModoSelect[idusermodo]%}" class=men>{%::pos[modoorder]%}</A> 
+
+<!--********** TPL NAME = modoeditpage **********-->
+		  <form action="modifforum.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=200>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[modoname]%}</u></b></font>
+	              </td>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+	                <font size={%::_SKIN[middlefont]%}><b>{%::Modo[modologin]%}</b></font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" width=200 valign=top>
+	                <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[modorights]%}</u></b></font>
+	              </td>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}">
+	                <font size={%::_SKIN[middlefont]%}>
+	                <input type="checkbox" name="modorights[0]" value="true"{%::Check[0]%}> {%LNG[canip]%}<br>
+	                <input type="checkbox" name="modorights[1]" value="true"{%::Check[1]%}> {%LNG[canedit]%}<br>
+	                <input type="checkbox" name="modorights[2]" value="true"{%::Check[2]%}> {%LNG[candel]%}<br>
+	                <input type="checkbox" name="modorights[3]" value="true"{%::Check[3]%}> {%LNG[canban]%}<br>
+	                <input type="checkbox" name="modorights[4]" value="true"{%::Check[4]%}> {%LNG[canopentopic]%}<br>
+	                <input type="checkbox" name="modorights[5]" value="true"{%::Check[5]%}> {%LNG[canopenforum]%}<br>
+	                <input type="checkbox" name="modorights[6]" value="true"{%::Check[6]%}> {%LNG[canmovetopic]%}<br>
+	                <input type="checkbox" name="modorights[7]" value="true"{%::Check[7]%}> {%LNG[canpostit]%}<br>
+	                <input type="checkbox" name="modorights[8]" value="true"{%::Check[8]%}> {%LNG[cansplit]%}<br>
+	                </font>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" colspan="2" align="center">
+	          	<input type="hidden" name="action" value="updatemodo">
+	          	<input type="hidden" name="id" value="{%::_REQUEST[id]%}">
+	          	<input type="hidden" name="identuser" value="{%::_REQUEST[identuser]%}">
+	                <input type="submit" value="{%LNG[updatemodo]%}" class="form2">
+	              </td>
+	            </tr>
+	          </table>
+	          </form><p>
+	          
+	          <font size={%::_SKIN[middlefont]%}><b>{%LNG[cmdelmodo]%}</b></font><p>
+	          <form action="modifforum.php" method="post">
+	          <input type="hidden" name="action" value="delmodo">
+	          <input type="hidden" name="id" value="{%::_REQUEST[id]%}">
+	          <input type="hidden" name="identuser" value="{%::_REQUEST[identuser]%}">
+	          <input type="submit" value="{%LNG[btndelmodo]%}" class="form">
+	          </form><p>
+
+
+
+
+

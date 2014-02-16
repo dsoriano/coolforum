@@ -1,0 +1,65 @@
+<!--********** TPL NAME = optionslist **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <form action="options_html.php" method="post">
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[usepub]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[usepub_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <select name="configz[usepub]" class=form>
+		        <option value="Y"{%::IsSelected[1]%}>{%LNG[optusepub]%}
+		        <option value="N"{%::IsSelected[2]%}>{%LNG[optusehtml]%}
+		        </select>
+		      </td>
+		    </tr>
+		  </table><p>
+		  		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[htmlhaut]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[htmlhaut_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <textarea COLS=50 ROWS=10 name="configz[ajouthtml]" class=form>{%::configuration[ajouthtml]%}</textarea>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=95% cellpadding=5>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable3]%}" class="corp">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[htmlbas]%}</u></b></font><br>
+		        <font size={%::_SKIN[smallfont]%}>{%LNG[htmlbas_cmt]%}</font><br>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td bgcolor="{%::_SKIN[bgtable1]%}" class="corp" align="center">
+		        <textarea COLS=50 ROWS=10 name="configz[htmlbas]" class=form>{%::configuration[htmlbas]%}</textarea>
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  
+		  <input type="hidden" name="action" value="save">
+		  <input type="submit" Value="{%LNG[valid]%}" class="form">
+		  </form>
+		  		  		      
+		</td>
+              </tr>
+            </table>

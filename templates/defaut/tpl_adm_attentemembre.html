@@ -1,0 +1,101 @@
+<!--********** TPL NAME = content **********-->
+            <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=100% cellpadding=0>
+              <tr>
+                <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}">
+		  <center><font size={%::_SKIN[middlefont]%}>
+		  <b><u>{%LNG[titlesection]%}</u></b></font><p>
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}">
+		  
+		  {%box[admcontent]%}
+		  
+		  <hr color="{%::_SKIN[bordercolor]%}"><p>
+		  		  		  		      
+		</td>
+              </tr>
+            </table>
+            
+<!--********** TPL NAME = listmembre **********-->
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=50% bgcolor="{%::_SKIN[bgtable3]%}">
+		    <tr>
+		      <td class="corp" style="text-align:justify;">
+		        <font size={%::_SKIN[middlefont]%}>
+		        {%LNG[cmmbattente]%}
+		        </font>
+		      </td>
+		    </tr>
+		  </table><P>
+		  
+		  {%box[error]%}
+		  
+		  <form action="attentemembre.php" method="post">
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=80% cellpadding=5>
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" colspan=4 align="center">
+		        <font size={%::_SKIN[middlefont]%}><b><u>{%LNG[yourmembers]%}</u></b></font>
+		      </td>
+		    </tr>
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[mbname]%}</b></font>
+		      </td>
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[register]%}</b></font>
+		      </td>
+		      <td class="corp" align="center" width="100">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[delmember]%}</b></font>
+		      </td>
+		      <td class="corp" align="center" width="100">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[validmember]%}</b></font>
+		      </td>
+		    </tr>
+		    {%box[listmember]%}
+		    <tr bgcolor="{%::_SKIN[bgtable3]%}">
+		      <td class="corp" align="center">
+		        &nbsp;
+		      </td>
+		      <td class="corp" align="center" width="150">
+		        &nbsp;
+		      </td>
+		      <td align="center" colspan="2">
+		        <input type="hidden" name="action" value="del">
+		        <input type="submit" value="{%LNG[validchoice]%}" class="form2">
+		      </td>
+		    </tr>
+		  </table><p>
+		  
+<!--********** TPL NAME = ifnoattmb **********-->
+		    <tr>
+		      <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" colspan=4 align="center">
+		        <font size={%::_SKIN[middlefont]%}><b>{%LNG[noattmb]%}</b></font>
+		      </td>
+		    </tr>
+
+<!--********** TPL NAME = lignemember **********-->
+		    <tr bgcolor="{%::_SKIN[bgtable1]%}">
+		      <td class="corp">
+		        <font size={%::_SKIN[middlefont]%}>{%::Mb[login]%}</font>
+		      </td>
+		      <td class="corp" align="center" width="150">
+		        <font size={%::_SKIN[middlefont]%}>{%::Mb[registerdate]%}</font>
+		      </td>
+		      <td class="corp" align="center" width="100">
+		        <font size={%::_SKIN[middlefont]%}><input type="checkbox" name="todel[{%::i%}]" value="{%::Mb[userid]%}"></font>
+		      </td>
+		      <td class="corp" align="center" width="100">
+		        <font size={%::_SKIN[middlefont]%}><input type="checkbox" name="tovalid[{%::i%}]" value="{%::Mb[userid]%}"></font>
+		      </td>
+		    </tr>
+		    
+<!--********** TPL NAME = errormail **********-->		
+		  <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" style="border-collapse:collapse;" width=50% bgcolor="{%::_SKIN[bgtable3]%}">
+		    <tr>
+		      <td class="corp" align="center">
+		        <font size={%::_SKIN[middlefont]%}>
+		        <b>{%LNG[errormail]%}</b>
+		        </font>
+		      </td>
+		    </tr>
+		  </table><P>
+
+

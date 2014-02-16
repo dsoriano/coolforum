@@ -1,0 +1,62 @@
+<?php
+$tpl->LNG['titlesection']="Ajouter un membre";
+$tpl->LNG['tttitle']="Informations obligatoires pour inscription";
+$tpl->LNG['ttpseudo']="Choisissez un pseudo";
+$tpl->LNG['cmpseudo']="Ce sera l'identifiant du membre";
+$tpl->LNG['ttpass']="Choisissez un mot de passe";
+$tpl->LNG['cmpass']="Permettra de protéger le compte du membre";
+$tpl->LNG['ttrepass']="Retapez le mot de passe";
+$tpl->LNG['cmrepass']="Préviens les fautes de frappe";
+$tpl->LNG['ttemail']="Saisissez l'email";
+$tpl->LNG['cmemail']="Permet de contacter votre membre";
+$tpl->LNG['ttquest']="Saisissez une question";
+$tpl->LNG['cmquest']="Elle sera posée en cas de perte de mot de passe";
+$tpl->LNG['ttrep']="Réponse correspondante";
+$tpl->LNG['cmrep']="Ce qu'il faudra répondre à la question";
+$tpl->LNG['valid']="Valider";
+$tpl->LNG['reset']="Recommencer";
+
+$tpl->LNG['errorpseudo1']="Veuillez saisir un pseudonyme valide";
+$tpl->LNG['errorpseudo2']="Ce pseudo est déjà utilisé, veuillez en choisir un autre";
+$tpl->LNG['errormdp1']="Mot de passe non valide";
+$tpl->LNG['errormdp2']="Confirmation de mot de passe non valide";
+$tpl->LNG['errormail1']="L'adresse email n'est pas valide";
+$tpl->LNG['errormail2']="Adresse email déjà connue";
+$tpl->LNG['errorquest']="Champ 'Question' non valide";
+$tpl->LNG['errorrep']="Champ 'Réponse' non valide";
+
+$tpl->LNG['registerok']="Le nouveau membre a été enregistré correctement";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+$tpl->LNG['']="";
+
+

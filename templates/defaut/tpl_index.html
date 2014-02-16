@@ -1,0 +1,188 @@
+<!--********** TPL NAME = boxaccueil **********-->
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border: 1px solid; border-collapse: collapse;">
+	    <tr>
+	      <td bgcolor="{%::_SKIN[bgtable1]%}">
+	        <table border=0 width=100% cellpadding=0>
+	          <tr>
+	            <form action="login.php" method=post>
+		        {%box[pseudovisit]%}
+		        </form>
+	          </tr>
+	        </table>
+	      </td>
+	    </tr>
+	   {%box[boxnews]%}
+	   {%box[boxconnected]%}
+      </table>
+      &nbsp;<br>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+
+<!--********** TPL NAME = ifloggued **********-->
+
+	        <td width=50% class="corp" style="padding-left:4;">
+	          <font size={%::_SKIN[smallfont]%}>{%LNG[welcome]%} <b>{%::_USER[username]%}</b> | <a href="logout.php" class="men">{%LNG[logout]%}</a><br></font>
+	        </td>
+
+<!--********** TPL NAME = ifmsgposted **********-->
+
+	        <td width=50% class="corp" style="padding-right:4;" align="right">
+	          <font size={%::_SKIN[smallfont]%}>{%LNG[lastpost]%} {%::_USER[lastpost]%}<br></font>
+	        </td>
+
+<!--********** TPL NAME = ifnomsgposted **********-->
+
+	        <td width=50% class="corp" style="padding-right:4;" align="right">
+	          <font size={%::_SKIN[smallfont]%}>{%LNG[nomsgpost]%}<br></font>
+	        </td>
+	        
+<!--********** TPL NAME = ifnotloggued **********-->
+
+	        <td class="corp" style="padding-right:4;" align="right">
+		  <font size={%::_SKIN[smallfont]%}>
+		  {%LNG[identify]%}<br>
+	    	  <input type=text name="pseudo" class=form size=10>
+	    	  <input type=password name="password" class=form size=10>
+	    	  <input type=hidden name="duree" value="1">
+	    	  <input type=submit value="Go" class=form>
+	        </td>
+
+<!--********** TPL NAME = newsbox **********-->
+
+        <tr>
+          <td id="tdnews" class="corp2" bgcolor="{%::_SKIN[bgtable2]%}" style="padding: 0px;">
+            <font size={%::_SKIN[middlefont]%}>
+
+	<script language="javascript">
+	<!--
+	function zescroll()
+	{
+	    if((parseInt(crossobjet.style.left))>-(parseInt(crossobjet.style.width))){
+	      crossobjet.style.left = parseInt(crossobjet.style.left)-1
+	      setTimeout("zescroll()",15)}
+	    else{
+	      crossobjet.style.left = tdnew.offsetWidth;
+	      setTimeout("zescroll()",1)}
+	}
+	
+	function init()
+	{
+		 tdnew						=	document.getElementById? document.getElementById("tdnews") : document.all.tdnews
+	     crossobj					=	document.getElementById? document.getElementById("news") : document.all.news
+	     crossobjet					=	document.getElementById? document.getElementById("sousnews") : document.all.sousnews
+	     crossobj.style.width		=	tdnew.offsetWidth - 2;
+	     crossobjet.style.width		=	crossobjet.offsetWidth;
+	     crossobjet.style.left		=	tdnew.offsetWidth;
+			
+	  	zescroll();
+	}
+	
+	window.onload=init;
+	-->
+	</script>
+	
+			  <div id="news" style="position: relative; width: 0; height:20; overflow:hidden;">
+			  <div id="sousnews" style="position: absolute; top:0; left:0;"><nobr>{%::_FORUMCFG[indexnews]%}</nobr></div>
+		      </div>
+            </font>
+          </td>
+        </tr>
+
+<!--********** TPL NAME = accueilgeneral **********-->
+
+<table border=0 width=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bggauche.gif">&nbsp;</td>
+    <td bgcolor="{%::_SKIN[bg2]%}">
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border-collapse: collapse;">
+        <tr height="25">
+          <td width="30" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" align=center style="padding-top:3px;" nowrap>{%box[linknewmsg]%}</td>
+          <td class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}"><font size={%::_SKIN[middlefont]%}>{%LNG[forumlist]%}</font></td>
+          <td width="70" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap><font size={%::_SKIN[middlefont]%}>{%LNG[threads]%}</font></td>
+          <td width="70" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap><font size={%::_SKIN[middlefont]%}>{%LNG[posts]%}</font></td>
+          <td width="140" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap><font size={%::_SKIN[middlefont]%}>{%LNG[lastmsg]%}</font></td>
+          <td width="140" class="corp" align="center" {%box[affdegrad]%} bgcolor="{%::_SKIN[bgtable3]%}" nowrap><font size={%::_SKIN[middlefont]%}>{%LNG[moderators]%}</font></td>
+        </tr>
+        <tr>
+          <td colspan=6><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>
+        
+  {%box[affforumcontent]%}
+  
+      </table>
+      <img src="{%::_SKIN[repimg]%}/blank.gif"><br>
+      
+      <table border=1 bordercolor="{%::_SKIN[bordercolor]%}" width=100% cellpadding=0 cellspacing=0 style="border: 1px solid; border-collapse: collapse;">
+        <tr height="20">
+          <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" style="padding-left:4;" width=200><font size={%::_SKIN[middlefont]%}><b>{%LNG[legend]%}</b></font></td>
+          <td class="corp" bgcolor="{%::_SKIN[bgtable1]%}" style="padding-left:4;"><font size={%::_SKIN[middlefont]%}><b>{%LNG[inform]%}</b></font></td>
+        </tr>
+        <tr>
+	     	  <td class="corp2" bgcolor="{%::_SKIN[bgtable2]%}" style="padding:4;">
+		    <font size={%::_SKIN[smallfont]%}>
+		    <img src="{%::_SKIN[repimg]%}/on.gif" align="absmiddle"> {%LNG[newmsg]%}<br>
+		    <img src="{%::_SKIN[repimg]%}/off.gif" align="absmiddle"> {%LNG[nonewmsg]%}<br>
+		    <img src="{%::_SKIN[repimg]%}/closed.gif" align="absmiddle"> {%LNG[forumclosed]%}<br>
+		    </font>
+		  </td>          
+          <td class=corp2 bgcolor="{%::_SKIN[bgtable2]%}" style="padding:4; padding-left:10;" valign=top>
+            <font size={%::_SKIN[smallfont]%}>
+            » {%LNG[introcount]%} <b>{%::_FORUMCFG[statnbtopics]%}</b> {%LNG[topics]%} {%LNG[ands]%} <b>{%::_FORUMCFG[statnbposts]%}</b> {%LNG[answer]%} (<a href="gotopost.php?action=msglus" class="lien">{%LNG[markmsg]%}</a>)<br>
+            » <b>{%::_FORUMCFG[statnbuser]%}</b> {%LNG[nbmb2]%}.<br>
+            » {%LNG[wlcmlastmb]%} : <b>{%::_FORUMCFG[statlastmember]%}</b><br>
+            » {%box[birth]%}<br>
+            » {%LNG[settime]%} <b>{%box[fuseaux]%}</b><br>
+            </font>
+          </td>
+        </tr>
+      </table><p>
+    </td>
+    <td width="30" nowrap background="{%::_SKIN[repimg]%}/bgdroite.gif">&nbsp;</td>
+  </tr>
+</table>
+<!--********** TPL NAME = linknewmsg **********-->
+<a href="listspe.php" class=men><img src="{%::_SKIN[repimg]%}/detail_search.gif" border=0 alt="{%LNG[linknewmsg]%}"></a>
+<!--********** TPL NAME = nocat **********-->
+
+<TR>
+    <TD colspan=6 class="corp">
+      <font size={%::_SKIN[smallfont]%}>{%LNG[nocat]%}</font>
+    </TD>
+  </TR>
+<!--********** TPL NAME = affcategorie **********-->
+
+        <tr height="20">
+          <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" style="padding-left:4;" colspan=6>
+            <font size={%::_SKIN[middlefont]%}><b><u>{%::Cats[cattitle]%}</u></b></font><br>
+            {%box[catcoment]%}
+          </td>
+        </tr>
+
+<!--********** TPL NAME = catcoment **********-->
+
+<font size={%::_SKIN[smallfont]%}>&nbsp;&nbsp;{%::Cats[catcoment]%}</font><br>
+        
+<!--********** TPL NAME = boxpm **********-->
+
+        <tr>
+          <td colspan=6><img src="{%::_SKIN[repimg]%}/blank.gif"></td>
+        </tr>        
+        <tr height="20">
+          <td class="corp" bgcolor="{%::_SKIN[bgtable3]%}" style="padding-left:4;" colspan=6><font size={%::_SKIN[middlefont]%}><b>{%LNG[pm]%}</b></font></td>
+        </tr>
+        <tr bgcolor="{%::_SKIN[bgtable2]%}">
+          <td bgcolor="{%::_SKIN[bgtable1]%}" align="center"><img src="{%::_SKIN[repimg]%}/{%::PrivateMsg[imgnewpm]%}.gif"></td>
+          <td class="corp2" style="padding:2;" colspan=5>
+            <font size={%::_SKIN[middlefont]%}><b><a href="profile.php?p=pm" class="lien">{%LNG[pmlink]%}</a></b></font><br>
+            <font size={%::_SKIN[smallfont]%}>{%box[totalmsg]%}</font><br>
+          </td>
+        </tr>
+
+<!--********** TPL NAME = ifbirth **********-->
+{%LNG[ifbirth]%} {%::_FORUMCFG[birth]%}
