@@ -1,4 +1,7 @@
 <?php
+
+require_once dirname(__FILE__) . '/cfMysqliRequest.php';
+
 class cfMysqli
 {
     protected static
