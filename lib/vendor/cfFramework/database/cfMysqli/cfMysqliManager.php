@@ -22,7 +22,7 @@ class cfMysqliManager
             $params['username'],
             $params['password'],
             $params['database']);
-        return $this->_dbconn;
+        //return $this->_dbconn;
     }
 
     /**

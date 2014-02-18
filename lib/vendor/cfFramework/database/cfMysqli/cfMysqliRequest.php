@@ -58,7 +58,7 @@ class cfMysqliRequest
 	{
 		$this->_query_string = trim($this->_query_string);
 		if ($this->_results = $this->_dbconn->query($this->_query_string)) {
-		    cfMysqli::increaseNbRequest();
+		    cfMysqliManager::increaseNbRequest();
 		    return $this->_results;
 		}
 		throw new Exception($this->_dbconn->error . ' Request : ' . $this->_query_string);

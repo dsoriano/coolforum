@@ -7,6 +7,7 @@ class databaseFactory
             case 'mysqli' :
                 include dirname(__FILE__) . '/cfMysqli/cfMysqliManager.php';
                 $conn = cfMysqliManager::getInstance($params);
+                return $conn;
                 break;
 
             /*case 'mysql' :

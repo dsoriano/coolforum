@@ -100,12 +100,12 @@ function end_maj()
 	}
 }
 
-require_once 'secret/config.inc.php';
+require_once '../secret/config.inc.php';
 
 // ################################################################################
 //                               CONNEXION A MYSQL
 
-require_once 'lib/vendor/cfFramework/database/databaseFactory.php';
+require_once '../lib/vendor/cfFramework/database/databaseFactory.php';
 $sql = databaseFactory::connect(DB_DRIVER, array(
     'hostname' => DB_HOST,
     'username' => DB_USER,
@@ -292,7 +292,7 @@ if($_REQUEST['action'] == "update")
 //		   INSTALLATION	        	//
 
 if ($_REQUEST['action'] == "install") {
-	include("mod_install.php");	
+	require_once("mod_install.php");
 }
 
 //////////////////////////////////////////////////

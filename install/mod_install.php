@@ -56,7 +56,7 @@ function insert_table($nom, $query, $sql)
         throw new Exception(' --! Insertion dans la table ' . $nom . ' non effectuée ! Problème !! -- ' . mysql_error() . '<br />');
     }
 
-    echo(' --&gt; Insertions dans la table $nom effectuée...<br />');
+    echo(' --&gt; Insertions dans la table ' . $nom .' effectuée...<br />');
 }
 
 function testemail($email) 
@@ -126,18 +126,19 @@ function getencrypt($txt,$cle)
 return($code);
 }
 
-function updatemembers()
+function updatemembers($sql)
 {
 
-	$query = mysql_query("SELECT login FROM "._PRE_."user WHERE userstatus<>'0' ORDER BY registerdate DESC");
-	$nbuser=mysql_num_rows($query);
-	list($lastmember)=mysql_fetch_array($query);
+	$query = $sql->query("SELECT login FROM "._PRE_."user WHERE userstatus <> 0 ORDER BY registerdate DESC");
+	$nbuser = $query->num_rows;
+	list($lastmember) = $query->fetch_row();
 	
-	if(get_magic_quotes_runtime()==0)
-		$lastmember=addslashes($lastmember);
-	
-	$query=mysql_query("UPDATE "._PRE_."config SET valeur='$nbuser' WHERE options='statnbuser'");
-	$query=mysql_query("UPDATE "._PRE_."config SET valeur='$lastmember' WHERE options='statlastmember'"); 	
+	if (get_magic_quotes_runtime()==0) {
+        $lastmember=addslashes($lastmember);
+    }
+
+	$query = $sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='statnbuser'", $nbuser)->execute();
+	$query = $sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='statlastmember'", $lastmember)->execute();
 }
 
 ////////////////////////////////////////////////////
@@ -151,12 +152,13 @@ if($_REQUEST['steps']==5)
 	$ok = true;
 
 	$query = $sql->query("SELECT COUNT(*) as nbentry FROM "._PRE_."user")->execute();
-	list($nbentry) = $query->fetch_assoc();
+	list($nbentry) = $query->fetch_row();
 	
 	if($nbentry==0)
 	{	
-		$query = $sql->query("SELECT valeur FROM "._PRE_."config WHERE options='confirmparmail'");
-			list($confirmparmail) = mysql_fetch_array($query);
+		$query = $sql->query("SELECT valeur FROM "._PRE_."config WHERE options='confirmparmail'")->execute();
+		list($confirmparmail) = $query->fetch_row();
+
 		if($confirmparmail == 6 && !teststring($_POST['quest']))
 			$error = "Question non valide";
 		if($confirmparmail == 6 && !teststring($_POST['rep']))
@@ -188,14 +190,14 @@ if($_REQUEST['steps']==5)
 				$rep	=	getformatmsg($_POST['rep']);
 			}
 						
-			$query = $sql->query("SELECT valeur FROM "._PRE_."config WHERE options='chainecodage'");
-				list($codage) = mysql_fetch_array($query);
+			$query = $sql->query("SELECT valeur FROM "._PRE_."config WHERE options='chainecodage'")->execute();
+			list($codage) = $query->fetch_row();
 			$password=rawurlencode(getencrypt($pass1,$codage));
 			
-			$query = $sql->query("INSERT INTO "._PRE_."user (login,password,userstatus,registerdate,usermsg,usermail,usersite,timezone,lng) VALUES ('$pseudo', '$password', 4 , ".time().", 0, '$adminmail','$urlweb',0,'fr')");
-			$query = $sql->query("INSERT INTO "._PRE_."userplus (idplus,mailorig,question,reponse) VALUES (1,'$adminmail','$quest', '$rep')");
+			$query = $sql->query("INSERT INTO "._PRE_."user (login,password,userstatus,registerdate,usermsg,usermail,usersite,timezone,lng) VALUES ('%s', '%s', 4 , %d, 0, '%s','%s',0,'fr')", array($pseudo, $password, time(), $adminmail, $urlweb))->execute();
+			$query = $sql->query("INSERT INTO "._PRE_."userplus (idplus,mailorig,question,reponse) VALUES (1,'%s','%s', '%s')", array($adminmail, $quest, $rep))->execute();
 
-			updatemembers();
+			updatemembers($sql);
 
 			if($ok)
 			{
@@ -228,18 +230,16 @@ if($_REQUEST['steps']==5)
 	
 }
 
-if($_REQUEST['steps']==4)
-{
-	$query = $sql->query("SELECT valeur FROM "._PRE_."config WHERE options='confirmparmail'");
-		list($confirmparmail) = mysql_fetch_array($query);
+if ($_REQUEST['steps']==4) {
+	$query = $sql->query("SELECT valeur FROM "._PRE_."config WHERE options = 'confirmparmail'")->execute();
+    list($confirmparmail) = $query->fetch_row();
 
 	$errorchain = "";
-	if(isset($error) && strlen($error)>0)
+	if (isset($error) && strlen($error)>0) {
 		$errorchain = "<tr>
 	    <td class=\"corp\" bgcolor=\"#265789\" colspan=2 align=center><font size=2><b>*** $error ***</b></font></td>
 	  </tr>";
-	else
-	{
+    } else {
 		$pseudo			=	"";
 		$adminmail		=	"";
 		$urlweb			=	"";
