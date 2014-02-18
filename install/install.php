@@ -100,41 +100,18 @@ function end_maj()
 	}
 }
 
+require_once 'secret/config.inc.php';
+
 // ################################################################################
 //                               CONNEXION A MYSQL
 
-require("../secret/connect.php");
-
-class SQLConnect extends My_SQL
-{
-	function SQLConnect()
-	{
-		@mysql_connect($this->host,$this->user,$this->pass) or die("Impossible de se connecter à la base de données");
-		@mysql_select_db("$this->bdd") or die("Impossible de se connecter à la base de données");
-	}
-	
-	function query($query)
-	{
-		global $NBRequest;
-		
-		$msql=mysql_query($query);
-		if($msql)
-			$NBRequest++;
-		/*else
-		{
-			echo(mysql_error()."<br>");
-			echo($query."<p>");
-		}*/
-		return($msql);
-	}
-	
-	function list_tables()
-	{
-		$msql = mysql_list_tables($this->bdd);
-		return($msql);
-	}	
-}
-$sql = new SQLConnect;
+require_once 'lib/vendor/cfFramework/database/databaseFactory.php';
+$sql = databaseFactory::connect(DB_DRIVER, array(
+    'hostname' => DB_HOST,
+    'username' => DB_USER,
+    'password' => DB_PASSWORD,
+    'database' => DB_NAME
+));
 
 // ################################################################################
 

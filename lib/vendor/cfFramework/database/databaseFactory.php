@@ -5,8 +5,8 @@ class databaseFactory
     {
         switch ($driver) {
             case 'mysqli' :
-                include dirname(__FILE__) . '/cfMysqli/cfMysqli.php';
-                $conn = cfMysqli::getInstance($params);
+                include dirname(__FILE__) . '/cfMysqli/cfMysqliManager.php';
+                $conn = cfMysqliManager::getInstance($params);
                 break;
 
             /*case 'mysql' :
