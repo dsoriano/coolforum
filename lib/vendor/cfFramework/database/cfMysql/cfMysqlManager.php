@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/cfMysqli.php';
 require_once dirname(__FILE__) . '/cfMysqliQuery.php';
 require_once dirname(__FILE__) . '/cfMysqliResult.php';
 
-class cfMysqliManager
+class cfMysqlManager
 {
     protected static
         $_instance = NULL,
@@ -18,11 +18,20 @@ class cfMysqliManager
      */
     public function __construct($params)
     {
-        $this->_dbconn = new cfMysqli($params['hostname'],
-            $params['username'],
-            $params['password'],
-            $params['database']);
-        //return $this->_dbconn;
+        try {
+            $this->_dbconn = mysql_connect($params['hostname'],$params['username'],$params['password']);
+
+            if ($this->_dbconn === false) {
+                throw new Exception('Impossible de se connecter à la base de données : ' . mysql_error());
+            }
+
+            if (!mysql_select_db($params['database'], $this->_dbconn)) {
+                throw new Exception('Impossible de se connecter à la base de données : ', mysql_error());
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
     }
 
     /**
@@ -48,12 +57,18 @@ class cfMysqliManager
     public function query($query_string, $args = null)
     {
         if ($args === null || is_string($args) || is_numeric($args) || is_array($args)) {
-            $request = new cfMysqliQuery($query_string, $args, $this->_dbconn);
+            $query = new cfMysqlQuery($query_string, $args, $this->_dbconn);
         } else {
-            $request = false;
+            $query = false;
         }
 
-        return $request;
+        return $query;
+    }
+
+    function list_tables()
+    {
+        $msql=mysql_list_tables($this->bdd);
+        return($msql);
     }
 /*
     public function pager()

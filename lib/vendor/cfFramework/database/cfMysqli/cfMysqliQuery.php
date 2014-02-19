@@ -1,5 +1,5 @@
 <?php
-class cfMysqliRequest
+class cfMysqliQuery
 {
 	private 
 		$_dbconn,

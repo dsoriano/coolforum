@@ -129,8 +129,8 @@ return($code);
 function updatemembers($sql)
 {
 
-	$query = $sql->query("SELECT login FROM "._PRE_."user WHERE userstatus <> 0 ORDER BY registerdate DESC");
-	$nbuser = $query->num_rows;
+	$query = $sql->query("SELECT login FROM "._PRE_."user WHERE userstatus <> 0 ORDER BY registerdate DESC")->execute();
+	$nbuser = $query->num_rows();
 	list($lastmember) = $query->fetch_row();
 	
 	if (get_magic_quotes_runtime()==0) {
@@ -143,34 +143,40 @@ function updatemembers($sql)
 
 ////////////////////////////////////////////////////
 
-if(!isset($_REQUEST['steps']))
-	$_REQUEST['steps'] = "";
+if (!isset($_REQUEST['steps'])) {
+    $_REQUEST['steps'] = "";
+}
 
-if($_REQUEST['steps']==5)
-{
+
+if ($_REQUEST['steps'] == 5) {
 	$error = "";
 	$ok = true;
 
 	$query = $sql->query("SELECT COUNT(*) as nbentry FROM "._PRE_."user")->execute();
 	list($nbentry) = $query->fetch_row();
 	
-	if($nbentry==0)
-	{	
+	if ($nbentry == 0) {
 		$query = $sql->query("SELECT valeur FROM "._PRE_."config WHERE options='confirmparmail'")->execute();
 		list($confirmparmail) = $query->fetch_row();
 
-		if($confirmparmail == 6 && !teststring($_POST['quest']))
-			$error = "Question non valide";
-		if($confirmparmail == 6 && !teststring($_POST['rep']))
-			$error = "Réponse non valide";					
-		if(!teststring($_POST['pseudo']))
-			$error = "Pseudonyme non valide";
-		if(!teststring($_POST['pass1']))
-			$error = "mot de passe non valide";
-		if($_POST['pass1']!=$_POST['pass2'])
-			$error = "Confirmation de mot de passe non valide";
-		if(!testemail($_POST['adminmail']))
-			$error = "email non valide";
+		if ($confirmparmail == 6 && !teststring($_POST['quest'])) {
+            $error = "Question non valide";
+        }
+		if ($confirmparmail == 6 && !teststring($_POST['rep'])) {
+            $error = "Réponse non valide";
+        }
+		if (!teststring($_POST['pseudo'])) {
+            $error = "Pseudonyme non valide";
+        }
+		if (!teststring($_POST['pass1'])) {
+            $error = "mot de passe non valide";
+        }
+		if ($_POST['pass1']!=$_POST['pass2']) {
+            $error = "Confirmation de mot de passe non valide";
+        }
+		if (!testemail($_POST['adminmail'])) {
+            $error = "email non valide";
+        }
 			
 		if(strlen($error)==0)
 		{
@@ -199,8 +205,7 @@ if($_REQUEST['steps']==5)
 
 			updatemembers($sql);
 
-			if($ok)
-			{
+			if ($ok) {
 				echo("L'installation du forum est maintenant terminée!<p>
 				
 				Avant d'administrer votre forum vous DEVEZ supprimer le dossier <font color=red>install</font> de votre compte FTP.<br>
@@ -209,9 +214,7 @@ if($_REQUEST['steps']==5)
 							
 				Merci d'avoir choisi CoolForum !");
 			}
-		}
-		else
-		{
+		} else {
 			$_REQUEST['steps'] = 4;
 			$pseudo = $_POST['pseudo'];
 			$adminmail = $_POST['adminmail'];
