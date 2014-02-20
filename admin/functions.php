@@ -28,45 +28,6 @@
 //*********************************************************************************
 
 // ********************************************************
-// *                    CLASSE MYSQL                      *
-// ********************************************************
-if(!class_exists('My_SQL'))
-{
-	include('../secret/connect.php');
-}
-
-
-class SQLConnect extends My_SQL
-{
-	function SQLConnect()
-	{
-		@mysql_connect($this->host,$this->user,$this->pass) or die("Impossible de se connecter à la base de données");
-		@mysql_select_db("$this->bdd") or die("Impossible de se connecter à la base de données");
-	}
-	
-	function query($query)
-	{
-		global $NBRequest;
-		
-		$msql=mysql_query($query);
-		if($msql)
-			$NBRequest++;
-		else
-		{
-			echo(mysql_error()."<br>");
-			echo($query."<p>");
-		}
-		return($msql);
-	}
-		
-	function list_tables()
-	{
-		$msql=mysql_list_tables($this->bdd);
-		return($msql);
-	}	
-}
-
-// ********************************************************
 // *                 CLASSE DE TEMPLATES                  *
 // ********************************************************
 
@@ -241,25 +202,22 @@ function stopaction($msg='')
 //********** FONCTION GESTION MESSAGES D'ERREUR **********
 function geterror($error)
 {
-	global $tpl,$cache,$_FORUMCFG,$tps,$tps_start,$_PRE;
+	global $tpl,$cache,$_FORUMCFG,$tps,$tps_start, $sql;
 	
 	getlangage("error");
 	
-	if($error == "closedforum")
-		$tpl->box['errorcontent'] = $_FORUMCFG['closeforummsg'];
-	elseif($error == "initcookie")
-	{
+	if ($error == "closedforum") {
+        $tpl->box['errorcontent'] = $_FORUMCFG['closeforummsg'];
+    } elseif($error == "initcookie") {
 		sendcookie("CoolForumID","",0);
 		sendcookie("listeforum_coolforum","",0);
 		sendcookie("nbpmvu","0",-1);
 	
-		$sql	=	mysql_query("SELECT forumid FROM ".$_PRE."forums");
-		$nb	=	mysql_num_rows($sql);
+		$forums_id	=	$sql->query("SELECT forumid FROM "._PRE_."forums")->execute();
+		$nb	=	$forums_id->num_rows();
 	
-		if($nb>0)
-		{
-			while($j = mysql_fetch_array($sql))
-			{
+		if ($nb>0) {
+			while ($j = mysql_fetch_array($forums_id)) {
 				$name	=	"CoolForumDetails".$j['forumid'];
 				sendcookie($name,"",0);
 			}	
@@ -267,9 +225,9 @@ function geterror($error)
 			
 		sendcookie("CF_LastINI",time(),-1);
 		$tpl->box['errorcontent']	=	$tpl->gettemplate("error","initcookie");		
-	}
-	else
-		$tpl->box['errorcontent']	=	$tpl->gettemplate("error",$error);
+	} else {
+        $tpl->box['errorcontent']	=	$tpl->gettemplate("error",$error);
+    }
 	
 	$cache .=	$tpl->gettemplate("error","errorbox");
 	$tps 	= 	number_format(get_microtime() - $tps_start,4);
@@ -369,9 +327,9 @@ function getdecrypt($tplxt,$cle)
 
 function getconfig()
 {
-	global $sql,$_PRE;
+	global $sql;
 	
-	$result=$sql->query("SELECT * FROM ".$_PRE."config");
+	$result=$sql->query("SELECT * FROM "._PRE_."config");
 	while($j=mysql_fetch_array($result))
 	{
 		$tableau[$j['options']]=$j['valeur'];
@@ -400,11 +358,11 @@ function getlangage($file)
 
 function getforumname($id)
 {
-	global $_USER, $sql, $_PRE, $_GENERAL;
+	global $_USER, $sql, $_GENERAL;
 	
 	$id = intval($id);
 	
-	$query 	= 	$sql->query("SELECT ".$_PRE."forums.forumid,".$_PRE."forums.forumtitle,".$_PRE."forums.forumcat,".$_PRE."forums.openforum,".$_PRE."forums.forumtopic,".$_PRE."forums.forumposts,".$_PRE."categorie.cattitle,".$_PRE."categorie.catid FROM ".$_PRE."forums,".$_PRE."categorie WHERE ".$_PRE."forums.forumid='$id' AND ".$_PRE."categorie.catid=".$_PRE."forums.forumcat");
+	$query 	= 	$sql->query("SELECT "._PRE_."forums.forumid,"._PRE_."forums.forumtitle,"._PRE_."forums.forumcat,"._PRE_."forums.openforum,"._PRE_."forums.forumtopic,"._PRE_."forums.forumposts,"._PRE_."categorie.cattitle,"._PRE_."categorie.catid FROM "._PRE_."forums,"._PRE_."categorie WHERE "._PRE_."forums.forumid='$id' AND "._PRE_."categorie.catid="._PRE_."forums.forumcat");
 	$nb 	= 	mysql_num_rows($query);
 	
 	if($nb==0)
@@ -511,7 +469,7 @@ function getpagestopic($nb,$id,$page)
 // #### CHARGEMENT IDENTIFICATION MEMBRE ####
 function getuserid()
 {
-	global $_COOKIE, $tpl, $sql, $_FORUMCFG, $_PERMFORUM, $_FORUMINTER, $_PRE, $_GENERAL;
+	global $_COOKIE, $tpl, $sql, $_FORUMCFG, $_PERMFORUM, $_FORUMINTER, $_GENERAL;
 
 	$user 						= 		array();
 	$errorset 					= 		false;
@@ -522,23 +480,23 @@ function getuserid()
 		$j['userpass']			=		getdecrypt(rawurldecode($j['userpass']),$_FORUMCFG['chainecodage']);
 		$j['userid'] 				= 		intval($j['userid']);
 		
-		$query 					= $sql->query("SELECT 	".$_PRE."user.userid, 
-										".$_PRE."user.login AS username,
-										".$_PRE."user.password,
-										".$_PRE."user.userstatus,
-										".$_PRE."user.skin AS userskin,
-										".$_PRE."user.timezone,
-										".$_PRE."user.lng,
-										".$_PRE."user.popuppm,
-										".$_PRE."user.lastpost,
-										".$_PRE."user.lastvisit,
-										".$_PRE."user.nbpmtot,
-										".$_PRE."user.nbpmvu,
-										".$_PRE."user.wysiwyg,
-										".$_PRE."groups.*
-									FROM ".$_PRE."user
-									LEFT JOIN ".$_PRE."groups ON ".$_PRE."groups.id_group = ".$_PRE."user.userstatus 
-									WHERE ".$_PRE."user.userid=".$j['userid']);
+		$query 					= $sql->query("SELECT 	"._PRE_."user.userid, 
+										"._PRE_."user.login AS username,
+										"._PRE_."user.password,
+										"._PRE_."user.userstatus,
+										"._PRE_."user.skin AS userskin,
+										"._PRE_."user.timezone,
+										"._PRE_."user.lng,
+										"._PRE_."user.popuppm,
+										"._PRE_."user.lastpost,
+										"._PRE_."user.lastvisit,
+										"._PRE_."user.nbpmtot,
+										"._PRE_."user.nbpmvu,
+										"._PRE_."user.wysiwyg,
+										"._PRE_."groups.*
+									FROM "._PRE_."user
+									LEFT JOIN "._PRE_."groups ON "._PRE_."groups.id_group = "._PRE_."user.userstatus 
+									WHERE "._PRE_."user.userid=".$j['userid']);
 							
 		$x						=		mysql_fetch_array($query);
 		$temppass				=		getdecrypt(rawurldecode($x['password']),$_FORUMCFG['chainecodage']);
@@ -556,7 +514,7 @@ function getuserid()
 	
 	if($errorset)
 	{
-		$query 					= 		$sql->query("SELECT * FROM ".$_PRE."groups WHERE id_group = 1");
+		$query 					= 		$sql->query("SELECT * FROM "._PRE_."groups WHERE id_group = 1");
 		$user					= 		mysql_fetch_array($query);
 		
 		$user['username']		=		NULLSTR;
@@ -574,7 +532,7 @@ function getuserid()
 	$_GENERAL 					= 		get_rightfromint($_GENERAL,$user['Droits_generaux']);
 	
 	// Chargement droits des forums
-	$request 					= 		$sql->query("SELECT * FROM ".$_PRE."groups_perm WHERE id_group=".$user['userstatus']);
+	$request 					= 		$sql->query("SELECT * FROM "._PRE_."groups_perm WHERE id_group=".$user['userstatus']);
 	$nb 						= 		mysql_num_rows($request);
 			
 	if($nb>0)
@@ -594,7 +552,7 @@ return($user);
 // #### LE MEMBRE EST-IL MODERATEUR POUR CE FORUM? ####
 function getismodo($forum)
 {
-	global $_MODORIGHTS, $_USER, $sql, $_PRE, $_GENERAL;
+	global $_MODORIGHTS, $_USER, $sql, $_GENERAL;
 	
 	array_rempl($_MODORIGHTS,0,8,false);
 	
@@ -607,7 +565,7 @@ function getismodo($forum)
 		}
 		else
 		{	
-			$query				=		$sql->query("SELECT idusermodo, modorights FROM ".$_PRE."moderateur WHERE idusermodo=".$_USER['userid']." AND forumident='$forum'");
+			$query				=		$sql->query("SELECT idusermodo, modorights FROM "._PRE_."moderateur WHERE idusermodo=".$_USER['userid']." AND forumident='$forum'");
 			$nb					=		mysql_num_rows($query);
 			
 			if($nb>0)
@@ -625,9 +583,9 @@ function getismodo($forum)
 // #### CHARGEMENT DES DROITS POUR L'EDITION D'UN MESSAGE ####
 function getrightedit($idpost,$forumid)
 {
-	global $_MODORIGHTS, $sql, $_USER, $_FORUMCFG, $_PRE, $_GENERAL, $_PERMFORUM;
+	global $_MODORIGHTS, $sql, $_USER, $_FORUMCFG, $_GENERAL, $_PERMFORUM;
 	
-	$query					=	$sql->query("SELECT idforum,idmembre,parent FROM ".$_PRE."posts WHERE idpost=".$idpost);
+	$query					=	$sql->query("SELECT idforum,idmembre,parent FROM "._PRE_."posts WHERE idpost=".$idpost);
 	$j						=	mysql_fetch_array($query);
 	
 	$ismodo					=	false;
@@ -645,7 +603,7 @@ function getrightedit($idpost,$forumid)
 		{
 			if(!isset($_PERMFORUM[$forumid][6]) || !$_PERMFORUM[$forumid][6])
 			{
-				$query		=	$sql->query("SELECT idpost FROM ".$_PRE."posts WHERE parent='$parent' ORDER BY date DESC");
+				$query		=	$sql->query("SELECT idpost FROM "._PRE_."posts WHERE parent='$parent' ORDER BY date DESC");
 				$i			=	mysql_fetch_array($query);
 					
 				if($i['idpost']==$idpost)		return true;
@@ -668,7 +626,7 @@ function init_session()
 // #### ENREGISTRMEMENT DE LA SESSION POUR CHAQUE MEMBRE / INVITE ####
 function getsession()
 {
-	global $_COOKIE, $_USER, $sql, $_PRE, $SessLieu, $SessForum, $SessTopic;
+	global $_COOKIE, $_USER, $sql, $SessLieu, $SessForum, $SessTopic;
 	$tablename								=		array();
 	
 	if(!empty($SessLieu))
@@ -681,9 +639,9 @@ function getsession()
 		$now									=		time();
 		$perim									=		$now - 300;
 		
-		$delsql									=		$sql->query("DELETE FROM ".$_PRE."session WHERE time<".$perim);
+		$delsql									=		$sql->query("DELETE FROM "._PRE_."session WHERE time<".$perim);
 	
-		$query									=		$sql->query("SELECT sessionID, username, userid, userstatus, typelieu, forumid, topicid FROM ".$_PRE."session");
+		$query									=		$sql->query("SELECT sessionID, username, userid, userstatus, typelieu, forumid, topicid FROM "._PRE_."session");
 		$nb										=		mysql_num_rows($query);
 		
 		$found 									= 		false;
@@ -695,7 +653,7 @@ function getsession()
 			{
 				if($_USER['userid']>0 && $_USER['username']==$j['username']) // si trouvé membre
 				{
-					$updsess					=	$sql->query("UPDATE ".$_PRE."session SET sessionID='".$_COOKIE['CF_sessionID']."', time=$now, typelieu='$SessLieu', forumid=$SessForum, topicid=$SessTopic WHERE username='".$pseudo."'");
+					$updsess					=	$sql->query("UPDATE "._PRE_."session SET sessionID='".$_COOKIE['CF_sessionID']."', time=$now, typelieu='$SessLieu', forumid=$SessForum, topicid=$SessTopic WHERE username='".$pseudo."'");
 					$tablename[$i]['name']		=	$j['username'];
 					$tablename[$i]['status']	=	$j['userstatus'];
 					$tablename[$i]['userid']	=	$j['userid'];
@@ -706,7 +664,7 @@ function getsession()
 				}
 				elseif($j['sessionID']==$_COOKIE['CF_sessionID']) // sinon si les sessions concordent => soit invité soit vient de se logguer
 				{
-					$updsess					=	$sql->query("UPDATE ".$_PRE."session SET username='".$pseudo."', userid=".$_USER['userid'].", userstatus=".$_USER['userstatus'].", time=$now, typelieu='$SessLieu', forumid=$SessForum, topicid=$SessTopic  WHERE sessionID='".$_COOKIE['CF_sessionID']."'");
+					$updsess					=	$sql->query("UPDATE "._PRE_."session SET username='".$pseudo."', userid=".$_USER['userid'].", userstatus=".$_USER['userstatus'].", time=$now, typelieu='$SessLieu', forumid=$SessForum, topicid=$SessTopic  WHERE sessionID='".$_COOKIE['CF_sessionID']."'");
 					$tablename[$i]['name']		=	$_USER['username'];
 					$tablename[$i]['status']	=	$_USER['userstatus'];
 					$tablename[$i]['userid']	=	$_USER['userid'];
@@ -731,7 +689,7 @@ function getsession()
 		
 		if(!$found)
 		{
-			$query								=	$sql->query("INSERT into ".$_PRE."session (sessionID, username, userid, userstatus, time, typelieu, forumid, topicid) VALUES ('".$_COOKIE['CF_sessionID']."','$pseudo', ".$_USER['userid'].",'".$_USER['userstatus']."','$now','$SessLieu','$SessForum','$SessTopic')");
+			$query								=	$sql->query("INSERT into "._PRE_."session (sessionID, username, userid, userstatus, time, typelieu, forumid, topicid) VALUES ('".$_COOKIE['CF_sessionID']."','$pseudo', ".$_USER['userid'].",'".$_USER['userstatus']."','$now','$SessLieu','$SessForum','$SessTopic')");
 			$tablename[$i]['name']				=	$_USER['username'];
 			$tablename[$i]['status']			=	$_USER['userstatus'];
 			$tablename[$i]['userid']			=	$_USER['userid'];
@@ -741,7 +699,7 @@ function getsession()
 									
 			$LastINI							=	isset($_COOKIE['CF_LastINI']) ? (int)$_COOKIE['CF_LastINI'] : 0;
 			if($_USER['userid'] > 0)
-				$query							=	$sql->query("UPDATE ".$_PRE."user SET lastvisit = $LastINI WHERE userid = ".$_USER['userid']);
+				$query							=	$sql->query("UPDATE "._PRE_."user SET lastvisit = $LastINI WHERE userid = ".$_USER['userid']);
 		}	
 		
 		sendcookie("CF_sessionID",$_COOKIE['CF_sessionID'],-1);
@@ -805,16 +763,16 @@ function get_connected($Lieu = "",$forumid = 0, $topicid = 0)
 
 function getjumpforum($template="entete")
 {
-	global $_USER, $tpl, $sql, $_PRE, $_PERMFORUM;
+	global $_USER, $tpl, $sql, $_PERMFORUM;
 	
-	$query					=		$sql->query("SELECT * FROM ".$_PRE."categorie ORDER BY catorder");
+	$query					=		$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
 	$nb						=		mysql_num_rows($query);
 	
 	$tpl->box['forumlist']	=		"";
 	
 	if($nb>0)
 	{
-		$sqlforums			=		$sql->query("SELECT forumid,forumcat,forumtitle FROM ".$_PRE."forums ORDER BY forumcat,forumorder");
+		$sqlforums			=		$sql->query("SELECT forumid,forumcat,forumtitle FROM "._PRE_."forums ORDER BY forumcat,forumorder");
 		$nbforums			=		mysql_num_rows($sqlforums);
 		
 		if($nbforums>0)
@@ -847,14 +805,14 @@ function getjumpforum($template="entete")
 
 function getskin()
 {
-	global $_SKIN, $_USER, $sql, $_POST, $_FORUMCFG, $_PRE, $ListColorGroup;
+	global $_SKIN, $_USER, $sql, $_POST, $_FORUMCFG, $ListColorGroup;
 	
 	if($_FORUMCFG['defaultskin']<$_USER['userskin'])
 		$order="DESC";
 	else
 		$order="ASC";
 	
-	$query=$sql->query("SELECT propriete,valeur FROM ".$_PRE."skins WHERE id=".$_USER['userskin']." OR id=".$_FORUMCFG['defaultskin']." ORDER BY id ".$order);
+	$query=$sql->query("SELECT propriete,valeur FROM "._PRE_."skins WHERE id=".$_USER['userskin']." OR id=".$_FORUMCFG['defaultskin']." ORDER BY id ".$order);
 	
 	while(list($skcle,$skvalue)=mysql_fetch_array($query))
 	{
@@ -882,9 +840,9 @@ function getskin()
 
 function getloadsmileys()
 {
-	global $sql,$_PRE;
+	global $sql;
 	
-	$query=$sql->query("SELECT imgsmile,codesmile FROM ".$_PRE."smileys ORDER BY ordersmile ASC");
+	$query=$sql->query("SELECT imgsmile,codesmile FROM "._PRE_."smileys ORDER BY ordersmile ASC");
 	
 	$i=0;
 	while($j=mysql_fetch_array($query))
@@ -1709,7 +1667,7 @@ function format_bbcode_to_html($chaine)
 
 function getreturnbbcode($msg,$topic=false)
 {
-	global $bground, $_SKIN, $_USER, $_FORUMCFG, $DetailMsg, $sql, $BBcodeHTML, $_PRE;
+	global $bground, $_SKIN, $_USER, $_FORUMCFG, $DetailMsg, $sql, $BBcodeHTML;
 	$regex		=	array();
 	
 	$_parser[0]['open']			=	"\[code\]";
@@ -1772,7 +1730,7 @@ function getreturnbbcode($msg,$topic=false)
 	// **** gestion de la balise des messages cachés ****
 	if($_FORUMCFG['canpostmsgcache']=="Y" && preg_match("|\[cache\]|",$msg) > 0 && $topic==true)
 	{
-		$isposter=$sql->query("SELECT COUNT(*) AS present FROM ".$_PRE."posts WHERE parent='".$DetailMsg['parent']."' AND idmembre=".$_USER['userid']);
+		$isposter=$sql->query("SELECT COUNT(*) AS present FROM "._PRE_."posts WHERE parent='".$DetailMsg['parent']."' AND idmembre=".$_USER['userid']);
 		$isrespond=mysql_fetch_array($isposter);
 		
 		if($isrespond['present']>0)
@@ -1795,9 +1753,9 @@ function censuredwords($msg)
 
 function getquote($id)
 {
-	global $_PRE, $sql, $tpl, $QuoteName, $OrigMsg, $QuoteMsg, $_USER;
+	global $sql, $tpl, $QuoteName, $OrigMsg, $QuoteMsg, $_USER;
 	
-	$query 						= 	$sql->query("SELECT pseudo,msg FROM ".$_PRE."posts WHERE idpost='$id'");
+	$query 						= 	$sql->query("SELECT pseudo,msg FROM "._PRE_."posts WHERE idpost='$id'");
 	list($QuoteName,$OrigMsg) 	= 	mysql_fetch_array($query);
 	
 	$QuoteName 					= 	getformatrecup($QuoteName);
@@ -1813,11 +1771,11 @@ function getquote($id)
 
 function gettopictitle($id,$annonce=false)
 {
-	global $sql, $_PRE;
+	global $sql;
 	if($annonce)
-		$query = $sql->query("SELECT sujet FROM ".$_PRE."annonces WHERE idpost=".$id);
+		$query = $sql->query("SELECT sujet FROM "._PRE_."annonces WHERE idpost=".$id);
 	else
-		$query = $sql->query("SELECT idforum,sujet,nbrep,opentopic,poll FROM ".$_PRE."topics WHERE idtopic=".$id);
+		$query = $sql->query("SELECT idforum,sujet,nbrep,opentopic,poll FROM "._PRE_."topics WHERE idtopic=".$id);
 	$nb = mysql_num_rows($query);
 	
 	if($nb==0)
@@ -1831,18 +1789,18 @@ function gettopictitle($id,$annonce=false)
 
 function updateforumlastposter($idforum)
 {
-	global $sql, $_PRE;
+	global $sql;
 	
-	$query = $sql->query("SELECT COUNT(*) AS nbtopic FROM ".$_PRE."topics WHERE idforum='$idforum'");
+	$query = $sql->query("SELECT COUNT(*) AS nbtopic FROM "._PRE_."topics WHERE idforum='$idforum'");
 	list($nbtopic)=mysql_fetch_array($query);
 	
-	$query = $sql->query("SELECT COUNT(*) AS nbmsg FROM ".$_PRE."posts WHERE idforum='$idforum'");
+	$query = $sql->query("SELECT COUNT(*) AS nbmsg FROM "._PRE_."posts WHERE idforum='$idforum'");
 	list($nbmsg)=mysql_fetch_array($query);
 	$nbmsg = $nbmsg - $nbtopic;
 	
 	if($nbtopic>0)
 	{
-		$query = $sql->query("SELECT idpost,date,idmembre,pseudo FROM ".$_PRE."posts WHERE idforum='$idforum' ORDER BY date DESC");
+		$query = $sql->query("SELECT idpost,date,idmembre,pseudo FROM "._PRE_."posts WHERE idforum='$idforum' ORDER BY date DESC");
 		$i=mysql_fetch_array($query);
 	}
 	else
@@ -1853,82 +1811,82 @@ function updateforumlastposter($idforum)
 	}
 	
 	$i['pseudo'] = getformatdbtodb($i['pseudo']);	
-	$query=$sql->query("UPDATE ".$_PRE."forums SET forumtopic='$nbtopic' ,forumposts='$nbmsg' ,lastforumposter='".$i['pseudo']."', lastdatepost='".$i['date']."', lastidpost='".$i['idpost']."' WHERE forumid='$idforum'");	
+	$query=$sql->query("UPDATE "._PRE_."forums SET forumtopic='$nbtopic' ,forumposts='$nbmsg' ,lastforumposter='".$i['pseudo']."', lastdatepost='".$i['date']."', lastidpost='".$i['idpost']."' WHERE forumid='$idforum'");	
 }
 
 function updatetopiclastposter($idpost)
 {
-	global $sql, $_PRE;
+	global $sql;
 	
-	$query = $sql->query("SELECT COUNT(*) AS nbpost FROM ".$_PRE."posts WHERE parent='$idpost'");
+	$query = $sql->query("SELECT COUNT(*) AS nbpost FROM "._PRE_."posts WHERE parent='$idpost'");
 	list($nbpost) = mysql_fetch_array($query);
 	$nbpost--;
 	
-	$query = $sql->query("SELECT idpost,date,idmembre,pseudo FROM ".$_PRE."posts WHERE parent='$idpost' ORDER BY date DESC");
+	$query = $sql->query("SELECT idpost,date,idmembre,pseudo FROM "._PRE_."posts WHERE parent='$idpost' ORDER BY date DESC");
 	$j = mysql_fetch_array($query);
 	
 	//à voir !!
 	
 	$j['pseudo'] = getformatdbtodb($j['pseudo']);
-	$query = $sql->query("UPDATE ".$_PRE."topics SET nbrep='$nbpost', derposter='".$j['pseudo']."', idderpost='".$j['idmembre']."', datederrep='".$j['date']."', idderpost='".$j['idpost']."' WHERE idtopic='$idpost'");
+	$query = $sql->query("UPDATE "._PRE_."topics SET nbrep='$nbpost', derposter='".$j['pseudo']."', idderpost='".$j['idmembre']."', datederrep='".$j['date']."', idderpost='".$j['idpost']."' WHERE idtopic='$idpost'");
 }
 
 function updatenbtopics()
 {
-	global $sql, $_PRE, $_FORUMCFG;
+	global $sql, $_FORUMCFG;
 	
-	$query=$sql->query("SELECT COUNT(*) AS nbtopics FROM ".$_PRE."topics");
+	$query=$sql->query("SELECT COUNT(*) AS nbtopics FROM "._PRE_."topics");
 	list($nbtopics)=mysql_fetch_array($query);
 	
-	$query=$sql->query("UPDATE ".$_PRE."config SET valeur='$nbtopics' WHERE options='statnbtopics'");
+	$query=$sql->query("UPDATE "._PRE_."config SET valeur='$nbtopics' WHERE options='statnbtopics'");
 	$_FORUMCFG['statnbtopics'] = $nbtopics;	
 }
 
 function updatenbposts()
 {
-	global $sql,$_FORUMCFG, $_PRE;
+	global $sql,$_FORUMCFG;
 	
-	$query=$sql->query("SELECT COUNT(*) AS nbposts FROM ".$_PRE."posts");
+	$query=$sql->query("SELECT COUNT(*) AS nbposts FROM "._PRE_."posts");
 	list($nbposts)=mysql_fetch_array($query);
 	
 	$nbposts = $nbposts - $_FORUMCFG['statnbtopics'];
-	$query=$sql->query("UPDATE ".$_PRE."config SET valeur='$nbposts' WHERE options='statnbposts'");	
+	$query=$sql->query("UPDATE "._PRE_."config SET valeur='$nbposts' WHERE options='statnbposts'");	
 }
 
 function updatemembers()
 {
-	global $sql, $_PRE;
+	global $sql;
 	
-	$query = $sql->query("SELECT login FROM ".$_PRE."user WHERE userstatus<>'0' ORDER BY registerdate DESC");
+	$query = $sql->query("SELECT login FROM "._PRE_."user WHERE userstatus<>'0' ORDER BY registerdate DESC");
 	$nbuser=mysql_num_rows($query);
 	list($lastmember)=mysql_fetch_array($query);
 	
 	$lastmember = getformatdbtodb($lastmember);
 	
-	$query=$sql->query("UPDATE ".$_PRE."config SET valeur='$nbuser' WHERE options='statnbuser'");
-	$query=$sql->query("UPDATE ".$_PRE."config SET valeur='$lastmember' WHERE options='statlastmember'"); 	
+	$query=$sql->query("UPDATE "._PRE_."config SET valeur='$nbuser' WHERE options='statnbuser'");
+	$query=$sql->query("UPDATE "._PRE_."config SET valeur='$lastmember' WHERE options='statlastmember'"); 	
 }
 
 // A supprimer ?????????????????????
 function updatestatsmembers()
 {
-	global $sql, $_PRE;
+	global $sql;
 	
-	$query=$sql->query("SELECT COUNT(*) AS nbmb FROM ".$_PRE."user");
+	$query=$sql->query("SELECT COUNT(*) AS nbmb FROM "._PRE_."user");
 	list($nbmb)=mysql_fetch_array($query);
 	
-	$query=$sql->query("SELECT login FROM ".$_PRE."user ORDER BY registerdate DESC LIMIT 0,1");
+	$query=$sql->query("SELECT login FROM "._PRE_."user ORDER BY registerdate DESC LIMIT 0,1");
 	list($lastpseudo)=mysql_fetch_array($query);
 	
-	$query=$sql->query("UPDATE ".$_PRE."config SET valeur='$nbmb' WHERE options='statnbuser'");
-	$query=$sql->query("UPDATE ".$_PRE."config SET valeur='$lastpseudo' WHERE options='statlastmember'"); 	
+	$query=$sql->query("UPDATE "._PRE_."config SET valeur='$nbmb' WHERE options='statnbuser'");
+	$query=$sql->query("UPDATE "._PRE_."config SET valeur='$lastpseudo' WHERE options='statlastmember'"); 	
 }
 
 function updatepmstats($user)
 {
-	global $sql,$_PRE,$_USER;
+	global $sql,$_USER;
 	
-	$query=$sql->query("SELECT COUNT(*) AS nbpm,vu FROM ".$_PRE."privatemsg WHERE iddest='$user' GROUP BY vu");
+	$query=$sql->query("SELECT COUNT(*) AS nbpm,vu FROM "._PRE_."privatemsg WHERE iddest='$user' GROUP BY vu");
 	$nb=mysql_num_rows($query);
 	
 	$nbpmtot=0;
@@ -1944,7 +1902,7 @@ function updatepmstats($user)
 		}
 	}
 	
-	$query=$sql->query("UPDATE ".$_PRE."user SET nbpmtot='$nbpmtot', nbpmvu='$nbpmnew' WHERE userid='$user'");
+	$query=$sql->query("UPDATE "._PRE_."user SET nbpmtot='$nbpmtot', nbpmvu='$nbpmnew' WHERE userid='$user'");
 	
 	if($user==$_USER['userid'] && $nbpmnew<$_USER['nbpmvu'])
 		sendcookie("nbpmvu",$nbpmnew,-1);
@@ -1989,19 +1947,19 @@ function getfuseauhoraire()
 
 function updatebirth()
 {
-	global $sql,$tpl,$_FORUMCFG,$_PRE;
+	global $sql,$tpl,$_FORUMCFG;
 	
 	$day	= gmstrftime("%d-%m",time()+(($_FORUMCFG['defaulttimezone'] + intval(date("I")))*3600));
 	$year	= gmstrftime("%Y",time()+(($_FORUMCFG['defaulttimezone'] + intval(date("I")))*3600));
 
 	
-	$query	= $sql->query("SELECT 	".$_PRE."userplus.birth,
-									".$_PRE."user.userid,
-									".$_PRE."user.login,
-									".$_PRE."user.userstatus
-									 FROM ".$_PRE."userplus 
-									 LEFT JOIN ".$_PRE."user ON ".$_PRE."user.userid = ".$_PRE."userplus.idplus 
-									 WHERE ".$_PRE."userplus.birth LIKE \"$day-%\"");
+	$query	= $sql->query("SELECT 	"._PRE_."userplus.birth,
+									"._PRE_."user.userid,
+									"._PRE_."user.login,
+									"._PRE_."user.userstatus
+									 FROM "._PRE_."userplus 
+									 LEFT JOIN "._PRE_."user ON "._PRE_."user.userid = "._PRE_."userplus.idplus 
+									 WHERE "._PRE_."userplus.birth LIKE \"$day-%\"");
 	$nb	= mysql_num_rows($query);
 	
 	if($nb>0)
@@ -2021,7 +1979,7 @@ function updatebirth()
 	else	$birth = "";
 	
 	$_FORUMCFG['birth'] = stripslashes(stripslashes($birth));
-	$sql->query("UPDATE ".$_PRE."config SET valeur='".stripslashes($birth)."' WHERE options='birth'");
+	$sql->query("UPDATE "._PRE_."config SET valeur='".stripslashes($birth)."' WHERE options='birth'");
 }
 
 // ********************************************************

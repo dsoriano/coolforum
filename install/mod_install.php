@@ -30,13 +30,13 @@
 ////////////////////////////////////////////////////
 function create_table($nom ,$query, $sql)
 {
-	$result = $sql->query($query)->execute();
 
-    if ($result === false) {
-        throw new Exception(' --! Création de la table ' . $nom . ' non effectuée ! Problème !! -- '.mysql_error().'<br />');
+    try {
+        $result = $sql->query($query)->execute();
+        echo(" --&gt; Création de la table {$nom} effectuée...<br />");
+    } catch (Exception $e) {
+        throw new Exception (' --! Création de la table ' . $nom . ' non effectuée ! Problème !! -- ' . $e->getMessage() . '<br />');
     }
-
-    echo(" --&gt; Création de la table {$nom} effectuée...<br />");
 }
 
 function next_steps()
@@ -50,13 +50,12 @@ function next_steps()
 
 function insert_table($nom, $query, $sql)
 {
-	$result = $sql->query($query)->execute();
-
-    if ($result === false) {
-        throw new Exception(' --! Insertion dans la table ' . $nom . ' non effectuée ! Problème !! -- ' . mysql_error() . '<br />');
+	try {
+        $result = $sql->query($query)->execute();
+        echo(' --&gt; Insertions dans la table ' . $nom .' effectuée...<br />');
+    } catch (Exception $e) {
+        throw new Exception(' --! Insertion dans la table ' . $nom . ' non effectuée ! Problème !! -- ' . $e->getMessage() . '<br />');
     }
-
-    echo(' --&gt; Insertions dans la table ' . $nom .' effectuée...<br />');
 }
 
 function testemail($email) 

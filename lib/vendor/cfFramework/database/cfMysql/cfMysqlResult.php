@@ -27,4 +27,9 @@ class cfMysqlResult
         return mysql_fetch_row($this->_results);
     }
 
+    public function fetch_array()
+    {
+        return mysql_fetch_array($this->_results);
+    }
+
 }

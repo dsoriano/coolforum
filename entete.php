@@ -27,11 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-if (!class_exists('SQLConnect')) {
-	include('secret/connect.php');
-	include('admin/functions.php');
-}
-
 // #### Initialisation des variables #### //////////////////////////////////////
 $cache						=	NULLSTR;
 $ListColorGroup 			= 	array();
@@ -142,10 +137,10 @@ if (!isset($nocache)) {
 		$date								=		time();
 		$result 							= 		array();
 		
-		$query								=		$sql->query("SELECT * FROM ".$_PRE."campagnes WHERE dtedebut<$date");
+		$query								=		$sql->query("SELECT * FROM "._PRE_."campagnes WHERE dtedebut < %d", $date)->execute();
 	
-		if (mysql_num_rows($query)>0) {
-			while ($i = mysql_fetch_array($query)) {
+		if ($query->num_rows() > 0) {
+			while ($i = $query->fetch_array()) {
 				if (($i['typefin'] == "aff" && $i['nbaffichages'] < $i['fincamp']) || ($i['typefin'] == "click" && $i['clicks'] < $i['fincamp']) || ($i['typefin'] == "date" && $date < $i['fincamp'])) {
 					for ($x = 0; $x < $i['ratio']; $x++) {
 						$result[]			=	$i;
@@ -161,10 +156,10 @@ if (!isset($nocache)) {
 			  	$inserchampcamp				=	$result[$nocamp]['id']."-".strftime("%Y%m%d",$result[$nocamp]['lastvue']);
 		
 			  	if ($date_derniere_vue_camp == $date_maintenant) {
-			  		$query					=	$sql->query("UPDATE ".$_PRE."campagnes SET nbaffichages=nbaffichages+1, lastvue='$date', todayvue=todayvue+1 WHERE id='".$result[$nocamp]['id']."'");
+			  		$query					=	$sql->query("UPDATE "._PRE_."campagnes SET nbaffichages = nbaffichages+1, lastvue = %d, todayvue = todayvue+1 WHERE id = %d", array($date, $result[$nocamp]['id']))->execute();
                 } else {
-			  		$query					=	$sql->query("INSERT INTO ".$_PRE."statcamp (iddate,vu,clicks) VALUES ('$inserchampcamp','".$result[$nocamp]['todayvue']."','".$result[$nocamp]['todayclick']."')");
-			  		$query					=	$sql->query("UPDATE ".$_PRE."campagnes SET nbaffichages=nbaffichages+1, lastvue='$date', todayvue=1, todayclick=0 WHERE id='".$result[$nocamp]['id']."'");
+			  		$query					=	$sql->query("INSERT INTO "._PRE_."statcamp (iddate,vu,clicks) VALUES (%d,%d,%d)", array($inserchampcamp, $result[$nocamp]['todayvue'], $result[$nocamp]['todayclick']))->execute();
+			  		$query					=	$sql->query("UPDATE "._PRE_."campagnes SET nbaffichages=nbaffichages+1, lastvue = %d, todayvue = 1, todayclick = 0 WHERE id = %d", array($date, $result[$nocamp]['id']))->execute();
 			  	}
 		
 			 	if (strlen($result[$nocamp]['regie'])==0)  {
