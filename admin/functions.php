@@ -812,28 +812,29 @@ function getskin()
 	else
 		$order="ASC";
 	
-	$query=$sql->query("SELECT propriete,valeur FROM "._PRE_."skins WHERE id=".$_USER['userskin']." OR id=".$_FORUMCFG['defaultskin']." ORDER BY id ".$order);
+	$query=$sql->query("SELECT propriete,valeur FROM "._PRE_."skins WHERE id=%d OR id=%d ORDER BY id %s", array($_USER['userskin'],$_FORUMCFG['defaultskin'],$order))->execute();
 	
-	while(list($skcle,$skvalue)=mysql_fetch_array($query))
-	{
-		if(empty($_SKIN[$skcle]))
-			addToArray($_SKIN,$skcle,$skvalue);
+	while (list($skcle,$skvalue) = $query->fetch_array($query)) {
+		if (empty($_SKIN[$skcle])) {
+            addToArray($_SKIN,$skcle,$skvalue);
+        }
 			//$_SKIN[$skcle]=$skvalue;
 			
-		if(preg_match("|^grp|",$skcle) > 0)
-			$ListColorGroup[] = intval(str_replace("grp","",$skcle));
+		if (preg_match("|^grp|",$skcle) > 0) {
+            $ListColorGroup[] = intval(str_replace("grp","",$skcle));
+        }
 	}
 		
-	if(!empty($_POST['skins']) && count($_POST['skins'])>0 && isset($_POST['act']) && $_POST['act']=="preview")
-	{
-		for($i=0;$i<count($_POST['skins']);$i++)
-		{
+	if (!empty($_POST['skins']) && count($_POST['skins'])>0 && isset($_POST['act']) && $_POST['act']=="preview") {
+		for ($i=0;$i<count($_POST['skins']);$i++) {
 			$valeur=each($_POST['skins']);
-			if(strlen($valeur['value'])>0)
-				if(empty($_SKIN[$skcle]))
-					addToArray($_SKIN,$valeur['key'],$valeur['value']);
-				else
-					$_SKIN[$valeur['key']]=$valeur['value'];
+			if (strlen($valeur['value'])>0) {
+				if (empty($_SKIN[$skcle])) {
+                    addToArray($_SKIN,$valeur['key'],$valeur['value']);
+                } else {
+                    $_SKIN[$valeur['key']]=$valeur['value'];
+                }
+            }
 		}
 	}
 }
@@ -842,11 +843,10 @@ function getloadsmileys()
 {
 	global $sql;
 	
-	$query=$sql->query("SELECT imgsmile,codesmile FROM "._PRE_."smileys ORDER BY ordersmile ASC");
+	$query = $sql->query("SELECT imgsmile,codesmile FROM "._PRE_."smileys ORDER BY ordersmile ASC")->execute();
 	
 	$i=0;
-	while($j=mysql_fetch_array($query))
-	{
+	while ($j = $query->fetch_array()) {
 		$tplable_smileys[$i]['code']=getformatrecup($j['codesmile']);
 		$tplable_smileys[$i]['img']=$j['imgsmile'];
 		$i++;
@@ -860,13 +860,13 @@ function getreturnsmilies($msg)
 
 	global $table_smileys,$_SERVER;
 
-	if(preg_match("|admin/|",$_SERVER['REQUEST_URI']) > 0)
-		$prefix="../";
-	else
-		$prefix="";
+	if (preg_match("|admin/|",$_SERVER['REQUEST_URI']) > 0) {
+        $prefix="../";
+    } else {
+        $prefix="";
+    }
 
-	for($i=0;$i<count($table_smileys);$i++)
-	{
+	for ($i=0;$i<count($table_smileys);$i++) {
 		$msg = str_replace($table_smileys[$i]['code'],"<img src=\"".$prefix."smileys/".$table_smileys[$i]['img']."\" align=absmiddle>", $msg);	
 	}
 
@@ -902,12 +902,10 @@ function InitBBcode()
 	$BBcodeHTML['msgcache1'] 	= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","msgcache1"))));
 	$BBcodeHTML['msgcache2'] 	= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","msgcache2"))));	
 
-	if(strlen($_FORUMCFG['censuredwords'])>0)
-	{
+	if (strlen($_FORUMCFG['censuredwords'])>0) {
 		$Rpl="**************************************************************************************************";
 		$ListWords = explode(", ",$_FORUMCFG['censuredwords']);
-		for($i=0;$i<count($ListWords);$i++)
-		{
+		for ($i=0;$i<count($ListWords);$i++) {
 			$ListWordsRpl[$i] = "\\1".getformatmsg(substr($ListWords[$i],0,1).substr($Rpl,0,strlen($ListWords[$i])-2).substr($ListWords[$i],-1))."\\2";
 			$ListWords[$i] = "'([^a-zA-Z])".addslashes(getformatmsg($ListWords[$i]))."([^a-zA-Z]|\Z|\s)'si";
 		}
@@ -920,10 +918,11 @@ function getcolorsearch($chain)
 	global $SearchOrig, $SearchReplace;
 	
 	$chain	=	stripslashes($chain);
-	if(count($SearchOrig)>0)
-		return(str_replace($SearchOrig,$SearchReplace,$chain));
-	else
-		return($chain);		
+	if (count($SearchOrig)>0) {
+        return(str_replace($SearchOrig,$SearchReplace,$chain));
+    } else {
+        return($chain);
+    }
 }
 
 // *******************************************************
@@ -1006,24 +1005,19 @@ function css_process($chaine, $statut='')
 	static $close_tag	=	"";
 	$to_return		=	"";
 	
-	if($statut == 'open')
-	{
-		if(NAVIGATEUR == "MOZILLA")
-		{
+	if ($statut == 'open') {
+		if (NAVIGATEUR == "MOZILLA") {
 			$css			=	preg_replace("/<(span|font|br) (.*?)>/si","\\2",$chaine);
 			$css			=	str_replace("\" ","\"----",$css);
 			$temp_options	=	explode("----",$css);
 	
-			foreach($temp_options AS $html_options)
-			{
-				if(substr($html_options,0,6) == "style=")
-				{
+			foreach ($temp_options AS $html_options) {
+				if (substr($html_options,0,6) == "style=") {
 					$html_options	=	preg_replace("/style=\"(.*?);\"/si","\\1",$html_options);
 					
 					$temp_array = explode("; ",$html_options);
 					
-					foreach($temp_array AS $value)
-					{
+					foreach ($temp_array AS $value) {
 						switch ($value)
 						{
 							case 'font-weight: bold' :
@@ -1039,23 +1033,22 @@ function css_process($chaine, $statut='')
 							  $close_tag  = '[/under]'.$close_tag;
 							  break;
 							default :
-							  if(substr($value,0,11)=="font-family")
-							  {
+							  if (substr($value,0,11)=="font-family") {
 							  	$font	=	preg_replace("/font-family: (.*?)/si","\\1",$value);
 							  	$to_return .=	'[font='.$font.']';
 							  	$close_tag  = '[/font]'.$close_tag;
 							  }
-							  if(substr($value,0,5)=="color")
-							  {
+
+                              if (substr($value,0,5)=="color") {
 							  	$decstring	=	preg_replace("/color: rgb\((.*?)\)/","\\1",$value);
 							  	$array_dec	=	explode(", ",$decstring);
 							  	$hexstring	=	"";
 							  	
-							  	foreach($array_dec AS $dec_value)
-							  	{
+							  	foreach ($array_dec AS $dec_value) {
 							  		$tempvalue		=	dechex($dec_value);
-							  		if(strlen($tempvalue)==1)
-							  			$tempvalue	=	"0".$tempvalue;
+							  		if (strlen($tempvalue)==1) {
+                                        $tempvalue	=	"0".$tempvalue;
+                                    }
 							  		
 							  		$hexstring		.=	$tempvalue;
 							  	}
@@ -1066,50 +1059,38 @@ function css_process($chaine, $statut='')
 							  break;
 						}
 					}
-				}
-				elseif(substr($html_options,0,5) == "size=")
-				{
+				} elseif(substr($html_options,0,5) == "size=") {
 					$html_options	=	preg_replace("/size=\"(.*?)\"/si","\\1",$html_options);
 					$to_return .=	'[size='.$html_options.']';
 					$close_tag  = 	'[/size]'.$close_tag;
 				}
 			}
-		}
-		elseif(NAVIGATEUR == "MSIE")
-		{
+		} elseif(NAVIGATEUR == "MSIE") {
 			$css			=	preg_replace("/<font (.*?)>/si","\\1",$chaine);
 			$temp_options	=	explode(" ",$css);
 			
-			foreach($temp_options AS $html_options)
-			{
-				if(substr($html_options,0,5) == "face=")
-				{
+			foreach ($temp_options AS $html_options) {
+				if (substr($html_options,0,5) == "face=") {
 					$html_options	=	preg_replace("/face=(.*?)/si","\\1",$html_options);
 					$to_return		.=	'[font='.$html_options.']';
 					$close_tag		=	'[/font]'.$close_tag;
-				}
-				elseif(substr($html_options,0,5) == "size=")
-				{
+				} elseif (substr($html_options,0,5) == "size=") {
 					$html_options	=	preg_replace("/size=(.*?)/si","\\1",$html_options);
 					$to_return		.=	'[size='.$html_options.']';
 					$close_tag		=	'[/size]'.$close_tag;
-				}
-				elseif(substr($html_options,0,6) == "color=")
-				{
+				} elseif(substr($html_options,0,6) == "color=") {
 					$html_options	=	preg_replace("/color=(.*?)/si","\\1",$html_options);
 					$to_return		.=	'[color='.$html_options.']';
 					$close_tag		=	'[/color]'.$close_tag;
 				}
 			}			
 		}
-	}
-	elseif($statut == 'close')
-	{
+	} elseif($statut == 'close') {
 		$to_return	=	$close_tag;
 		$close_tag	=	"";
-	}
-	else
-		$to_return	=	$chaine;
+	} else {
+        $to_return	=	$chaine;
+    }
 	
 	return($to_return);
 }
@@ -1755,8 +1736,8 @@ function getquote($id)
 {
 	global $sql, $tpl, $QuoteName, $OrigMsg, $QuoteMsg, $_USER;
 	
-	$query 						= 	$sql->query("SELECT pseudo,msg FROM "._PRE_."posts WHERE idpost='$id'");
-	list($QuoteName,$OrigMsg) 	= 	mysql_fetch_array($query);
+	$query 						= 	$sql->query("SELECT pseudo,msg FROM "._PRE_."posts WHERE idpost=%d", $id)->execute();
+	list($QuoteName,$OrigMsg) 	= 	$query->fetch_array();
 	
 	$QuoteName 					= 	getformatrecup($QuoteName);
 	$OrigMsg   					= 	getformatrecup($OrigMsg);
@@ -1772,17 +1753,18 @@ function getquote($id)
 function gettopictitle($id,$annonce=false)
 {
 	global $sql;
-	if($annonce)
-		$query = $sql->query("SELECT sujet FROM "._PRE_."annonces WHERE idpost=".$id);
-	else
-		$query = $sql->query("SELECT idforum,sujet,nbrep,opentopic,poll FROM "._PRE_."topics WHERE idtopic=".$id);
-	$nb = mysql_num_rows($query);
+	if ($annonce) {
+        $query = $sql->query("SELECT sujet FROM "._PRE_."annonces WHERE idpost=%d",$id)->execute();
+    } else {
+        $query = $sql->query("SELECT idforum,sujet,nbrep,opentopic,poll FROM "._PRE_."topics WHERE idtopic=%d",$id)->execute();
+    }
+	$nb = $query->num_rows();
 	
 	if($nb==0)
 		return false;
 	else
 	{
-		$j		=	mysql_fetch_array($query);
+		$j		=	$query->fetch_array();
 		return($j);
 	}
 }
@@ -1791,17 +1773,17 @@ function updateforumlastposter($idforum)
 {
 	global $sql;
 	
-	$query = $sql->query("SELECT COUNT(*) AS nbtopic FROM "._PRE_."topics WHERE idforum='$idforum'");
-	list($nbtopic)=mysql_fetch_array($query);
+	$query = $sql->query("SELECT COUNT(*) AS nbtopic FROM "._PRE_."topics WHERE idforum=%d",$idforum)->execute();
+	list($nbtopic)=$query->fetch_array();
 	
-	$query = $sql->query("SELECT COUNT(*) AS nbmsg FROM "._PRE_."posts WHERE idforum='$idforum'");
-	list($nbmsg)=mysql_fetch_array($query);
+	$query = $sql->query("SELECT COUNT(*) AS nbmsg FROM "._PRE_."posts WHERE idforum=%d",$idforum)->execute();
+	list($nbmsg)=$query->fetch_array();
 	$nbmsg = $nbmsg - $nbtopic;
 	
 	if($nbtopic>0)
 	{
-		$query = $sql->query("SELECT idpost,date,idmembre,pseudo FROM "._PRE_."posts WHERE idforum='$idforum' ORDER BY date DESC");
-		$i=mysql_fetch_array($query);
+		$query = $sql->query("SELECT idpost,date,idmembre,pseudo FROM "._PRE_."posts WHERE idforum=%d ORDER BY date DESC", $idforum)->execute();
+		$i=$query->fetch_array();
 	}
 	else
 	{
@@ -1811,7 +1793,7 @@ function updateforumlastposter($idforum)
 	}
 	
 	$i['pseudo'] = getformatdbtodb($i['pseudo']);	
-	$query=$sql->query("UPDATE "._PRE_."forums SET forumtopic='$nbtopic' ,forumposts='$nbmsg' ,lastforumposter='".$i['pseudo']."', lastdatepost='".$i['date']."', lastidpost='".$i['idpost']."' WHERE forumid='$idforum'");	
+	$query=$sql->query("UPDATE "._PRE_."forums SET forumtopic=%d ,forumposts=%d ,lastforumposter='%s', lastdatepost='%s', lastidpost=%d WHERE forumid=%d", array($nbtopic, $nbmsg, $i['pseudo'], $i['date'], $i['idpost'], $idforum))->execute();
 }
 
 function updatetopiclastposter($idpost)
