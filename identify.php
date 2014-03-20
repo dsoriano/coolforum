@@ -47,12 +47,12 @@ if($_REQUEST['action']=="questrep")
 	//$pseudo=$_POST['pseudo'];
 	$iduser		=	intval($_POST['idident']);
 	$repuser	=	getformatmsg($_POST['repuser'],false);
-	$query		=	$sql->query("SELECT ".$_PRE."userplus.reponse,".$_PRE."user.password FROM ".$_PRE."userplus LEFT JOIN ".$_PRE."user ON ".$_PRE."userplus.idplus=".$_PRE."user.userid WHERE ".$_PRE."userplus.idplus=$iduser AND ".$_PRE."userplus.reponse='$repuser'");
-	$nb		=	mysql_num_rows($query);
+	$query		=	$sql->query("SELECT "._PRE_."userplus.reponse,"._PRE_."user.password FROM "._PRE_."userplus LEFT JOIN "._PRE_."user ON "._PRE_."userplus.idplus="._PRE_."user.userid WHERE "._PRE_."userplus.idplus=%d AND "._PRE_."userplus.reponse='%s'", array($iduser, $repuser))->execute();
+	$nb		=	$query->num_rows();
 	
 	if($nb==1 && $_FORUMCFG['confirmparmail']==0)
 	{
-		$j=mysql_fetch_array($query);
+		$j=$query->fetch_array();
 		if(strlen($j['reponse'])==0)
 			$tpl->box['logincontent']		=	$tpl->attlang("notquestrep");
 		else
@@ -71,12 +71,12 @@ if($_REQUEST['action']=="sendmdp")
 	$pseudo	=	getformatmsg($_POST['pseudo'],false);
 	$mail 	= 	getformatmsg($_POST['mail']);
 	
-	$query = $sql->query("SELECT ".$_PRE."user.userid,".$_PRE."user.login,".$_PRE."user.password,".$_PRE."user.usermail,".$_PRE."userplus.question,".$_PRE."userplus.reponse FROM ".$_PRE."user LEFT JOIN ".$_PRE."userplus ON ".$_PRE."userplus.idplus=".$_PRE."user.userid WHERE ".$_PRE."user.login='$pseudo' AND ".$_PRE."user.usermail='$mail'");
-	$nb=mysql_num_rows($query);
+	$query = $sql->query("SELECT "._PRE_."user.userid,"._PRE_."user.login,"._PRE_."user.password,"._PRE_."user.usermail,"._PRE_."userplus.question,"._PRE_."userplus.reponse FROM "._PRE_."user LEFT JOIN "._PRE_."userplus ON "._PRE_."userplus.idplus="._PRE_."user.userid WHERE "._PRE_."user.login='%s' AND "._PRE_."user.usermail='%s'", array($pseudo, $mail))->execute();
+	$nb=$query->num_rows();
 	
 	if($nb==1)
 	{
-		$Result=mysql_fetch_array($query);
+		$Result=$query->fetch_array();
 		if($_FORUMCFG['confirmparmail']==0)
 		{
 			if(strlen($Result['reponse'])==0 || strlen($Result['reponse'])==0)

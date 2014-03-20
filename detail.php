@@ -131,7 +131,7 @@ $cache .= $tpl->gettemplate("treenav","hierarchy");
 $tpl->box['nextpost']=$tpl->gettemplate("detail","topicnavig");
 
 if (!isset($_GET['vu'])) {
-	$query = $sql->query("UPDATE ".$_PRE."topics SET nbvues=nbvues+1 WHERE idtopic=".$_GET['id']);
+	$query = $sql->query("UPDATE "._PRE_."topics SET nbvues=nbvues+1 WHERE idtopic = %d", $_GET['id'])->execute();
 }
 
 // ###### Gestion des pages #####
@@ -182,22 +182,22 @@ if ($_FORUMCFG['repflash']=="Y" && $_PERMFORUM[$_GET['forumid']][3]==true && $To
 }
 
 $query 	= 	$sql->query("SELECT 
-			".$_PRE."posts.idpost AS idpost,
-			".$_PRE."posts.sujet AS sujetpost, 
-			".$_PRE."posts.date AS datepost,
-			".$_PRE."posts.msg AS msgpost, 
-			".$_PRE."posts.icone AS iconpost, 
-			".$_PRE."posts.idmembre AS posterid,
-			".$_PRE."posts.pseudo AS pseudo,
-			".$_PRE."posts.smiles AS smiles,
-			".$_PRE."posts.parent AS parent,
-			".$_PRE."posts.bbcode AS afbbcode, 
-			".$_PRE."posts.poll as poll, 
-			".$_PRE."user.* 
-		FROM ".$_PRE."posts
-		LEFT JOIN ".$_PRE."user ON ".$_PRE."posts.idmembre=".$_PRE."user.userid
-		WHERE ".$_PRE."posts.parent='".$_GET['id']."'
-		ORDER BY ".$_PRE."posts.date LIMIT ".$debut.",".$_FORUMCFG['msgparpage']);
+			"._PRE_."posts.idpost AS idpost,
+			"._PRE_."posts.sujet AS sujetpost, 
+			"._PRE_."posts.date AS datepost,
+			"._PRE_."posts.msg AS msgpost, 
+			"._PRE_."posts.icone AS iconpost, 
+			"._PRE_."posts.idmembre AS posterid,
+			"._PRE_."posts.pseudo AS pseudo,
+			"._PRE_."posts.smiles AS smiles,
+			"._PRE_."posts.parent AS parent,
+			"._PRE_."posts.bbcode AS afbbcode, 
+			"._PRE_."posts.poll as poll, 
+			"._PRE_."user.* 
+		FROM "._PRE_."posts
+		LEFT JOIN "._PRE_."user ON "._PRE_."posts.idmembre="._PRE_."user.userid
+		WHERE "._PRE_."posts.parent=%d
+		ORDER BY "._PRE_."posts.date LIMIT %d,%d", array($_GET['id'], $debut, $_FORUMCFG['msgparpage']))->execute();
 
 InitBBcode();
 if ($_FORUMCFG['use_grades'] == "Y") {
@@ -209,8 +209,8 @@ $tpl->box['forumcontent'] = "";
 
 // #### Gestion des sondages ####
 if ($TopicInfo['poll']>0) {
-	$pollreq	=	$sql->query("SELECT * FROM ".$_PRE."poll WHERE id=".$TopicInfo['poll']);
-	$sd		=	mysql_fetch_array($pollreq);
+	$pollreq	=	$sql->query("SELECT * FROM "._PRE_."poll WHERE id=%d", $TopicInfo['poll'])->execute();
+	$sd		=	$pollreq->fetch_array();
 	
 	$tpl->box['questpoll'] = getformatrecup($sd['question']);
 	
@@ -259,7 +259,7 @@ if ($TopicInfo['poll']>0) {
 
 $topicpassed = false;
 	
-while ($DetailMsg = mysql_fetch_array($query)) {
+while ($DetailMsg = $query->fetch_array()) {
 	if (!$topicpassed && $debut == 0) {
 		$IdTopic = $DetailMsg['idpost'];
 		$topicpassed = true;

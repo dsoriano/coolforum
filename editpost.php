@@ -76,14 +76,14 @@ if (!$canedit) {
 	// Bannissement d'un membre
 	// ---------------------------------
 	if (isset($_REQUEST['action']) && $_REQUEST['action']=="banmember" && $_MODORIGHTS[3]) {
-		$query 		   = $sql->query("SELECT userstatus FROM ".$_PRE."user WHERE userid='$posterid'");
-		list($ToBanStatus) = mysql_fetch_array($query);
+		$query 		   = $sql->query("SELECT userstatus FROM "._PRE_."user WHERE userid=%d", $posterid)->execute();
+		list($ToBanStatus) = $query->fetch_array();
 		 
 		if ($_MODORIGHTS[3] && $ToBanStatus < $_USER['userstatus']) {
-			$query	=	$sql->query("UPDATE ".$_PRE."user SET userstatus=-userstatus WHERE userid='$posterid'");
-			$query	=	$sql->query("SELECT ".$_PRE."user.userid,".$_PRE."user.login,".$_PRE."user.usermail,".$_PRE."userplus.mailorig FROM ".$_PRE."user LEFT JOIN ".$_PRE."userplus ON ".$_PRE."userplus.idplus=".$_PRE."user.userid WHERE userid='$posterid'");
-			$j	=	mysql_fetch_array($query);
-			$query	=	$sql->query("INSERT INTO ".$_PRE."banlist (userid,login,mail1,mail2) VALUES ('".$j['userid']."','".$j['login']."','".$j['usermail']."','".$j['mailorig']."')");
+			$query	=	$sql->query("UPDATE "._PRE_."user SET userstatus=-userstatus WHERE userid=%d", $posterid)->execute();
+			$query	=	$sql->query("SELECT "._PRE_."user.userid,"._PRE_."user.login,"._PRE_."user.usermail,"._PRE_."userplus.mailorig FROM "._PRE_."user LEFT JOIN "._PRE_."userplus ON "._PRE_."userplus.idplus="._PRE_."user.userid WHERE userid=%d", $posterid)->execute();
+			$j	=	$query->fetch_array();
+			$query	=	$sql->query("INSERT INTO "._PRE_."banlist (userid,login,mail1,mail2) VALUES (%d,'%s','%s','%s')", array($j['userid'], $j['login'], $j['usermail'], $j['mailorig']))->execute();
 		} else {
 			$tpl->box['msgerrormodo']		=	$tpl->attlang('modocantban');
 			$tpl->box['afferrormodo']		=	$tpl->gettemplate('editpost','afferrormodo');
@@ -96,19 +96,19 @@ if (!$canedit) {
 	// ---------------------------------	
 	if (isset($_REQUEST['action']) && $_REQUEST['action'] == "delete" && $_MODORIGHTS[2]) {
 		if ($_POST['IsTopic']=="Y") {
-			$query			=	$sql->query("SELECT poll FROM ".$_PRE."topics WHERE idtopic='$parent'");
-			list($id_poll)	=	mysql_fetch_array($query);
+			$query			=	$sql->query("SELECT poll FROM "._PRE_."topics WHERE idtopic=%d", $parent)->execute();
+			list($id_poll)	=	$query->fetch_array();
 			
 			if($id_poll > 0) {
-				$query		=	$sql->query("DELETE FROM ".$_PRE."poll WHERE id=".$id_poll);
+				$query		=	$sql->query("DELETE FROM "._PRE_."poll WHERE id=%d", $id_poll)->execute();
             }
 				
-			$query			=	$sql->query("DELETE FROM ".$_PRE."posts WHERE parent='$parent'");
-			$query			=	$sql->query("DELETE FROM ".$_PRE."topics WHERE idtopic='$parent'");
+			$query			=	$sql->query("DELETE FROM "._PRE_."posts WHERE parent=%d", $parent)->execute();
+			$query			=	$sql->query("DELETE FROM "._PRE_."topics WHERE idtopic=%d", $parent)->execute();
 			
 			updatenbtopics();
 		} else {
-			$query	=	$sql->query("DELETE FROM ".$_PRE."posts WHERE idpost='$post'");
+			$query	=	$sql->query("DELETE FROM "._PRE_."posts WHERE idpost=%d", $post)->execute();
 			updatetopiclastposter($parent);
 		}
 			
@@ -136,10 +136,10 @@ if (!$canedit) {
         }
 		
 		if (strlen($error)==0) {
-			$sql->query("INSERT INTO ".$_PRE."topics (idforum,sujet,date,icone,idmembre,pseudo) SELECT idforum,'".$_POST['sujet']."',date,icone,idmembre,pseudo FROM ".$_PRE."posts WHERE idpost='".$post."'");
-			$id=mysql_insert_id();
-			$sql->query("UPDATE ".$_PRE."posts SET parent='".$id."' WHERE parent='".$_REQUEST['parent']."' && idpost>='".$post."'");
-			$sql->query("UPDATE ".$_PRE."posts SET sujet='".$_POST['sujet']."' WHERE idpost='".$post."'");
+            $insertmsg = $sql->query("INSERT INTO "._PRE_."topics (idforum,sujet,date,icone,idmembre,pseudo) SELECT idforum,'%s',date,icone,idmembre,pseudo FROM "._PRE_."posts WHERE idpost=%d", array($_POST['sujet'], $post))->execute();
+			$id=$insertmsg->insert_id();
+			$sql->query("UPDATE "._PRE_."posts SET parent = %d WHERE parent = %d && idpost >= %d", array($id, $_REQUEST['parent'], $post))->execute();
+			$sql->query("UPDATE "._PRE_."posts SET sujet='%s' WHERE idpost=%d", array($_POST['sujet'], $post))->execute();
 			
 			updatetopiclastposter($id);
 			updatetopiclastposter($_REQUEST['parent']);
@@ -156,7 +156,7 @@ if (!$canedit) {
 	// Gestion des post-it
 	// ---------------------------------	
 	if (isset($_REQUEST['action']) && $_REQUEST['action']=="addpostit" && $_MODORIGHTS[7]) {
-		$query = $sql->query("UPDATE ".$_PRE."topics SET postit='$addpostit' WHERE idtopic='$parent'");
+		$query = $sql->query("UPDATE "._PRE_."topics SET postit='%s' WHERE idtopic=%d", array($addpostit, $parent))->execute();
     }
 
 
@@ -166,7 +166,7 @@ if (!$canedit) {
 	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "closetopic" && $_MODORIGHTS[4]) {
 		$opentopic = $_POST['opentopic']=="N" ? "N" : "Y";
 
-		$query = $sql->query("UPDATE ".$_PRE."topics SET opentopic='$opentopic' WHERE idtopic='$parent'");
+		$query = $sql->query("UPDATE "._PRE_."topics SET opentopic='%s' WHERE idtopic=%d", array($opentopic, $parent))->execute();
 	}
 
 
@@ -176,8 +176,8 @@ if (!$canedit) {
 	if(isset($_REQUEST['action']) && $_REQUEST['action']=="changeforum" && $_MODORIGHTS[6] && $_POST['forumdest'] > 0) {
 		$forumdest	=	intval($_POST['forumdest']);
 		
-		$query		=	$sql->query("UPDATE ".$_PRE."topics SET idforum='$forumdest' WHERE idtopic='$parent'");
-		$query		=	$sql->query("UPDATE ".$_PRE."posts SET idforum='$forumdest' WHERE parent='$parent'");
+		$query		=	$sql->query("UPDATE "._PRE_."topics SET idforum=%d WHERE idtopic=%d", array($forumdest, $parent))->execute();
+		$query		=	$sql->query("UPDATE "._PRE_."posts SET idforum=%d WHERE parent=%d", array($forumdest, $parent))->execute();
 			
 		updateforumlastposter($forumid);
 		updateforumlastposter($forumdest);
@@ -251,15 +251,15 @@ if (!$canedit) {
 			}
 			
 			if ($_POST['IsTopic'] == "Y") {
-				$query = $sql->query("UPDATE ".$_PRE."topics SET sujet='$sujet',icone='$icon' WHERE idtopic='$parent'");
+				$query = $sql->query("UPDATE "._PRE_."topics SET sujet='%s',icone='%s' WHERE idtopic=%d", array($sujet, $icon, $parent))->execute();
             }
 			
-			$query = $sql->query("UPDATE ".$_PRE."posts SET sujet='$sujet',
-						msg='$msg', 
-						icone='$icon', 
-						smiles='$smiles', 
-						bbcode='$nobb' 
-					WHERE idpost='$post'");
+			$query = $sql->query("UPDATE "._PRE_."posts SET sujet='%s',
+						msg='%s',
+						icone='%s',
+						smiles='%s',
+						bbcode='%s'
+					WHERE idpost=%d", array($sujet, $msg, $icon, $smiles, $nobb, $post))->execute();
 
             $tpl->box['editcontent'] = $query ? $tpl->gettemplate("editpost","editok") : $tpl->gettemplate("editpost","editnok");
 
@@ -284,22 +284,22 @@ if (!$canedit) {
 
 		getlangage("writebox");
 		$tpl->box['editcontent']="";
-		$query=$sql->query("SELECT ".$_PRE."posts.idpost AS idpost,
-					".$_PRE."posts.sujet AS sujet, 
-					".$_PRE."posts.date AS datepost,
-					".$_PRE."posts.parent AS parent,
-					".$_PRE."posts.msg AS msgpost, 
-					".$_PRE."posts.icone AS iconpost, 
-					".$_PRE."posts.idmembre AS posterid, 
- 					".$_PRE."posts.pseudo AS pseudo,
- 					".$_PRE."posts.smiles, 
-					".$_PRE."posts.bbcode AS afbbcode, 
-					".$_PRE."user.*
-				FROM ".$_PRE."posts
-				LEFT JOIN ".$_PRE."user ON ".$_PRE."posts.idmembre=".$_PRE."user.userid
-				WHERE idpost='".$post."'");
+		$query=$sql->query("SELECT "._PRE_."posts.idpost AS idpost,
+					"._PRE_."posts.sujet AS sujet, 
+					"._PRE_."posts.date AS datepost,
+					"._PRE_."posts.parent AS parent,
+					"._PRE_."posts.msg AS msgpost, 
+					"._PRE_."posts.icone AS iconpost, 
+					"._PRE_."posts.idmembre AS posterid, 
+ 					"._PRE_."posts.pseudo AS pseudo,
+ 					"._PRE_."posts.smiles, 
+					"._PRE_."posts.bbcode AS afbbcode, 
+					"._PRE_."user.*
+				FROM "._PRE_."posts
+				LEFT JOIN "._PRE_."user ON "._PRE_."posts.idmembre="._PRE_."user.userid
+				WHERE idpost=%d", $post)->execute();
 
-		$EditForum = mysql_fetch_array($query);
+		$EditForum = $query->fetch_array();
 		
 		if (isset($error) && strlen($error)>0) {
 			$EditForum['sujet']	=	getrecupforform($_POST['sujet']);
@@ -314,8 +314,8 @@ if (!$canedit) {
         }
 			
 		// **** on vérifie si le message est un sujet ****
-		$query = $sql->query("SELECT idpost,sujet FROM ".$_PRE."posts WHERE parent='".$EditForum['parent']."' ORDER BY date LIMIT 0,1");
-		list($TopicPost,$TopicSujet) = mysql_fetch_array($query);
+		$query = $sql->query("SELECT idpost,sujet FROM "._PRE_."posts WHERE parent=%d ORDER BY date LIMIT 0,1", $EditForum['parent'])->execute();
+		list($TopicPost,$TopicSujet) = $query->fetch_array();
 
 		// Barre de Navigation
 		$TopicSujet = getformatrecup($TopicSujet);
@@ -328,8 +328,8 @@ if (!$canedit) {
         $IsTopic = $TopicPost == $EditForum['idpost'] ? 'Y' : 'N';
 
 		// **** on récupère les infos sur le sujet ****
-		$query = $sql->query("SELECT opentopic,postit FROM ".$_PRE."topics WHERE idtopic='".$EditForum['parent']."'");
-		list($OpenTopic,$PostIt) = mysql_fetch_array($query);
+		$query = $sql->query("SELECT opentopic,postit FROM "._PRE_."topics WHERE idtopic=%d", $EditForum['parent'])->execute();
+		list($OpenTopic,$PostIt) = $query->fetch_array();
 		
 		$LimiteLength 						= 		$_PERMFORUM[$forumid]['MaxChar'];
 
@@ -379,8 +379,8 @@ if (!$canedit) {
 		
 		// **** Peut-on bannir le membre? ****		
 		if ($_MODORIGHTS[3] && $EditForum['posterid']>0) {
-			$searchban = $sql->query("SELECT userid FROM ".$_PRE."banlist WHERE userid='".$EditForum['posterid']."'");
-			$isbanned = mysql_num_rows($searchban);
+			$searchban = $sql->query("SELECT userid FROM "._PRE_."banlist WHERE userid=%d", $EditForum['posterid'])->execute();
+			$isbanned = $searchban->num_rows();
 
             $tpl->box['affoptions'] .= $isbanned == 1 ? $tpl->gettemplate("editpost","banned") : $tpl->gettemplate("editpost","banboxok");
 		}
