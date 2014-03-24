@@ -56,11 +56,11 @@ $ForumMask=array();
 $Topics=array();
 $tpl->box['topiclist']=$tpl->box['numberpages']=NULLSTR;
 	
-$query=$sql->query("SELECT * FROM ".$_PRE."forums");
-$nb=mysql_num_rows($query);
+$query=$sql->query("SELECT * FROM "._PRE_."forums")->execute();
+$nb=$query->num_rows();
 
 if($nb>0)
-	while($j=mysql_fetch_array($query))
+	while($j=$query->fetch_array())
 		if(empty($_PERMFORUM[$j['forumid']][1]) || $_PERMFORUM[$j['forumid']][1]==false)
 			$ForumMask[]=$j['forumid'];
 
@@ -70,12 +70,12 @@ else			$Mask = NULLSTR;
 
 // ###### Récupération et affichage de la liste des nouveaux topics ######
 
-$query = $sql->query("SELECT idtopic FROM ".$_PRE."topics WHERE datederrep>'".$_USER['lastvisit']."' ".$Mask);
-$nb = mysql_num_rows($query);
+$query = $sql->query("SELECT idtopic FROM "._PRE_."topics WHERE datederrep > '%s' %s",array($_USER['lastvisit'], $Mask))->execute();
+$nb = $query->num_rows();
 
 if($nb > 0)
 {
-	while(list($t)=mysql_fetch_array($query))
+	while(list($t)=$query->fetch_array())
 		$Topics[]=$t;
 	
 	$UrlKeyWord = urlencode($KeyWords);
@@ -98,25 +98,25 @@ if($nb > 0)
 	else						$fin=$nb;
 	
 	
-	$query = $sql->query("SELECT ".$_PRE."topics.idtopic,
-		".$_PRE."topics.idforum AS forumid,
-		".$_PRE."topics.sujet,
-		".$_PRE."topics.nbrep,
-		".$_PRE."topics.nbvues,
-		".$_PRE."topics.datederrep,
-		".$_PRE."topics.derposter,
-		".$_PRE."topics.idderpost,
-		".$_PRE."topics.icone,
-		".$_PRE."topics.idmembre,
-		".$_PRE."topics.pseudo,
-		".$_PRE."user.login,
-		".$_PRE."user.userstatus,
-		".$_PRE."user.userid
-		FROM ".$_PRE."topics 
-	LEFT JOIN ".$_PRE."user ON ".$_PRE."topics.idmembre=".$_PRE."user.userid 
-	WHERE idtopic IN ('".implode("','",$Topics)."') LIMIT ".$debut.",".$fin);
+	$query = $sql->query("SELECT "._PRE_."topics.idtopic,
+		"._PRE_."topics.idforum AS forumid,
+		"._PRE_."topics.sujet,
+		"._PRE_."topics.nbrep,
+		"._PRE_."topics.nbvues,
+		"._PRE_."topics.datederrep,
+		"._PRE_."topics.derposter,
+		"._PRE_."topics.idderpost,
+		"._PRE_."topics.icone,
+		"._PRE_."topics.idmembre,
+		"._PRE_."topics.pseudo,
+		"._PRE_."user.login,
+		"._PRE_."user.userstatus,
+		"._PRE_."user.userid
+		FROM "._PRE_."topics 
+	LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid 
+	WHERE idtopic IN (%s) LIMIT %d,%d", array("'" . implode("','",$Topics) . "'", $debut, $fin))->execute();
 	
-	while($Topics=mysql_fetch_array($query))
+	while($Topics=$query->fetch_array())
 	{
 		$forumid = $Topics['forumid'];
 		$tpl->box['topiclist'].=afftopiclist(0,"listspe");

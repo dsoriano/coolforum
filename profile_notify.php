@@ -52,7 +52,7 @@ if($_REQUEST['action']=="stopnotify")
 		for($i=0;$i<$total;$i++)
 		{
 			$transfert = each($_POST['stop']);
-			$query = $sql->query("UPDATE ".$_PRE."posts SET notifyme='N' WHERE parent='".$transfert[1]."' AND idmembre='".$_USER['userid']."'");
+			$query = $sql->query("UPDATE "._PRE_."posts SET notifyme='N' WHERE parent=%d AND idmembre=%d", array($transfert[1], $_USER['userid']))->execute();
 			if(!$query)
 				$ok=false;
 		}
@@ -79,11 +79,11 @@ if(empty($_REQUEST['action']))
 	if(count($Forbidden)>0)	$Forbidden = " AND idforum NOT IN (".implode(",",$Forbidden).") ";
 	else			$Forbidden = "";*/
 	
-	$query=$sql->query("SELECT * FROM ".$_PRE."forums");
-	$nb=mysql_num_rows($query);
+	$query=$sql->query("SELECT * FROM "._PRE_."forums")->execute();
+	$nb=$query->num_rows();
 	if($nb>0)
 	{
-		while($j=mysql_fetch_array($query))
+		while($j=$query->fetch_array())
 		{
 			if(isset($_PERMFORUM[$j['forumid']][1]) && $_PERMFORUM[$j['forumid']][1])
 				$maskarray[]=$j['forumid'];	
@@ -94,7 +94,7 @@ if(empty($_REQUEST['action']))
 	
 	// Gestion des pages et récupération de la liste des topics où le membre posséde un abonnement
 	
-	$query = $sql->query("SELECT ".$_PRE."posts.parent FROM ".$_PRE."posts WHERE notifyme='Y' AND ".$_PRE."posts.idmembre='".$_USER['userid']."' ".$Forbidden." GROUP BY parent");
+	$query = $sql->query("SELECT "._PRE_."posts.parent FROM "._PRE_."posts WHERE notifyme='Y' AND "._PRE_."posts.idmembre=%d " . $Forbidden . " GROUP BY parent", array($_USER['userid']))->execute();
 	
 	$nbtopics_filtered = mysql_num_rows($query);
 
@@ -121,33 +121,33 @@ if(empty($_REQUEST['action']))
 	
 	if(count($ListIDTopics)>0)
 	{
-		$query = $sql->query("SELECT ".$_PRE."topics.idtopic,
-				".$_PRE."topics.idforum,
-				".$_PRE."topics.sujet,
-				".$_PRE."topics.nbrep,
-				".$_PRE."topics.nbvues,
-				".$_PRE."topics.datederrep,
-				".$_PRE."topics.derposter,
-				".$_PRE."topics.idderpost,
-				".$_PRE."topics.icone,
-				".$_PRE."topics.idmembre,
-				".$_PRE."topics.pseudo,
-				".$_PRE."topics.opentopic,
-				".$_PRE."topics.poll,
-				".$_PRE."topics.postit, 
-				".$_PRE."user.userid,
-				".$_PRE."user.userstatus
-				FROM ".$_PRE."topics 
-				LEFT JOIN ".$_PRE."user ON ".$_PRE."topics.idmembre=".$_PRE."user.userid
-				WHERE idtopic IN (".implode(",",$ListIDTopics).")
-				ORDER BY ".$_PRE."topics.postit DESC,".$_PRE."topics.datederrep DESC LIMIT ".$debut.",".$_FORUMCFG['topicparpage']);
+		$query = $sql->query("SELECT "._PRE_."topics.idtopic,
+				"._PRE_."topics.idforum,
+				"._PRE_."topics.sujet,
+				"._PRE_."topics.nbrep,
+				"._PRE_."topics.nbvues,
+				"._PRE_."topics.datederrep,
+				"._PRE_."topics.derposter,
+				"._PRE_."topics.idderpost,
+				"._PRE_."topics.icone,
+				"._PRE_."topics.idmembre,
+				"._PRE_."topics.pseudo,
+				"._PRE_."topics.opentopic,
+				"._PRE_."topics.poll,
+				"._PRE_."topics.postit, 
+				"._PRE_."user.userid,
+				"._PRE_."user.userstatus
+				FROM "._PRE_."topics 
+				LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid
+				WHERE idtopic IN (%s)
+				ORDER BY "._PRE_."topics.postit DESC,"._PRE_."topics.datederrep DESC LIMIT %d,%d", array(implode(",",$ListIDTopics), $debut, $_FORUMCFG['topicparpage']))->execute();
 		
-		$total = mysql_num_rows($query);
+		$total = $query->num_rows();
 		
 		if(isset($_COOKIE['CoolForumDetails']))
 			$cookiespost=cookdecode($_COOKIE['CoolForumDetails']);
 		
-		while($Topics=mysql_fetch_array($query))
+		while($Topics=$query->fetch_array())
 		{
 			$forumid	=	$Topics['idforum'];
 			$tpl->box['notifycontent'] .= afftopiclist(0,"profil_notify");

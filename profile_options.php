@@ -110,8 +110,8 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 			}
 			else
 			{
-				$query 	= 	$sql->query("SELECT userlogo FROM ".$_PRE."user WHERE userid=".$_USER['userid']);  
-				$j	=	mysql_fetch_array($query);
+				$query 	= 	$sql->query("SELECT userlogo FROM "._PRE_."user WHERE userid=%d", $_USER['userid'])->execute();
+				$j	=	$query->fetch_array();
 		
 				if(!empty($j['userlogo']))
 					$filename=$j['userlogo'];
@@ -150,10 +150,23 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 			if($_POST['wysiwyg']=="N")	$wysiwyg	=	"N";
 				else			$wysiwyg	=	"Y";
 
-			$query = $sql->query("UPDATE ".$_PRE."user SET usermail='".$_POST['usermail']."',usersite='".$_POST['usersite']."', showmail='$showmail', showusersite='$showusersite', usersign='$sign',usercitation='$citation', userlogo='$filename', skin='$skin', timezone='$timezone', lng='$lng', notifypm='$notifypm', popuppm='$popuppm', mailing='$mailing', wysiwyg='$wysiwyg'  WHERE userid=".$_USER['userid']);
-			if(!$query)
-				echo(mysql_error());
-				
+			$query = $sql->query("UPDATE "._PRE_."user SET
+			    usermail='%s',
+			    usersite='%s',
+			    showmail='%s',
+			    showusersite='%s',
+			    usersign='%s',
+			    usercitation='%s',
+			    userlogo='%s',
+			    skin='%s',
+			    timezone='%s',
+			    lng='%s',
+			    notifypm='%s',
+			    popuppm='%s',
+			    mailing='%s',
+			    wysiwyg='%s'
+			    WHERE userid=%d", array($_POST['usermail'], $_POST['usersite'], $showmail, $showusersite, $sign, $citation, $filename, $skin, $timezone, $lng, $notifypm, $popuppm, $mailing, $wysiwyg, $_USER['userid']))->execute();
+
 			$tpl->box['profilcontent']=$tpl->gettemplate("profil_options","changeok");
 			$tpl->box['profilcontent'].=getjsredirect("profile.php?p=profile",2000);
 		}
@@ -169,8 +182,8 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		if(strlen($error)==0)
 		{
 			$tpl->box['error']	= NULLSTR;
-			$query			=	$sql->query("SELECT login,usermsg,usermail,usersite,usersign,usercitation,showmail,showusersite,userlogo,skin,timezone,lng,notifypm,popuppm,mailing,wysiwyg FROM ".$_PRE."user WHERE userid=".$_USER['userid']);
-			$Result			=	mysql_fetch_array($query);
+			$query			=	$sql->query("SELECT login,usermsg,usermail,usersite,usersign,usercitation,showmail,showusersite,userlogo,skin,timezone,lng,notifypm,popuppm,mailing,wysiwyg FROM "._PRE_."user WHERE userid=%d",$_USER['userid'])->execute();
+			$Result			=	$query->fetch_array();
 
 			
 			//**** preview de la signature ****
@@ -334,8 +347,8 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		
 		//**** affichage du skin utilisé ****
 		$tpl->box['skinlist']	=	"";	
-		$query			=	$sql->query("SELECT * FROM ".$_PRE."skins WHERE propriete='skinname'");
-		while($j=mysql_fetch_array($query))
+		$query			=	$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname'")->execute();
+		while($j=$query->fetch_array())
 		{
 			$selected	=	"";
 			if($Result['skin']==$j['id'])	$selected=" SELECTED";
@@ -345,8 +358,8 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		
 		//**** sélection de la langue ****
 		$tpl->box['lnglist']	=	"";
-		$query			=	$sql->query("SELECT * FROM ".$_PRE."language");
-		while($j=mysql_fetch_array($query))
+		$query			=	$sql->query("SELECT * FROM "._PRE_."language")->execute();
+		while($j=$query->fetch_array())
 		{
 			$selected	=	"";
 			if($Result['lng']==$j['code'])	$selected=" SELECTED";
