@@ -33,15 +33,15 @@ getlangage("adm_supskin");
 
 if($_REQUEST['action']=="sup")
 {
-	$query=$sql->query("DELETE FROM ".$_PRE."skins WHERE id=".$_GET['id']);
-	$query=$sql->query("OPTIMIZE TABLE ".$_PRE."skins");
-	$query=$sql->query("UPDATE ".$_PRE."user SET skin='".$_FORUMCFG['defaultskin']."' WHERE skin=".$_GET['id']);
+	$query=$sql->query("DELETE FROM "._PRE_."skins WHERE id=".$_GET['id']);
+	$query=$sql->query("OPTIMIZE TABLE "._PRE_."skins");
+	$query=$sql->query("UPDATE "._PRE_."user SET skin='".$_FORUMCFG['defaultskin']."' WHERE skin=".$_GET['id']);
 	$_REQUEST['action'] = NULLSTR;
 }
 
 if(empty($_REQUEST['action']))
 {
-	$query=$sql->query("SELECT id,valeur FROM ".$_PRE."skins WHERE propriete='skinname' AND id<>".$_FORUMCFG['defaultskin']." ORDER BY id");
+	$query=$sql->query("SELECT id,valeur FROM "._PRE_."skins WHERE propriete='skinname' AND id<>".$_FORUMCFG['defaultskin']." ORDER BY id");
 	$nb=mysql_num_rows($query);
 	
 	$tpl->box['ligneskin']="";

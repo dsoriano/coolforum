@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("../secret/connect.php"); 
 require("functions.php");
 
 // #### Initialisation des variables #### //////////////////////////////////////
@@ -109,7 +108,7 @@ if(file_exists("../install/install.php"))
 if($_REQUEST['action']=="login")
 {
 	$pseudo		=		getformatmsg($_POST['pseudo'],false);
-	$query		=		mysql_query("SELECT userid,login,password,usermail,userstatus FROM ".$_PRE."user WHERE login='$pseudo'");
+	$query		=		mysql_query("SELECT userid,login,password,usermail,userstatus FROM "._PRE_."user WHERE login='$pseudo'");
 	$nb			=		mysql_num_rows($query);
 	
 	if($nb==0)

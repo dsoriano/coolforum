@@ -41,7 +41,7 @@ if($_REQUEST['action']=="save")
 		else
 			$valeur['value'] = getformatmsg($valeur['value']);
 
-		$query=$sql->query("UPDATE ".$_PRE."config SET valeur='".$valeur['value']."' WHERE options='".$valeur['key']."'");
+		$query=$sql->query("UPDATE "._PRE_."config SET valeur='".$valeur['value']."' WHERE options='".$valeur['key']."'");
 	}
 	$_REQUEST['action'] = NULLSTR;
 }

@@ -32,9 +32,9 @@ getlangage("adm_modifcat");
 
 function getplace($cat,$position)
 {
-	global $Pos,$tpl,$sql,$_PRE;
+	global $Pos,$tpl,$sql,_PRE_;
 	
-	$query=$sql->query("SELECT * FROM ".$_PRE."categorie ORDER BY catorder");
+	$query=$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
 	
 	while($Pos=mysql_fetch_array($query))
 	{
@@ -51,20 +51,20 @@ if($_REQUEST['action']=="changepos")
 {
 	if($_GET['changeto']<$_GET['place'])
 	{
-		$query=$sql->query("UPDATE ".$_PRE."categorie SET catorder=catorder+1 WHERE catorder>='".$_GET['changeto']."' AND catorder<='".$_GET['place']."'");
-		$query=$sql->query("UPDATE ".$_PRE."categorie SET catorder='".$_GET['changeto']."' WHERE catid='".$_GET['cat']."'");
+		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=catorder+1 WHERE catorder>='".$_GET['changeto']."' AND catorder<='".$_GET['place']."'");
+		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder='".$_GET['changeto']."' WHERE catid='".$_GET['cat']."'");
 	}
 	elseif ($_GET['changeto']>$_GET['place'])
 	{
-		$query=$sql->query("UPDATE ".$_PRE."categorie SET catorder=catorder-1 WHERE catorder<='".$_GET['changeto']."' AND catorder>='".$_GET['place']."'");
-		$query=$sql->query("UPDATE ".$_PRE."categorie SET catorder='".$_GET['changeto']."' WHERE catid='".$_GET['cat']."'");	
+		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=catorder-1 WHERE catorder<='".$_GET['changeto']."' AND catorder>='".$_GET['place']."'");
+		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder='".$_GET['changeto']."' WHERE catid='".$_GET['cat']."'");
 	}
 	$_REQUEST['action'] = NULLSTR;
 }
 
 if($_REQUEST['action']=="modify")
 {
-	$sql=mysql_query("SELECT * FROM ".$_PRE."categorie WHERE catid=".$_GET['id']);	
+	$sql=mysql_query("SELECT * FROM "._PRE_."categorie WHERE catid=".$_GET['id']);
 	$Lescat=mysql_fetch_array($sql);
 	
 	$Lescat['cattitle']=getformatrecup($Lescat['cattitle']);
@@ -78,7 +78,7 @@ if($_REQUEST['action']=="save")
 	$nom=getformatmsg($_POST['nom']);
 	$coment=getformatmsg($_POST['coment']);
 	
-	$query=$sql->query("UPDATE ".$_PRE."categorie SET cattitle='$nom',catcoment='$coment' WHERE catid=".$_POST['id']);
+	$query=$sql->query("UPDATE "._PRE_."categorie SET cattitle='$nom',catcoment='$coment' WHERE catid=".$_POST['id']);
 	$_REQUEST['action'] = NULLSTR;
 }
 
@@ -87,7 +87,7 @@ if(empty($_REQUEST['action']))
 {
 	$tpl->box['catlist'] = NULLSTR;
 	
-	$query=$sql->query("SELECT * FROM ".$_PRE."categorie ORDER BY catorder");
+	$query=$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
 	$nb=mysql_num_rows($query);
 	
 	if ($nb==0)

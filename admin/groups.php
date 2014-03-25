@@ -35,9 +35,9 @@ if($_REQUEST['action'] == "confdelgrp")
 	$id			=	intval($_POST['id']);
 	$idgroup		=	intval($_POST['idgroup']);
 	
-	$query			=	$sql->query("DELETE FROM ".$_PRE."groups WHERE id_group=$id");
-	$query			=	$sql->query("DELETE FROM ".$_PRE."groups_perm WHERE id_group=$id");
-	$query			=	$sql->query("UPDATE ".$_PRE."user SET userstatus=$idgroup WHERE userstatus=$id");
+	$query			=	$sql->query("DELETE FROM "._PRE_."groups WHERE id_group=$id");
+	$query			=	$sql->query("DELETE FROM "._PRE_."groups_perm WHERE id_group=$id");
+	$query			=	$sql->query("UPDATE "._PRE_."user SET userstatus=$idgroup WHERE userstatus=$id");
 	
 	// penser à virer les couleurs si on les intègre dans les skins
 	
@@ -47,14 +47,14 @@ if($_REQUEST['action'] == "confdelgrp")
 if($_REQUEST['action'] == "delgrp")
 {
 	$id			=	intval($_GET['id']);
-	$query	=	$sql->query("SELECT parent FROM ".$_PRE."groups WHERE id_group=$id");
+	$query	=	$sql->query("SELECT parent FROM "._PRE_."groups WHERE id_group=$id");
 	
 	if(mysql_num_rows($query)>0 && $id>4)
 	{
 		list($parent)		=	mysql_fetch_array($query);
 		$tpl->box['lignedelgrp']	=	"";
 		
-		$query			=	$sql->query("SELECT id_group, Nom_group FROM ".$_PRE."groups ORDER BY id_group");
+		$query			=	$sql->query("SELECT id_group, Nom_group FROM "._PRE_."groups ORDER BY id_group");
 		
 		while($Grps = mysql_fetch_array($query))
 		{
@@ -77,7 +77,7 @@ if($_REQUEST['action'] == "savedfor")
 {
 	$id			=	intval($_POST['id']);
 	
-	$query			=	$sql->query("SELECT forumid FROM ".$_PRE."forums ORDER BY forumid");
+	$query			=	$sql->query("SELECT forumid FROM "._PRE_."forums ORDER BY forumid");
 	if(mysql_num_rows($query) > 0)
 	{
 		while($For	=	mysql_fetch_array($query))
@@ -94,7 +94,7 @@ if($_REQUEST['action'] == "savedfor")
 			else
 				$MaxChar		=	0;
 				
-			$query_group		=	$sql->query("REPLACE INTO ".$_PRE."groups_perm (id_group, id_forum, droits, MaxChar) VALUES ('$id', '$ForumId', '$IntDroitFor', '$MaxChar')");
+			$query_group		=	$sql->query("REPLACE INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES ('$id', '$ForumId', '$IntDroitFor', '$MaxChar')");
 		}		
 	}
 	
@@ -110,7 +110,7 @@ if($_REQUEST['action'] == "dfor")
 	// ######################################################################
 	// #### Affichage des catégories et forums pour sélection des droits ####
 	
-	$query 				= 	$sql->query("SELECT * FROM ".$_PRE."categorie ORDER BY catorder");
+	$query 				= 	$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
 	$nb				=	mysql_num_rows($query);
 	
 	$tpl->box['listedroits']	=	"";
@@ -119,13 +119,13 @@ if($_REQUEST['action'] == "dfor")
 	else
 	{
 		$TabForum		=	array();
-		$sqlforums 		= 	$sql->query("SELECT ".$_PRE."forums.forumid,
-							    ".$_PRE."forums.forumcat,
-							    ".$_PRE."forums.forumtitle,
-							    ".$_PRE."groups_perm.droits,
-							    ".$_PRE."groups_perm.MaxChar						    
-						FROM ".$_PRE."forums LEFT JOIN ".$_PRE."groups_perm ON ".$_PRE."groups_perm.id_group='$id' AND ".$_PRE."groups_perm.id_forum = ".$_PRE."forums.forumid
-						ORDER BY ".$_PRE."forums.forumcat,".$_PRE."forums.forumorder");
+		$sqlforums 		= 	$sql->query("SELECT "._PRE_."forums.forumid,
+							    "._PRE_."forums.forumcat,
+							    "._PRE_."forums.forumtitle,
+							    "._PRE_."groups_perm.droits,
+							    "._PRE_."groups_perm.MaxChar
+						FROM "._PRE_."forums LEFT JOIN "._PRE_."groups_perm ON "._PRE_."groups_perm.id_group='$id' AND "._PRE_."groups_perm.id_forum = "._PRE_."forums.forumid
+						ORDER BY "._PRE_."forums.forumcat,"._PRE_."forums.forumorder");
 						
 		$nbforums		=	mysql_num_rows($sqlforums);
 		
@@ -193,7 +193,7 @@ if($_REQUEST['action'] == "savenewgroup")
 		else
 			$IntDroitGen	=		0;
 		
-		$query		=	$sql->query("INSERT INTO ".$_PRE."groups (parent, Nom_group, Droits_generaux,  Max_Pm, Max_Cit, Max_Sign, Max_Desc) VALUES ('$parentgroup', '$Grp_Name', '$IntDroitGen', '".$Droits_gen['Max_Pm']."', '".$Droits_gen['Max_Cit']."', '".$Droits_gen['Max_Sign']."', '".$Droits_gen['Max_Desc']."')");
+		$query		=	$sql->query("INSERT INTO "._PRE_."groups (parent, Nom_group, Droits_generaux,  Max_Pm, Max_Cit, Max_Sign, Max_Desc) VALUES ('$parentgroup', '$Grp_Name', '$IntDroitGen', '".$Droits_gen['Max_Pm']."', '".$Droits_gen['Max_Cit']."', '".$Droits_gen['Max_Sign']."', '".$Droits_gen['Max_Desc']."')");
 		$IdNewGroup	=	mysql_insert_id();
 		
 		if(isset($_POST['droits']) && is_array($_POST['droits']) && count($_POST['droits']) > 0)
@@ -201,15 +201,15 @@ if($_REQUEST['action'] == "savenewgroup")
 			{
 				$IntDroitFor = get_intfromright($value);
 				$MaxChar	=	intval($_POST['MaxChar'][$key]);
-				$query		=	$sql->query("INSERT INTO ".$_PRE."groups_perm (id_group, id_forum, droits, MaxChar) VALUES ('$IdNewGroup', '$key', '$IntDroitFor', '$MaxChar')");
+				$query		=	$sql->query("INSERT INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES ('$IdNewGroup', '$key', '$IntDroitFor', '$MaxChar')");
 			}
 		
 		$parentgroupcolor	=	'grp'.$parentgroup;
-		$query		=	$sql->query("SELECT id, valeur FROM ".$_PRE."skins WHERE propriete = '$parentgroupcolor'");
+		$query		=	$sql->query("SELECT id, valeur FROM "._PRE_."skins WHERE propriete = '$parentgroupcolor'");
 		while(list($idskin,$colorgroup) = mysql_fetch_array($query))
 		{
 			$newgroup	=	'grp'.$IdNewGroup;
-			$saveskin	=	$sql->query("INSERT INTO ".$_PRE."skins (id,propriete,valeur) VALUES ($idskin,'$newgroup','$colorgroup')");
+			$saveskin	=	$sql->query("INSERT INTO "._PRE_."skins (id,propriete,valeur) VALUES ($idskin,'$newgroup','$colorgroup')");
 		}
 		$_REQUEST['action'] = NULLSTR;
 	}
@@ -244,7 +244,7 @@ if($_REQUEST['action'] == "newgroup")
 	else
 	{
 		//$id = intval($_REQUEST['id']);
-		$query = $sql->query("SELECT * FROM ".$_PRE."groups WHERE id_group='$parentgroup'");
+		$query = $sql->query("SELECT * FROM "._PRE_."groups WHERE id_group='$parentgroup'");
 		
 		$Droits_gen = mysql_fetch_array($query);
 		
@@ -263,7 +263,7 @@ if($_REQUEST['action'] == "newgroup")
 	// ######################################################################
 	// #### Affichage des catégories et forums pour sélection des droits ####
 	
-	$query 			= 	$sql->query("SELECT * FROM ".$_PRE."categorie ORDER BY catorder");
+	$query 			= 	$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
 	$nb			=	mysql_num_rows($query);
 	
 	$tpl->box['listedroits']	=	"";
@@ -272,13 +272,13 @@ if($_REQUEST['action'] == "newgroup")
 	else
 	{
 		$TabForum	=	array();
-		$sqlforums 	= 	$sql->query("SELECT ".$_PRE."forums.forumid,
-							    ".$_PRE."forums.forumcat,
-							    ".$_PRE."forums.forumtitle,
-							    ".$_PRE."groups_perm.droits,
-							    ".$_PRE."groups_perm.MaxChar						    
-						FROM ".$_PRE."forums LEFT JOIN ".$_PRE."groups_perm ON ".$_PRE."groups_perm.id_group='$parentgroup' AND ".$_PRE."groups_perm.id_forum = ".$_PRE."forums.forumid
-						ORDER BY ".$_PRE."forums.forumcat,".$_PRE."forums.forumorder");
+		$sqlforums 	= 	$sql->query("SELECT "._PRE_."forums.forumid,
+							    "._PRE_."forums.forumcat,
+							    "._PRE_."forums.forumtitle,
+							    "._PRE_."groups_perm.droits,
+							    "._PRE_."groups_perm.MaxChar
+						FROM "._PRE_."forums LEFT JOIN "._PRE_."groups_perm ON "._PRE_."groups_perm.id_group='$parentgroup' AND "._PRE_."groups_perm.id_forum = "._PRE_."forums.forumid
+						ORDER BY "._PRE_."forums.forumcat,"._PRE_."forums.forumorder");
 						
 		$nbforums	=	mysql_num_rows($sqlforums);
 		
@@ -342,7 +342,7 @@ if($_REQUEST['action'] == "savedgen")
 		$Int_Rights = 0;
 		
 	
-	$query = $sql->query("UPDATE ".$_PRE."groups SET Droits_generaux = $Int_Rights, Max_Pm = ".$Droits_gen['Max_Pm']." , Max_Cit = ".$Droits_gen['Max_Cit'].", Max_Sign = ".$Droits_gen['Max_Sign'].", Max_Desc = ".$Droits_gen['Max_Desc']." WHERE id_group = $id");
+	$query = $sql->query("UPDATE "._PRE_."groups SET Droits_generaux = $Int_Rights, Max_Pm = ".$Droits_gen['Max_Pm']." , Max_Cit = ".$Droits_gen['Max_Cit'].", Max_Sign = ".$Droits_gen['Max_Sign'].", Max_Desc = ".$Droits_gen['Max_Desc']." WHERE id_group = $id");
 	
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -361,7 +361,7 @@ if($_REQUEST['action'] == "dgen")
 	$ShowSelected = array();
 
 	$id = intval($_REQUEST['id']);
-	$query = $sql->query("SELECT * FROM ".$_PRE."groups WHERE id_group=$id");
+	$query = $sql->query("SELECT * FROM "._PRE_."groups WHERE id_group=$id");
 	
 	$Droits_gen = mysql_fetch_array($query);
 		
@@ -394,7 +394,7 @@ if(empty($_REQUEST['action']))
 	$tpl->box['ligne_group'] = "";
 	$tpl->box['grpselect'] = "";
 	
-	$query = $sql->query("SELECT id_group, Nom_group FROM ".$_PRE."groups ORDER BY id_group");
+	$query = $sql->query("SELECT id_group, Nom_group FROM "._PRE_."groups ORDER BY id_group");
 	
 	while(list($id_group,$Nom_group) = mysql_fetch_array($query))
 	{

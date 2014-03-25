@@ -96,7 +96,7 @@ if(empty($_REQUEST['action']))
 	
 	$query = $sql->query("SELECT "._PRE_."posts.parent FROM "._PRE_."posts WHERE notifyme='Y' AND "._PRE_."posts.idmembre=%d " . $Forbidden . " GROUP BY parent", array($_USER['userid']))->execute();
 	
-	$nbtopics_filtered = mysql_num_rows($query);
+	$nbtopics_filtered = $query->num_rows();
 
 	if(!isset($_GET['page']))		$page	=	1;
 	else							$page	=	intval($_GET['page']);
@@ -110,7 +110,7 @@ if(empty($_REQUEST['action']))
 	$debut = ($page*$_FORUMCFG['topicparpage'])-$_FORUMCFG['topicparpage'];
 	
 	$ListIDTopics = array();
-	while(list($IDTopic)=mysql_fetch_array($query))
+	while(list($IDTopic)=$query->fetch_array())
 		$ListIDTopics[]=$IDTopic;
 	
 	

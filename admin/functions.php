@@ -27,6 +27,9 @@
 //*                                                                               *
 //*********************************************************************************
 
+require_once '../secret/config.inc.php';
+require_once '../lib/vendor/cfFramework/database/databaseFactory.php';
+
 // ********************************************************
 // *                 CLASSE DE TEMPLATES                  *
 // ********************************************************
@@ -2610,6 +2613,13 @@ function getjsredirect($url,$tplime)
 $tps_start 					= 		get_microtime();
 $NbRequest					=		0;
 //$sql 						= 		new SQLConnect;
+$sql = databaseFactory::connect(DB_DRIVER, array(
+    'hostname' => DB_HOST,
+    'username' => DB_USER,
+    'password' => DB_PASSWORD,
+    'database' => DB_NAME
+));
+
 $tpl 						= 		new Template;
 
 $_FORUMCFG					=		getconfig();

@@ -45,7 +45,7 @@ if($_REQUEST['action']=="save")
 
 	$chain=$_REQUEST['activateLogos']."-".$_REQUEST['activePersoLogo']."-".$_REQUEST['activeDefaultLogo']."-".$_REQUEST['activeExtLogo']."-".$_REQUEST['WidthLogo']."-".$_REQUEST['HeightLogo']."-".$_REQUEST['SizeLogo'];
 	
-	$query=$sql->query("UPDATE ".$_PRE."config SET valeur='".$chain."' WHERE options='logos'");
+	$query=$sql->query("UPDATE "._PRE_."config SET valeur='".$chain."' WHERE options='logos'");
 	
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -61,7 +61,7 @@ if($_REQUEST['action']=="uploadnewlogo")
 			case "image/png":	$ext=".png";	break;
 		}
 		
-		$sql->query("INSERT INTO ".$_PRE."avatars (ext) VALUES ('".$ext."')");
+		$sql->query("INSERT INTO "._PRE_."avatars (ext) VALUES ('".$ext."')");
 		$id=mysql_insert_id();
 		
 		$filename="default".$id.$ext;
@@ -74,7 +74,7 @@ if($_REQUEST['action']=="autosearch")
 {
 	// **** récupération de la liste des IDs des logos ****
 	$ListID=array();
-	$query = $sql->query("SELECT idlogo FROM ".$_PRE."avatars");
+	$query = $sql->query("SELECT idlogo FROM "._PRE_."avatars");
 	while($j=mysql_fetch_array($query))
 		$ListID[]=$j['idlogo'];
 	$ListID="-".implode("-",$ListID)."-";
@@ -86,7 +86,7 @@ if($_REQUEST['action']=="autosearch")
 		if(preg_match("/^default([0-9]+)(\.gif|\.jpg|\.jpeg|\.png)$/",$file,$out))
 			if(preg_match("|-".$out[1]."-|",$ListID) == 0 && $out[1][0]>0) // sécurité
 			{
-				$sql->query("INSERT INTO ".$_PRE."avatars (idlogo,ext) VALUES ('".$out[1]."','".$out[2]."')");
+				$sql->query("INSERT INTO "._PRE_."avatars (idlogo,ext) VALUES ('".$out[1]."','".$out[2]."')");
 				
 				$ListID		.=	$out[1]."-"; // sécurité
 				$listadd[]	=	"default".$out[1].$out[2];
@@ -106,8 +106,8 @@ if($_REQUEST['action']=="autosearch")
 
 if($_REQUEST['action']=="delete")
 {
-	$sql->query("DELETE FROM ".$_PRE."avatars WHERE idlogo='".intval($_REQUEST['id'])."'");
-	$sql->query("UPDATE ".$_PRE."user SET userlogo='' WHERE userlogo LIKE 'default".intval($_REQUEST['id'])."%'");
+	$sql->query("DELETE FROM "._PRE_."avatars WHERE idlogo='".intval($_REQUEST['id'])."'");
+	$sql->query("UPDATE "._PRE_."user SET userlogo='' WHERE userlogo LIKE 'default".intval($_REQUEST['id'])."%'");
 	$_REQUEST['action'] = NULLSTR;
 }
 
@@ -129,7 +129,7 @@ if(empty($_REQUEST['action']))
 	{
 		$checked[2]=" CHECKED";
 		
-		$query = $sql->query("SELECT * FROM ".$_PRE."avatars");
+		$query = $sql->query("SELECT * FROM "._PRE_."avatars");
 		$nb = mysql_num_rows($query);
 		
 		if($nb>0)

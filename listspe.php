@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 // #### définition du lieu ###
@@ -70,7 +69,7 @@ else			$Mask = NULLSTR;
 
 // ###### Récupération et affichage de la liste des nouveaux topics ######
 
-$query = $sql->query("SELECT idtopic FROM "._PRE_."topics WHERE datederrep > '%s' %s",array($_USER['lastvisit'], $Mask))->execute();
+$query = $sql->query("SELECT idtopic FROM "._PRE_."topics WHERE datederrep > '%s' ".$Mask,array($_USER['lastvisit']))->execute();
 $nb = $query->num_rows();
 
 if($nb > 0)
@@ -114,7 +113,7 @@ if($nb > 0)
 		"._PRE_."user.userid
 		FROM "._PRE_."topics 
 	LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid 
-	WHERE idtopic IN (%s) LIMIT %d,%d", array("'" . implode("','",$Topics) . "'", $debut, $fin))->execute();
+	WHERE idtopic IN ('" . implode("','",$Topics) . "') LIMIT %d,%d", array($debut, $fin))->execute();
 	
 	while($Topics=$query->fetch_array())
 	{

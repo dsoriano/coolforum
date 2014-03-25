@@ -39,11 +39,11 @@ if($_REQUEST['action']=="del")
 		for($i=0;$i<count($_POST['todel']);$i++)
 		{
 			$trans=each($_POST['todel']);
-			$query=$sql->query("DELETE FROM ".$_PRE."user WHERE userid=".$trans['value']);
-			$query=$sql->query("DELETE FROM ".$_PRE."userplus WHERE idplus=".$trans['value']);
+			$query=$sql->query("DELETE FROM "._PRE_."user WHERE userid=".$trans['value']);
+			$query=$sql->query("DELETE FROM "._PRE_."userplus WHERE idplus=".$trans['value']);
 		}
 		
-		$query=$sql->query("OPTIMIZE TABLE ".$_PRE."user");
+		$query=$sql->query("OPTIMIZE TABLE "._PRE_."user");
 		updatemembers();
 	}
 	
@@ -55,7 +55,7 @@ if($_REQUEST['action']=="del")
 			
 			if($_FORUMCFG['confirmparmail'] == 2)
 			{
-				$query	=	$sql->query("SELECT login, password, usermail FROM ".$_PRE."user WHERE userid=".$trans['value']);
+				$query	=	$sql->query("SELECT login, password, usermail FROM "._PRE_."user WHERE userid=".$trans['value']);
 				list($username, $userpass, $mail) = mysql_fetch_array($query);
 				
 				$username	=	formatstrformail($username);
@@ -78,7 +78,7 @@ if($_REQUEST['action']=="del")
 			}
 			
 			if(strlen($tpl->box['error']) == 0)
-				$query = $sql->query("UPDATE ".$_PRE."user SET userstatus=2 WHERE userid=".$trans['value']);
+				$query = $sql->query("UPDATE "._PRE_."user SET userstatus=2 WHERE userid=".$trans['value']);
 		}
 		updatemembers();
 	}
@@ -89,7 +89,7 @@ if($_REQUEST['action']=="del")
 if(empty($_REQUEST['action']))
 {
 	
-	$query=$sql->query("SELECT userid,login,registerdate FROM ".$_PRE."user WHERE userstatus=0 ORDER BY registerdate");
+	$query=$sql->query("SELECT userid,login,registerdate FROM "._PRE_."user WHERE userstatus=0 ORDER BY registerdate");
 	$nb=mysql_num_rows($query);
 	
 	if($nb==0)

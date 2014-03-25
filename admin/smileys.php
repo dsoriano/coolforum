@@ -40,18 +40,18 @@ if($_REQUEST['action']=="changeorder")
 	$Id = intval($_POST['id']);
 	$To = intval($_POST['to']);
 	
-	$query = $sql->query("SELECT ordersmile FROM ".$_PRE."smileys WHERE idsmile='".$Id."'");
+	$query = $sql->query("SELECT ordersmile FROM "._PRE_."smileys WHERE idsmile='".$Id."'");
 	$test = mysql_num_rows($query);
 	
 	if($test>0 && $To>0)
 	{
 		list($OrderNow) = mysql_fetch_array($query);
 		
-		$query = $sql->query("UPDATE ".$_PRE."smileys SET ordersmile='".$OrderNow."' WHERE ordersmile='".$To."'");
+		$query = $sql->query("UPDATE "._PRE_."smileys SET ordersmile='".$OrderNow."' WHERE ordersmile='".$To."'");
 		$nb = mysql_affected_rows();
 		
 		if($nb>0)
-			$query = $sql->query("UPDATE ".$_PRE."smileys SET ordersmile='".$To."' WHERE idsmile='".$Id."'");
+			$query = $sql->query("UPDATE "._PRE_."smileys SET ordersmile='".$To."' WHERE idsmile='".$Id."'");
 	}
 	
 	$_REQUEST['action'] = NULLSTR;;
@@ -61,28 +61,28 @@ if($_REQUEST['action']=="changeorder")
 if($_REQUEST['action']=="delete")
 {
 	$id		=	intval($_POST['id']);
-	$query=$sql->query("SELECT * FROM ".$_PRE."smileys WHERE idsmile='$id'");
+	$query=$sql->query("SELECT * FROM "._PRE_."smileys WHERE idsmile='$id'");
 	$i=mysql_fetch_array($query);
 
 
 
-	$query=$sql->query("DELETE FROM ".$_PRE."smileys WHERE idsmile='$id'");
+	$query=$sql->query("DELETE FROM "._PRE_."smileys WHERE idsmile='$id'");
 	if($query)
 	{
 		$tpl->box['isupdated'] = $tpl->attlang("smdeleted");
 		
-		$query=$sql->query("UPDATE ".$_PRE."smileys SET ordersmile=ordersmile-1 WHERE ordersmile>'".$i['ordersmile']."'");
+		$query=$sql->query("UPDATE "._PRE_."smileys SET ordersmile=ordersmile-1 WHERE ordersmile>'".$i['ordersmile']."'");
 		
-		$query=$sql->query("UPDATE ".$_PRE."posts SET msg = REPLACE (msg,' ".$i['codesmile']." ',' ') WHERE msg LIKE \"%".$i['codesmile']."%\" AND smiles='Y'");
+		$query=$sql->query("UPDATE "._PRE_."posts SET msg = REPLACE (msg,' ".$i['codesmile']." ',' ') WHERE msg LIKE \"%".$i['codesmile']."%\" AND smiles='Y'");
 		$nbmsg = mysql_affected_rows();
 	
-		$query=$sql->query("UPDATE ".$_PRE."privatemsg SET msg = REPLACE (msg,' ".$i['codesmile']." ',' ') WHERE msg LIKE \"%".$i['codesmile']."%\" AND smiles='Y'");
+		$query=$sql->query("UPDATE "._PRE_."privatemsg SET msg = REPLACE (msg,' ".$i['codesmile']." ',' ') WHERE msg LIKE \"%".$i['codesmile']."%\" AND smiles='Y'");
 		$nbpm = mysql_affected_rows();
 	
-		$query=$sql->query("UPDATE ".$_PRE."user SET usersign = REPLACE (usersign,' ".$i['codesmile']." ',' ') WHERE usersign LIKE \"%".$i['codesmile']."%\"");
+		$query=$sql->query("UPDATE "._PRE_."user SET usersign = REPLACE (usersign,' ".$i['codesmile']." ',' ') WHERE usersign LIKE \"%".$i['codesmile']."%\"");
 		$nbcit = mysql_affected_rows();
 		
-		$query=$sql->query("OPTIMIZE TABLE ".$_PRE."smileys");		
+		$query=$sql->query("OPTIMIZE TABLE "._PRE_."smileys");
 	}
 	else
 	{
@@ -108,7 +108,7 @@ if($_REQUEST['action']=="update")
 		$code	=	getformathtml($_POST['code']);
 		$oldcode=   getformathtml($_POST['oldcode']);
 		
-		$query=$sql->query("SELECT * FROM ".$_PRE."smileys WHERE (imgsmile='$img' OR codesmile='$code') AND idsmile!='$id'");
+		$query=$sql->query("SELECT * FROM "._PRE_."smileys WHERE (imgsmile='$img' OR codesmile='$code') AND idsmile!='$id'");
 		$nb=mysql_num_rows($query);
 		
 		if($nb>0)
@@ -118,7 +118,7 @@ if($_REQUEST['action']=="update")
 		}
 		else
 		{
-			$query=$sql->query("UPDATE ".$_PRE."smileys SET imgsmile='$img', codesmile='$code' WHERE idsmile='$id'");
+			$query=$sql->query("UPDATE "._PRE_."smileys SET imgsmile='$img', codesmile='$code' WHERE idsmile='$id'");
 			if(!$query)
 				$tpl->box['isupdated'] = $tpl->attlang("err4");
 			else
@@ -126,14 +126,14 @@ if($_REQUEST['action']=="update")
 				$tpl->box['isupdated'] = $tpl->attlang("updok");
 				if($_POST['oldcode']!=$_POST['code'])
 				{
-					$query=$sql->query("UPDATE ".$_PRE."posts SET msg = REPLACE (msg,' $oldcode ',' $code ') WHERE msg LIKE \"%$oldcode%\" AND smiles='Y'");
+					$query=$sql->query("UPDATE "._PRE_."posts SET msg = REPLACE (msg,' $oldcode ',' $code ') WHERE msg LIKE \"%$oldcode%\" AND smiles='Y'");
 					$nbmsg = mysql_affected_rows();
 		
-					$query=$sql->query("UPDATE ".$_PRE."privatemsg SET msg = REPLACE (msg,' $oldcode ',' $code ') WHERE msg LIKE \"%$oldcode%\" AND smiles='Y'");
+					$query=$sql->query("UPDATE "._PRE_."privatemsg SET msg = REPLACE (msg,' $oldcode ',' $code ') WHERE msg LIKE \"%$oldcode%\" AND smiles='Y'");
 					$nbpm = mysql_affected_rows();
 
 					
-					$query=$sql->query("UPDATE ".$_PRE."user SET usersign = REPLACE (usersign,' $oldcode ',' $code ') WHERE usersign LIKE \"%$oldcode%\"");
+					$query=$sql->query("UPDATE "._PRE_."user SET usersign = REPLACE (usersign,' $oldcode ',' $code ') WHERE usersign LIKE \"%$oldcode%\"");
 					$nbcit = mysql_affected_rows();
 				}
 				else
@@ -158,7 +158,7 @@ if($_REQUEST['action']=="modify")
 {
 	$id		=	intval($_GET['id']);
 	
-	$query=$sql->query("SELECT * FROM ".$_PRE."smileys WHERE idsmile='$id'");
+	$query=$sql->query("SELECT * FROM "._PRE_."smileys WHERE idsmile='$id'");
 	if(!$query)
 	{
 		$error2 = $tpl->attlang("err3");
@@ -178,7 +178,7 @@ if($_REQUEST['action']=="addsmiley")
 		$img = getformathtml($_POST['img']);
 		$code = getformathtml($_POST['code']);
 		
-		$query=$sql->query("SELECT * FROM ".$_PRE."smileys WHERE imgsmile='$img' OR codesmile='$code'");
+		$query=$sql->query("SELECT * FROM "._PRE_."smileys WHERE imgsmile='$img' OR codesmile='$code'");
 		$nb=mysql_num_rows($query);
 		
 		if($nb>0)
@@ -187,14 +187,14 @@ if($_REQUEST['action']=="addsmiley")
 		{
 			$code = getformatmsg($_POST['code']);
 			
-			$query = $sql->query("SELECT ordersmile FROM ".$_PRE."smileys ORDER BY ordersmile DESC LIMIT 0,1");
+			$query = $sql->query("SELECT ordersmile FROM "._PRE_."smileys ORDER BY ordersmile DESC LIMIT 0,1");
 			$nb = mysql_num_rows($query);
 			if($nb>0)	list($Last) = mysql_fetch_array($query);
 			else		$Last = 0;
 			
 			$Last++;
 			
-			$query=$sql->query("INSERT INTO ".$_PRE."smileys (imgsmile,codesmile,ordersmile) VALUES ('$img','$code',$Last)");
+			$query=$sql->query("INSERT INTO "._PRE_."smileys (imgsmile,codesmile,ordersmile) VALUES ('$img','$code',$Last)");
 		}
 	}
 	else
@@ -219,7 +219,7 @@ if(empty($_REQUEST['action']))
 		
 	$tpl->box['smilelist']="";
 	
-	$query = $sql->query("SELECT * FROM ".$_PRE."smileys ORDER BY ordersmile");
+	$query = $sql->query("SELECT * FROM "._PRE_."smileys ORDER BY ordersmile");
 	while($Sml = mysql_fetch_array($query))
 	{
 		$checked	=	array(	NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, 

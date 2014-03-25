@@ -38,7 +38,7 @@ getlangage("adm_annonces");
 
 if($_REQUEST['action']=="delann")
 {
-	$query=$sql->query("DELETE FROM ".$_PRE."annonces WHERE idpost=".$_POST['id']);
+	$query=$sql->query("DELETE FROM "._PRE_."annonces WHERE idpost=".$_POST['id']);
 	$_REQUEST['action'] = NULLSTR;
 }
 
@@ -139,12 +139,12 @@ if($_REQUEST['action']=="saveann")
 				$chainerep 	= 	implode(" >> ",$nbrep);
 				$pollquest	=	getformatmsg($_POST['pollquest'],false);
 				
-				$query		=	$sql->query("INSERT INTO ".$_PRE."poll (date,question,choix,rep,votants) VALUES ('".$date."','".$pollquest."','".$chainechoix."','".$chainerep."','-')");
+				$query		=	$sql->query("INSERT INTO "._PRE_."poll (date,question,choix,rep,votants) VALUES ('".$date."','".$pollquest."','".$chainechoix."','".$chainerep."','-')");
 				$idpoll		=	mysql_insert_id();
 			}
 			else	$idpoll		=	0;
 			
-			$query = $sql->query("INSERT INTO ".$_PRE."annonces (
+			$query = $sql->query("INSERT INTO "._PRE_."annonces (
 						sujet,
 						date,
 						msg,
@@ -162,7 +162,7 @@ if($_REQUEST['action']=="saveann")
 		}
 		else
 		{
-			$query = $sql->query("UPDATE ".$_PRE."annonces SET
+			$query = $sql->query("UPDATE "._PRE_."annonces SET
 						sujet='$sujet', 
 						msg='$msg', 
 						icone='".$_POST['icon']."',
@@ -200,7 +200,7 @@ if($_REQUEST['action']=="edit")
 
 	if($_REQUEST['id']>0 && strlen($error)==0)
 	{
-		$query							=		$sql->query("SELECT * FROM ".$_PRE."annonces WHERE idpost=".$_REQUEST['id']);
+		$query							=		$sql->query("SELECT * FROM "._PRE_."annonces WHERE idpost=".$_REQUEST['id']);
 		$Ann							=		mysql_fetch_array($query);
 		
 		$Ann['sujet']  					= 		getformatrecup($Ann['sujet']);
@@ -248,7 +248,7 @@ if($_REQUEST['action']=="edit")
 	$tpl->box['boxwritepage']				=	affwritebox("N");
 	
 	// **** Liste des forums ****
-	$query								=	$sql->query("SELECT forumid,forumtitle FROM ".$_PRE."forums ORDER BY forumid");
+	$query								=	$sql->query("SELECT forumid,forumtitle FROM "._PRE_."forums ORDER BY forumid");
 	$nbforums							=	mysql_num_rows($query);
 	
 	if($nbforums>0)
@@ -292,14 +292,14 @@ if(empty($_REQUEST['action']))
 	$tpl->box['forumslist'] = NULLSTR;
 	$intestingrele = array();
 	
-	$query=$sql->query("SELECT *,".$_PRE."user.login FROM ".$_PRE."annonces LEFT JOIN ".$_PRE."user ON ".$_PRE."annonces.idmembre=".$_PRE."user.userid ORDER by idpost");
+	$query=$sql->query("SELECT *,"._PRE_."user.login FROM "._PRE_."annonces LEFT JOIN "._PRE_."user ON "._PRE_."annonces.idmembre="._PRE_."user.userid ORDER by idpost");
 	$nb=mysql_num_rows($query);
 	if($nb==0)
 		$tpl->box['listannonces']=$tpl->gettemplate("adm_annonces","ifnoann");
 	
 	else
 	{
-		$Forumz=$sql->query("SELECT forumid,forumtitle FROM ".$_PRE."forums ORDER BY forumid");
+		$Forumz=$sql->query("SELECT forumid,forumtitle FROM "._PRE_."forums ORDER BY forumid");
 		while($zz=mysql_fetch_array($Forumz))
 			$appforum[$zz['forumid']]=getformatrecup($zz['forumtitle']);
 			

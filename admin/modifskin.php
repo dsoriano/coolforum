@@ -41,7 +41,7 @@ if($_REQUEST['action']=="saveskin")
 	
 	$_POST['skins']['skinname']=getformatmsg($_POST['skins']['skinname']);
 	
-	$query=$sql->query("SELECT * FROM ".$_PRE."skins WHERE propriete='skinname' AND valeur='".$_POST['skins']['skinname']."' AND id<>'".$_POST['Id']."'");
+	$query=$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname' AND valeur='".$_POST['skins']['skinname']."' AND id<>'".$_POST['Id']."'");
 	$nb=mysql_num_rows($query);
 	
 	if($nb>0)
@@ -61,7 +61,7 @@ if($_REQUEST['action']=="saveskin")
 		for($i=0;$i<count($_POST['skins']);$i++)
 		{
 			$valeur=each($_POST['skins']);
-			$query=$sql->query("UPDATE ".$_PRE."skins SET valeur='".$valeur['value']."' WHERE id='".$_POST['Id']."' AND propriete='".$valeur['key']."'");
+			$query=$sql->query("UPDATE "._PRE_."skins SET valeur='".$valeur['value']."' WHERE id='".$_POST['Id']."' AND propriete='".$valeur['key']."'");
 		}
 		$tpl->box['admcontent']=$tpl->gettemplate("adm_addskin","saveok");		
 	}
@@ -83,7 +83,7 @@ if($_REQUEST['action']=="modify")
 		$Id = intval($_GET['id']);
 		$skins = array();
 		
-		$query=$sql->query("SELECT * FROM ".$_PRE."skins WHERE id='$Id'");
+		$query=$sql->query("SELECT * FROM "._PRE_."skins WHERE id='$Id'");
 		
 		while($j=mysql_fetch_array($query))
 			addToArray($skins,$j['propriete'],$j['valeur']);
@@ -107,7 +107,7 @@ if($_REQUEST['action']=="modify")
 	$tpl->box['targetform']="modifskin.php";
 
 	$tpl->box['groupscols'] = "";
-	$query = $sql->query("SELECT id_group,Nom_group FROM ".$_PRE."groups ORDER BY id_group");
+	$query = $sql->query("SELECT id_group,Nom_group FROM "._PRE_."groups ORDER BY id_group");
 	while(list($id_group,$Nom_group)=mysql_fetch_array($query))
 	{
 		if(!empty($skins['grp'.$id_group]))
@@ -122,7 +122,7 @@ if($_REQUEST['action']=="modify")
 
 if(empty($_REQUEST['action']))
 {
-	$query=$sql->query("SELECT id,valeur FROM ".$_PRE."skins WHERE propriete='skinname' ORDER BY id");
+	$query=$sql->query("SELECT id,valeur FROM "._PRE_."skins WHERE propriete='skinname' ORDER BY id");
 	$tpl->box['ligneskin']="";
 	
 	while($Skin=mysql_fetch_array($query))

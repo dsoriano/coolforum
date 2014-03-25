@@ -27,16 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require_once '../secret/config.inc.php';
-require_once '../lib/vendor/cfFramework/database/databaseFactory.php';
-
-$sql = databaseFactory::connect(DB_DRIVER, array(
-    'hostname' => DB_HOST,
-    'username' => DB_USER,
-    'password' => DB_PASSWORD,
-    'database' => DB_NAME
-));
-
 require_once 'admin/functions.php';
 
 

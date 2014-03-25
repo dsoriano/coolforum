@@ -82,8 +82,8 @@ function DayInMonth($month,$year)
 
 if($_REQUEST['action']=="del")
 {
-	$query = $sql->query("DELETE FROM ".$_PRE."statcamp WHERE iddate LIKE \"".$_GET['idvalue']."-%\"");
-	$query = $sql->query("DELETE FROM ".$_PRE."campagnes WHERE id=".$_GET['idvalue']);
+	$query = $sql->query("DELETE FROM "._PRE_."statcamp WHERE iddate LIKE \"".$_GET['idvalue']."-%\"");
+	$query = $sql->query("DELETE FROM "._PRE_."campagnes WHERE id=".$_GET['idvalue']);
 	
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -114,7 +114,7 @@ if($_REQUEST['action']=="stats")
 	$defdate="$id-$dateencours";
 	
 	// *********************************************************************************
-	$query=$sql->query("SELECT * FROM ".$_PRE."statcamp WHERE iddate LIKE \"$defdate%\" ORDER BY iddate");
+	$query=$sql->query("SELECT * FROM "._PRE_."statcamp WHERE iddate LIKE \"$defdate%\" ORDER BY iddate");
 	$nb=mysql_num_rows($query);
 	
 	$recap=array();
@@ -289,7 +289,7 @@ if($_REQUEST['action']=="savecamp")
 		
 		if($_POST['idvalue']==0)
 		{
-			$query = $sql->query("INSERT INTO ".$_PRE."campagnes (
+			$query = $sql->query("INSERT INTO "._PRE_."campagnes (
 						nom,
 						url,
 						banniere,
@@ -310,7 +310,7 @@ if($_REQUEST['action']=="savecamp")
 		}
 		else
 		{
-			$query = $sql->query("UPDATE ".$_PRE."campagnes SET
+			$query = $sql->query("UPDATE "._PRE_."campagnes SET
 						nom='$CampName',
 						url='$CampUrl',
 						banniere='$CampBan',
@@ -373,7 +373,7 @@ if($_REQUEST['action']=="campform")
 		{
 			$tpl->box['ttcampagne'] = $tpl->attlang("editcamp");
 			
-			$query = $sql->query("SELECT * FROM ".$_PRE."campagnes WHERE id=".$_REQUEST['idvalue']);
+			$query = $sql->query("SELECT * FROM "._PRE_."campagnes WHERE id=".$_REQUEST['idvalue']);
 			$Camp = mysql_fetch_array($query);
 			
 			$CampName = getformatrecup($Camp['nom']);
@@ -419,7 +419,7 @@ if(empty($_REQUEST['action']))
 {
 	$tpl->box['camplist'] = NULLSTR;
 	
-	$query=$sql->query("SELECT * FROM ".$_PRE."campagnes ORDER BY id");
+	$query=$sql->query("SELECT * FROM "._PRE_."campagnes ORDER BY id");
         $nb=mysql_num_rows($query);
         
         if($nb>0)

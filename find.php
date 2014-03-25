@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 // #### définition du lieu ###
@@ -45,7 +44,7 @@ $query		=	$sql->query("SELECT * FROM "._PRE_."search WHERE idsearch='%s'", $ssea
 $nb		=	$query->num_rows();
 
 if ($nb>0) {
-	$j=mysql_fetch_array($query);
+	$j=$query->fetch_array();
 } else {
 	$j['keyword']=$tpl->attlang("noresult");
 }

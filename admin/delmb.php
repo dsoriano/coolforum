@@ -57,7 +57,7 @@ if($_REQUEST['action'] == "delmb")
 	
 	if($_POST['confirm']=="Y")
 	{
-		$query = $sql->query("SELECT userid FROM ".$_PRE."user WHERE ".$Where);
+		$query = $sql->query("SELECT userid FROM "._PRE_."user WHERE ".$Where);
 
 		$UserIDList=array();
 			
@@ -66,16 +66,16 @@ if($_REQUEST['action'] == "delmb")
 			
 		$UserIDList = implode(",",$UserIDList);
 			
-		$query = $sql->query("UPDATE ".$_PRE."topics SET idmembre='0' WHERE idmembre IN (".$UserIDList.")");
-		$query = $sql->query("UPDATE ".$_PRE."posts SET idmembre='0' WHERE idmembre IN (".$UserIDList.")");
+		$query = $sql->query("UPDATE "._PRE_."topics SET idmembre='0' WHERE idmembre IN (".$UserIDList.")");
+		$query = $sql->query("UPDATE "._PRE_."posts SET idmembre='0' WHERE idmembre IN (".$UserIDList.")");
 		
-		$query = $sql->query("DELETE FROM ".$_PRE."userplus WHERE idplus IN (".$UserIDList.")");
+		$query = $sql->query("DELETE FROM "._PRE_."userplus WHERE idplus IN (".$UserIDList.")");
 		
-		$query = $sql->query("DELETE FROM ".$_PRE."user WHERE ".$Where);
+		$query = $sql->query("DELETE FROM "._PRE_."user WHERE ".$Where);
 		$total = mysql_affected_rows();
 		
-		$query = $sql->query("OPTIMIZE TABLE ".$_PRE."user");
-		$query = $sql->query("OPTIMIZE TABLE ".$_PRE."userplus");
+		$query = $sql->query("OPTIMIZE TABLE "._PRE_."user");
+		$query = $sql->query("OPTIMIZE TABLE "._PRE_."userplus");
 		
 		updatemembers();
 		
@@ -83,7 +83,7 @@ if($_REQUEST['action'] == "delmb")
 	}
 	else
 	{
-		$query = $sql->query("SELECT login AS username FROM ".$_PRE."user WHERE ".$Where);
+		$query = $sql->query("SELECT login AS username FROM "._PRE_."user WHERE ".$Where);
 		$total = mysql_num_rows($query);
 		
 		if($total>0)
@@ -106,7 +106,7 @@ if($_REQUEST['action'] == "delmb")
 
 if(empty($_REQUEST['action']))
 {
-	$query=$sql->query("SELECT COUNT(*) AS nbtotmb FROM ".$_PRE."user");
+	$query=$sql->query("SELECT COUNT(*) AS nbtotmb FROM "._PRE_."user");
 	list($nbtotmb)=mysql_fetch_array($query);
 	
 	$tpl->box['admcontent'] = $tpl->gettemplate("adm_delmb","accueil");

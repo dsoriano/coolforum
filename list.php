@@ -28,7 +28,6 @@
 //*********************************************************************************
 
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 getlangage("list");

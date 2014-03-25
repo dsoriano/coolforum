@@ -80,7 +80,7 @@ if($_REQUEST['action']=="update")
 		$yahoo = getformatmsg($_POST['yahoomsg'],false);
 		$aim = getformatmsg($_POST['aim'],false);
 		$Description = getformatmsg($_POST['description']);
-		$query = $sql->query("UPDATE ".$_PRE."userplus SET icq='".$_POST['icq']."',aim='$aim',yahoomsg='$yahoo',msn='".$_POST['msn']."', birth='$Birth', sex='".$_POST['sex']."', description='".$Description."' WHERE idplus=".$_USER['userid']);
+		$query = $sql->query("UPDATE "._PRE_."userplus SET icq='%s',aim='%s',yahoomsg='%s',msn='%s', birth='%s', sex='%s', description='%s' WHERE idplus=%d", array($_POST['icq'], $aim, $yahoo, $_POST['msn'], $Birth, $_POST['sex'], $Description, $_USER['userid']))->execute();
 		updatebirth();
 	}
 	else
@@ -93,8 +93,8 @@ if(empty($_REQUEST['action']))
 {
 	if(strlen($Error)==0)
 	{
-		$query=$sql->query("SELECT * FROM ".$_PRE."userplus WHERE idplus=".$_USER['userid']);
-		$Result=mysql_fetch_array($query);
+		$query=$sql->query("SELECT * FROM "._PRE_."userplus WHERE idplus=%d",$_USER['userid'])->execute();
+		$Result=$query->fetch_array();
 		$Result['description'] = getformatrecup($Result['description'],true);
 		$tpl->box['error']	=	NULLSTR;
 	}

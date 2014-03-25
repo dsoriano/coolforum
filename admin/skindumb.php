@@ -55,7 +55,7 @@ if($_REQUEST['action']=="import")
 		{
 			
 			// Récupération de l'ID du futur skin
-			$query=$sql->query("SELECT id FROM ".$_PRE."skins ORDER BY id DESC LIMIT 0,1");
+			$query=$sql->query("SELECT id FROM "._PRE_."skins ORDER BY id DESC LIMIT 0,1");
 			list($skinid)=mysql_fetch_array($query);
 			$skinid++;
 			
@@ -64,10 +64,10 @@ if($_REQUEST['action']=="import")
 			eval( "\$table = $content;" );
 			
 			while(list($propriete,$valeur)=each($table))
-				$sql->query("INSERT INTO ".$_PRE."skins (id,propriete,valeur) VALUES ('".$skinid."','".$propriete."','".addslashes($valeur)."')");
+				$sql->query("INSERT INTO "._PRE_."skins (id,propriete,valeur) VALUES ('".$skinid."','".$propriete."','".addslashes($valeur)."')");
 			
-			if($_REQUEST['toalluser']=="on")	$sql->query("UPDATE ".$_PRE."user SET skin='".$skinid."'");
-			if($_REQUEST['todefaultskin']=="on")	$sql->query("UPDATE ".$_PRE."config SET valeur='".$skinid."' WHERE options='defaultskin'");
+			if($_REQUEST['toalluser']=="on")	$sql->query("UPDATE "._PRE_."user SET skin='".$skinid."'");
+			if($_REQUEST['todefaultskin']=="on")	$sql->query("UPDATE "._PRE_."config SET valeur='".$skinid."' WHERE options='defaultskin'");
 			
 			
 			$tpl->box['display'] = mysql_error() ? $tpl->attlang("importnok") : $tpl->attlang("importok");
@@ -96,7 +96,7 @@ if($_REQUEST['action']=="export")
 	
 	// Récupération des valeurs du skin
 	$list=array();
-	$query=$sql->query("SELECT * FROM ".$_PRE."skins WHERE id='".intval($_REQUEST['id'])."'");
+	$query=$sql->query("SELECT * FROM "._PRE_."skins WHERE id='".intval($_REQUEST['id'])."'");
 	while($skin=mysql_fetch_array($query))
 		$list[$skin['propriete']]=$skin['valeur'];
 	
@@ -141,7 +141,7 @@ if(empty($_REQUEST['action']))
 {
 	$tpl->box['skinlist'] = NULLSTR;
 	
-	$query=$sql->query("SELECT * FROM ".$_PRE."skins WHERE propriete='skinname'");
+	$query=$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname'");
 	while($j=mysql_fetch_array($query))
 		$tpl->box['skinlist'].=$tpl->gettemplate("adm_skindumb","skinopt");
 	

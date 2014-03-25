@@ -39,7 +39,7 @@ if($_REQUEST['action']=="optimize")
 	if($query)
 	while($j=mysql_fetch_row($query))
 	{
-		if(preg_match("|^".$_PRE . "|i",$j[0] > 0))
+		if(preg_match("|^"._PRE_ . "|i",$j[0] > 0))
 			$tablename[]=$j[0];
 	}
 	

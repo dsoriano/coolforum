@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 // #### définition du lieu ###
@@ -59,8 +58,8 @@ if($_USER['userid']==0)
 				
 			$rgpseudo	=	trim($_POST['pseudo']);
 			$rgpseudo	=	getformatmsg($rgpseudo,false);
-			$query		=	$sql->query("SELECT COUNT(*) AS nbpseudos FROM ".$_PRE."user WHERE login='$rgpseudo'");
-			list($nbpseudos)=mysql_fetch_array($query);
+			$query		=	$sql->query("SELECT COUNT(*) AS nbpseudos FROM "._PRE_."user WHERE login='%s'", $rgpseudo)->execute();
+			list($nbpseudos)=$query->fetch_array();
 			if ($nbpseudos>0)
 				$error	=	$tpl->attlang("errorpseudo2");
 	
@@ -78,11 +77,11 @@ if($_USER['userid']==0)
 			else
 			{
 				$regemail=$_POST['email'];
-				$query=$sql->query("SELECT COUNT(*) AS nbmail1 FROM ".$_PRE."user WHERE usermail='$regemail'");
-				list($nbmail1)=mysql_fetch_array($query);
+				$query=$sql->query("SELECT COUNT(*) AS nbmail1 FROM "._PRE_."user WHERE usermail='%s'", $regemail)->execute();
+				list($nbmail1)=$query->fetch_array();
 				
-				$query=$sql->query("SELECT COUNT(*) AS nbmail2 FROM ".$_PRE."userplus WHERE mailorig='$regemail'");
-				list($nbmail2)=mysql_fetch_array($query);
+				$query=$sql->query("SELECT COUNT(*) AS nbmail2 FROM "._PRE_."userplus WHERE mailorig='%s'", $regemail)->execute();
+				list($nbmail2)=$query->fetch_array();
 				
 				if($nbmail1>0 || $nbmail2>0)
 					$error=$tpl->attlang("errormail2");
@@ -107,8 +106,8 @@ if($_USER['userid']==0)
 				$send['userpass']=getencrypt($_POST['password1'],$_FORUMCFG['chainecodage']);
 				$password=rawurlencode($send['userpass']);
 				
-				$query=$sql->query("INSERT INTO ".$_PRE."user (login,password,userstatus,registerdate,usermsg,usermail,skin,timezone,lng) VALUES ('$rgpseudo','$password',0,'$date',0,'$regemail','".$_FORUMCFG['defaultskin']."','".$_FORUMCFG['defaulttimezone']."','".$_FORUMCFG['defaultlangage']."')");
-				$rguserid=mysql_insert_id();
+				$query=$sql->query("INSERT INTO "._PRE_."user (login,password,userstatus,registerdate,usermsg,usermail,skin,timezone,lng) VALUES ('%s','%s',0,'%s',0,'%s','%s','%s','%s')", array($rgpseudo, $password, $date, $regemail, $_FORUMCFG['defaultskin'], $_FORUMCFG['defaulttimezone'], $_FORUMCFG['defaultlangage']))->execute();
+				$rguserid=$query->insert_id();
 				
 				if($_FORUMCFG['confirmparmail']=="3")
 				{
@@ -138,7 +137,7 @@ if($_USER['userid']==0)
 					$question=getformatmsg($_POST['question']);
 					$reponse=getformatmsg($_POST['reponse']);
 					
-					$query=$sql->query("UPDATE ".$_PRE."user SET userstatus=2 WHERE userid='$rguserid'");
+					$query=$sql->query("UPDATE "._PRE_."user SET userstatus=2 WHERE userid=%d", $rguserid)->execute();
 					updatemembers();
 					$tpl->box['infomsg']=$tpl->attlang("registerok");
 						
@@ -157,7 +156,7 @@ if($_USER['userid']==0)
 					$tpl->box['infomsg']=$tpl->attlang("waitforadmin");
 				}
 				
-				$query=$sql->query("INSERT INTO ".$_PRE."userplus(idplus,question,reponse,mailorig) VALUES ('$rguserid','$question','$reponse','$regemail')");
+				$query=$sql->query("INSERT INTO "._PRE_."userplus(idplus,question,reponse,mailorig) VALUES (%d,'%s','%s','%s')", array($rguserid, $question, $reponse, $regemail))->execute();
 				
 				$tpl->box['content']=$tpl->gettemplate("register","infobox");
 			}
@@ -200,18 +199,18 @@ if($_USER['userid']==0)
 		$login		=	getformatmsg(urldecode($_GET['login']));
 		
 		////////////////////////////////////////////////////////////////
-		$query = $sql->query("SELECT userid,login,password,usermail,userstatus FROM ".$_PRE."user WHERE login='$login'");
-		$nb=mysql_num_rows($query);
+		$query = $sql->query("SELECT userid,login,password,usermail,userstatus FROM "._PRE_."user WHERE login='%s'", $login)->execute();
+		$nb=$query->num_rows();
 		if($nb==1)
 		{
-			$j=mysql_fetch_array($query);
+			$j=$query->fetch_array();
 			$pass1 = md5($j['password']);
 			$pass2 = $_GET['s'];
 			if($pass1==$pass2)
 			{
 				if($j['userstatus'] == 0)
 				{
-					$query = $sql->query("UPDATE ".$_PRE."user SET userstatus=2 WHERE login='$login'");
+					$query = $sql->query("UPDATE "._PRE_."user SET userstatus=2 WHERE login='%s'", $login)->execute();
 					if($query)
 					{
 						updatemembers();

@@ -53,7 +53,7 @@ if($nb_table>0)
 {
 	while($i = mysql_fetch_row($table))
 	{
-		if(preg_match("|^".$_PRE."|",$i[0]) > 0)
+		if(preg_match("|^"._PRE_."|",$i[0]) > 0)
 		{
 			$chaine		.=	"# ---------- TABLE ".$i[0]." --------------\n";
 			

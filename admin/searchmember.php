@@ -79,7 +79,7 @@ if($_REQUEST['action']=="newpass")
 	
 	//**** encryption / mise à jour / affichage du nouveau Pass ****
 	$password=rawurlencode(getencrypt($FinalPass,$_FORUMCFG['chainecodage']));
-	$query=$sql->query("UPDATE ".$_PRE."user SET password='$password' WHERE userid=".$_GET['id']);
+	$query=$sql->query("UPDATE "._PRE_."user SET password='$password' WHERE userid=".$_GET['id']);
 	
 	$tpl->box['admcontent']=$tpl->gettemplate("adm_searchmember","affnewpass");
 	
@@ -90,26 +90,26 @@ if($_REQUEST['action']=="delmember")
 	if($_POST['msg']=="delete")
 	{
 		//**** Mise à jour du nombre de réponses des sujets ****
-		$query=$sql->query("SELECT parent,COUNT(*) AS nbposts FROM ".$_PRE."posts WHERE idmembre='$_POST[id]' GROUP BY parent");
+		$query=$sql->query("SELECT parent,COUNT(*) AS nbposts FROM "._PRE_."posts WHERE idmembre='$_POST[id]' GROUP BY parent");
 		$nb=mysql_num_rows($query);
 		
 		if($nb>0)
 			while($j=mysql_fetch_array($query))
-				$MajTopics = $sql->query("UPDATE ".$_PRE."topics SET nbrep = nbrep-".$j['nbposts']." WHERE idtopic = ".$j['parent']);	
+				$MajTopics = $sql->query("UPDATE "._PRE_."topics SET nbrep = nbrep-".$j['nbposts']." WHERE idtopic = ".$j['parent']);
 		
 		//**** Suppression des messages ****
-		$query=$sql->query("DELETE FROM ".$_PRE."posts WHERE idmembre=".$_POST['id']);
+		$query=$sql->query("DELETE FROM "._PRE_."posts WHERE idmembre=".$_POST['id']);
 	
 		
 		//**** Suppression des sujets ****
-		$query=$sql->query("DELETE FROM ".$_PRE."topics WHERE idmembre=".$_POST['id']);
+		$query=$sql->query("DELETE FROM "._PRE_."topics WHERE idmembre=".$_POST['id']);
 		
 		//**** Mise à jour du dernier posteur des topics ****
-		$query=$sql->query("SELECT login FROM ".$_PRE."user WHERE userid=".$_POST['id']);
+		$query=$sql->query("SELECT login FROM "._PRE_."user WHERE userid=".$_POST['id']);
 		list($login)=mysql_fetch_array($query);
 	
 		$login = getformatdbtodb($login);
-		$query=$sql->query("SELECT idtopic FROM ".$_PRE."topics WHERE derposter='$login'");
+		$query=$sql->query("SELECT idtopic FROM "._PRE_."topics WHERE derposter='$login'");
 		$nb=mysql_num_rows($query);
 		
 		if($nb>0)
@@ -117,7 +117,7 @@ if($_REQUEST['action']=="delmember")
 				updatetopiclastposter($idtopic);
 	
 		//**** Mise à jour des forums ****
-		$selectforums=$sql->query("SELECT forumid FROM ".$_PRE."forums ORDER BY forumid");
+		$selectforums=$sql->query("SELECT forumid FROM "._PRE_."forums ORDER BY forumid");
 		
 		if(mysql_num_rows($selectforums)>0)
 		{
@@ -129,22 +129,22 @@ if($_REQUEST['action']=="delmember")
 	}
 	else
 	{
-		$query=$sql->query("UPDATE ".$_PRE."posts SET idmembre='0' WHERE idmembre='".$_POST['id']."'");
-		$query=$sql->query("UPDATE ".$_PRE."topics SET idmembre='0' WHERE idmembre='".$_POST['id']."'");
+		$query=$sql->query("UPDATE "._PRE_."posts SET idmembre='0' WHERE idmembre='".$_POST['id']."'");
+		$query=$sql->query("UPDATE "._PRE_."topics SET idmembre='0' WHERE idmembre='".$_POST['id']."'");
 	}
 	
 	//**** Table des bannis ***		
-	$query=$sql->query("DELETE FROM ".$_PRE."banlist WHERE userid=".$_POST['id']);
+	$query=$sql->query("DELETE FROM "._PRE_."banlist WHERE userid=".$_POST['id']);
 	
 	//**** Table des moderateurs ****		
-	$query=$sql->query("DELETE FROM ".$_PRE."moderateur WHERE idusermodo=".$_POST['id']);
+	$query=$sql->query("DELETE FROM "._PRE_."moderateur WHERE idusermodo=".$_POST['id']);
 	
 	//**** Table des messages privés ****
-	$query=$sql->query("DELETE FROM ".$_PRE."privatemsg WHERE iddest=".$_POST['id']." OR idexp=".$_POST['id']);
+	$query=$sql->query("DELETE FROM "._PRE_."privatemsg WHERE iddest=".$_POST['id']." OR idexp=".$_POST['id']);
 
 	//**** Table des membres ****		
-	$query=$sql->query("DELETE FROM ".$_PRE."user WHERE userid=".$_POST['id']);
-	$query=$sql->query("DELETE FROM ".$_PRE."userplus WHERE idplus=".$_POST['id']);
+	$query=$sql->query("DELETE FROM "._PRE_."user WHERE userid=".$_POST['id']);
+	$query=$sql->query("DELETE FROM "._PRE_."userplus WHERE idplus=".$_POST['id']);
 	
 	updatenbtopics();
 	updatenbposts();
@@ -171,7 +171,7 @@ if($_REQUEST['action']=="updatemember")
 				
 		$rgpseudo	=	trim($_POST['userlogin']);
 		$rgpseudo	=	getformatmsg($rgpseudo,false);
-		$query		=	$sql->query("SELECT COUNT(*) AS nbpseudos FROM ".$_PRE."user WHERE login='$rgpseudo' AND userid<>".$_POST['id']);
+		$query		=	$sql->query("SELECT COUNT(*) AS nbpseudos FROM "._PRE_."user WHERE login='$rgpseudo' AND userid<>".$_POST['id']);
 		list($nbpseudos)=mysql_fetch_array($query);
 		if ($nbpseudos>0)
 			$error1	=	$tpl->attlang("errorpseudo2");
@@ -232,7 +232,7 @@ if($_REQUEST['action']=="updatemember")
 		}
 		else
 		{
-			$query 	= 	$sql->query("SELECT userlogo FROM ".$_PRE."user WHERE userid=".$_POST['id']);  
+			$query 	= 	$sql->query("SELECT userlogo FROM "._PRE_."user WHERE userid=".$_POST['id']);
 			$j	=	mysql_fetch_array($query);
 	
 			if(!empty($j['userlogo']))
@@ -244,14 +244,14 @@ if($_REQUEST['action']=="updatemember")
 	{
 		if($_POST['userlogin'] != $_POST['pseudoorig'])
 		{
-			$query = $sql->query("UPDATE ".$_PRE."user SET login='$rgpseudo' WHERE userid=".$_POST['id']);
-			$query = $sql->query("UPDATE ".$_PRE."banlist SET login='$rgpseudo' WHERE userid=".$_POST['id']);
-			$query = $sql->query("UPDATE ".$_PRE."forums SET lastforumposter='$rgpseudo' WHERE lastforumposter='".getformatmsg($_POST['pseudoorig'],false)."'");
-			$query = $sql->query("UPDATE ".$_PRE."moderateur SET modologin='$rgpseudo' WHERE idusermodo=".$_POST['id']);
-			$query = $sql->query("UPDATE ".$_PRE."posts SET pseudo='$rgpseudo' WHERE idmembre=".$_POST['id']);
-			$query = $sql->query("UPDATE ".$_PRE."privatemsg SET pseudo='$rgpseudo' WHERE idexp=".$_POST['id']);
-			$query = $sql->query("UPDATE ".$_PRE."topics SET pseudo='$rgpseudo' WHERE idmembre=".$_POST['id']);
-			$query = $sql->query("UPDATE ".$_PRE."topics SET derposter='$rgpseudo' WHERE derposter='".getformatmsg($_POST['pseudoorig'],false)."'");
+			$query = $sql->query("UPDATE "._PRE_."user SET login='$rgpseudo' WHERE userid=".$_POST['id']);
+			$query = $sql->query("UPDATE "._PRE_."banlist SET login='$rgpseudo' WHERE userid=".$_POST['id']);
+			$query = $sql->query("UPDATE "._PRE_."forums SET lastforumposter='$rgpseudo' WHERE lastforumposter='".getformatmsg($_POST['pseudoorig'],false)."'");
+			$query = $sql->query("UPDATE "._PRE_."moderateur SET modologin='$rgpseudo' WHERE idusermodo=".$_POST['id']);
+			$query = $sql->query("UPDATE "._PRE_."posts SET pseudo='$rgpseudo' WHERE idmembre=".$_POST['id']);
+			$query = $sql->query("UPDATE "._PRE_."privatemsg SET pseudo='$rgpseudo' WHERE idexp=".$_POST['id']);
+			$query = $sql->query("UPDATE "._PRE_."topics SET pseudo='$rgpseudo' WHERE idmembre=".$_POST['id']);
+			$query = $sql->query("UPDATE "._PRE_."topics SET derposter='$rgpseudo' WHERE derposter='".getformatmsg($_POST['pseudoorig'],false)."'");
 		}
 		
 		//*** formattage variables diverses ***
@@ -283,7 +283,7 @@ if($_REQUEST['action']=="updatemember")
 		if($_POST['userstatus']=="-1")	$newuserstatus = "-userstatus";
 		else				$newuserstatus = "'".$_POST['userstatus']."'";
 		
-		$query = $sql->query("UPDATE ".$_PRE."user SET userstatus=".$newuserstatus.",usermail='".$_POST['usermail']."',usersite='$site', showmail='$showmail', showusersite='$showusersite', usersign='$sign',usercitation='$citation', userlogo='$filename', skin='$skin', timezone='$timezone', lng='$lng', notifypm='$notifypm', popuppm='$popuppm', mailing='$mailing', wysiwyg='$wysiwyg'  WHERE userid=".$_POST['id']);
+		$query = $sql->query("UPDATE "._PRE_."user SET userstatus=".$newuserstatus.",usermail='".$_POST['usermail']."',usersite='$site', showmail='$showmail', showusersite='$showusersite', usersign='$sign',usercitation='$citation', userlogo='$filename', skin='$skin', timezone='$timezone', lng='$lng', notifypm='$notifypm', popuppm='$popuppm', mailing='$mailing', wysiwyg='$wysiwyg'  WHERE userid=".$_POST['id']);
 		if(!$query)
 			echo(mysql_error());
 				
@@ -329,7 +329,7 @@ if($_REQUEST['action']=="updateinfocomp")
 		$yahoo = getformatmsg($_POST['yahoomsg'],false);
 		$aim = getformatmsg($_POST['aim'],false);
 		$description = getformatmsg($_POST['description']);
-		$query = $sql->query("UPDATE ".$_PRE."userplus SET icq='".$_POST['icq']."',aim='$aim',yahoomsg='$yahoo',msn='".$_POST['msn']."', birth='$Birth', sex='".$_POST['sex']."', description = '$description' WHERE idplus='".$_POST['id']."'");
+		$query = $sql->query("UPDATE "._PRE_."userplus SET icq='".$_POST['icq']."',aim='$aim',yahoomsg='$yahoo',msn='".$_POST['msn']."', birth='$Birth', sex='".$_POST['sex']."', description = '$description' WHERE idplus='".$_POST['id']."'");
 		updatebirth();
 	}
 	else
@@ -357,25 +357,25 @@ if($_REQUEST['action']=="detailmb")
 		
 	if(strlen($error1)==0)
 	{
-		$query			=	$sql->query("SELECT 	".$_PRE."user.login,
-									".$_PRE."user.userstatus,
-									".$_PRE."user.usermsg,
-									".$_PRE."user.usermail,
-									".$_PRE."user.usersite,
-									".$_PRE."user.usersign,
-									".$_PRE."user.usercitation,
-									".$_PRE."user.showmail,
-									".$_PRE."user.showusersite,
-									".$_PRE."user.userlogo,
-									".$_PRE."user.skin,
-									".$_PRE."user.timezone,
-									".$_PRE."user.lng,
-									".$_PRE."user.notifypm,
-									".$_PRE."user.popuppm,
-									".$_PRE."user.mailing,
-									".$_PRE."user.wysiwyg,
-									".$_PRE."groups.*
-									 FROM ".$_PRE."user LEFT JOIN ".$_PRE."groups ON ".$_PRE."user.userstatus=".$_PRE."groups.id_group
+		$query			=	$sql->query("SELECT 	"._PRE_."user.login,
+									"._PRE_."user.userstatus,
+									"._PRE_."user.usermsg,
+									"._PRE_."user.usermail,
+									"._PRE_."user.usersite,
+									"._PRE_."user.usersign,
+									"._PRE_."user.usercitation,
+									"._PRE_."user.showmail,
+									"._PRE_."user.showusersite,
+									"._PRE_."user.userlogo,
+									"._PRE_."user.skin,
+									"._PRE_."user.timezone,
+									"._PRE_."user.lng,
+									"._PRE_."user.notifypm,
+									"._PRE_."user.popuppm,
+									"._PRE_."user.mailing,
+									"._PRE_."user.wysiwyg,
+									"._PRE_."groups.*
+									 FROM "._PRE_."user LEFT JOIN "._PRE_."groups ON "._PRE_."user.userstatus="._PRE_."groups.id_group
 									 WHERE userid='$Id'");
 		$Result			=	mysql_fetch_array($query);
 		
@@ -399,7 +399,7 @@ if($_REQUEST['action']=="detailmb")
 	if($Result['userstatus']==0)	$userstat[0]=" SELECTED";
 	else							$userstat[0]=NULLSTR;
 	
-	$query = $sql->query("SELECT id_group,Nom_group from ".$_PRE."groups WHERE id_group>1 ORDER BY id_group");
+	$query = $sql->query("SELECT id_group,Nom_group from "._PRE_."groups WHERE id_group>1 ORDER BY id_group");
 	while($LstGrp=mysql_fetch_array($query))
 	{
 		$userstat[2] = "";
@@ -539,7 +539,7 @@ if($_REQUEST['action']=="detailmb")
 		
 	//**** affichage du skin utilisé ****
 	$tpl->box['skinlist']	=	"";	
-	$query			=	$sql->query("SELECT * FROM ".$_PRE."skins WHERE propriete='skinname'");
+	$query			=	$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname'");
 	while($j=mysql_fetch_array($query))
 	{
 		$selected	=	"";
@@ -550,7 +550,7 @@ if($_REQUEST['action']=="detailmb")
 		
 	//**** sélection de la langue ****
 	$tpl->box['lnglist']	=	"";
-	$query			=	$sql->query("SELECT * FROM ".$_PRE."language");
+	$query			=	$sql->query("SELECT * FROM "._PRE_."language");
 	while($j=mysql_fetch_array($query))
 	{
 		$selected	=	"";
@@ -566,7 +566,7 @@ if($_REQUEST['action']=="detailmb")
 	
 	if(strlen($error2)==0)
 	{
-		$query=$sql->query("SELECT * FROM ".$_PRE."userplus WHERE idplus='$Id'");
+		$query=$sql->query("SELECT * FROM "._PRE_."userplus WHERE idplus='$Id'");
 		$Results=mysql_fetch_array($query);
 		$Results['description'] = getformatrecup($Results['description'],true);
 	}
@@ -641,7 +641,7 @@ if($_REQUEST['action']=="searchbypseudo")
 	{
 		$pseudo=getformatmsg($_POST['pseudo'],false);
 		$pseudo = addslashes($pseudo);
-		$query=$sql->query("SELECT ".$_PRE."user.*, ".$_PRE."groups.Nom_group FROM ".$_PRE."user LEFT JOIN ".$_PRE."groups ON ".$_PRE."groups.id_group = ".$_PRE."user.userstatus WHERE ".$_PRE."user.login LIKE \"%$pseudo%\" ORDER BY ".$_PRE."user.login");
+		$query=$sql->query("SELECT "._PRE_."user.*, "._PRE_."groups.Nom_group FROM "._PRE_."user LEFT JOIN "._PRE_."groups ON "._PRE_."groups.id_group = "._PRE_."user.userstatus WHERE "._PRE_."user.login LIKE \"%$pseudo%\" ORDER BY "._PRE_."user.login");
 		$nb=mysql_num_rows($query);
 		if($nb==0)
 		{
@@ -677,25 +677,25 @@ if($_REQUEST['action']=="affichetout")
 	switch($_REQUEST['sortby'])
 	{
 	case "1":
-		$ajout=" ORDER BY ".$_PRE."user.login ";
+		$ajout=" ORDER BY "._PRE_."user.login ";
 		break;
 	case "2":
-		$ajout=" ORDER BY ".$_PRE."user.registerdate ";
+		$ajout=" ORDER BY "._PRE_."user.registerdate ";
 		break;
 	case "3":
-		$ajout=" ORDER BY ".$_PRE."user.usermsg DESC ";
+		$ajout=" ORDER BY "._PRE_."user.usermsg DESC ";
 		break;
 	case "4":
-		$ajout=" WHERE ".$_PRE."user.userstatus='0' ORDER BY ".$_PRE."user.login ";
+		$ajout=" WHERE "._PRE_."user.userstatus='0' ORDER BY "._PRE_."user.login ";
 		break;
 	case "5":
-		$ajout=" WHERE ".$_PRE."user.userstatus<'0' ORDER BY ".$_PRE."user.login ";
+		$ajout=" WHERE "._PRE_."user.userstatus<'0' ORDER BY "._PRE_."user.login ";
 		break;
 	default :
-		$ajout=" WHERE ".$_PRE."user.userstatus='".($_REQUEST['sortby']-10)."' ORDER BY ".$_PRE."user.login ";
+		$ajout=" WHERE "._PRE_."user.userstatus='".($_REQUEST['sortby']-10)."' ORDER BY "._PRE_."user.login ";
 	}
 	
-	$query=$sql->query("SELECT COUNT(*) AS nbusers FROM ".$_PRE."user".$ajout);
+	$query=$sql->query("SELECT COUNT(*) AS nbusers FROM "._PRE_."user".$ajout);
 	list($nb)=mysql_fetch_array($query);
 	
 	if(!isset($_GET['page']))		$page	=	1;
@@ -710,7 +710,7 @@ if($_REQUEST['action']=="affichetout")
 	$debut=($page*$_REQUEST['number'])-$_REQUEST['number'];
 	$fin=$debut+$_REQUEST['number'];
 	
-	$query=$sql->query("SELECT ".$_PRE."user.*, ".$_PRE."groups.Nom_group FROM ".$_PRE."user LEFT JOIN ".$_PRE."groups ON ".$_PRE."groups.id_group = ".$_PRE."user.userstatus".$ajout."LIMIT ".$debut.",".$_REQUEST['number']);
+	$query=$sql->query("SELECT "._PRE_."user.*, "._PRE_."groups.Nom_group FROM "._PRE_."user LEFT JOIN "._PRE_."groups ON "._PRE_."groups.id_group = "._PRE_."user.userstatus".$ajout."LIMIT ".$debut.",".$_REQUEST['number']);
 	
 	$tpl->box['pseudolist']="";
 	while($LnPseudo=mysql_fetch_array($query))
@@ -740,7 +740,7 @@ if(empty($_REQUEST['action']))
 		$tpl->box['errorbox'] = $tpl->gettemplate("adm_searchmember","errorboxsearch");
 	
 	$tpl->box['group_list'] = "";
-	$query = $sql->query("SELECT id_group, Nom_group FROM ".$_PRE."groups WHERE id_group>1 ORDER BY id_group");
+	$query = $sql->query("SELECT id_group, Nom_group FROM "._PRE_."groups WHERE id_group>1 ORDER BY id_group");
 	while($group = mysql_fetch_array($query))
 	{
 		$tpl->box['idgrp'] = $group['id_group']+10;

@@ -38,7 +38,7 @@ if($_REQUEST['action']=="save")
 	for($i=0;$i<count($_POST['configz']);$i++)
 	{
 		$valeur=each($_POST['configz']);
-		$query=$sql->query("UPDATE ".$_PRE."config SET valeur='".$valeur['value']."' WHERE options='".$valeur['key']."'");
+		$query=$sql->query("UPDATE "._PRE_."config SET valeur='".$valeur['value']."' WHERE options='".$valeur['key']."'");
 	}
 	$_REQUEST['action'] = NULLSTR;
 }

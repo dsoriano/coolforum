@@ -27,14 +27,13 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php");
 require("admin/functions.php");
 
 $id = intval($_GET['id']);
 
-$query=$sql->query("SELECT url FROM ".$_PRE."campagnes WHERE id='$id'");
-$j=mysql_fetch_array($query);
+$query=$sql->query("SELECT url FROM "._PRE_."campagnes WHERE id=%d", $id)->execute();
+$j=$query->fetch_array();
 
-$query=$sql->query("UPDATE ".$_PRE."campagnes SET clicks=clicks+1, todayclick=todayclick+1 WHERE id='$id'");
+$query=$sql->query("UPDATE "._PRE_."campagnes SET clicks=clicks+1, todayclick=todayclick+1 WHERE id=%d", $id)->execute();
 header("Location: ".$j['url']);
 exit;

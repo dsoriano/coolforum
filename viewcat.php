@@ -28,7 +28,6 @@
 //*********************************************************************************
 
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 
@@ -77,11 +76,11 @@ if(isset($_COOKIE['listeforum_coolforum']))
 
 
 // #### Infos sur catégorie #### ///////////////////////////////////////////////
-$query 					= 		$sql->query("SELECT * FROM ".$_PRE."categorie WHERE catid=".$_GET['catid']);
-$nb						=		mysql_num_rows($query);
+$query 					= 		$sql->query("SELECT * FROM "._PRE_."categorie WHERE catid=%d", $_GET['catid'])->execute();
+$nb						=		$query->num_rows();
 
 if($nb==0)						geterror("novalidlink");
-else		$CatInfo	=		mysql_fetch_array($query);
+else		$CatInfo	=		$query->fetch_array();
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -101,17 +100,17 @@ $cache				   .=		$tpl->gettemplate("treenav","hierarchy");
 
 
 // #### Affichage des forums #### //////////////////////////////////////////////
-$sqlforums 				= 	$sql->query("SELECT * FROM ".$_PRE."forums WHERE forumcat='".$CatInfo['catid']."' ORDER BY forumorder");
-$nbforums				=	mysql_num_rows($sqlforums);
+$sqlforums 				= 	$sql->query("SELECT * FROM "._PRE_."forums WHERE forumcat=%d ORDER BY forumorder", $CatInfo['catid'])->execute();
+$nbforums				=	$sqlforums->num_rows();
 	
 if($nbforums>0)
-	while($TabForum[]	=	mysql_fetch_array($sqlforums));
+	while($TabForum[]	=	$sqlforums->fetch_array());
 
-$sqlmodo 				= 	$sql->query("SELECT * FROM ".$_PRE."moderateur ORDER BY forumident,modoorder");
-$nbmodos				=	mysql_num_rows($sqlmodo);
+$sqlmodo 				= 	$sql->query("SELECT * FROM "._PRE_."moderateur ORDER BY forumident,modoorder")->execute();
+$nbmodos				=	$sqlmodo->num_rows();
 	
 if($nbmodos>0)
-	while($TabModos[]	=	mysql_fetch_array($sqlmodo));
+	while($TabModos[]	=	$sqlmodo->fetch_array());
 
 $tpl->box['forumlist']	=	affforumlist($CatInfo['catid']);
 

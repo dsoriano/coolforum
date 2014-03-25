@@ -41,7 +41,7 @@ if($_REQUEST['action']=="saveskin")
 	
 	$_POST['skins']['skinname']=getformatmsg($_POST['skins']['skinname']);
 	
-	$query=$sql->query("SELECT * FROM ".$_PRE."skins WHERE propriete='skinname' AND valeur='".$_POST['skins']['skinname']."'");
+	$query=$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname' AND valeur='".$_POST['skins']['skinname']."'");
 	$nb=mysql_num_rows($query);
 	
 	if($nb>0)
@@ -58,7 +58,7 @@ if($_REQUEST['action']=="saveskin")
 		
 	if(strlen($error)==0)
 	{
-		$query=$sql->query("SELECT id FROM ".$_PRE."skins GROUP BY id ORDER BY id DESC");
+		$query=$sql->query("SELECT id FROM "._PRE_."skins GROUP BY id ORDER BY id DESC");
 		list($id)=mysql_fetch_array($query);
 		
 		$id++;
@@ -66,7 +66,7 @@ if($_REQUEST['action']=="saveskin")
 		for($i=0;$i<count($_POST['skins']);$i++)
 		{
 			$valeur=each($_POST['skins']);
-			$query=$sql->query("INSERT INTO ".$_PRE."skins (id,propriete,valeur) VALUES ('$id','".$valeur['key']."','".$valeur['value']."')");
+			$query=$sql->query("INSERT INTO "._PRE_."skins (id,propriete,valeur) VALUES ('$id','".$valeur['key']."','".$valeur['value']."')");
 		}
 		$tpl->box['admcontent']=$tpl->gettemplate("adm_addskin","saveok");		
 	}
@@ -101,7 +101,7 @@ if(empty($_REQUEST['action']))
 	$tpl->box['groupscols'] = "";
 	$tpl->box['errorbox']=NULLSTR;
 	
-	$query = $sql->query("SELECT id_group,Nom_group FROM ".$_PRE."groups ORDER BY id_group");
+	$query = $sql->query("SELECT id_group,Nom_group FROM "._PRE_."groups ORDER BY id_group");
 	while(list($id_group,$Nom_group)=mysql_fetch_array($query))
 	{
 		if(strlen($error)>0)

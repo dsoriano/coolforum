@@ -33,11 +33,11 @@ getlangage("adm_delcat");
 if($_REQUEST['action']=="del")
 {
 	// ##### récupération de la position de la catégorie #####
-	$query=$sql->query("SELECT catorder FROM ".$_PRE."categorie WHERE catid=".$_POST['catid']);
+	$query=$sql->query("SELECT catorder FROM "._PRE_."categorie WHERE catid=".$_POST['catid']);
 	list($CatOrder)=mysql_fetch_array($query);
 	
 	// ##### suppression de tous les forums et messages #####
-	$fortodel=$sql->query("SELECT forumid,forumtitle FROM ".$_PRE."forums WHERE forumcat=".$_POST['catid']);
+	$fortodel=$sql->query("SELECT forumid,forumtitle FROM "._PRE_."forums WHERE forumcat=".$_POST['catid']);
 	$nb=mysql_num_rows($fortodel);
 	
 	$tpl->box['delforumresult']="";
@@ -49,37 +49,37 @@ if($_REQUEST['action']=="del")
 		while(list($ForumID,$ForumTitle)=mysql_fetch_array($fortodel))
 		{
 			// ##### table CF_forums #####
-			$query=$sql->query("DELETE FROM ".$_PRE."forums WHERE forumid='$ForumID'");
+			$query=$sql->query("DELETE FROM "._PRE_."forums WHERE forumid='$ForumID'");
 			if($query)
 				$tpl->box['table1']=$tpl->attlang("tblforumok");
 			else
 				$tpl->box['table1']=$tpl->attlang("tblforumnok");
 		
 			// ##### table CF_topics #####
-			$query=$sql->query("DELETE FROM ".$_PRE."topics WHERE idforum='$ForumID'");
+			$query=$sql->query("DELETE FROM "._PRE_."topics WHERE idforum='$ForumID'");
 			if($query)
 				$tpl->box['table2']=$tpl->attlang("tbltopicsok");
 			else
 				$tpl->box['table2']=$tpl->attlang("tbltopicsnok");
 		
 			// ##### table CF_posts #####	
-			$query=$sql->query("DELETE FROM ".$_PRE."posts WHERE idforum='$ForumID'");
+			$query=$sql->query("DELETE FROM "._PRE_."posts WHERE idforum='$ForumID'");
 			if($query)
 				$tpl->box['table3']=$tpl->attlang("tblpostsok");
 			else
 				$tpl->box['table3']=$tpl->attlang("tblpostsnok");
 		
 			// ##### table CF_groups_perm #####	
-			$query=$sql->query("DELETE FROM ".$_PRE."groups_perm WHERE id_forum='$ForumID'");
+			$query=$sql->query("DELETE FROM "._PRE_."groups_perm WHERE id_forum='$ForumID'");
 			if($query)
 				$tpl->box['table4']=$tpl->attlang("groups_permok");
 			else
 				$tpl->box['table4']=$tpl->attlang("groups_permnok");
-			$query=$sql->query("OPTIMIZE TABLE ".$_PRE."groups_perm");
+			$query=$sql->query("OPTIMIZE TABLE "._PRE_."groups_perm");
 
 				
 			// ##### table CF_moderateur #####	
-			$query=$sql->query("DELETE FROM ".$_PRE."moderateur WHERE forumident='$ForumID'");
+			$query=$sql->query("DELETE FROM "._PRE_."moderateur WHERE forumident='$ForumID'");
 			if($query)
 				$tpl->box['table5']=$tpl->attlang("tblmodook");
 			else
@@ -88,23 +88,23 @@ if($_REQUEST['action']=="del")
 			$tpl->box['delforumresult'].=$tpl->gettemplate("adm_delcat","delforum");
 		}
 	
-		$query=$sql->query("OPTIMIZE TABLE ".$_PRE."forums");	
-		$query=$sql->query("OPTIMIZE TABLE ".$_PRE."topics");
-		$query=$sql->query("OPTIMIZE TABLE ".$_PRE."posts");
-		$query=$sql->query("OPTIMIZE TABLE ".$_PRE."forumperm");
-		$query=$sql->query("OPTIMIZE TABLE ".$_PRE."moderateur");
+		$query=$sql->query("OPTIMIZE TABLE "._PRE_."forums");
+		$query=$sql->query("OPTIMIZE TABLE "._PRE_."topics");
+		$query=$sql->query("OPTIMIZE TABLE "._PRE_."posts");
+		$query=$sql->query("OPTIMIZE TABLE "._PRE_."forumperm");
+		$query=$sql->query("OPTIMIZE TABLE "._PRE_."moderateur");
 		
 	}
 	
 	// ##### suppression de la catégorie #####
-	$query=$sql->query("DELETE FROM ".$_PRE."categorie WHERE catid=".$_POST['catid']);
+	$query=$sql->query("DELETE FROM "._PRE_."categorie WHERE catid=".$_POST['catid']);
 	if($query)
 		$tpl->box['delcatresult'] = $tpl->attlang("cattodel");
 	else
 		$tpl->box['delcatresult'] = $tpl->attlang("nocatfound");
 	
 	// ##### réorganisation de l'ordre des catégories #####
-	$query=$sql->query("UPDATE ".$_PRE."categorie SET catorder=catorder-1 WHERE catorder>'$CatOrder'");
+	$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=catorder-1 WHERE catorder>'$CatOrder'");
 
 	updatenbtopics();
 	updatenbposts();
@@ -114,14 +114,14 @@ if($_REQUEST['action']=="del")
 
 if($_REQUEST['action']=="avert")
 {
-	$sqlforums = $sql->query("SELECT * FROM ".$_PRE."categorie WHERE catid=".$_GET['catid']);
+	$sqlforums = $sql->query("SELECT * FROM "._PRE_."categorie WHERE catid=".$_GET['catid']);
 	$MyForum=mysql_fetch_array($sqlforums);
 	$tpl->box['admcontent']=$tpl->gettemplate("adm_delcat","avertdel");
 }
 
 if(empty($_REQUEST['action']))
 {
-	$query = $sql->query("SELECT * FROM ".$_PRE."categorie ORDER BY catorder");
+	$query = $sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
 	$nb=mysql_num_rows($query);
 	
 	$tpl->box['catforum']="";

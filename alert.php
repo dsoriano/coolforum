@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 $idpost	= isset($_REQUEST['idpost']) ? (int)$_REQUEST['idpost'] : 0;

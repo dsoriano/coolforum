@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 $posterid = isset($_REQUEST['posterid']) ? (int)$_REQUEST['posterid'] : 0;

@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 if(!isset($_REQUEST['action']))		$_REQUEST['action'] = NULLSTR;
@@ -126,13 +125,13 @@ if($_REQUEST['action']=="savemsg")
 	// **** Le sujet est-il open? ****
 	if($Parent>0)
 	{
-		$query	=	$sql->query("SELECT idtopic,opentopic,idforum FROM ".$_PRE."topics WHERE idtopic='$Parent'");
-		$nb	=	mysql_num_rows($query);
+		$query	=	$sql->query("SELECT idtopic,opentopic,idforum FROM "._PRE_."topics WHERE idtopic=%d", $Parent)->execute();
+		$nb	=	$query->num_rows();
 		
 		if ($nb	== 0)	geterror("novalidlink");
 		else
 		{
-			$j	=	mysql_fetch_array($query);
+			$j	=	$query->fetch_array();
 			if($j['opentopic']=="N")		geterror("closedtopic");
 		}
 	}
@@ -158,8 +157,8 @@ if($_REQUEST['action']=="savemsg")
 		if(strlen($testchain)==0)
 			$error=$tpl->attlang("badpseudo1");
 			
-		$query		=		$sql->query("SELECT login FROM ".$_PRE."user WHERE login='".getformatmsg($_POST['pseudo'],false)."'");
-		$nb				=		mysql_num_rows($query);
+		$query		=		$sql->query("SELECT login FROM "._PRE_."user WHERE login='%s'", getformatmsg($_POST['pseudo'],false))->execute();
+		$nb				=		$query->num_rows();
 		
 		if($nb > 0)
 			$error=$tpl->attlang("badpseudo2");
@@ -244,8 +243,8 @@ if($_REQUEST['action']=="savemsg")
 			$chainerep 	= 	implode(" >> ",$nbrep);
 			$pollquest	=	getformatmsg($_POST['pollquest'],false);
 			
-			$query		=	$sql->query("INSERT INTO ".$_PRE."poll (date,question,choix,rep,votants) VALUES ('$date','$pollquest','$chainechoix','$chainerep','-')");
-			$idpoll		=	mysql_insert_id();
+			$query		=	$sql->query("INSERT INTO "._PRE_."poll (date,question,choix,rep,votants) VALUES ('$date','$pollquest','$chainechoix','$chainerep','-')");
+			$idpoll		=	$query->insert_id();
 		}
 		else	$idpoll		=	0;
 					
@@ -260,45 +259,45 @@ if($_REQUEST['action']=="savemsg")
 
 		if ($Parent==0)						// insertion d'un sujet
 		{
-			$query 		= 	$sql->query("INSERT INTO ".$_PRE."topics (idforum,sujet,date,nbrep,nbvues,datederrep,derposter,icone,idmembre,pseudo,opentopic,poll) VALUES ('$ForumID','$sujet','$date',0,0,'$date','$pseudo','".$_POST['icon']."', '$idmembre','$pseudo','Y','$idpoll')"); 
-			$topicid	=	mysql_insert_id();
-			$query		=	$sql->query("INSERT INTO ".$_PRE."posts (idforum,sujet,date,parent,msg,icone,idmembre,pseudo,postip,smiles,bbcode,notifyme) VALUES ('$ForumID','$sujet','$date','$topicid','$msg','".$_POST['icon']."','$idmembre','$pseudo','".$_SERVER['REMOTE_ADDR']."','$smiles','$nobb','$notifyme')");
-			$idderpost	=	mysql_insert_id();
-			$query		=	$sql->query("UPDATE ".$_PRE."forums SET lastforumposter='$pseudo',lastdatepost='$date',lastidpost='$idderpost',forumtopic=forumtopic+1 WHERE forumid='$ForumID'");
-			$query		=	$sql->query("UPDATE ".$_PRE."topics SET idderpost='$idderpost' WHERE idtopic='$topicid'");
+			$query 		= 	$sql->query("INSERT INTO "._PRE_."topics (idforum,sujet,date,nbrep,nbvues,datederrep,derposter,icone,idmembre,pseudo,opentopic,poll) VALUES (%d,'%s','%s',0,0,'%s','%s','%s', %d,'%s','Y',%d)", array($ForumID, $sujet, $date, $date, $pseudo, $_POST['icon'], $idmembre, $pseudo, $idpoll))->execute();
+			$topicid	=	$query->insert_id();
+			$query		=	$sql->query("INSERT INTO "._PRE_."posts (idforum,sujet,date,parent,msg,icone,idmembre,pseudo,postip,smiles,bbcode,notifyme) VALUES (%d,'%s','%s',%d,'%s','%s',%d,'%s','%s','%s','%s','%s')", array($ForumID, $sujet, $date, $topicid, $msg, $_POST['icon'], $idmembre, $pseudo, $_SERVER['REMOTE_ADDR'], $smiles, $nobb, $notifyme))->execute();
+			$idderpost	=	$query->insert_id();
+			$query		=	$sql->query("UPDATE "._PRE_."forums SET lastforumposter='%s',lastdatepost='%s',lastidpost=%d,forumtopic=forumtopic+1 WHERE forumid=%d", array($pseudo, $date, $idderpost, $ForumID))->execute();
+			$query		=	$sql->query("UPDATE "._PRE_."topics SET idderpost=%d WHERE idtopic=%d", array($idderpost, $topicid))->execute();
 
 			updatenbtopics();
 		}
 		else
 		{
-			$query 		= 	$sql->query("INSERT INTO ".$_PRE."posts (idforum,sujet,date,parent,msg,icone,idmembre,pseudo,postip,smiles,bbcode,notifyme) VALUES ('$ForumID','$sujet','$date','$Parent','$msg','".$_POST['icon']."','$idmembre','$pseudo','".$_SERVER['REMOTE_ADDR']."','$smiles','$nobb','$notifyme')"); 
-			$idderpost	=	mysql_insert_id();
-			$query 		= 	$sql->query("UPDATE ".$_PRE."topics SET datederrep='$date', nbrep=nbrep+1, derposter='$pseudo', idderpost='$idderpost' WHERE idtopic='$Parent'");
+			$query 		= 	$sql->query("INSERT INTO "._PRE_."posts (idforum,sujet,date,parent,msg,icone,idmembre,pseudo,postip,smiles,bbcode,notifyme) VALUES (%d,'%s','%s',%d,'%s','%s',%d,'%s','%s','%s','%s','%s')", array($ForumID, $sujet, $date, $Parent, $msg, $_POST['icon'], $idmembre, $pseudo, $_SERVER['REMOTE_ADDR'], $smiles, $nobb, $notifyme))->execute();
+			$idderpost	=	$query->insert_id();
+			$query 		= 	$sql->query("UPDATE "._PRE_."topics SET datederrep='%s', nbrep=nbrep+1, derposter='%s', idderpost=%d WHERE idtopic=%d", array($date, $pseudo, $idderpost, $Parent))->execute();
 			updatenbposts();
 			
 			//if(!$annonce)
-				$query	=	$sql->query("UPDATE ".$_PRE."forums SET lastforumposter='$pseudo',lastdatepost='$date',lastidpost='$idderpost',forumposts=forumposts+1 WHERE forumid='$ForumID'");
+				$query	=	$sql->query("UPDATE "._PRE_."forums SET lastforumposter='%s',lastdatepost='%s',lastidpost=%d,forumposts=forumposts+1 WHERE forumid=%d", array($pseudo, $date, $idderpost, $ForumID))->execute();
 		
 			//////////////////////////
 			// ENVOI DES NOTIFICATIONS
 			if($_FORUMCFG['mailnotify'] == "Y")
 			{
-				$quest		=	$sql->query("SELECT ".$_PRE."posts.idmembre AS idmembre, ".$_PRE."user.usermail AS mail FROM ".$_PRE."posts LEFT JOIN ".$_PRE."user ON ".$_PRE."user.userid=".$_PRE."posts.idmembre WHERE ".$_PRE."posts.parent='$Parent' AND ".$_PRE."posts.notifyme='Y' AND ".$_PRE."posts.idmembre <>".$idmembre." GROUP BY ".$_PRE."posts.idmembre");
-				$nbnotify	=	mysql_num_rows($quest);
+				$quest		=	$sql->query("SELECT "._PRE_."posts.idmembre AS idmembre, "._PRE_."user.usermail AS mail FROM "._PRE_."posts LEFT JOIN "._PRE_."user ON "._PRE_."user.userid="._PRE_."posts.idmembre WHERE "._PRE_."posts.parent='$Parent' AND "._PRE_."posts.notifyme='Y' AND "._PRE_."posts.idmembre <>%d GROUP BY "._PRE_."posts.idmembre", $idmembre)->execute();
+				$nbnotify	=	$quest->num_rows();
 				
 				if($nbnotify > 0)
 				{
 		
 					$url		=	$_FORUMCFG['urlforum']."gotopost.php?id=$idderpost";
 					
-					$sqlsujet	=	$sql->query("SELECT sujet FROM ".$_PRE."topics WHERE idtopic='$Parent'");
-					list($mailsujet)	=	mysql_fetch_array($sqlsujet);
+					$sqlsujet	=	$sql->query("SELECT sujet FROM "._PRE_."topics WHERE idtopic=%d", $Parent)->execute();
+					list($mailsujet)	=	$sqlsujet->fetch_array();
 					$mailsujet = formatstrformail(recupDBforMail($mailsujet));
 					
 					eval("\$subject = ".$tpl->attlang("mailsujet").";");
 					eval("\$mesg = ".$tpl->attlang("mailmsg").";");
 					
-					while($jmail=mysql_fetch_array($quest))
+					while($jmail=$quest->fetch_array())
 						@sendmail($jmail['mail'],$subject,$mesg);
 				}
 			}
@@ -306,7 +305,7 @@ if($_REQUEST['action']=="savemsg")
 		}
 	
 		if($idmembre>0)
-			$result = $sql->query("UPDATE ".$_PRE."user SET usermsg=usermsg+1, lastpost='$date' WHERE userid='$idmembre'");
+			$result = $sql->query("UPDATE "._PRE_."user SET usermsg=usermsg+1, lastpost='%s' WHERE userid=%d", array($date, $idmembre))->execute();
 		
 		//------------- envoie des cookies et redirection ---------------------------
 		
@@ -392,13 +391,13 @@ if($_REQUEST['action']=="form")
 	// on vérifie que le sujet existe et qu'il est open
 	if($Parent!=0)
 	{
-		$query	=	$sql->query("SELECT idtopic,opentopic,idforum FROM ".$_PRE."topics WHERE idtopic='$Parent'");
-		$nb	=	mysql_num_rows($query);
+		$query	=	$sql->query("SELECT idtopic,opentopic,idforum FROM "._PRE_."topics WHERE idtopic=%d", $Parent)->execute();
+		$nb	=	$query->num_rows();
 		
 		if ($nb	== 0)	geterror("novalidlink");
 		else
 		{
-			$j	=	mysql_fetch_array($query);
+			$j	=	$query->fetch_array();
 			if($j['opentopic']=="N")		geterror("closedtopic");
 		}
 	}
@@ -514,19 +513,19 @@ if($_REQUEST['action']=="form")
 		
 		if($_FORUMCFG['canpostmsgcache']=="Y")
 		{
-			$query=$sql->query("SELECT idpost FROM ".$_PRE."posts WHERE parent='$Parent' ORDER BY date LIMIT 0,1");
-			list($IdTopic) = mysql_fetch_array($query);
+			$query=$sql->query("SELECT idpost FROM "._PRE_."posts WHERE parent='$Parent' ORDER BY date LIMIT 0,1");
+			list($IdTopic) = $query->fetch_array();
 		}
 			
 		
-		$query = $sql->query("SELECT ".$_PRE."posts.idpost AS idpost,".$_PRE."posts.sujet AS sujetpost, ".$_PRE."posts.date AS datepost,
-		".$_PRE."posts.msg AS msgpost, ".$_PRE."posts.icone AS iconpost, ".$_PRE."posts.idmembre AS posterid,".$_PRE."posts.smiles AS smiles,".$_PRE."posts.parent AS parent,".$_PRE."posts.bbcode AS afbbcode, ".$_PRE."posts.poll AS poll, ".$_PRE."posts.pseudo, ".$_PRE."user.* 
-		FROM ".$_PRE."posts
-		LEFT JOIN ".$_PRE."user ON ".$_PRE."posts.idmembre=".$_PRE."user.userid
-		WHERE ".$_PRE."posts.parent='$Parent'
-		ORDER BY ".$_PRE."posts.date DESC LIMIT 0,10");
+		$query = $sql->query("SELECT "._PRE_."posts.idpost AS idpost,"._PRE_."posts.sujet AS sujetpost, "._PRE_."posts.date AS datepost,
+		"._PRE_."posts.msg AS msgpost, "._PRE_."posts.icone AS iconpost, "._PRE_."posts.idmembre AS posterid,"._PRE_."posts.smiles AS smiles,"._PRE_."posts.parent AS parent,"._PRE_."posts.bbcode AS afbbcode, "._PRE_."posts.poll AS poll, "._PRE_."posts.pseudo, "._PRE_."user.*
+		FROM "._PRE_."posts
+		LEFT JOIN "._PRE_."user ON "._PRE_."posts.idmembre="._PRE_."user.userid
+		WHERE "._PRE_."posts.parent=%d
+		ORDER BY "._PRE_."posts.date DESC LIMIT 0,10", $Parent)->execute();
 		
-		while ($DetailMsg=mysql_fetch_array($query))
+		while ($DetailMsg=$query->fetch_array())
 		{
 			$tpl->box['affsujetpost']=NULLSTR;
 			$tpl->box['forumcontent'].=affdetailtopic(0,false);

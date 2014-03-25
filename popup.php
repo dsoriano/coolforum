@@ -29,7 +29,6 @@
 
 $nocache=true;
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 require("entete.php");
 
@@ -129,7 +128,7 @@ if($_REQUEST['action']=="print")
 	else
 		$query = $sql->query("SELECT sujet,date,derposter AS pseudo,msg,icone,smiles,bbcode FROM "._PRE_."annonces WHERE idpost=%d AND inforums REGEXP\"/%d/\"", array($_GET['idann'], $_GET['forumid']))->execute();
 	
-	while($DetailMsg=mysql_fetch_array($query))
+	while($DetailMsg=$query->fetch_array())
 	{
 		if($DetailMsg['smiles']=="Y")	$DetailMsg['msg']	=	getreturnsmilies($DetailMsg['msg']);
 		if($DetailMsg['bbcode']=="Y")	$DetailMsg['msg']	=	getreturnbbcode($DetailMsg['msg'],true);
