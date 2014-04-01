@@ -34,8 +34,8 @@ require("entete.php");
     header("Pragma: no-cache");
     header("Expires: 0");
    
-$table		= 	$sql->list_tables();
-$nb_table	=	mysql_num_rows($table);
+$table		= 	$sql->query("SHOW TABLES")->execute();
+$nb_table	=	$table->num_rows();
 
 $chaine		=	"";
 
@@ -51,7 +51,7 @@ $chaine		.=	"# ****************************\n\n";
 
 if($nb_table>0)
 {
-	while($i = mysql_fetch_row($table))
+	while($i = $table->fetch_row())
 	{
 		if(preg_match("|^"._PRE_."|",$i[0]) > 0)
 		{
