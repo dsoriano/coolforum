@@ -33,12 +33,12 @@ getlangage("adm_createcat");
 if ($_REQUEST['action']=="create")
 {
 
-	$sql=mysql_query("SELECT catorder FROM "._PRE_."categorie ORDER BY catorder DESC");
-	$nb=mysql_num_rows($sql);
+	$query=$sql->query("SELECT catorder FROM "._PRE_."categorie ORDER BY catorder DESC")->execute();
+	$nb=$query->num_rows();
 	
 	if ($nb>0)
 	{
-		$cat=mysql_fetch_array($sql);
+		$cat=$query->fetch_array();
 		$order=$cat['catorder']+1;
 	}
 	else
@@ -47,8 +47,8 @@ if ($_REQUEST['action']=="create")
 	$nom=getformatmsg($_POST['nom']);
 	$coment=getformatmsg($_POST['coment']);
 	
-	$sql=mysql_query("INSERT INTO "._PRE_."categorie (cattitle,catcoment,catorder) VALUES ('$nom','$coment','$order')");
-	if ($sql)
+	$insert=$sql->query("INSERT INTO "._PRE_."categorie (cattitle,catcoment,catorder) VALUES ('%s','%s',%d)", array($nom, $coment, $order))->execute();
+	if ($insert)
 		$tpl->box['result']=$tpl->attlang("result_ok");
 	else
 		$tpl->box['result']=$tpl->attlang("result_nok");

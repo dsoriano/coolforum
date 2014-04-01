@@ -82,8 +82,8 @@ function DayInMonth($month,$year)
 
 if($_REQUEST['action']=="del")
 {
-	$query = $sql->query("DELETE FROM "._PRE_."statcamp WHERE iddate LIKE \"".$_GET['idvalue']."-%\"");
-	$query = $sql->query("DELETE FROM "._PRE_."campagnes WHERE id=".$_GET['idvalue']);
+	$query = $sql->query("DELETE FROM "._PRE_."statcamp WHERE iddate LIKE \"%s-%%\"", array($_GET['idvalue']))->execute();
+	$query = $sql->query("DELETE FROM "._PRE_."campagnes WHERE id=%d", $_GET['idvalue'])->execute();
 	
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -114,8 +114,8 @@ if($_REQUEST['action']=="stats")
 	$defdate="$id-$dateencours";
 	
 	// *********************************************************************************
-	$query=$sql->query("SELECT * FROM "._PRE_."statcamp WHERE iddate LIKE \"$defdate%\" ORDER BY iddate");
-	$nb=mysql_num_rows($query);
+	$query=$sql->query("SELECT * FROM "._PRE_."statcamp WHERE iddate LIKE \"%s%%\" ORDER BY iddate", $defdate)->execute();
+	$nb=$query->num_rows();
 	
 	$recap=array();
 	for($i=1;$i<($nbdays+1);$i++)
@@ -299,27 +299,27 @@ if($_REQUEST['action']=="savecamp")
 						ratio,
 						regie)
 					VALUES	(
-						'$CampName',
-						'$CampUrl',
-						'$CampBan',
-						'$CampType',
-						'$CampStart',
-						'$CampEnd',
-						'$CampRatio',
-						'$CampRegie')");
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s')", array($CampName, $CampUrl, $CampBan, $CampType, $CampStart, $CampEnd, $CampRatio, $CampRegie))->execute();
 		}
 		else
 		{
 			$query = $sql->query("UPDATE "._PRE_."campagnes SET
-						nom='$CampName',
-						url='$CampUrl',
-						banniere='$CampBan',
-						typefin='$CampType',
-						dtedebut='$CampStart',
-						fincamp='$CampEnd',
-						ratio='$CampRatio',
-						regie='$CampRegie'
-					WHERE id=".$_POST['idvalue']);
+						nom='%s',
+						url='%s',
+						banniere='%s',
+						typefin='%s',
+						dtedebut='%s',
+						fincamp='%s',
+						ratio='%s',
+						regie='%s'
+					WHERE id=%d", array($CampName, $CampUrl, $CampBan, $CampType, $CampStart, $CampEnd, $CampRatio, $CampRegie, $_POST['idvalue']))->execute();
 		}
 		$_REQUEST['action'] = NULLSTR;
 	}
@@ -373,8 +373,8 @@ if($_REQUEST['action']=="campform")
 		{
 			$tpl->box['ttcampagne'] = $tpl->attlang("editcamp");
 			
-			$query = $sql->query("SELECT * FROM "._PRE_."campagnes WHERE id=".$_REQUEST['idvalue']);
-			$Camp = mysql_fetch_array($query);
+			$query = $sql->query("SELECT * FROM "._PRE_."campagnes WHERE id=%d", $_REQUEST['idvalue'])->execute();
+			$Camp = $query->fetch_array();
 			
 			$CampName = getformatrecup($Camp['nom']);
 			$CampRatio = $Camp['ratio'];
@@ -419,8 +419,8 @@ if(empty($_REQUEST['action']))
 {
 	$tpl->box['camplist'] = NULLSTR;
 	
-	$query=$sql->query("SELECT * FROM "._PRE_."campagnes ORDER BY id");
-        $nb=mysql_num_rows($query);
+	$query=$sql->query("SELECT * FROM "._PRE_."campagnes ORDER BY id")->execute();
+        $nb=$query->num_rows();
         
         if($nb>0)
         {

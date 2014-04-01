@@ -39,7 +39,7 @@ if($_REQUEST['action']=="exec")
 	else
 		$request = $_POST['request'];
 	
-	$query = $sql->query($request);
+	$query = $sql->query($request)->execute();
 	
 	$TheRequest = getformatmsg($request);
 	if($query)

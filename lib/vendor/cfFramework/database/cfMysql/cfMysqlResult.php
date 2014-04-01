@@ -32,4 +32,13 @@ class cfMysqlResult
         return mysql_fetch_array($this->_results);
     }
 
+    /**
+     * Retourne le nombre de lignes affectées par une mise à jour
+     * @return int
+     */
+    public function affected_rows()
+    {
+        return mysql_affected_rows();
+    }
+
 }

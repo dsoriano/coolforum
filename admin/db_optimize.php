@@ -35,9 +35,9 @@ if($_REQUEST['action']=="optimize")
 	$tablename=array();
 	$DB_Name="";
 		
-	$query = $sql->list_tables();
+	$query = $sql->query("SHOW TABLES")->execute();
 	if($query)
-	while($j=mysql_fetch_row($query))
+	while($j=$query->fetch_row())
 	{
 		if(preg_match("|^"._PRE_ . "|i",$j[0] > 0))
 			$tablename[]=$j[0];
@@ -45,7 +45,7 @@ if($_REQUEST['action']=="optimize")
 	
 	for($i=0;$i<count($tablename);$i++)
 	{
-		$query = $sql->query("OPTIMIZE TABLE ".$tablename[$i]);
+		$query = $sql->query("OPTIMIZE TABLE %s", $tablename[$i])->execute();
 		$DB_Name=$tablename[$i];
 		if($query)
 			$tpl->box['optimizedtble'].=$tpl->gettemplate("adm_db_optimize","opt_ok");

@@ -7,4 +7,9 @@ class cfMysqliResult extends MySQLi_Result
         return $this->num_rows;
     }
 
+    public function affected_rows()
+    {
+        return $this->affected_rows;
+    }
+
 }

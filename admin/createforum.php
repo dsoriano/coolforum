@@ -46,18 +46,18 @@ if($_REQUEST['action']=="save")
 
 	if(strlen($testchain)>0)
 	{
-		$query			=	$sql->query("SELECT forumorder FROM "._PRE_."forums WHERE forumcat=".$_POST['cat']);
-		$nb			=	mysql_num_rows($query);
+		$query			=	$sql->query("SELECT forumorder FROM "._PRE_."forums WHERE forumcat=%d", $_POST['cat'])->execute();
+		$nb			=	$query->num_rows();
 		$order			=	$nb+1;
 		
 		$forumname		=	getformatmsg($_POST['forumname']);
 		$forumcoment		=	getformatmsg($_POST['forumcoment']);
 		
-		$query			=	$sql->query("INSERT INTO "._PRE_."forums (forumcat, forumtitle, forumcomment, forumorder, openforum) VALUES ('$CatParent', '$forumname', '$forumcoment', '$order', '$openorclose')");
-		$IdForum 		= 	mysql_insert_id();
+		$query			=	$sql->query("INSERT INTO "._PRE_."forums (forumcat, forumtitle, forumcomment, forumorder, openforum) VALUES (%d, '%s', '%s', %d, '%s')", array($CatParent, $forumname, $forumcoment, $order, $openorclose))->execute();
+		$IdForum 		= 	$query->insert_id();
 		
-		$query					=	$sql->query("SELECT id_group FROM "._PRE_."groups ORDER BY id_group");
-		while($Group			=	mysql_fetch_array($query))
+		$query					=	$sql->query("SELECT id_group FROM "._PRE_."groups ORDER BY id_group")->execute();
+		while($Group			=	$query->fetch_array())
 		{
 			$Id_Group			=	$Group['id_group'];
 			if(isset($_POST['droits'][$Id_Group]))
@@ -70,7 +70,7 @@ if($_REQUEST['action']=="save")
 			else
 				$MaxChar		=	0;
 				
-			$query_group		=	$sql->query("REPLACE INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES ('$Id_Group', '$IdForum', '$IntDroitFor', '$MaxChar')");
+			$query_group		=	$sql->query("REPLACE INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES (%d, %d, '%s', %d)", array($Id_Group, $IdForum, $IntDroitFor, $MaxChar))->execute();
 		}	
 
 		$tpl->box['savemsg'] 	= 	$tpl->attlang("forumsaved");
@@ -145,8 +145,8 @@ if(empty($_REQUEST['action']))
 		$InfosForum['forumcomment'] 	= getrecupforform($_POST['forumcoment']);	
 	}	
 
-	$query=$sql->query("SELECT catid,cattitle FROM "._PRE_."categorie ORDER BY catid");
-	$nbcat=mysql_num_rows($query);
+	$query=$sql->query("SELECT catid,cattitle FROM "._PRE_."categorie ORDER BY catid")->execute();
+	$nbcat=$query->num_rows();
 
 	if($nbcat==0)
 		$tpl->box['admcontent']=$tpl->gettemplate("adm_createforum","nocat");
@@ -166,11 +166,11 @@ if(empty($_REQUEST['action']))
 		
 		$tpl->box['pagedest']		=	"createforum.php";
 		$tpl->box['listedroits'] 		= 	"";
-		$query 				= 	$sql->query("SELECT * FROM "._PRE_."groups ORDER BY id_group");
-		$NbGroups			= 	mysql_num_rows($query);
+		$query 				= 	$sql->query("SELECT * FROM "._PRE_."groups ORDER BY id_group")->execute();
+		$NbGroups			= 	$query->num_rows();
 		$i				=	1;
 		
-		while($Grp = mysql_fetch_array($query))
+		while($Grp = $query->fetch_array())
 		{
 			
 			if($error)

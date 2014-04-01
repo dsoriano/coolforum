@@ -32,17 +32,17 @@ getlangage("adm_ban");
 
 if($_REQUEST['action']=="deban")
 {
-	$query=$sql->query("UPDATE "._PRE_."user SET userstatus=-userstatus WHERE userid=".$_GET['idmb']);
-	$query=$sql->query("DELETE FROM "._PRE_."banlist WHERE userid=".$_GET['idmb']);
+	$query=$sql->query("UPDATE "._PRE_."user SET userstatus=-userstatus WHERE userid=%d", $_GET['idmb'])->execute();
+	$query=$sql->query("DELETE FROM "._PRE_."banlist WHERE userid=%d",$_GET['idmb'])->execute();
 	$_REQUEST['action'] = NULLSTR;
 }
 
 if($_REQUEST['action']=="ban")
 {
-	$query=$sql->query("UPDATE "._PRE_."user SET userstatus=-userstatus WHERE userid=".$_GET['idmb']);
-	$query=$sql->query("SELECT "._PRE_."user.userid,"._PRE_."user.login,"._PRE_."user.usermail,"._PRE_."userplus.mailorig FROM "._PRE_."user LEFT JOIN "._PRE_."userplus ON "._PRE_."user.userid="._PRE_."userplus.idplus WHERE userid=".$_GET['idmb']);
-	$j=mysql_fetch_array($query);
-	$query=$sql->query("INSERT INTO "._PRE_."banlist (userid,login,mail1,mail2) VALUES ('".$j['userid']."','".$j['login']."','".$j['usermail']."','".$j['mailorig']."')");
+	$query=$sql->query("UPDATE "._PRE_."user SET userstatus=-userstatus WHERE userid=%d",$_GET['idmb'])->execute();
+	$query=$sql->query("SELECT "._PRE_."user.userid,"._PRE_."user.login,"._PRE_."user.usermail,"._PRE_."userplus.mailorig FROM "._PRE_."user LEFT JOIN "._PRE_."userplus ON "._PRE_."user.userid="._PRE_."userplus.idplus WHERE userid=%d",$_GET['idmb'])->execute();
+	$j=$query->fetch_array();
+	$query=$sql->query("INSERT INTO "._PRE_."banlist (userid,login,mail1,mail2) VALUES (%d,'%s','%s','%s')", array($j['userid'], $j['login'], $j['usermail'], $j['mailorig']))->execute();
 	$_REQUEST['action'] = NULLSTR;
 }
 
@@ -58,8 +58,8 @@ if($_REQUEST['action']=="search")
 	else
 	{	
 		$pseudo = getformatmsg($_POST['pseudo']);
-		$query=$sql->query("SELECT * FROM "._PRE_."user WHERE login LIKE \"%$pseudo%\" ORDER BY login");
-		$nb=mysql_num_rows($query);
+		$query=$sql->query("SELECT * FROM "._PRE_."user WHERE login LIKE \"%%%s%%\" ORDER BY login", $pseudo)->execute();
+		$nb=$query->num_rows();
 		if($nb==0)
 			$Error=$tpl->attlang("errorpseudo2");
 		else
@@ -107,8 +107,8 @@ if($_REQUEST['action']=="search")
 if(empty($_REQUEST['action']))
 {
 	$tpl->box['listmember'] = NULLSTR;
-	$query=$sql->query("SELECT userid,login,userstatus FROM "._PRE_."user WHERE userstatus<0 ORDER BY login");
-	$nb=mysql_num_rows($query);
+	$query=$sql->query("SELECT userid,login,userstatus FROM "._PRE_."user WHERE userstatus<0 ORDER BY login")->execute();
+	$nb=$query->num_rows();
 	
 	if($nb==0)
 		$tpl->box['listmember']=$tpl->gettemplate("adm_ban","ifnobanmb");
