@@ -108,15 +108,15 @@ if(file_exists("../install/install.php"))
 if($_REQUEST['action']=="login")
 {
 	$pseudo		=		getformatmsg($_POST['pseudo'],false);
-	$query		=		mysql_query("SELECT userid,login,password,usermail,userstatus FROM "._PRE_."user WHERE login='$pseudo'");
-	$nb			=		mysql_num_rows($query);
+	$query		=		$sql->query("SELECT userid,login,password,usermail,userstatus FROM "._PRE_."user WHERE login='%s'", $pseudo)->execute();
+	$nb			=		$query->num_rows();
 	
 	if($nb==0)
 		$error = $tpl->attlang('errnotfound');
 	
 	else
 	{
-		$j=mysql_fetch_array($query);
+		$j=$query->fetch_array();
 		$tmp=rawurldecode($j['password']);
 		$passwd=getdecrypt($tmp,$_FORUMCFG['chainecodage']);
 		

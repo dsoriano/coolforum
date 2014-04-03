@@ -35,9 +35,9 @@ if($_REQUEST['action'] == "confdelgrp")
 	$id			=	intval($_POST['id']);
 	$idgroup		=	intval($_POST['idgroup']);
 	
-	$query			=	$sql->query("DELETE FROM "._PRE_."groups WHERE id_group=$id");
-	$query			=	$sql->query("DELETE FROM "._PRE_."groups_perm WHERE id_group=$id");
-	$query			=	$sql->query("UPDATE "._PRE_."user SET userstatus=$idgroup WHERE userstatus=$id");
+	$query			=	$sql->query("DELETE FROM "._PRE_."groups WHERE id_group=%d", $id)->execute();
+	$query			=	$sql->query("DELETE FROM "._PRE_."groups_perm WHERE id_group=%d", $id)->execute();
+	$query			=	$sql->query("UPDATE "._PRE_."user SET userstatus=$idgroup WHERE userstatus=%d", $id)->execute();
 	
 	// penser à virer les couleurs si on les intègre dans les skins
 	
@@ -47,16 +47,16 @@ if($_REQUEST['action'] == "confdelgrp")
 if($_REQUEST['action'] == "delgrp")
 {
 	$id			=	intval($_GET['id']);
-	$query	=	$sql->query("SELECT parent FROM "._PRE_."groups WHERE id_group=$id");
+	$query	=	$sql->query("SELECT parent FROM "._PRE_."groups WHERE id_group=%d", $id)->execute();
 	
-	if(mysql_num_rows($query)>0 && $id>4)
+	if($query->num_rows()>0 && $id>4)
 	{
-		list($parent)		=	mysql_fetch_array($query);
+		list($parent)		=	$query->fetch_array();
 		$tpl->box['lignedelgrp']	=	"";
 		
-		$query			=	$sql->query("SELECT id_group, Nom_group FROM "._PRE_."groups ORDER BY id_group");
+		$query			=	$sql->query("SELECT id_group, Nom_group FROM "._PRE_."groups ORDER BY id_group")->execute();
 		
-		while($Grps = mysql_fetch_array($query))
+		while($Grps = $query->fetch_array())
 		{
 			$Grps['Nom_group'] 	= 	getformatrecup($Grps['Nom_group']);
 			$selected		=	"";
@@ -77,8 +77,8 @@ if($_REQUEST['action'] == "savedfor")
 {
 	$id			=	intval($_POST['id']);
 	
-	$query			=	$sql->query("SELECT forumid FROM "._PRE_."forums ORDER BY forumid");
-	if(mysql_num_rows($query) > 0)
+	$query			=	$sql->query("SELECT forumid FROM "._PRE_."forums ORDER BY forumid")->execute();
+	if($query->num_rows() > 0)
 	{
 		while($For	=	mysql_fetch_array($query))
 		{
@@ -94,7 +94,7 @@ if($_REQUEST['action'] == "savedfor")
 			else
 				$MaxChar		=	0;
 				
-			$query_group		=	$sql->query("REPLACE INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES ('$id', '$ForumId', '$IntDroitFor', '$MaxChar')");
+			$query_group		=	$sql->query("REPLACE INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES (%d, %d, %d, %d)", array($id, $ForumId, $IntDroitFor, $MaxChar))->execute();
 		}		
 	}
 	
@@ -110,8 +110,8 @@ if($_REQUEST['action'] == "dfor")
 	// ######################################################################
 	// #### Affichage des catégories et forums pour sélection des droits ####
 	
-	$query 				= 	$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
-	$nb				=	mysql_num_rows($query);
+	$query 				= 	$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
+	$nb				=	$query->num_rows();
 	
 	$tpl->box['listedroits']	=	"";
 	if ($nb==0)
@@ -124,13 +124,13 @@ if($_REQUEST['action'] == "dfor")
 							    "._PRE_."forums.forumtitle,
 							    "._PRE_."groups_perm.droits,
 							    "._PRE_."groups_perm.MaxChar
-						FROM "._PRE_."forums LEFT JOIN "._PRE_."groups_perm ON "._PRE_."groups_perm.id_group='$id' AND "._PRE_."groups_perm.id_forum = "._PRE_."forums.forumid
-						ORDER BY "._PRE_."forums.forumcat,"._PRE_."forums.forumorder");
+						FROM "._PRE_."forums LEFT JOIN "._PRE_."groups_perm ON "._PRE_."groups_perm.id_group=%d AND "._PRE_."groups_perm.id_forum = "._PRE_."forums.forumid
+						ORDER BY "._PRE_."forums.forumcat,"._PRE_."forums.forumorder", $id)->execute();
 						
-		$nbforums		=	mysql_num_rows($sqlforums);
+		$nbforums		=	$sqlforums->num_rows();
 		
 		if($nbforums>0)
-			while($TabForum[]	=	mysql_fetch_array($sqlforums));
+			while($TabForum[]	=	$sqlforums->fetch_array());
 
 		while($Cats=mysql_fetch_array($query))
 		{
@@ -193,23 +193,23 @@ if($_REQUEST['action'] == "savenewgroup")
 		else
 			$IntDroitGen	=		0;
 		
-		$query		=	$sql->query("INSERT INTO "._PRE_."groups (parent, Nom_group, Droits_generaux,  Max_Pm, Max_Cit, Max_Sign, Max_Desc) VALUES ('$parentgroup', '$Grp_Name', '$IntDroitGen', '".$Droits_gen['Max_Pm']."', '".$Droits_gen['Max_Cit']."', '".$Droits_gen['Max_Sign']."', '".$Droits_gen['Max_Desc']."')");
-		$IdNewGroup	=	mysql_insert_id();
+		$query		=	$sql->query("INSERT INTO "._PRE_."groups (parent, Nom_group, Droits_generaux,  Max_Pm, Max_Cit, Max_Sign, Max_Desc) VALUES (%d, '%s', %d, %d, %d, %d, %d)", array($parentgroup, $Grp_Name, $IntDroitGen, $Droits_gen['Max_Pm'], $Droits_gen['Max_Cit'], $Droits_gen['Max_Sign'], $Droits_gen['Max_Desc']))->execute();
+		$IdNewGroup	=	$query->insert_id();
 		
 		if(isset($_POST['droits']) && is_array($_POST['droits']) && count($_POST['droits']) > 0)
 			foreach($_POST['droits'] as $key => $value)
 			{
 				$IntDroitFor = get_intfromright($value);
 				$MaxChar	=	intval($_POST['MaxChar'][$key]);
-				$query		=	$sql->query("INSERT INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES ('$IdNewGroup', '$key', '$IntDroitFor', '$MaxChar')");
+				$query		=	$sql->query("INSERT INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES (%d, %d, %d, %d)", array($IdNewGroup, $key, $IntDroitFor, $MaxChar))->execute();
 			}
 		
 		$parentgroupcolor	=	'grp'.$parentgroup;
-		$query		=	$sql->query("SELECT id, valeur FROM "._PRE_."skins WHERE propriete = '$parentgroupcolor'");
-		while(list($idskin,$colorgroup) = mysql_fetch_array($query))
+		$query		=	$sql->query("SELECT id, valeur FROM "._PRE_."skins WHERE propriete = '%s'", $parentgroupcolor)->execute();
+		while(list($idskin,$colorgroup) = $query->fetch_array())
 		{
 			$newgroup	=	'grp'.$IdNewGroup;
-			$saveskin	=	$sql->query("INSERT INTO "._PRE_."skins (id,propriete,valeur) VALUES ($idskin,'$newgroup','$colorgroup')");
+			$saveskin	=	$sql->query("INSERT INTO "._PRE_."skins (id,propriete,valeur) VALUES (%d,'%s','%s')", array($idskin, $newgroup, $colorgroup))->execute();
 		}
 		$_REQUEST['action'] = NULLSTR;
 	}

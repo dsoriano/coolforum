@@ -32,11 +32,11 @@ getlangage("adm_modifcat");
 
 function getplace($cat,$position)
 {
-	global $Pos,$tpl,$sql,_PRE_;
+	global $Pos,$tpl,$sql;
 	
-	$query=$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
+	$query=$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
 	
-	while($Pos=mysql_fetch_array($query))
+	while($Pos=$query->fetch_array())
 	{
 		if($cat==$Pos['catid'])
 			$tpl->box['orderlist'].=$tpl->gettemplate("adm_modifcat","actualorder");
@@ -51,21 +51,21 @@ if($_REQUEST['action']=="changepos")
 {
 	if($_GET['changeto']<$_GET['place'])
 	{
-		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=catorder+1 WHERE catorder>='".$_GET['changeto']."' AND catorder<='".$_GET['place']."'");
-		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder='".$_GET['changeto']."' WHERE catid='".$_GET['cat']."'");
+		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=catorder+1 WHERE catorder>=%d AND catorder<=%d", array($_GET['changeto'], $_GET['place']))->execute();
+		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=%d WHERE catid=%d", array($_GET['changeto'], $_GET['cat']))->execute();
 	}
 	elseif ($_GET['changeto']>$_GET['place'])
 	{
-		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=catorder-1 WHERE catorder<='".$_GET['changeto']."' AND catorder>='".$_GET['place']."'");
-		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder='".$_GET['changeto']."' WHERE catid='".$_GET['cat']."'");
+		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=catorder-1 WHERE catorder<=%d AND catorder>=%d", array($_GET['changeto'], $_GET['place']))->execute();
+		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=%d WHERE catid=%d")->execute($_GET['changeto'], $_GET['cat']);
 	}
 	$_REQUEST['action'] = NULLSTR;
 }
 
 if($_REQUEST['action']=="modify")
 {
-	$sql=mysql_query("SELECT * FROM "._PRE_."categorie WHERE catid=".$_GET['id']);
-	$Lescat=mysql_fetch_array($sql);
+	$query = $sql->query("SELECT * FROM "._PRE_."categorie WHERE catid=".$_GET['id'])->execute();
+	$Lescat=$query->fetch_array();
 	
 	$Lescat['cattitle']=getformatrecup($Lescat['cattitle']);
 	$Lescat['catcoment']=getformatrecup($Lescat['catcoment']);
@@ -78,7 +78,7 @@ if($_REQUEST['action']=="save")
 	$nom=getformatmsg($_POST['nom']);
 	$coment=getformatmsg($_POST['coment']);
 	
-	$query=$sql->query("UPDATE "._PRE_."categorie SET cattitle='$nom',catcoment='$coment' WHERE catid=".$_POST['id']);
+	$query=$sql->query("UPDATE "._PRE_."categorie SET cattitle='%s',catcoment='%s' WHERE catid=%d", array($nom, $coment, $_POST['id']))->execute();
 	$_REQUEST['action'] = NULLSTR;
 }
 
@@ -87,8 +87,8 @@ if(empty($_REQUEST['action']))
 {
 	$tpl->box['catlist'] = NULLSTR;
 	
-	$query=$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
-	$nb=mysql_num_rows($query);
+	$query=$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
+	$nb=$query->num_rows();
 	
 	if ($nb==0)
 		$tpl->box['catlist']=$tpl->gettemplate("adm_modifcat","nocatfound");

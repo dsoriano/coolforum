@@ -35,12 +35,12 @@ $tpl->box['titlesection'] = $tpl->attlang("titlemodifforum");
 // ######################### fonctions #########################
 function getplace($cat,$forum,$position)
 {
-	global $sql,$tpl,$pos,_PRE_;
+	global $sql,$tpl,$pos;
 	$chaine = NULLSTR;
 	
-	$query = $sql->query("SELECT * FROM "._PRE_."forums WHERE forumcat='$cat' ORDER BY forumorder");
+	$query = $sql->query("SELECT * FROM "._PRE_."forums WHERE forumcat=%d ORDER BY forumorder", $cat)->execute();
 	
-	while($pos=mysql_fetch_array($query))
+	while($pos=$query->fetch_array())
 	{
 		if($forum==$pos['forumid'])
 			$chaine .= $tpl->gettemplate("adm_createforum","posactual");
@@ -53,12 +53,12 @@ function getplace($cat,$forum,$position)
 
 function getplacemodo($forum,$position)
 {
-	global $sql,$tpl,$pos,_PRE_;
+	global $sql,$tpl,$pos;
 	$chaine = NULLSTR;
 	
-	$query=$sql->query("SELECT * FROM "._PRE_."moderateur WHERE forumident='$forum' ORDER BY modoorder");
+	$query=$sql->query("SELECT * FROM "._PRE_."moderateur WHERE forumident=%d ORDER BY modoorder", $forum)->execute();
 	
-	while($pos=mysql_fetch_array($query))
+	while($pos=$query->fetch_array())
 	{
 		if($position==$pos['modoorder'])
 			$chaine .= $tpl->gettemplate("adm_createforum","posmodoactual");
@@ -74,13 +74,13 @@ if($_REQUEST['action']=="changepos")
 {
 	if($_GET['changeto']<$_GET['place'])
 	{
-		$query=$sql->query("UPDATE "._PRE_."forums SET forumorder=forumorder+1 WHERE forumcat=".$_GET['cat']." AND forumorder>=".$_GET['changeto']." AND forumorder<=".$_GET['place']);
-		$query=$sql->query("UPDATE "._PRE_."forums SET forumorder=".$_GET['changeto']." WHERE forumid=".$_GET['forumid']);
+		$query=$sql->query("UPDATE "._PRE_."forums SET forumorder=forumorder+1 WHERE forumcat=%d AND forumorder>=%d AND forumorder<=%d", array($_GET['cat'], $_GET['changeto'], $_GET['place']))->execute();
+		$query=$sql->query("UPDATE "._PRE_."forums SET forumorder=%d WHERE forumid=%d", array($_GET['changeto'], $_GET['forumid']))->execute();
 	}
 	elseif ($_GET['changeto']>$_GET['place'])
 	{
-		$query=$sql->query("UPDATE "._PRE_."forums SET forumorder=forumorder-1 WHERE forumcat=".$_GET['cat']." AND forumorder<=".$_GET['changeto']." AND forumorder>=".$_GET['place']);
-		$query=$sql->query("UPDATE "._PRE_."forums SET forumorder=".$_GET['changeto']." WHERE forumid=".$_GET['forumid']);
+		$query=$sql->query("UPDATE "._PRE_."forums SET forumorder=forumorder-1 WHERE forumcat=%d AND forumorder<=%d AND forumorder>=%d", array($_GET['cat'], $_GET['changeto'], $_GET['place']))->execute();
+		$query=$sql->query("UPDATE "._PRE_."forums SET forumorder=%d WHERE forumid=%d", array($_GET['changeto'], $_GET['forumid']))->execute();
 	}
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -89,13 +89,13 @@ if($_REQUEST['action']=="changeposmodo")
 {
 	if($_GET['changeto']<$_GET['place'])
 	{
-		$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=modoorder+1 WHERE forumident='".$_GET['forumid']."' AND modoorder<".$_GET['place']." AND modoorder>=".$_GET['changeto']);
-		$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=".$_GET['changeto']." WHERE forumident='".$_GET['forumid']."' AND idusermodo=".$_GET['modo']);
+		$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=modoorder+1 WHERE forumident=%d AND modoorder<%d AND modoorder>=%d", array($_GET['forumid'], $_GET['place'], $_GET['changeto']))->execute();
+		$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=%d WHERE forumident=%d AND idusermodo=%d", array($_GET['changeto'], $_GET['forumid'], $_GET['modo']))->execute();
 	}
 	elseif ($_GET['changeto']>$_GET['place'])
 	{
-		$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=modoorder-1 WHERE forumident=".$_GET['forumid']." AND modoorder<=".$_GET['changeto']." AND modoorder>".$_GET['place']);
-		$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=".$_GET['changeto']." WHERE forumident=".$_GET['forumid']." AND idusermodo=".$_GET['modo']);
+		$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=modoorder-1 WHERE forumident=%d AND modoorder<=%d AND modoorder>%d", array($_GET['forumid'], $_GET['changeto'], $_GET['place']))->execute();
+		$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=%d WHERE forumident=%d AND idusermodo=%d", array($_GET['changeto'], $_GET['forumid'], $_GET['modo']))->execute();
 	}
 	$_REQUEST['id']=$_GET['forumid'];
 	unset($_GET['forumid']);
@@ -106,15 +106,15 @@ if($_REQUEST['action']=="addmodo")
 {
 	$identuser			=	intval($_GET['identuser']);
 	$id					=	intval($_GET['id']);
-	$query				=	$sql->query("SELECT login FROM "._PRE_."user WHERE userid = $identuser");
+	$query				=	$sql->query("SELECT login FROM "._PRE_."user WHERE userid = %d", $identuser)->execute();
 	
-	list($username)	=	mysql_fetch_array($query);
+	list($username)	=	$query->fetch_array();
 	$username			=	getformatdbtodb($username);
 	
-	$query				=	$sql->query("SELECT * FROM "._PRE_."moderateur WHERE forumident = $id");
-	$modoorder			=	mysql_num_rows($query)+1;
+	$query				=	$sql->query("SELECT * FROM "._PRE_."moderateur WHERE forumident = %d", $id)->execute();
+	$modoorder			=	$query->num_rows()+1;
 	
-	$query				=$sql->query("INSERT INTO "._PRE_."moderateur (forumident,idusermodo,modologin,modoorder,modorights) VALUES ($id,$identuser,'$username','$modoorder',215)");
+	$query				=$sql->query("INSERT INTO "._PRE_."moderateur (forumident,idusermodo,modologin,modoorder,modorights) VALUES (%d,%d,'%s',%d,215)", array($id, $identuser, $username, $modoorder))->execute();
 	$_REQUEST['action']="modify";
 }
 
@@ -122,7 +122,7 @@ if($_REQUEST['action']=="updatemodo")
 {
 	$Modorights = get_intfromright($_POST['modorights']);
 	
-	$query=$sql->query("UPDATE "._PRE_."moderateur SET modorights = $Modorights WHERE forumident='".$_REQUEST['id']."' AND idusermodo=".$_REQUEST['identuser']);
+	$query=$sql->query("UPDATE "._PRE_."moderateur SET modorights = %d WHERE forumident=%dAND idusermodo=%d", array($Modorights, $_REQUEST['id'], $_REQUEST['identuser']))->execute();
 	$_REQUEST['action']="modify";
 }
 
@@ -131,8 +131,8 @@ if($_REQUEST['action']=="editmodo")
 	$Modorights = array(false, false, false, false, false, false, false, false, false);
 	$Check = array(NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR);
 	
-	$query=$sql->query("SELECT * FROM "._PRE_."moderateur WHERE forumident='".$_REQUEST['id']."' AND idusermodo=".$_REQUEST['identuser']);
-	$Modo=mysql_fetch_array($query);
+	$query=$sql->query("SELECT * FROM "._PRE_."moderateur WHERE forumident=%d AND idusermodo=%d", array($_REQUEST['id'], $_REQUEST['identuser']))->execute();
+	$Modo=$query->fetch_array();
 	
 	$Modo['modologin']=getformatrecup($Modo['modologin']);
 	
@@ -145,11 +145,11 @@ if($_REQUEST['action']=="editmodo")
 
 if($_REQUEST['action']=="delmodo")
 {
-	$query=$sql->query("SELECT modoorder from "._PRE_."moderateur WHERE forumident='".$_POST['id']."' AND idusermodo=".$_POST['identuser']);
-	list($modoorder)=mysql_fetch_array($query);
+	$query=$sql->query("SELECT modoorder from "._PRE_."moderateur WHERE forumident=%d AND idusermodo=%d", array($_POST['id'], $_POST['identuser']))->execute();
+	list($modoorder)=$query->fetch_array();
 	
-	$query=$sql->query("DELETE FROM "._PRE_."moderateur WHERE forumident='".$_POST['id']."' AND idusermodo='".$_POST['identuser']."'");
-	$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=modoorder-1 WHERE forumident='".$_POST['id']."' AND modoorder>='$modoorder'");
+	$query=$sql->query("DELETE FROM "._PRE_."moderateur WHERE forumident=%d AND idusermodo=%d", array($_POST['id'], $_POST['identuser']))->execute();
+	$query=$sql->query("UPDATE "._PRE_."moderateur SET modoorder=modoorder-1 WHERE forumident=%d AND modoorder>=%d", array($_POST['id'], $modoorder))->execute();
 	
 	$_REQUEST['action']="modify";
 }
@@ -159,15 +159,15 @@ if($_REQUEST['action']=="save")
 	$id			=	intval($_POST['id']);	
 	
 	// ##### Gestion si l'on change de catégorie #####
-	$query	=	$sql->query("SELECT forumcat,forumorder FROM "._PRE_."forums WHERE forumid=$id");
-	$j	=	mysql_fetch_array($query);
+	$query	=	$sql->query("SELECT forumcat,forumorder FROM "._PRE_."forums WHERE forumid=%d", $id)->execute();
+	$j	=	$query->fetch_array();
 	
 	if($j['forumcat']!=$_POST['cat'])
 	{
-		$query		=	$sql->query("SELECT forumorder FROM "._PRE_."forums WHERE forumcat=".$_POST['cat']);
-		$nb		=	mysql_num_rows($query);
+		$query		=	$sql->query("SELECT forumorder FROM "._PRE_."forums WHERE forumcat=%d", $_POST['cat'])->execute();
+		$nb		=	$query->num_rows();
 		$order		=	$nb+1;
-		$query		=	$sql->query("UPDATE "._PRE_."forums SET forumorder=forumorder-1 WHERE forumcat='".$j['forumcat']."' AND forumorder>'".$j['forumorder']."'");
+		$query		=	$sql->query("UPDATE "._PRE_."forums SET forumorder=forumorder-1 WHERE forumcat=%d AND forumorder>%d", array($j['forumcat'], $j['forumorder']))->execute();
 	}
 	else
 		$order		=	$j['forumorder'];
@@ -176,7 +176,7 @@ if($_REQUEST['action']=="save")
 	$forumname				=	getformatmsg($_POST['forumname']);
 	$forumcoment			=	getformatmsg($_POST['forumcoment']);
 	
-	$query					=	$sql->query("SELECT id_group FROM "._PRE_."groups ORDER BY id_group");
+	$query					=	$sql->query("SELECT id_group FROM "._PRE_."groups ORDER BY id_group")->execute();
 	while($Group			=	mysql_fetch_array($query))
 	{
 		$Id_Group			=	$Group['id_group'];
