@@ -41,8 +41,8 @@ if($_REQUEST['action']=="saveskin")
 	
 	$_POST['skins']['skinname']=getformatmsg($_POST['skins']['skinname']);
 	
-	$query=$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname' AND valeur='".$_POST['skins']['skinname']."' AND id<>'".$_POST['Id']."'");
-	$nb=mysql_num_rows($query);
+	$query=$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname' AND valeur='%s' AND id<>%d", array($_POST['skins']['skinname'], $_POST['Id']))->execute();
+	$nb=$query->num_rows();
 	
 	if($nb>0)
 		$error=$tpl->attlang("errorname");
@@ -61,7 +61,7 @@ if($_REQUEST['action']=="saveskin")
 		for($i=0;$i<count($_POST['skins']);$i++)
 		{
 			$valeur=each($_POST['skins']);
-			$query=$sql->query("UPDATE "._PRE_."skins SET valeur='".$valeur['value']."' WHERE id='".$_POST['Id']."' AND propriete='".$valeur['key']."'");
+			$query=$sql->query("UPDATE "._PRE_."skins SET valeur='%s' WHERE id=%d AND propriete='%s'", array($valeur['value'], $_POST['Id'], $valeur['key']))->execute();
 		}
 		$tpl->box['admcontent']=$tpl->gettemplate("adm_addskin","saveok");		
 	}
@@ -83,9 +83,9 @@ if($_REQUEST['action']=="modify")
 		$Id = intval($_GET['id']);
 		$skins = array();
 		
-		$query=$sql->query("SELECT * FROM "._PRE_."skins WHERE id='$Id'");
+		$query=$sql->query("SELECT * FROM "._PRE_."skins WHERE id=%d", $Id)->execute();
 		
-		while($j=mysql_fetch_array($query))
+		while($j=$query->fetch_array())
 			addToArray($skins,$j['propriete'],$j['valeur']);
 	}
 
@@ -107,8 +107,8 @@ if($_REQUEST['action']=="modify")
 	$tpl->box['targetform']="modifskin.php";
 
 	$tpl->box['groupscols'] = "";
-	$query = $sql->query("SELECT id_group,Nom_group FROM "._PRE_."groups ORDER BY id_group");
-	while(list($id_group,$Nom_group)=mysql_fetch_array($query))
+	$query = $sql->query("SELECT id_group,Nom_group FROM "._PRE_."groups ORDER BY id_group")->execute();
+	while(list($id_group,$Nom_group)=$query->fetch_array())
 	{
 		if(!empty($skins['grp'.$id_group]))
 			$valuecolor		=	$skins['grp'.$id_group];
@@ -122,10 +122,10 @@ if($_REQUEST['action']=="modify")
 
 if(empty($_REQUEST['action']))
 {
-	$query=$sql->query("SELECT id,valeur FROM "._PRE_."skins WHERE propriete='skinname' ORDER BY id");
+	$query=$sql->query("SELECT id,valeur FROM "._PRE_."skins WHERE propriete='skinname' ORDER BY id")->execute();
 	$tpl->box['ligneskin']="";
 	
-	while($Skin=mysql_fetch_array($query))
+	while($Skin=$query->fetch_array())
 	{
 		$Skin['valeur']=getformatrecup($Skin['valeur']);
 		$tpl->box['ligneskin'].=$tpl->gettemplate("adm_addskin","ligneskin");

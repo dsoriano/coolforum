@@ -136,7 +136,7 @@ if($_REQUEST['action']=="stats")
 		
 	$maxvue=0;
 	if($nb>0)
-		while($j=mysql_fetch_array($query))
+		while($j=$query->fetch_array())
 		{
 			$day= 0 + substr($j['iddate'],-2);
 			$recap[$day]['vu']=$j['vu'];
@@ -424,7 +424,7 @@ if(empty($_REQUEST['action']))
         
         if($nb>0)
         {
-        	while($Camp = mysql_fetch_array($query))
+        	while($Camp = $query->fetch_array())
         	{
         		// **** formattage du nom de campagne ****
         		$CampName = getformatrecup($Camp['nom']);

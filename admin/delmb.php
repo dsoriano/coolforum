@@ -84,11 +84,11 @@ if($_REQUEST['action'] == "delmb")
 	else
 	{
 		$query = $sql->query("SELECT login AS username FROM "._PRE_."user WHERE ".$Where)->execute();
-		$total = $query->mysql_num_rows();
+		$total = $query->num_rows();
 		
 		if($total>0)
 		{
-			while($Mb=$query->mysql_fetch_array())
+			while($Mb=$query->fetch_array())
 			{
 				$Mb['username'] = getformatrecup($Mb['username']);
 				$tpl->box['listmb'].=$tpl->gettemplate("adm_delmb","lignemb");

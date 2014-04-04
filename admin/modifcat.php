@@ -94,7 +94,7 @@ if(empty($_REQUEST['action']))
 		$tpl->box['catlist']=$tpl->gettemplate("adm_modifcat","nocatfound");
 	else
 	{
-		while($lescat=mysql_fetch_array($query))
+		while($lescat=$query->fetch_array())
 		{
 			$tpl->box['orderlist']="";
 			getplace($lescat['catid'],$lescat['catorder']);

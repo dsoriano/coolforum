@@ -80,7 +80,7 @@ if($_REQUEST['action'] == "savedfor")
 	$query			=	$sql->query("SELECT forumid FROM "._PRE_."forums ORDER BY forumid")->execute();
 	if($query->num_rows() > 0)
 	{
-		while($For	=	mysql_fetch_array($query))
+		while($For	=	$query->fetch_array())
 		{
 			$ForumId	=	$For['forumid'];
 			
@@ -132,7 +132,7 @@ if($_REQUEST['action'] == "dfor")
 		if($nbforums>0)
 			while($TabForum[]	=	$sqlforums->fetch_array());
 
-		while($Cats=mysql_fetch_array($query))
+		while($Cats=$query->fetch_array())
 		{
 			$forumlist	=	"";
 
@@ -246,7 +246,7 @@ if($_REQUEST['action'] == "newgroup")
 		//$id = intval($_REQUEST['id']);
 		$query = $sql->query("SELECT * FROM "._PRE_."groups WHERE id_group='$parentgroup'");
 		
-		$Droits_gen = mysql_fetch_array($query);
+		$Droits_gen = $query->fetch_array();
 		
 		if($Droits_gen['Droits_generaux'] > 0)
 		{
@@ -263,8 +263,8 @@ if($_REQUEST['action'] == "newgroup")
 	// ######################################################################
 	// #### Affichage des catégories et forums pour sélection des droits ####
 	
-	$query 			= 	$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
-	$nb			=	mysql_num_rows($query);
+	$query 			= 	$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
+	$nb			=	$query->num_rows();
 	
 	$tpl->box['listedroits']	=	"";
 	if ($nb==0)
@@ -277,15 +277,15 @@ if($_REQUEST['action'] == "newgroup")
 							    "._PRE_."forums.forumtitle,
 							    "._PRE_."groups_perm.droits,
 							    "._PRE_."groups_perm.MaxChar
-						FROM "._PRE_."forums LEFT JOIN "._PRE_."groups_perm ON "._PRE_."groups_perm.id_group='$parentgroup' AND "._PRE_."groups_perm.id_forum = "._PRE_."forums.forumid
-						ORDER BY "._PRE_."forums.forumcat,"._PRE_."forums.forumorder");
+						FROM "._PRE_."forums LEFT JOIN "._PRE_."groups_perm ON "._PRE_."groups_perm.id_group=%d AND "._PRE_."groups_perm.id_forum = "._PRE_."forums.forumid
+						ORDER BY "._PRE_."forums.forumcat,"._PRE_."forums.forumorder", array($parentgroup))->execute();
 						
-		$nbforums	=	mysql_num_rows($sqlforums);
+		$nbforums	=	$sqlforums->num_rows();
 		
 		if($nbforums>0)
-			while($TabForum[]	=	mysql_fetch_array($sqlforums));
+			while($TabForum[]	=	$sqlforums->fetch_array());
 
-		while($Cats=mysql_fetch_array($query))
+		while($Cats=$query->fetch_array())
 		{
 			$forumlist	=	"";
 
@@ -342,7 +342,7 @@ if($_REQUEST['action'] == "savedgen")
 		$Int_Rights = 0;
 		
 	
-	$query = $sql->query("UPDATE "._PRE_."groups SET Droits_generaux = $Int_Rights, Max_Pm = ".$Droits_gen['Max_Pm']." , Max_Cit = ".$Droits_gen['Max_Cit'].", Max_Sign = ".$Droits_gen['Max_Sign'].", Max_Desc = ".$Droits_gen['Max_Desc']." WHERE id_group = $id");
+	$query = $sql->query("UPDATE "._PRE_."groups SET Droits_generaux = %d, Max_Pm = %d , Max_Cit = %d, Max_Sign = %d, Max_Desc = %d WHERE id_group = %d", array($Int_Rights, $Droits_gen['Max_Pm'], $Droits_gen['Max_Cit'], $Droits_gen['Max_Sign'], $Droits_gen['Max_Desc'], $id))->execute();
 	
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -361,9 +361,9 @@ if($_REQUEST['action'] == "dgen")
 	$ShowSelected = array();
 
 	$id = intval($_REQUEST['id']);
-	$query = $sql->query("SELECT * FROM "._PRE_."groups WHERE id_group=$id");
+	$query = $sql->query("SELECT * FROM "._PRE_."groups WHERE id_group=%d", $id)->execute();
 	
-	$Droits_gen = mysql_fetch_array($query);
+	$Droits_gen = $query->fetch_array();
 		
 	if($Droits_gen['Droits_generaux'] > 0)
 		{
@@ -394,9 +394,9 @@ if(empty($_REQUEST['action']))
 	$tpl->box['ligne_group'] = "";
 	$tpl->box['grpselect'] = "";
 	
-	$query = $sql->query("SELECT id_group, Nom_group FROM "._PRE_."groups ORDER BY id_group");
+	$query = $sql->query("SELECT id_group, Nom_group FROM "._PRE_."groups ORDER BY id_group")->execute();
 	
-	while(list($id_group,$Nom_group) = mysql_fetch_array($query))
+	while(list($id_group,$Nom_group) = $query->fetch_array())
 	{
 		if($id_group > 4)	$tpl->box['linkdelete']	=	$tpl->gettemplate("adm_groups","linkdelete");
 		else			$tpl->box['linkdelete'] 	= 	"";

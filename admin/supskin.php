@@ -41,8 +41,8 @@ if($_REQUEST['action']=="sup")
 
 if(empty($_REQUEST['action']))
 {
-	$query=$sql->query("SELECT id,valeur FROM "._PRE_."skins WHERE propriete='skinname' AND id<>".$_FORUMCFG['defaultskin']." ORDER BY id");
-	$nb=mysql_num_rows($query);
+	$query=$sql->query("SELECT id,valeur FROM "._PRE_."skins WHERE propriete='skinname' AND id<>%d ORDER BY id", $_FORUMCFG['defaultskin'])->execute();
+	$nb=$query->num_rows();
 	
 	$tpl->box['ligneskin']="";
 	
@@ -50,7 +50,7 @@ if(empty($_REQUEST['action']))
 		$tpl->box['ligneskin']=$tpl->gettemplate("adm_supskin","noskin");
 	else
 	{
-		while($Skin=mysql_fetch_array($query))
+		while($Skin=$query->fetch_array())
 		{
 			$Skin['valeur']=getformatrecup($Skin['valeur']);
 			$tpl->box['ligneskin'].=$tpl->gettemplate("adm_supskin","ligneskin");

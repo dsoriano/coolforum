@@ -140,7 +140,7 @@ if($_REQUEST['action']=="saveann")
 				$pollquest	=	getformatmsg($_POST['pollquest'],false);
 				
 				$query		=	$sql->query("INSERT INTO "._PRE_."poll (date,question,choix,rep,votants) VALUES ('".$date."','".$pollquest."','".$chainechoix."','".$chainerep."','-')");
-				$idpoll		=	mysql_insert_id();
+				$idpoll		=	$query->insert_id();
 			}
 			else	$idpoll		=	0;
 			
@@ -202,7 +202,7 @@ if($_REQUEST['action']=="edit")
 	if($_REQUEST['id']>0 && strlen($error)==0)
 	{
 		$query							=		$sql->query("SELECT * FROM "._PRE_."annonces WHERE idpost=".$_REQUEST['id']);
-		$Ann							=		mysql_fetch_array($query);
+		$Ann							=		$query->fetch_array();
 		
 		$Ann['sujet']  					= 		getformatrecup($Ann['sujet']);
 		$Ann['msg']						=		getformatrecup($Ann['msg']);
@@ -304,7 +304,7 @@ if(empty($_REQUEST['action']))
 		while($zz=$Forumz->fetch_array())
 			$appforum[$zz['forumid']]=getformatrecup($zz['forumtitle']);
 			
-		while($Ann=mysql_fetch_array($query))
+		while($Ann=$query->fetch_array())
 		{
 			$tpl->box['forumslist'] = NULLSTR;
 			

@@ -60,11 +60,11 @@ if($nb_table>0)
 			$chaine 	.=	"DROP TABLE ".$i[0].";\n";
 			$chaine		.=	"CREATE TABLE ".$i[0]." (";
 			
-			$query		=	mysql_query("SHOW FIELDS FROM ".$i[0]);
+			$query		=	$sql->query("SHOW FIELDS FROM ".$i[0])->execute();
 			
 			// Définition des colonnes
 			$field		=	"";
-			while($j = mysql_fetch_array($query))
+			while($j = $query->fetch_array())
 			{
 				$field 		.= 	$j['Field']." ".$j['Type'];
 				
@@ -83,9 +83,9 @@ if($nb_table>0)
 			// Définition des index
 			$key			=	array();
 			$cpt			=	0;
-			$query			=	mysql_query("SHOW INDEX FROM ".$i[0]);
+			$query			=	$sql->query("SHOW INDEX FROM ".$i[0])->execute();
 
-			while($j = mysql_fetch_array($query))
+			while($j = $query->fetch_array())
 			{
 				if($j['Index_type'] == "BTREE")
 					$Index_type			=	"";
@@ -123,12 +123,12 @@ if($nb_table>0)
 			$chaine = "";
 			//
 			
-			$query=mysql_query("SELECT * FROM ".$i[0]);
-			$tot_request=mysql_num_rows($query);
+			$query=$sql->query("SELECT * FROM ".$i[0])->execute();
+			$tot_request=$query->num_rows();
 			
 			if($tot_request>0)
 			{
-				while($req=mysql_fetch_row($query))
+				while($req=$query->fetch_row())
 				{
 				   for($z=0;$z<count($req);$z++)
 				   {

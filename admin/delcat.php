@@ -46,7 +46,7 @@ if($_REQUEST['action']=="del")
 		$tpl->box['delforumresult']=$tpl->attlang("noforumtodel");
 	else
 	{
-		while(list($ForumID,$ForumTitle)=mysql_fetch_array($fortodel))
+		while(list($ForumID,$ForumTitle)=$fortodel->fetch_array())
 		{
 			// ##### table CF_forums #####
 			$query=$sql->query("DELETE FROM "._PRE_."forums WHERE forumid=%d", $ForumID)->execute();

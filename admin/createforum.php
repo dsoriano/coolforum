@@ -154,7 +154,7 @@ if(empty($_REQUEST['action']))
 	else
 	{
 		$tpl->box['catlist']="";
-		while($Cats=mysql_fetch_array($query))
+		while($Cats=$query->fetch_array())
 		{
 			$Selected 		= 	"";
 			if($Cats['catid'] == $CatParent)

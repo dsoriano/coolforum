@@ -177,7 +177,7 @@ if($_REQUEST['action']=="save")
 	$forumcoment			=	getformatmsg($_POST['forumcoment']);
 	
 	$query					=	$sql->query("SELECT id_group FROM "._PRE_."groups ORDER BY id_group")->execute();
-	while($Group			=	mysql_fetch_array($query))
+	while($Group			=	$query->fetch_array())
 	{
 		$Id_Group			=	$Group['id_group'];
 		if(isset($_POST['droits'][$Id_Group]))
@@ -190,10 +190,10 @@ if($_REQUEST['action']=="save")
 		else
 			$MaxChar		=	0;
 			
-		$query_group		=	$sql->query("REPLACE INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES ('$Id_Group', '$id', '$IntDroitFor', '$MaxChar')");
+		$query_group		=	$sql->query("REPLACE INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES (%d, %d, %d, %d)", array($Id_Group, $id, $IntDroitFor, $MaxChar))->execute();
 	}
 	
-	$query=$sql->query("UPDATE "._PRE_."forums SET forumcat='".$_POST['cat']."',forumtitle='$forumname',forumcomment='$forumcoment',forumorder='$order', openforum='".$_POST['openorclose']."' WHERE forumid=".$_POST['id']);
+	$query=$sql->query("UPDATE "._PRE_."forums SET forumcat=%d,forumtitle='%s',forumcomment='%s',forumorder=%d, openforum='%s' WHERE forumid=%d", array($_POST['cat'], $forumname, $forumcoment, $order, $_POST['openorclose'], $_POST['id']))->execute();
 
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -203,8 +203,8 @@ if($_REQUEST['action']=="modify")
 	$tpl->box['IsSaved'] = NULLSTR;
 	$id		=	intval($_REQUEST['id']);
 	
-	$query		=	$sql->query("SELECT * FROM "._PRE_."forums WHERE forumid=$id");
-	$InfosForum	=	mysql_fetch_array($query);
+	$query		=	$sql->query("SELECT * FROM "._PRE_."forums WHERE forumid=%d", $id)->execute();
+	$InfosForum	=	$query->fetch_array();
 	
 	$InfosForum['forumtitle'] = getformatrecup($InfosForum['forumtitle']);
 	$InfosForum['forumcomment'] = getformatrecup($InfosForum['forumcomment']);
@@ -216,8 +216,8 @@ if($_REQUEST['action']=="modify")
 	else					$OpenForum[1] = " SELECTED";
 				
 	// #### Sélection catégories ####
-	$query		=	$sql->query("SELECT catid,cattitle FROM "._PRE_."categorie ORDER BY catid");
-	$nbcat		=	mysql_num_rows($query);
+	$query		=	$sql->query("SELECT catid,cattitle FROM "._PRE_."categorie ORDER BY catid")->execute();
+	$nbcat		=	$query->num_rows();
 	
 	if($nbcat==0)
 		$tpl->box['admcontent']=$tpl->gettemplate("adm_createforum","nocat");
@@ -226,7 +226,7 @@ if($_REQUEST['action']=="modify")
 		// #### Catégorie parente ####
 		
 		$tpl->box['catlist']	=	"";
-		while($Cats=mysql_fetch_array($query))
+		while($Cats=$query->fetch_array())
 		{
 			$Selected	=	"";
 			if($Cats['catid']==$InfosForum['forumcat'])
@@ -242,19 +242,19 @@ if($_REQUEST['action']=="modify")
 		//////////////////////////////////
 		
 		$FPerm				=	array();
-		$query				=	$sql->query("SELECT * FROM "._PRE_."groups_perm WHERE id_forum=$id ORDER BY id_group");
-		while($j = mysql_fetch_array($query))
+		$query				=	$sql->query("SELECT * FROM "._PRE_."groups_perm WHERE id_forum=%d ORDER BY id_group", $id)->execute();
+		while($j = $query->fetch_array())
 		{
 			$FPerm[$j['id_group']]['droits'] 	= $j['droits'];
 			$FPerm[$j['id_group']]['MaxChar'] = $j['MaxChar'];		
 		}
 		
 		$tpl->box['listedroits'] 		= 	"";
-		$query 				= 	$sql->query("SELECT * FROM "._PRE_."groups ORDER BY id_group");
-		$NbGroups			= 	mysql_num_rows($query);
+		$query 				= 	$sql->query("SELECT * FROM "._PRE_."groups ORDER BY id_group")->execute();
+		$NbGroups			= 	$query->num_rows();
 		$i				=	1;
 		
-		while($Grp = mysql_fetch_array($query))
+		while($Grp = $query->fetch_array())
 		{
 			$Selected		=	array(NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR);
 			if(!isset($FPerm[$Grp['id_group']]['droits']))		$FPerm[$Grp['id_group']]['droits'] 		= 0;
@@ -281,39 +281,39 @@ if($_REQUEST['action']=="modify")
 		
 		$tpl->box['mododispolist'] = "";
 		
-		$query		=	$sql->query("SELECT id_group FROM "._PRE_."groups WHERE (Droits_generaux BETWEEN 524288 AND 1048575) OR (Droits_generaux BETWEEN 1572863 AND 2097151)");
+		$query		=	$sql->query("SELECT id_group FROM "._PRE_."groups WHERE (Droits_generaux BETWEEN 524288 AND 1048575) OR (Droits_generaux BETWEEN 1572863 AND 2097151)")->execute();
 		
-		if(mysql_num_rows($query)>0)
+		if($query->num_rows()>0)
 		{
 			$TabLstGrp	=	array();
-			while($j = mysql_fetch_array($query))
+			while($j = $query->fetch_array())
 				$TabLstGrp[] = $j['id_group'];
 			
 			$LstGrp 	= 	"'".implode("','",$TabLstGrp)."'";
 			
-			$query		=	$sql->query("SELECT "._PRE_."user.userid,"._PRE_."user.login,"._PRE_."moderateur.* FROM "._PRE_."user LEFT JOIN "._PRE_."moderateur ON "._PRE_."user.userid="._PRE_."moderateur.idusermodo AND "._PRE_."moderateur.forumident='".$_REQUEST['id']."' WHERE "._PRE_."moderateur.idusermodo IS NULL AND "._PRE_."user.userstatus IN ($LstGrp)");
-			$nb		=	mysql_num_rows($query);
+			$query		=	$sql->query("SELECT "._PRE_."user.userid,"._PRE_."user.login,"._PRE_."moderateur.* FROM "._PRE_."user LEFT JOIN "._PRE_."moderateur ON "._PRE_."user.userid="._PRE_."moderateur.idusermodo AND "._PRE_."moderateur.forumident=%d WHERE "._PRE_."moderateur.idusermodo IS NULL AND "._PRE_."user.userstatus IN ($LstGrp)", $_REQUEST['id'])->execute();
+			$nb		=	$query->num_rows();
 			
 			if($nb==0)
 				$tpl->box['mododispolist'] = $tpl->attlang("ernomododispo");
 			else
 			{
-				while($ModoDispo = mysql_fetch_array($query))
+				while($ModoDispo = $query->fetch_array())
 				{
 					$ModoDispo['login'] 		= 	getformatrecup($ModoDispo['login'],false);
 					$tpl->box['mododispolist'] 	.= 	$tpl->gettemplate("adm_createforum","modotochoose");
 				}			
 			}
 			
-			$query		=	$sql->query("SELECT * FROM "._PRE_."moderateur WHERE forumident='".$_REQUEST['id']."' ORDER BY modoorder");
-			$nb		=	mysql_num_rows($query);
+			$query		=	$sql->query("SELECT * FROM "._PRE_."moderateur WHERE forumident=%d ORDER BY modoorder", $_REQUEST['id'])->execute();
+			$nb		=	$query->num_rows();
 			
 			if($nb==0)
 				$tpl->box['modoselectlist'] 	= 	$tpl->attlang("ernomodoselect");
 			else
 			{
 				$tpl->box['lgnemodo'] 		= 	"";
-				while($ModoSelect = mysql_fetch_array($query))
+				while($ModoSelect = $query->fetch_array())
 				{
 					$tpl->box['modoorder'] 		= 	"";
 					
@@ -332,8 +332,8 @@ if($_REQUEST['action']=="modify")
 
 if(empty($_REQUEST['action']))
 {
-	$query = $sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder");
-	$nb=mysql_num_rows($query);
+	$query = $sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
+	$nb=$query->num_rows();
 	
 	$tpl->box['catforum']="";
 	if ($nb==0)
@@ -342,13 +342,13 @@ if(empty($_REQUEST['action']))
 	{
 		$TabForum=array();
 		
-		$sqlforums = $sql->query("SELECT * FROM "._PRE_."forums ORDER BY forumcat,forumorder");
-		$nbforums=mysql_num_rows($sqlforums);
+		$sqlforums = $sql->query("SELECT * FROM "._PRE_."forums ORDER BY forumcat,forumorder")->execute();
+		$nbforums=$sqlforums->num_rows();
 		
 		if($nbforums>0)
-			while($TabForum[]=mysql_fetch_array($sqlforums));
+			while($TabForum[]=$sqlforums->fetch_array());
 	
-		while($Cats=mysql_fetch_array($query))
+		while($Cats=$query->fetch_array())
 		{
 			$forumlist="";
 

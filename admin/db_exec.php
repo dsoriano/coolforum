@@ -45,9 +45,9 @@ if($_REQUEST['action']=="exec")
 	if($query)
 	{
 		if(preg_match("/INSERT|UPDATE|DELETE/i",$request) > 0)
-			$NbLgnChange = mysql_affected_rows();
+			$NbLgnChange = $query->affected_rows();
 		elseif(preg_match("|SELECT|i",$request) > 0)
-			$NbLgnChange = mysql_num_rows($query);
+			$NbLgnChange = $query->num_rows();
 		else
 			$NbLgnChange = 0;
 		$request = "";

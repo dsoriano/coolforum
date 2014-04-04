@@ -220,7 +220,7 @@ function geterror($error)
 		$nb	=	$forums_id->num_rows();
 	
 		if ($nb>0) {
-			while ($j = mysql_fetch_array($forums_id)) {
+			while ($j = $forums_id->fetch_array()) {
 				$name	=	"CoolForumDetails".$j['forumid'];
 				sendcookie($name,"",0);
 			}	
@@ -332,8 +332,8 @@ function getconfig()
 {
 	global $sql;
 	
-	$result=$sql->query("SELECT * FROM "._PRE_."config");
-	while($j=mysql_fetch_array($result))
+	$result=$sql->query("SELECT * FROM "._PRE_."config")->execute();
+	while($j=$result->fetch_array())
 	{
 		$tableau[$j['options']]=$j['valeur'];
 	}
@@ -371,7 +371,7 @@ function getforumname($id)
 	if ($nb==0) {
         geterror("novalidlink");
     } else {
-		$j = mysql_fetch_array($query);
+		$j = $query->fetch_array();
 		if ($j['openforum']=="N" && !$_GENERAL[20]) {
             geterror("forumclosed");
         } else {
@@ -651,7 +651,7 @@ function getsession()
 		
 		if($nb>0)
 		{
-			while($j=mysql_fetch_array($query))
+			while($j=$query->fetch_array())
 			{
 				if($_USER['userid']>0 && $_USER['username']==$j['username']) // si trouvé membre
 				{
@@ -782,7 +782,7 @@ function getjumpforum($template="entete")
         }
 		
 		$i = 0;
-		while($Cats = mysql_fetch_array($query))
+		while($Cats = $query->fetch_array())
 		{
 			$chaine			=		"";
 			for($i = 0; $i < count($TabForum); $i++)
@@ -1715,7 +1715,7 @@ function getreturnbbcode($msg,$topic=false)
 	if($_FORUMCFG['canpostmsgcache']=="Y" && preg_match("|\[cache\]|",$msg) > 0 && $topic==true)
 	{
 		$isposter=$sql->query("SELECT COUNT(*) AS present FROM "._PRE_."posts WHERE parent='".$DetailMsg['parent']."' AND idmembre=".$_USER['userid']);
-		$isrespond=mysql_fetch_array($isposter);
+		$isrespond=$isposter->fetch_array();
 		
 		if($isrespond['present']>0)
 			$msg=preg_replace("/\[cache\](.*?)\[\/cache\]/si",$BBcodeHTML['msgcache1'],$msg);

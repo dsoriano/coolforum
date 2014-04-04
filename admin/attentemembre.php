@@ -98,7 +98,7 @@ if(empty($_REQUEST['action']))
 	{
 		$tpl->box['listmember']="";
 		$i=0;
-		while($Mb=mysql_fetch_array($query))
+		while($Mb=$query->fetch_array())
 		{
 			$Mb['login']=getformatrecup($Mb['login']);
 			$Mb['registerdate']=getlocaltime($Mb['registerdate']);

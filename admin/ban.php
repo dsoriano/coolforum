@@ -64,7 +64,7 @@ if($_REQUEST['action']=="search")
 			$Error=$tpl->attlang("errorpseudo2");
 		else
 		{
-			while($Noms=mysql_fetch_array($query))
+			while($Noms=$query->fetch_array())
 				$tpl->box['lignemembre'] .= $tpl->gettemplate("adm_ban","lignemembre");
 
 			$tpl->box['admcontent']=$tpl->gettemplate("adm_ban","memberchoice");	
@@ -113,7 +113,7 @@ if(empty($_REQUEST['action']))
 	if($nb==0)
 		$tpl->box['listmember']=$tpl->gettemplate("adm_ban","ifnobanmb");
 	else
-		while($Mb=mysql_fetch_array($query))
+		while($Mb=$query->fetch_array())
 		{
 			$Mb['login']=getformatrecup($Mb['login']);
 			$tpl->box['listmember'].=$tpl->gettemplate("adm_ban","lignemember");
