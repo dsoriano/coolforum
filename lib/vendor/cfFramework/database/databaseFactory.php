@@ -10,10 +10,11 @@ class databaseFactory
                 return $conn;
                 break;
 
-            /*case 'mysql' :
-                include dirname(__FILE__) . '/cfMysql/cfMysql.php';
-                $conn = cfMysql::getInstance($params);
-                break;*/
+            case 'mysql' :
+                include dirname(__FILE__) . '/cfMysql/cfMysqlManager.php';
+                $conn = cfMysqlManager::getInstance($params);
+                return $conn;
+                break;
         }
     }
 }

@@ -30,7 +30,7 @@ class cfMysqlQuery
 		}
 		
 		if ($args !== NULL) {
-			$args = array_map(array($this->_dbconn, 'real_escape_string'), $args);
+			$args = array_map('mysql_real_escape_string', $args);
 			$this->_query_string .= ' ' . vsprintf($query_string, $args);
 		} else {
 			$this->_query_string .= ' ' . $query_string;

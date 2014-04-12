@@ -96,4 +96,22 @@ class cfMysqliManager
     {
         return $this->_dbconn->insert_id;
     }
+
+    /**
+     * Retourne le dernier code d'erreur produit
+     * @return int
+     */
+    public function errno()
+    {
+        return $this->_dbconn->errno();
+    }
+
+    /**
+     * Retourne une chaîne décrivant la dernière erreur
+     * @return string
+     */
+    public function error()
+    {
+        return $this->_dbconn->error();
+    }
 }

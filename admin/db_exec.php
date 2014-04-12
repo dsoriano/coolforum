@@ -55,8 +55,8 @@ if($_REQUEST['action']=="exec")
 	}
 	else
 	{
-		$errnumber = mysql_errno();
-		$errphrase = mysql_error();
+		$errnumber = $sql->errno();
+		$errphrase = $sql->error();
 		
 		$tpl->box['resultrequest'] = $tpl->gettemplate("adm_db_exec","sqlnok");
 	}

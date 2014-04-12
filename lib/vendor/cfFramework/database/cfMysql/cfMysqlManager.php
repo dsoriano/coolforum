@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__FILE__) . '/cfMysqli.php';
-require_once dirname(__FILE__) . '/cfMysqliQuery.php';
-require_once dirname(__FILE__) . '/cfMysqliResult.php';
+//require_once dirname(__FILE__) . '/cfMysql.php';
+require_once dirname(__FILE__) . '/cfMysqlQuery.php';
+require_once dirname(__FILE__) . '/cfMysqlResult.php';
 
 class cfMysqlManager
 {
@@ -110,5 +110,23 @@ class cfMysqlManager
     public function insertId()
     {
         return $this->_dbconn->insert_id;
+    }
+
+    /**
+     * Retourne le dernier code d'erreur produit
+     * @return int
+     */
+    public function errno()
+    {
+        return mysql_errno();
+    }
+
+    /**
+     * Retourne une chaîne décrivant la dernière erreur
+     * @return string
+     */
+    public function error()
+    {
+        return mysql_error();
     }
 }

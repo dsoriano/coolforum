@@ -27,8 +27,8 @@
 //*                                                                               *
 //*********************************************************************************
 
-require_once '../secret/config.inc.php';
-require_once '../lib/vendor/cfFramework/database/databaseFactory.php';
+require_once realpath(dirname(__FILE__) . '/../secret/config.inc.php');
+require_once realpath(dirname(__FILE__) . '/../lib/vendor/cfFramework/database/databaseFactory.php');
 
 // ********************************************************
 // *                 CLASSE DE TEMPLATES                  *
@@ -817,7 +817,7 @@ function getskin()
 	
 	$query=$sql->query("SELECT propriete,valeur FROM "._PRE_."skins WHERE id=%d OR id=%d ORDER BY id %s", array($_USER['userskin'],$_FORUMCFG['defaultskin'],$order))->execute();
 	
-	while (list($skcle,$skvalue) = $query->fetch_array($query)) {
+	while (list($skcle,$skvalue) = $query->fetch_array()) {
 		if (empty($_SKIN[$skcle])) {
             addToArray($_SKIN,$skcle,$skvalue);
         }
