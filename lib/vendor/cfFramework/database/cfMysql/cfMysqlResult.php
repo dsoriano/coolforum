@@ -41,4 +41,16 @@ class cfMysqlResult
         return mysql_affected_rows();
     }
 
+    public function fetch_field_direct($field_pos)
+    {
+        $field_direct = new stdClass();
+        $field_direct->name = mysql_field_name($this->_results, $field_pos);
+        $field_direct->table = mysql_field_table($this->_results, $field_pos);
+        $field_direct->length = mysql_field_len($this->_results, $field_pos);
+        $field_direct->flags = mysql_field_flags($this->_results, $field_pos);
+        $field_direct->type = mysql_field_type($this->_results, $field_pos);
+
+        return $field_direct;
+    }
+
 }

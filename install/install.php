@@ -32,8 +32,8 @@
 
 function geterrorcode()
 {
- global $compteur,$_GET;
- 	return($_GET['module']."-".$_GET['steps']."-".$compteur."<br>".mysql_error());
+ global $compteur,$_GET, $sql;
+ 	return($_GET['module']."-".$_GET['steps']."-".$compteur."<br>".$sql->error());
 }
 
 function exec_request()
@@ -44,7 +44,7 @@ function exec_request()
 	{
 		if($c <= $compteur)
 		{	
-			$query=$sql->query($update['sql']);
+			$query=$sql->query($update['sql'])->execute();
 			if($query)
 				echo($update['ok']."<br>");
 			else
@@ -209,14 +209,14 @@ a.lien:hover{color: black; text-decoration:none;}
 <?php
 if($_REQUEST['action'] == "update")
 {
-	$query	=	$sql->query("SELECT valeur FROM ".$_PRE."config WHERE options='ForumDBVersion'");
+	$query	=	$sql->query("SELECT valeur FROM "._PRE_."config WHERE options='ForumDBVersion'")->execute();
 	if (!$query) {
-		echo(mysql_error());
+		echo($sql->error());
     }
-	$nb		=	mysql_num_rows($query);
+	$nb		=	$query->num_rows();
 		
 	if ($nb>0) {
-		list($ForumDBVersion)	=	mysql_fetch_array($query);
+		list($ForumDBVersion)	=	$query->fetch_array();
 	
 		$nbTotalVersions 		= 	count($version);		
 		$lastversion			= 	$version[$nbTotalVersions-1];

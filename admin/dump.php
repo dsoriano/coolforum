@@ -132,7 +132,7 @@ if($nb_table>0)
 				{
 				   for($z=0;$z<count($req);$z++)
 				   {
-				   	$type = mysql_field_type($query, $z);
+                       $type = $query->fetch_field_direct($z)->type;
 				   	
 				   	if ($type == 'tinyint' || $type == 'smallint' || $type == 'mediumint' || $type == 'int' || $type == 'bigint'  ||$type == 'timestamp')
 				   		$req[$z]="'".$req[$z]."'";
