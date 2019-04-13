@@ -32,8 +32,8 @@
 
 function geterrorcode()
 {
- global $compteur,$_GET;
- 	return($_GET['module']."-".$_GET['steps']."-".$compteur."<br>".mysql_error());
+ global $compteur,$_GET, $sql;
+ 	return($_GET['module']."-".$_GET['steps']."-".$compteur."<br>".$sql->error());
 }
 
 function exec_request()
@@ -44,7 +44,7 @@ function exec_request()
 	{
 		if($c <= $compteur)
 		{	
-			$query=$sql->query($update['sql']);
+			$query=$sql->query($update['sql'])->execute();
 			if($query)
 				echo($update['ok']."<br>");
 			else
@@ -100,41 +100,18 @@ function end_maj()
 	}
 }
 
+require_once '../secret/config.inc.php';
+
 // ################################################################################
 //                               CONNEXION A MYSQL
 
-require("../secret/connect.php");
-
-class SQLConnect extends My_SQL
-{
-	function SQLConnect()
-	{
-		@mysql_connect($this->host,$this->user,$this->pass) or die("Impossible de se connecter à la base de données");
-		@mysql_select_db("$this->bdd") or die("Impossible de se connecter à la base de données");
-	}
-	
-	function query($query)
-	{
-		global $NBRequest;
-		
-		$msql=mysql_query($query);
-		if($msql)
-			$NBRequest++;
-		/*else
-		{
-			echo(mysql_error()."<br>");
-			echo($query."<p>");
-		}*/
-		return($msql);
-	}
-	
-	function list_tables()
-	{
-		$msql = mysql_list_tables($this->bdd);
-		return($msql);
-	}	
-}
-$sql = new SQLConnect;
+require_once '../lib/vendor/cfFramework/database/databaseFactory.php';
+$sql = databaseFactory::connect(DB_DRIVER, array(
+    'hostname' => DB_HOST,
+    'username' => DB_USER,
+    'password' => DB_PASSWORD,
+    'database' => DB_NAME
+));
 
 // ################################################################################
 
@@ -232,14 +209,14 @@ a.lien:hover{color: black; text-decoration:none;}
 <?php
 if($_REQUEST['action'] == "update")
 {
-	$query	=	$sql->query("SELECT valeur FROM ".$_PRE."config WHERE options='ForumDBVersion'");
+	$query	=	$sql->query("SELECT valeur FROM "._PRE_."config WHERE options='ForumDBVersion'")->execute();
 	if (!$query) {
-		echo(mysql_error());
+		echo($sql->error());
     }
-	$nb		=	mysql_num_rows($query);
+	$nb		=	$query->num_rows();
 		
 	if ($nb>0) {
-		list($ForumDBVersion)	=	mysql_fetch_array($query);
+		list($ForumDBVersion)	=	$query->fetch_array();
 	
 		$nbTotalVersions 		= 	count($version);		
 		$lastversion			= 	$version[$nbTotalVersions-1];
@@ -315,7 +292,7 @@ if($_REQUEST['action'] == "update")
 //		   INSTALLATION	        	//
 
 if ($_REQUEST['action'] == "install") {
-	include("mod_install.php");	
+	require_once("mod_install.php");
 }
 
 //////////////////////////////////////////////////

@@ -50,9 +50,9 @@ if($_REQUEST['action']=="savemailing")
 		$Message = getformatmsg($_POST['Message']);
 		$Date = time();
 		
-		$query = $sql->query("INSERT INTO ".$_PRE."mailing (date,titre,message) VALUES ('$Date','$Titre','$Message')");
+		$query = $sql->query("INSERT INTO "._PRE_."mailing (date,titre,message) VALUES ('%s','%s','%s')", array($Date, $Titre, $Message))->execute();
 		
-		$_GET['id'] = mysql_insert_id();
+		$_GET['id'] = $query->insert_id();
 		
 		$_REQUEST['action'] = "send";
 	}
@@ -82,8 +82,8 @@ if($_REQUEST['action']=="send")
 	$fin = $debut + $Limite;
 
 	// **** Sélection du message à envoyer ****
-	$query = $sql->query("SELECT * FROM ".$_PRE."mailing WHERE id='$id'");
-	$Mail = mysql_fetch_array($query);
+	$query = $sql->query("SELECT * FROM "._PRE_."mailing WHERE id=%d", $id)->execute();
+	$Mail = $query->fetch_array();
 	
 	$Titre = formatstrformail(recupDBforMail($Mail['titre']));
 	$Message = strip_tags(formatstrformail(recupDBforMail($Mail['message'])));
@@ -94,16 +94,16 @@ if($_REQUEST['action']=="send")
 	$Message .= $Footer;
 	
 	// **** Nombre de mails au total ****
-	$query = $sql->query("SELECT COUNT(*) AS nbmail FROM ".$_PRE."user WHERE mailing='Y' AND userstatus > 0");
-	//$query = $sql->query("SELECT COUNT(*) AS nbmail FROM ".$_PRE."user WHERE userid = 1");
+	$query = $sql->query("SELECT COUNT(*) AS nbmail FROM "._PRE_."user WHERE mailing='Y' AND userstatus > 0")->execute();
+	//$query = $sql->query("SELECT COUNT(*) AS nbmail FROM "._PRE_."user WHERE userid = 1");
 
-	list($nbmail) = mysql_fetch_array($query);
+	list($nbmail) = $query->fetch_array();
 	
 	// **** Envoi des emails ****
-	$query = $sql->query("SELECT usermail FROM ".$_PRE."user WHERE mailing='Y' AND userstatus > 0 ORDER BY userid LIMIT $debut,$Limite");
-	//$query = $sql->query("SELECT usermail FROM ".$_PRE."user WHERE userid = 1 ORDER BY userid LIMIT $debut,$fin");
+	$query = $sql->query("SELECT usermail FROM "._PRE_."user WHERE mailing='Y' AND userstatus > 0 ORDER BY userid LIMIT %d,%d", array($debut, $Limite))->execute();
+	//$query = $sql->query("SELECT usermail FROM "._PRE_."user WHERE userid = 1 ORDER BY userid LIMIT $debut,$fin");
 
-	while(list($To) = mysql_fetch_array($query))
+	while(list($To) = $query->fetch_array())
 		sendmail($To,$Titre,$Message);
 	
 	// **** Rechargement page ou fin ****

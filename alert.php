@@ -27,14 +27,13 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 $idpost	= isset($_REQUEST['idpost']) ? (int)$_REQUEST['idpost'] : 0;
 
 if ($idpost > 0) {
-	$query = $sql->query("SELECT parent, idforum FROM ".$_PRE."posts WHERE idpost= $idpost");
-	list($parent, $idforum) = mysql_fetch_array($query);
+	$query = $sql->query("SELECT parent, idforum FROM "._PRE_."posts WHERE idpost = %d", $idpost)->execute();
+	list($parent, $idforum) = $query->fetch_array();
 } else {
 	$parent = 0;
 	$idforum = 0;

@@ -29,7 +29,6 @@
 
 $nocache=true;
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 require("entete.php");
 
@@ -63,8 +62,8 @@ if($_REQUEST['action']=="avatar")
 	if(!isset($_GET['page']))	$page = 1;
 	else						$page = intval($_GET['page']);
 	
-	$query=$sql->query("SELECT COUNT(*) as nblg FROM ".$_PRE."avatars");
-	list($nblogos)=mysql_fetch_array($query);
+	$query=$sql->query("SELECT COUNT(*) as nblg FROM "._PRE_."avatars")->execute();
+	list($nblogos)=$query->fetch_array();
 	
 	$tpl->box['navigpage']= getnumberpages($nblogos,"popup",15,$page);
 		
@@ -80,10 +79,10 @@ if($_REQUEST['action']=="avatar")
 	for($i=1;$i<16;$i++)
 		$avatar[$i]="&nbsp;";
 	
-	$query=$sql->query("SELECT * FROM ".$_PRE."avatars ORDER BY idlogo LIMIT $debut,$fin");
+	$query=$sql->query("SELECT * FROM "._PRE_."avatars ORDER BY idlogo LIMIT %d,%d", array($debut, $fin))->execute();
 	
 	$i=1;
-	while(list($idavatar,$extavatar)=mysql_fetch_array($query))
+	while(list($idavatar,$extavatar)=$query->fetch_array())
 	{
 		$avatar[$i]=$tpl->gettemplate("popup","logosource");
 		$i++;
@@ -123,13 +122,13 @@ if($_REQUEST['action']=="print")
 		geterror("call_loginbox");
 	
 	if($_GET['idtopic']>0)
-		$query = $sql->query("SELECT sujet,date,pseudo,msg,parent,icone,smiles,bbcode FROM ".$_PRE."posts WHERE parent='".$_GET['idtopic']."' AND idforum='".$_GET['forumid']."' ORDER BY idpost ASC");
+		$query = $sql->query("SELECT sujet,date,pseudo,msg,parent,icone,smiles,bbcode FROM "._PRE_."posts WHERE parent=%d AND idforum=%d ORDER BY idpost ASC", array($_GET['idtopic'], $_GET['forumid']))->execute();
 	elseif($_GET['idpost']>0)
-		$query = $sql->query("SELECT sujet,date,pseudo,msg,parent,icone,smiles,bbcode FROM ".$_PRE."posts WHERE idpost='".$_GET['idpost']."' AND idforum='".$_GET['forumid']."'");
+		$query = $sql->query("SELECT sujet,date,pseudo,msg,parent,icone,smiles,bbcode FROM "._PRE_."posts WHERE idpost=%d AND idforum=%d", array($_GET['idpost'], $_GET['forumid']))->execute();
 	else
-		$query = $sql->query("SELECT sujet,date,derposter AS pseudo,msg,icone,smiles,bbcode FROM ".$_PRE."annonces WHERE idpost='".$_GET['idann']."' AND inforums REGEXP\"/".$_GET['forumid']."/\"");
+		$query = $sql->query("SELECT sujet,date,derposter AS pseudo,msg,icone,smiles,bbcode FROM "._PRE_."annonces WHERE idpost=%d AND inforums REGEXP\"/%d/\"", array($_GET['idann'], $_GET['forumid']))->execute();
 	
-	while($DetailMsg=mysql_fetch_array($query))
+	while($DetailMsg=$query->fetch_array())
 	{
 		if($DetailMsg['smiles']=="Y")	$DetailMsg['msg']	=	getreturnsmilies($DetailMsg['msg']);
 		if($DetailMsg['bbcode']=="Y")	$DetailMsg['msg']	=	getreturnbbcode($DetailMsg['msg'],true);
@@ -160,19 +159,19 @@ if($_REQUEST['action']=="print")
 if($_REQUEST['action']=="profile")
 {
 	$user=intval($_REQUEST['id']);
-	$query=$sql->query("SELECT ".$_PRE."user.*,".$_PRE."userplus.*, ".$_PRE."groups.Nom_group
-							FROM ".$_PRE."user 
-							LEFT JOIN ".$_PRE."userplus ON ".$_PRE."userplus.idplus=".$_PRE."user.userid
-							LEFT JOIN ".$_PRE."groups ON ".$_PRE."groups.id_group = ".$_PRE."user.userstatus 
-							WHERE ".$_PRE."user.userid='$user'");
-	$nb=mysql_num_rows($query);
+	$query=$sql->query("SELECT "._PRE_."user.*,"._PRE_."userplus.*, "._PRE_."groups.Nom_group
+							FROM "._PRE_."user 
+							LEFT JOIN "._PRE_."userplus ON "._PRE_."userplus.idplus="._PRE_."user.userid
+							LEFT JOIN "._PRE_."groups ON "._PRE_."groups.id_group = "._PRE_."user.userstatus 
+							WHERE "._PRE_."user.userid=%d", $user)->execute();
+	$nb=$query->num_rows();
 	
 	if($nb==1)
 	{
-		$InfosMB=mysql_fetch_array($query);
+		$InfosMB=$query->fetch_array();
 		
-		$query=$sql->query("SELECT ".$_PRE."skins.valeur,".$_PRE."language.langue FROM ".$_PRE."skins LEFT JOIN ".$_PRE."language ON ".$_PRE."language.code='".$InfosMB['lng']."' WHERE ".$_PRE."skins.id='".$InfosMB['skin']."' AND ".$_PRE."skins.propriete='skinname'");
-		$InfosDIV=mysql_fetch_array($query);
+		$query=$sql->query("SELECT "._PRE_."skins.valeur,"._PRE_."language.langue FROM "._PRE_."skins LEFT JOIN "._PRE_."language ON "._PRE_."language.code='%s' WHERE "._PRE_."skins.id=%d AND "._PRE_."skins.propriete='skinname'", array($InfosMB['lng'], $InfosMB['skin']))->execute();
+		$InfosDIV=$query->fetch_array();
 		
 		if(preg_match("|^\"http://|",$InfosMB['userlogo']) > 0)
 		{

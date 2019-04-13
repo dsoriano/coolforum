@@ -28,7 +28,6 @@
 //*********************************************************************************
 
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 getlangage("list");
@@ -147,8 +146,8 @@ $forumid 					= 	$ForumInfo['forumid'];
 $nb 						= 	$ForumInfo['forumtopic'];
 $nbtotmsg 					= 	$ForumInfo['forumtopic'] + $ForumInfo['forumposts'];
 
-$query						=	$sql->query("SELECT COUNT(*) AS nbtotmsg FROM ".$_PRE."topics WHERE idforum='".$ForumInfo['forumid']."' AND date>$from");
-list($nbtopics_filtered)	=	mysql_fetch_array($query);
+$query						=	$sql->query("SELECT COUNT(*) AS nbtotmsg FROM "._PRE_."topics WHERE idforum=%d AND date>%d", array($ForumInfo['forumid'], $from))->execute();
+list($nbtopics_filtered)	=	$query->fetch_array();
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -243,11 +242,11 @@ $debut							=	($page*$_FORUMCFG['topicparpage']) - $_FORUMCFG['topicparpage'];
 
 
 // #### Affichage des annonces #### ////////////////////////////////////////////
-$resultat						=	$sql->query("SELECT ".$_PRE."annonces.idpost,".$_PRE."annonces.sujet,".$_PRE."annonces.nbvues,".$_PRE."annonces.datederrep,".$_PRE."annonces.derposter,".$_PRE."annonces.icone,".$_PRE."annonces.idmembre,".$_PRE."user.login AS pseudo, ".$_PRE."user.userstatus, ".$_PRE."user.userid FROM ".$_PRE."annonces LEFT JOIN ".$_PRE."user ON ".$_PRE."annonces.idmembre=".$_PRE."user.userid WHERE ".$_PRE."annonces.inforums REGEXP\"/".$ForumInfo['forumid']."/\" ORDER BY ".$_PRE."annonces.date DESC");
-$nbannonces						=	mysql_num_rows($resultat);
+$resultat						=	$sql->query("SELECT "._PRE_."annonces.idpost,"._PRE_."annonces.sujet,"._PRE_."annonces.nbvues,"._PRE_."annonces.datederrep,"._PRE_."annonces.derposter,"._PRE_."annonces.icone,"._PRE_."annonces.idmembre,"._PRE_."user.login AS pseudo, "._PRE_."user.userstatus, "._PRE_."user.userid FROM "._PRE_."annonces LEFT JOIN "._PRE_."user ON "._PRE_."annonces.idmembre="._PRE_."user.userid WHERE "._PRE_."annonces.inforums REGEXP\"/%d/\" ORDER BY "._PRE_."annonces.date DESC", $ForumInfo['forumid'])->execute();
+$nbannonces						=	$resultat->num_rows();
 
 if($nbannonces>0)
-	while($Topics = mysql_fetch_array($resultat))
+	while($Topics = $resultat->fetch_array())
 		$tpl->box['forumcontent'] .= afftopiclist(1);
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -258,32 +257,32 @@ if($nbannonces>0)
 
 // #### Affichage des sujets #### //////////////////////////////////////////////
 $resultat 	= $sql->query("SELECT 
-				".$_PRE."topics.idtopic,
-				".$_PRE."topics.sujet,
-				".$_PRE."topics.nbrep,
-				".$_PRE."topics.nbvues,
-				".$_PRE."topics.datederrep,
-				".$_PRE."topics.derposter,
-				".$_PRE."topics.idderpost,
-				".$_PRE."topics.icone,
-				".$_PRE."topics.idmembre,
-				".$_PRE."topics.pseudo,
-				".$_PRE."topics.opentopic,
-				".$_PRE."topics.poll,
-				".$_PRE."topics.postit, 
-				".$_PRE."user.userid,
-				".$_PRE."user.userstatus 
-			FROM ".$_PRE."topics 
-			LEFT JOIN ".$_PRE."user ON ".$_PRE."topics.idmembre=".$_PRE."user.userid 
-			WHERE ".$_PRE."topics.idforum='".$ForumInfo['forumid']."' AND datederrep>$from ORDER BY ".$_PRE."topics.postit DESC, ".$_PRE."topics.$sort $order LIMIT ".$debut.",".$_FORUMCFG['topicparpage']);
+				"._PRE_."topics.idtopic,
+				"._PRE_."topics.sujet,
+				"._PRE_."topics.nbrep,
+				"._PRE_."topics.nbvues,
+				"._PRE_."topics.datederrep,
+				"._PRE_."topics.derposter,
+				"._PRE_."topics.idderpost,
+				"._PRE_."topics.icone,
+				"._PRE_."topics.idmembre,
+				"._PRE_."topics.pseudo,
+				"._PRE_."topics.opentopic,
+				"._PRE_."topics.poll,
+				"._PRE_."topics.postit, 
+				"._PRE_."user.userid,
+				"._PRE_."user.userstatus 
+			FROM "._PRE_."topics 
+			LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid 
+			WHERE "._PRE_."topics.idforum=%d AND datederrep>%d ORDER BY "._PRE_."topics.postit DESC, "._PRE_."topics.%s %s LIMIT %d,%d", array($ForumInfo['forumid'], $from, $sort, $order, $debut, $_FORUMCFG['topicparpage']))->execute();
   
-$total		=	mysql_num_rows($resultat);
+$total		=	$resultat->num_rows();
 
 if($total==0)
 	$tpl->box['forumcontent'].=$tpl->gettemplate("list","ifnomsg");
 else
 {
-	while($Topics = mysql_fetch_array($resultat))
+	while($Topics = $resultat->fetch_array())
 		$tpl->box['forumcontent'].=afftopiclist();
 }
 ////////////////////////////////////////////////////////////////////////////////

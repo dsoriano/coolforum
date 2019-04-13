@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 getlangage("detail");
@@ -57,10 +56,10 @@ $table_smileys=getloadsmileys();
 $errorlink=true;
 
 
-$query = $sql->query("SELECT inforums FROM ".$_PRE."annonces WHERE idpost=".$_GET['id']);
-if(mysql_num_rows($query)==1)
+$query = $sql->query("SELECT inforums FROM "._PRE_."annonces WHERE idpost=%d",$_GET['id'])->execute();
+if($query->num_rows()==1)
 {
-	$validforums=mysql_fetch_array($query);
+	$validforums=$query->fetch_array();
 	//if(substr($validforums['inforums'],$_GET['forumid']-1,1)=="0")
 	if(preg_match("|/".$_GET['forumid']."/|",$validforums['inforums']) == 0)
 		$errorlink=false;
@@ -89,28 +88,28 @@ $cache		       .=	$tpl->gettemplate("treenav","hierarchy");
 
 $PrintRedirect	=	"idann=".$_GET['id'];
 
-$query = $sql->query("UPDATE ".$_PRE."annonces SET nbvues=nbvues+1 WHERE idpost=".$_GET['id']); 
+$query = $sql->query("UPDATE "._PRE_."annonces SET nbvues=nbvues+1 WHERE idpost=%d",$_GET['id'])->execute();
 
-$query = $sql->query("SELECT ".$_PRE."annonces.idpost AS idpost,".$_PRE."annonces.sujet AS sujetpost, ".$_PRE."annonces.date AS datepost,
-".$_PRE."annonces.msg AS msgpost, ".$_PRE."annonces.icone AS iconpost, ".$_PRE."annonces.idmembre AS posterid,".$_PRE."annonces.smiles AS smiles, ".$_PRE."annonces.bbcode AS afbbcode, ".$_PRE."annonces.poll , ".$_PRE."user.* 
-FROM ".$_PRE."annonces
-LEFT JOIN ".$_PRE."user ON ".$_PRE."annonces.idmembre=".$_PRE."user.userid
-WHERE idpost=".$_GET['id']);
+$query = $sql->query("SELECT "._PRE_."annonces.idpost AS idpost,"._PRE_."annonces.sujet AS sujetpost, "._PRE_."annonces.date AS datepost,
+"._PRE_."annonces.msg AS msgpost, "._PRE_."annonces.icone AS iconpost, "._PRE_."annonces.idmembre AS posterid,"._PRE_."annonces.smiles AS smiles, "._PRE_."annonces.bbcode AS afbbcode, "._PRE_."annonces.poll , "._PRE_."user.* 
+FROM "._PRE_."annonces
+LEFT JOIN "._PRE_."user ON "._PRE_."annonces.idmembre="._PRE_."user.userid
+WHERE idpost=%d",$_GET['id'])->execute();
 
 InitBBcode();
 $tpl->box['forumcontent']="";
 
-$nb = mysql_num_rows($query);
+$nb = $query->num_rows();
 
 if($nb>0)
 {
-	$DetailMsg=mysql_fetch_array($query);
+	$DetailMsg=$query->fetch_array();
 	$tpl->box['forumcontent'].=affdetailtopic(1);
 	
 	if($DetailMsg['poll']>0)
 	{
-		$pollreq	=	$sql->query("SELECT * FROM ".$_PRE."poll WHERE id='".$DetailMsg['poll']."'");
-		$sd		=	mysql_fetch_array($pollreq);
+		$pollreq	=	$sql->query("SELECT * FROM "._PRE_."poll WHERE id=%d", $DetailMsg['poll'])->execute();
+		$sd		=	$pollreq->fetch_array();
 		
 		$tpl->box['questpoll'] = getformatrecup($sd['question']);
 		

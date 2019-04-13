@@ -44,8 +44,8 @@ if($_REQUEST['action']=="save")
 			
 		$rgpseudo	=	trim($_POST['pseudo']);
 		$rgpseudo	=	getformatmsg($rgpseudo,false);
-		$query		=	$sql->query("SELECT COUNT(*) AS nbpseudos FROM ".$_PRE."user WHERE login='$rgpseudo'");
-		list($nbpseudos)=mysql_fetch_array($query);
+		$query		=	$sql->query("SELECT COUNT(*) AS nbpseudos FROM "._PRE_."user WHERE login='%s'", $rgpseudo)->execute();
+		list($nbpseudos)=$query->fetch_array();
 		if ($nbpseudos>0)
 			$error	=	$tpl->attlang("errorpseudo2");
 
@@ -63,11 +63,11 @@ if($_REQUEST['action']=="save")
 		else
 		{
 			$regemail=$_POST['email'];
-			$query=$sql->query("SELECT COUNT(*) AS nbmail1 FROM ".$_PRE."user WHERE usermail='$regemail'");
-			list($nbmail1)=mysql_fetch_array($query);
+			$query=$sql->query("SELECT COUNT(*) AS nbmail1 FROM "._PRE_."user WHERE usermail='%s'", $regemail)->execute();
+			list($nbmail1)=$query->fetch_array();
 			
-			$query=$sql->query("SELECT COUNT(*) AS nbmail2 FROM ".$_PRE."userplus WHERE mailorig='$regemail'");
-			list($nbmail2)=mysql_fetch_array($query);
+			$query=$sql->query("SELECT COUNT(*) AS nbmail2 FROM "._PRE_."userplus WHERE mailorig='%s'", $regemail)->execute();
+			list($nbmail2)=$query->fetch_array();
 			
 			if($nbmail1>0 || $nbmail2>0)
 				$error=$tpl->attlang("errormail2");
@@ -99,10 +99,10 @@ if($_REQUEST['action']=="save")
 				$question	=	$reponse	=	NULLSTR;
 				
 				
-			$query=$sql->query("INSERT INTO ".$_PRE."user (login,password,userstatus,registerdate,usermsg,usermail,timezone,lng) VALUES ('$rgpseudo','$password',2,'$date',0,'$regemail','".$_FORUMCFG['defaulttimezone']."','".$_FORUMCFG['defaultlangage']."')");
-			$rguserid=mysql_insert_id();
+			$query=$sql->query("INSERT INTO "._PRE_."user (login,password,userstatus,registerdate,usermsg,usermail,timezone,lng) VALUES ('%s','%s',2,'%s',0,'%s','%s','%s')", array($rgpseudo, $password, $date, $regemail, $_FORUMCFG['defaulttimezone'], $_FORUMCFG['defaultlangage']))->execute();
+			$rguserid=$query->insert_id();
 				
-			$query=$sql->query("INSERT INTO ".$_PRE."userplus(idplus,question,reponse,mailorig) VALUES ('$rguserid','$question','$reponse','$regemail')");
+			$query=$sql->query("INSERT INTO "._PRE_."userplus(idplus,question,reponse,mailorig) VALUES (%d,'%s','%s','%s')", array($rguserid, $question, $reponse, $regemail))->execute();
 			updatemembers();
 				
 			$tpl->box['admcontent']=$tpl->gettemplate("adm_addmembre","registerok");

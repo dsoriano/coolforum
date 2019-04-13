@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 // #### définition du lieu ###
@@ -41,11 +40,11 @@ require("entete.php");
 getlangage("search");
 
 $ssearch 	= 	getformatmsg($_GET['ssearch']);
-$query		=	$sql->query("SELECT * FROM ".$_PRE."search WHERE idsearch='$ssearch'");
-$nb		=	mysql_num_rows($query);
+$query		=	$sql->query("SELECT * FROM "._PRE_."search WHERE idsearch='%s'", $ssearch)->execute();
+$nb		=	$query->num_rows();
 
 if ($nb>0) {
-	$j=mysql_fetch_array($query);
+	$j=$query->fetch_array();
 } else {
 	$j['keyword']=$tpl->attlang("noresult");
 }
@@ -86,26 +85,26 @@ if($nb>0)
 	else
 		$fin=$tpl->temp['counttopfinal'];
 	
-	$query=$sql->query("SELECT ".$_PRE."topics.idtopic,
-			".$_PRE."topics.idforum AS forumid,
-			".$_PRE."topics.sujet,
-			".$_PRE."topics.nbrep,
-			".$_PRE."topics.nbvues,
-			".$_PRE."topics.datederrep,
-			".$_PRE."topics.derposter,
-			".$_PRE."topics.idderpost,
-			".$_PRE."topics.icone,
-			".$_PRE."topics.idmembre,
-			".$_PRE."topics.pseudo,
-			".$_PRE."user.login,
-			".$_PRE."user.userstatus,
-			".$_PRE."user.userid
- 		FROM ".$_PRE."topics 
-		LEFT JOIN ".$_PRE."user ON ".$_PRE."topics.idmembre=".$_PRE."user.userid 
-		WHERE ".$_PRE."topics.idtopic IN (".$j['search'].") ORDER BY ".$_PRE."topics.datederrep DESC LIMIT $debut,$fin");  
+	$query=$sql->query("SELECT "._PRE_."topics.idtopic,
+			"._PRE_."topics.idforum AS forumid,
+			"._PRE_."topics.sujet,
+			"._PRE_."topics.nbrep,
+			"._PRE_."topics.nbvues,
+			"._PRE_."topics.datederrep,
+			"._PRE_."topics.derposter,
+			"._PRE_."topics.idderpost,
+			"._PRE_."topics.icone,
+			"._PRE_."topics.idmembre,
+			"._PRE_."topics.pseudo,
+			"._PRE_."user.login,
+			"._PRE_."user.userstatus,
+			"._PRE_."user.userid
+ 		FROM "._PRE_."topics 
+		LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid 
+		WHERE "._PRE_."topics.idtopic IN (%s) ORDER BY "._PRE_."topics.datederrep DESC LIMIT %d,%d", array($j['search'], $debut, $fin))->execute();
 	
 	
-	while($Topics=mysql_fetch_array($query))
+	while($Topics=$query->fetch_array())
 	{
 		$forumid = $Topics['forumid'];
 		$tpl->box['topiclist'].=afftopiclist(0,"search");

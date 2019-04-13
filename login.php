@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php");
 require("admin/functions.php");
 
 // #### définition du lieu ###
@@ -47,15 +46,15 @@ $redirecturl=basename($tablo['path'])."?".$tablo['query'];
 if(empty($_REQUEST['action']))
 {
 	$pseudo=getformatmsg($_POST['pseudo'],false);
-	$query=$sql->query("SELECT userid,login,password,usermail,userstatus FROM ".$_PRE."user WHERE login='$pseudo'");
-	$nb=mysql_num_rows($query);
+	$query=$sql->query("SELECT userid,login,password,usermail,userstatus FROM "._PRE_."user WHERE login='%s'", $pseudo)->execute();
+	$nb=$query->num_rows();
 	
 	if($nb==0)
 		header("location: identify.php?error=1");
 	
 	else
 	{
-		$j=mysql_fetch_array($query);
+		$j=$query->fetch_array();
 		if($j['userstatus']==0)
 		{
 			require("entete.php");
@@ -96,8 +95,8 @@ if(empty($_REQUEST['action']))
 			{
 				$_COOKIE['CF_sessionID'] = getrecupfromcookie($_COOKIE['CF_sessionID']);
 				$now	=	time();
-				$query	=	$sql->query("DELETE FROM ".$_PRE."session WHERE username='$pseudo'");
-				$query	=	$sql->query("UPDATE ".$_PRE."session SET username='$pseudo', userid=".$j['userid'].", userstatus=".$j['userstatus'].", time=$now  WHERE sessionID='".$_COOKIE['CF_sessionID']."'");	
+				$query	=	$sql->query("DELETE FROM "._PRE_."session WHERE username='%s'", $pseudo)->execute();
+				$query	=	$sql->query("UPDATE "._PRE_."session SET username='%s', userid=%d, userstatus=%d, time=%d  WHERE sessionID='%s'", array($pseudo, $j['userid'], $j['userstatus'], $now, $_COOKIE['CF_sessionID']))->execute();
 			}
 			
 			if(isset($_POST['backurl']))
@@ -127,12 +126,12 @@ if($_REQUEST['action']=="savepoll")
 		$id		=	intval($_POST['id']);
 		$forumid	=	intval($_POST['forumid']);		
 		
-		$query	=	$sql->query("SELECT * FROM ".$_PRE."poll WHERE id='$idpoll'");
-		$nb	=	mysql_num_rows($query);
+		$query	=	$sql->query("SELECT * FROM "._PRE_."poll WHERE id='%d'", $idpoll)->execute();
+		$nb	=	$query->num_rows();
 		
 		if($nb==1)
 		{
-			$j	=	mysql_fetch_array($query);
+			$j	=	$query->fetch_array();
 			
 			$nbrep	=	explode(" >> ",$j['rep']);
 			
@@ -142,7 +141,7 @@ if($_REQUEST['action']=="savepoll")
 				
 				$chainerep 	= 	implode(" >> ",$nbrep);
 				$participant	=	$j['votants'].$_USER['userid']."-";
-				$query 		= 	$sql->query("UPDATE ".$_PRE."poll SET rep='$chainerep', votants='$participant' WHERE id=".$j['id']);
+				$query 		= 	$sql->query("UPDATE "._PRE_."poll SET rep='%s', votants='%d' WHERE id=%d", array($chainerep, $participant, $j['id']))->execute();
 			}
 		}
 	}

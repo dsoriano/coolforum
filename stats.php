@@ -27,7 +27,6 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 // #### définition du lieu ###
@@ -45,8 +44,8 @@ if($_GENERAL[0])
 {
 	if(empty($_REQUEST['action']))
 	{
-		$query=$sql->query("SELECT COUNT(*) AS nbsmiles FROM ".$_PRE."smileys");
-		list($tpl->box['nbsmiles'])=mysql_fetch_array($query);
+		$query=$sql->query("SELECT COUNT(*) AS nbsmiles FROM "._PRE_."smileys")->execute();
+		list($tpl->box['nbsmiles'])=$query->fetch_array();
 		
 		$tpl->box['nbtopics']=$_FORUMCFG['statnbtopics'];
 		$tpl->box['nbrep']=$_FORUMCFG['statnbposts'];
@@ -57,11 +56,11 @@ if($_GENERAL[0])
 		$thismonth= mktime(0,0,0,$date[1],1,$date[2]);
 		$thisday= mktime(0,0,0,$date[1],$date[0],$date[2]);
 		
-		$query=$sql->query("SELECT COUNT(*) AS nbdays FROM ".$_PRE."posts WHERE date > $thismonth");
-		list($tpl->box['postthismonth'])=mysql_fetch_array($query);
+		$query=$sql->query("SELECT COUNT(*) AS nbdays FROM "._PRE_."posts WHERE date > %d", $thismonth)->execute();
+		list($tpl->box['postthismonth'])=$query->fetch_array();
 	
-		$query=$sql->query("SELECT COUNT(*) AS nbdays FROM ".$_PRE."posts WHERE date > $thisday");
-		list($tpl->box['postthisday'])=mysql_fetch_array($query);
+		$query=$sql->query("SELECT COUNT(*) AS nbdays FROM "._PRE_."posts WHERE date > %d", $thisday)->execute();
+		list($tpl->box['postthisday'])=$query->fetch_array();
 		
 		//// les membres
 		$tpl->box['groups_stats']="";
@@ -69,8 +68,8 @@ if($_GENERAL[0])
 		$tpl->box['nbattente']=0;
 		
 		
-		$query = $sql->query("SELECT COUNT(*) AS nbuser, ".$_PRE."user.userstatus, ".$_PRE."groups.Nom_group FROM ".$_PRE."user LEFT JOIN ".$_PRE."groups ON ".$_PRE."user.userstatus=".$_PRE."groups.id_group GROUP BY userstatus ORDER BY userstatus");
-		while($j=mysql_fetch_array($query))
+		$query = $sql->query("SELECT COUNT(*) AS nbuser, "._PRE_."user.userstatus, "._PRE_."groups.Nom_group FROM "._PRE_."user LEFT JOIN "._PRE_."groups ON "._PRE_."user.userstatus="._PRE_."groups.id_group GROUP BY userstatus ORDER BY userstatus")->execute();
+		while($j=$query->fetch_array())
 		{
 			if($j['userstatus']<0)
 				$tpl->box['nbbannis'] += $j['nbuser'];
@@ -87,14 +86,12 @@ if($_GENERAL[0])
 		$tpl->box['maxusers']=$_FORUMCFG['topmembers'];
 		$tpl->box['timetopmembers']=getlocaltime($_FORUMCFG['timetopmembers']);																			
 		
-		$query=$sql->query("SELECT forumtopic+forumposts AS maxmsg, forumtitle FROM ".$_PRE."forums ORDER BY maxmsg DESC");
+		$query=$sql->query("SELECT forumtopic+forumposts AS maxmsg, forumtitle FROM "._PRE_."forums ORDER BY maxmsg DESC")->execute();
 	
-		list($tpl->box['maxforummsg'],$tpl->box['maxforumname'])=mysql_fetch_array($query);
+		list($tpl->box['maxforummsg'],$tpl->box['maxforumname'])=$query->fetch_array();
 		
-		$query=$sql->query("SELECT SUM(".$_PRE."topics.nbvues) AS Fnbvues,".$_PRE."forums.forumtitle FROM ".$_PRE."topics LEFT JOIN ".$_PRE."forums ON ".$_PRE."forums.forumid=".$_PRE."topics.idforum GROUP BY ".$_PRE."topics.idforum ORDER BY Fnbvues DESC");
-		if(!$query)
-			echo(mysql_error());
-		list($tpl->box['maxvues'],$tpl->box['forummaxvues'])=mysql_fetch_array($query);
+		$query=$sql->query("SELECT SUM("._PRE_."topics.nbvues) AS Fnbvues,"._PRE_."forums.forumtitle FROM "._PRE_."topics LEFT JOIN "._PRE_."forums ON "._PRE_."forums.forumid="._PRE_."topics.idforum GROUP BY "._PRE_."topics.idforum ORDER BY Fnbvues DESC")->execute();
+		list($tpl->box['maxvues'],$tpl->box['forummaxvues'])=$query->fetch_array();
 		
 		$tpl->box['statscontent']=$tpl->gettemplate("stats","statsgeneral");
 	}
@@ -105,11 +102,11 @@ if($_GENERAL[0])
 		
 		$maskarray=array();
 		
-		$query=$sql->query("SELECT * FROM ".$_PRE."forums");
-		$nb=mysql_num_rows($query);
+		$query=$sql->query("SELECT * FROM "._PRE_."forums")->execute();
+		$nb=$query->num_rows();
 		if($nb>0)
 		{
-			while($j=mysql_fetch_array($query))
+			while($j=$query->fetch_array())
 			{
 				if(isset($_PERMFORUM[$j['forumid']][1]) && $_PERMFORUM[$j['forumid']][1])
 					$maskarray[]=$j['forumid'];
@@ -117,29 +114,29 @@ if($_GENERAL[0])
 		}
 		$forummask ="'".implode("','",$maskarray)."'";
 	
-		$query=$sql->query("SELECT ".$_PRE."topics.idtopic,
-					".$_PRE."topics.idforum,
-					".$_PRE."topics.sujet,
-					".$_PRE."topics.nbrep,
-					".$_PRE."topics.nbvues,
-					".$_PRE."topics.datederrep,
-					".$_PRE."topics.derposter,
-					".$_PRE."topics.idderpost,
-					".$_PRE."topics.icone,
-					".$_PRE."topics.idmembre,
-					".$_PRE."topics.pseudo,
-					".$_PRE."topics.poll,
-					".$_PRE."topics.postit, 
-					".$_PRE."user.login 
-				FROM ".$_PRE."topics 
-				LEFT JOIN ".$_PRE."user ON ".$_PRE."topics.idmembre=".$_PRE."user.userid 
-				WHERE ".$_PRE."topics.idforum IN ($forummask) ORDER BY ".$_PRE."topics.nbvues DESC LIMIT 0,10");
+		$query=$sql->query("SELECT "._PRE_."topics.idtopic,
+					"._PRE_."topics.idforum,
+					"._PRE_."topics.sujet,
+					"._PRE_."topics.nbrep,
+					"._PRE_."topics.nbvues,
+					"._PRE_."topics.datederrep,
+					"._PRE_."topics.derposter,
+					"._PRE_."topics.idderpost,
+					"._PRE_."topics.icone,
+					"._PRE_."topics.idmembre,
+					"._PRE_."topics.pseudo,
+					"._PRE_."topics.poll,
+					"._PRE_."topics.postit,
+					"._PRE_."user.login
+				FROM "._PRE_."topics
+				LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid
+				WHERE "._PRE_."topics.idforum IN ($forummask) ORDER BY "._PRE_."topics.nbvues DESC LIMIT 0,10")->execute();
 		
 		//$TitleStat=$tpl->gettemplate("stats",4);
 		$CptStats=1;
 		
 		$tpl->box['topicscontent']="";
-		while($Topics=mysql_fetch_array($query))
+		while($Topics=$query->fetch_array())
 		{
 			$tpl->box['pretopic'] = NULLSTR;
 			if($Topics['idmembre']>0)
@@ -173,11 +170,11 @@ if($_GENERAL[0])
 		
 		$maskarray=array();
 		
-		$query=$sql->query("SELECT * FROM ".$_PRE."forums");
-		$nb=mysql_num_rows($query);
+		$query=$sql->query("SELECT * FROM "._PRE_."forums")->execute();
+		$nb=$query->num_rows();
 		if($nb>0)
 		{
-			while($j=mysql_fetch_array($query))
+			while($j=$query->fetch_array())
 			{
 				if(isset($_PERMFORUM[$j['forumid']][1]) && $_PERMFORUM[$j['forumid']][1])
 					$maskarray[]=$j['forumid'];
@@ -188,31 +185,29 @@ if($_GENERAL[0])
 		
 		//$query=$sql->query("SELECT idpost,idforum,sujet,date,nbrep,nbvues,datederrep,derposter,icone,idmembre FROM CF_posts WHERE parent=0 ORDER BY nbvues DESC");
 	
-		$query=$sql->query("SELECT ".$_PRE."topics.idtopic,
-					".$_PRE."topics.idforum,
-					".$_PRE."topics.sujet,
-					".$_PRE."topics.nbrep,
-					".$_PRE."topics.nbvues,
-					".$_PRE."topics.datederrep,
-					".$_PRE."topics.derposter,
-					".$_PRE."topics.idderpost,
-					".$_PRE."topics.icone,
-					".$_PRE."topics.idmembre,
-					".$_PRE."topics.pseudo,
-					".$_PRE."topics.poll,
-					".$_PRE."topics.postit, 
-					".$_PRE."user.login 
-				FROM ".$_PRE."topics 
-				LEFT JOIN ".$_PRE."user ON ".$_PRE."topics.idmembre=".$_PRE."user.userid 
-				WHERE ".$_PRE."topics.idforum IN ($forummask) ORDER BY ".$_PRE."topics.nbrep DESC LIMIT 0,10");
+		$query=$sql->query("SELECT "._PRE_."topics.idtopic,
+					"._PRE_."topics.idforum,
+					"._PRE_."topics.sujet,
+					"._PRE_."topics.nbrep,
+					"._PRE_."topics.nbvues,
+					"._PRE_."topics.datederrep,
+					"._PRE_."topics.derposter,
+					"._PRE_."topics.idderpost,
+					"._PRE_."topics.icone,
+					"._PRE_."topics.idmembre,
+					"._PRE_."topics.pseudo,
+					"._PRE_."topics.poll,
+					"._PRE_."topics.postit,
+					"._PRE_."user.login
+				FROM "._PRE_."topics
+				LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid
+				WHERE "._PRE_."topics.idforum IN ($forummask) ORDER BY "._PRE_."topics.nbrep DESC LIMIT 0,10")->execute();
 		
-		if(!$query)
-			echo(mysql_error());
 		//$TitleStat=$tpl->gettemplate("stats",4);
 		$CptStats=1;
 		
 		$tpl->box['topicscontent']="";
-		while($Topics=mysql_fetch_array($query))
+		while($Topics=$query->fetch_array())
 		{
 			$tpl->box['pretopic'] = NULLSTR;
 			
@@ -250,12 +245,12 @@ if($_GENERAL[0])
 		$tpl->box['next']	=	NULLSTR;
 		$tpl->box['before'] = 	NULLSTR;
 
-		$query=$sql->query("SELECT userid,login,userstatus,registerdate,usermsg,usermail,usersite,showmail,showusersite FROM ".$_PRE."user WHERE userstatus<>0 ORDER BY usermsg DESC LIMIT 0,10");
+		$query=$sql->query("SELECT userid,login,userstatus,registerdate,usermsg,usermail,usersite,showmail,showusersite FROM "._PRE_."user WHERE userstatus<>0 ORDER BY usermsg DESC LIMIT 0,10")->execute();
 		
 		//$TitleStat=$tpl->gettemplate("stats",15);
 		$tpl->box['topicscontent']="";
 		$CptStats=1;
-		while($Topics=mysql_fetch_array($query))
+		while($Topics=$query->fetch_array())
 		{
 			$Topics['registerdate']=getlocaltime($Topics['registerdate'],1);
 			$Topics['loginposter']=getformatpseudo($Topics['login'],$Topics['userstatus'],$Topics['userid']);
@@ -306,19 +301,19 @@ if($_GENERAL[0])
 		
 		$tpl->box['filter']=$tpl->gettemplate("stats","mbfilter");
 		
-		$query=$sql->query("SELECT COUNT(*) AS tot FROM ".$_PRE."user WHERE userstatus>0 ".$Where);
+		$query=$sql->query("SELECT COUNT(*) AS tot FROM "._PRE_."user WHERE userstatus>0 ".$Where)->execute();
 		if($query)
-			$total=mysql_fetch_array($query);
+			$total=$query->fetch_array();
 		
 		if($total['tot']>0)
 		{
-			$query=$sql->query("SELECT userid,login,userstatus,registerdate,usermsg,usermail,usersite,showmail,showusersite FROM ".$_PRE."user WHERE userstatus<>0 ".$Where." ORDER BY login LIMIT ".$debut.",20");
+			$query=$sql->query("SELECT userid,login,userstatus,registerdate,usermsg,usermail,usersite,showmail,showusersite FROM "._PRE_."user WHERE userstatus<>0 ".$Where." ORDER BY login LIMIT %d,20", $debut)->execute();
 			
 			$tpl->box['affstats']="";
 			
 			$CptStats=$debut+1;
 			
-			while($Topics=mysql_fetch_array($query))
+			while($Topics=$query->fetch_array())
 			{
 				$Topics['registerdate']=getlocaltime($Topics['registerdate'],1);
 				$Topics['loginposter']=getformatpseudo($Topics['login'],$Topics['userstatus'],$Topics['userid']);
@@ -385,9 +380,9 @@ if($_GENERAL[0])
 			else				$debut=intval($_GET['debut']);
 			if($debut < 0)			$debut=0;
 			
-			$query = $sql->query("SELECT username,userid,userstatus,typelieu,forumid,topicid FROM ".$_PRE."session WHERE userid<>'0' ORDER BY username LIMIT ".$debut.",20");
+			$query = $sql->query("SELECT username,userid,userstatus,typelieu,forumid,topicid FROM "._PRE_."session WHERE userid<>'0' ORDER BY username LIMIT %d,20", $debut)->execute();
 			
-			while($j=mysql_fetch_array($query))
+			while($j=$query->fetch_array())
 				$Members[]=$j;
 			
 			foreach($Members as $MemberInfo)
@@ -403,16 +398,16 @@ if($_GENERAL[0])
 			
 			if(count($ForumsMask)>0)
 			{
-				$query = $sql->query("SELECT forumid,forumtitle FROM ".$_PRE."forums WHERE forumid IN ('".implode("','",$ForumsMask)."')");
+				$query = $sql->query("SELECT forumid,forumtitle FROM "._PRE_."forums WHERE forumid IN ('".implode("','",$ForumsMask)."')")->execute();
 				
-				while(list($ForumId,$ForumTitle)=mysql_fetch_array($query))
+				while(list($ForumId,$ForumTitle)=$query->fetch_array())
 					$ForumInfo[$ForumId]=getformatrecup($ForumTitle);
 				
 				if(count($TopicsMask)>0)
 				{
-					$query = $sql->query("SELECT idtopic,sujet,idderpost FROM ".$_PRE."topics WHERE idtopic IN ('".implode("','",$TopicsMask)."')");
+					$query = $sql->query("SELECT idtopic,sujet,idderpost FROM "._PRE_."topics WHERE idtopic IN ('".implode("','",$TopicsMask)."')")->execute();
 					
-					while($j=mysql_fetch_array($query))
+					while($j=$query->fetch_array())
 					{
 						$TopicInfo[$j['idtopic']]=$j;
 						$TopicInfo[$j['idtopic']]['sujet']=getformatrecup($TopicInfo[$j['idtopic']]['sujet']);

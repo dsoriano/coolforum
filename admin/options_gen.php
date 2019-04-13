@@ -47,7 +47,7 @@ if($_REQUEST['action']=="save")
 		$valeur=each($_POST['configz']);
 		$valeur['value'] = getformathtml($valeur['value']);
 
-		$query=$sql->query("UPDATE ".$_PRE."config SET valeur='".$valeur['value']."' WHERE options='".$valeur['key']."'");
+		$query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($valeur['value'], $valeur['key']))->execute();
 	}
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -105,9 +105,9 @@ if(empty($_REQUEST['action']))
 
 	//**** affichage du skin par défaut ****
 	$tpl->box['skinlist']	=	"";	
-	$query			=	$sql->query("SELECT * FROM ".$_PRE."skins WHERE propriete='skinname'");
+	$query			=	$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname'")->execute();
 	
-	while($j=mysql_fetch_array($query))
+	while($j=$query->fetch_array())
 	{
 		$selected	=	"";
 		if($configuration['defaultskin']==$j['id'])	$selected=" SELECTED";

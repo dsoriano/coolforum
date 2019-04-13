@@ -39,15 +39,15 @@ if($_REQUEST['action']=="exec")
 	else
 		$request = $_POST['request'];
 	
-	$query = $sql->query($request);
+	$query = $sql->query($request)->execute();
 	
 	$TheRequest = getformatmsg($request);
 	if($query)
 	{
 		if(preg_match("/INSERT|UPDATE|DELETE/i",$request) > 0)
-			$NbLgnChange = mysql_affected_rows();
+			$NbLgnChange = $query->affected_rows();
 		elseif(preg_match("|SELECT|i",$request) > 0)
-			$NbLgnChange = mysql_num_rows($query);
+			$NbLgnChange = $query->num_rows();
 		else
 			$NbLgnChange = 0;
 		$request = "";
@@ -55,8 +55,8 @@ if($_REQUEST['action']=="exec")
 	}
 	else
 	{
-		$errnumber = mysql_errno();
-		$errphrase = mysql_error();
+		$errnumber = $sql->errno();
+		$errphrase = $sql->error();
 		
 		$tpl->box['resultrequest'] = $tpl->gettemplate("adm_db_exec","sqlnok");
 	}

@@ -33,52 +33,52 @@ getlangage("adm_delforum");
 if($_REQUEST['action']=="del")
 {
 	// ##### Récupération cat and order du forum #####
-	$query = $sql->query("SELECT forumcat,forumorder FROM ".$_PRE."forums WHERE forumid=".$_POST['forumid']);
-	list($forumcat,$forumorder) = mysql_fetch_array($query);
+	$query = $sql->query("SELECT forumcat,forumorder FROM "._PRE_."forums WHERE forumid=%d", $_POST['forumid'])->execute();
+	list($forumcat,$forumorder) = $query->fetch_array();
 	
 	
 	// ##### table CF_forums #####
-	$query=$sql->query("DELETE FROM ".$_PRE."forums WHERE forumid=".$_POST['forumid']);
+	$query=$sql->query("DELETE FROM "._PRE_."forums WHERE forumid=%d", $_POST['forumid'])->execute();
 	if($query)
 		$tpl->box['table1']=$tpl->attlang("tblforumok");
 	else
 		$tpl->box['table1']=$tpl->attlang("tblforumnok");
-	$query=$sql->query("OPTIMIZE TABLE ".$_PRE."forums");
+	$query=$sql->query("OPTIMIZE TABLE "._PRE_."forums");
 
 	// ##### table CF_topics #####
-	$query=$sql->query("DELETE FROM ".$_PRE."topics WHERE idforum=".$_POST['forumid']);
+	$query=$sql->query("DELETE FROM "._PRE_."topics WHERE idforum=%d", $_POST['forumid'])->execute();
 	if($query)
 		$tpl->box['table2']=$tpl->attlang("tbltopicsok");
 	else
 		$tpl->box['table2']=$tpl->attlang("tbltopicsnok");
-	$query=$sql->query("OPTIMIZE TABLE ".$_PRE."topics");
+	$query=$sql->query("OPTIMIZE TABLE "._PRE_."topics")->execute();
 
 	// ##### table CF_posts #####	
-	$query=$sql->query("DELETE FROM ".$_PRE."posts WHERE idforum=".$_POST['forumid']);
+	$query=$sql->query("DELETE FROM "._PRE_."posts WHERE idforum=%d", $_POST['forumid'])->execute();
 	if($query)
 		$tpl->box['table3']=$tpl->attlang("tblpostsok");
 	else
 		$tpl->box['table3']=$tpl->attlang("tblpostsnok");
-	$query=$sql->query("OPTIMIZE TABLE ".$_PRE."posts");
+	$query=$sql->query("OPTIMIZE TABLE "._PRE_."posts")->execute();
 
 	// ##### table CF_groups_perm #####	
-	$query=$sql->query("DELETE FROM ".$_PRE."groups_perm WHERE id_forum=".$_POST['forumid']);
+	$query=$sql->query("DELETE FROM "._PRE_."groups_perm WHERE id_forum=%d", $_POST['forumid'])->execute();
 	if($query)
 		$tpl->box['table4']=$tpl->attlang("groups_permok");
 	else
 		$tpl->box['table4']=$tpl->attlang("groups_permnok");
-	$query=$sql->query("OPTIMIZE TABLE ".$_PRE."groups_perm");
+	$query=$sql->query("OPTIMIZE TABLE "._PRE_."groups_perm")->execute();
 
 	// ##### table CF_moderateur #####	
-	$query=$sql->query("DELETE FROM ".$_PRE."moderateur WHERE forumident=".$_POST['forumid']);
+	$query=$sql->query("DELETE FROM "._PRE_."moderateur WHERE forumident=%d", $_POST['forumid'])->execute();
 	if($query)
 		$tpl->box['table5']=$tpl->attlang("tblmodook");
 	else
 		$tpl->box['table5']=$tpl->attlang("tblmodonok");
-	$query=$sql->query("OPTIMIZE TABLE ".$_PRE."moderateur");
+	$query=$sql->query("OPTIMIZE TABLE "._PRE_."moderateur")->execute();
 
 	// ##### Mise à jour de l'ordre des forums #####
-	$query = $sql->query("UPDATE ".$_PRE."forums SET forumorder = forumorder-1 WHERE forumcat='$forumcat' AND forumorder>$forumorder");
+	$query = $sql->query("UPDATE "._PRE_."forums SET forumorder = forumorder-1 WHERE forumcat=%d AND forumorder>%d", array($forumcat, $forumorder))->execute();
 	
 
 	// ##### Mise à jour des stats #####
@@ -90,15 +90,15 @@ if($_REQUEST['action']=="del")
 
 if($_REQUEST['action']=="avert")
 {
-	$sqlforums = $sql->query("SELECT * FROM ".$_PRE."forums WHERE forumid=".$_GET['forumid']);
-	$MyForum=mysql_fetch_array($sqlforums);
+	$sqlforums = $sql->query("SELECT * FROM "._PRE_."forums WHERE forumid=%d", $_GET['forumid'])->execute();
+	$MyForum=$sqlforums->fetch_array();
 	$tpl->box['admcontent']=$tpl->gettemplate("adm_delforum","avertdel");
 }
 
 if(empty($_REQUEST['action']))
 {
-	$query = $sql->query("SELECT * FROM ".$_PRE."categorie ORDER BY catorder");
-	$nb=mysql_num_rows($query);
+	$query = $sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
+	$nb=$query->num_rows();
 	
 	$tpl->box['catforum']="";
 	if ($nb==0)
@@ -107,14 +107,14 @@ if(empty($_REQUEST['action']))
 	{
 		$TabForum=array();
 		
-		$sqlforums = $sql->query("SELECT * FROM ".$_PRE."forums ORDER BY forumcat,forumorder");
-		$nbforums=mysql_num_rows($sqlforums);
+		$sqlforums = $sql->query("SELECT * FROM "._PRE_."forums ORDER BY forumcat,forumorder")->execute();
+		$nbforums=$sqlforums->num_rows();
 		
 		if($nbforums>0)
 		{
-			while($TabForum[]=mysql_fetch_array($sqlforums));
+			while($TabForum[]=$sqlforums->fetch_array());
 	
-			while($Cats=mysql_fetch_array($query))
+			while($Cats=$query->fetch_array())
 			{
 				$forumlist="";
 	

@@ -50,7 +50,7 @@ if($_REQUEST['action']=="delmsg")
 		for($i=0;$i<$total;$i++)
 		{
 			$transfert=each($_REQUEST['del']);
-			$query=$sql->query("DELETE FROM ".$_PRE."privatemsg WHERE id='".$transfert[1]."' AND iddest='".$_USER['userid']."'");
+			$query=$sql->query("DELETE FROM "._PRE_."privatemsg WHERE id=%d AND iddest=%d", array($transfert[1], $_USER['userid']))->execute();
 			if(!$query)
 				$ok=false;
 		}
@@ -68,7 +68,7 @@ if($_REQUEST['action']=="delmsg")
 
 if($_REQUEST['action']=="delallmsg")
 {
-	$query = $sql->query("DELETE FROM ".$_PRE."privatemsg WHERE iddest='".$_USER['userid']."'");
+	$query = $sql->query("DELETE FROM "._PRE_."privatemsg WHERE iddest=%d", $_USER['userid'])->execute();
 	
 	if($query)	$tpl->box['infomsg']=$tpl->attlang("ifpmdeleted");
 	else		$tpl->box['infomsg']=$tpl->attlang("ifpmnotdel");
@@ -84,12 +84,12 @@ if($_REQUEST['action']=="readmsg")
 {
 	$Id = intval($_REQUEST['id']);
 	
-	$query		=	$sql->query("SELECT * FROM ".$_PRE."privatemsg WHERE id='$Id'");
-	$tpl->tmp	=	mysql_fetch_array($query);
+	$query		=	$sql->query("SELECT * FROM "._PRE_."privatemsg WHERE id=%d", $Id)->execute();
+	$tpl->tmp	=	$query->fetch_array();
 	if($tpl->tmp['iddest']!= $_USER['userid'])
 		geterror("notyours");
 	
-	$query		=	$sql->query("UPDATE ".$_PRE."privatemsg SET vu=1 WHERE id='$Id'");
+	$query		=	$sql->query("UPDATE "._PRE_."privatemsg SET vu=1 WHERE id=%d", $Id)->execute();
 	updatepmstats($_USER['userid']);
 	
 	$tpl->tmp['sujet']	=	getformatrecup($tpl->tmp['sujet']);
@@ -157,15 +157,15 @@ if($_REQUEST['action']=="sendmsg")
 	
 		$username = getformatdbtodb($_USER['username']);
 
-		$query = $sql->query("INSERT INTO ".$_PRE."privatemsg (iddest,idexp,date,pseudo,sujet,msg,smiles,bbcode) VALUES ('$dest','".$_USER['userid']."','$date','$username','$sujet','$msg','$smiles','$nobb')");
+		$query = $sql->query("INSERT INTO "._PRE_."privatemsg (iddest,idexp,date,pseudo,sujet,msg,smiles,bbcode) VALUES (%d,%d,'%s','%s','%s','%s','%s','%s')", array($dest, $_USER['userid'], $date, $username, $sujet, $msg, $smiles, $nobb))->execute();
 		updatepmstats($dest);
 			
 		if($query)
 		{
 			if($_FORUMCFG['mailnotify']=="Y")
 			{
-				$quest = $sql->query("SELECT usermail, notifypm FROM ".$_PRE."user WHERE userid='$dest'");
-				$zz=mysql_fetch_array($quest);
+				$quest = $sql->query("SELECT usermail, notifypm FROM "._PRE_."user WHERE userid=%d", $dest)->execute();
+				$zz=$quest->fetch_array();
 				if($zz['notifypm']=="Y")
 				{
 					$forumname	=	$_FORUMCFG['mailforumname'];
@@ -212,8 +212,8 @@ if($_REQUEST['action']=="writemsg")
 	if(isset($_POST['idpm']))
 	{
 		$idpm							=		intval($_POST['idpm']);
-		$getpm							=		$sql->query("SELECT * FROM ".$_PRE."privatemsg WHERE id='$idpm'");
-		$pm								=		mysql_fetch_array($getpm);
+		$getpm							=		$sql->query("SELECT * FROM "._PRE_."privatemsg WHERE id=%d", $idpm)->execute();
+		$pm								=		$getpm->fetch_array();
 		
 		//**** formattage du sujet ****
 		$prefixsujet					=		$tpl->attlang("prefsujet");
@@ -248,15 +248,15 @@ if($_REQUEST['action']=="writemsg")
 	if(isset($_GET['pseudosearch']) && strlen($_GET['pseudosearch'])>0)
 	{
 		$pseudosearch	=	getformatmsg($_GET['pseudosearch'],false);
-		$query		=	$sql->query("SELECT userid,login FROM ".$_PRE."user WHERE login LIKE \"%$pseudosearch%\" AND userstatus > 0 ORDER BY login");
+		$query		=	$sql->query("SELECT userid,login FROM "._PRE_."user WHERE login LIKE \"%%%s%%\" AND userstatus > 0 ORDER BY login", $pseudosearch)->execute();
 	}
 	else
-		$query		=	$sql->query("SELECT userid,login FROM ".$_PRE."user WHERE userstatus > 0 ORDER BY login");
+		$query		=	$sql->query("SELECT userid,login FROM "._PRE_."user WHERE userstatus > 0 ORDER BY login")->execute();
 	
-	if(mysql_num_rows($query)>0)
+	if($query->num_rows()>0)
 	{
 		$tpl->box['loginlist']="";
-		while($j=mysql_fetch_array($query))
+		while($j=$query->fetch_array())
 		{
 			$selected="";
 			if((isset($pm['idexp']) && $pm['idexp']==$j['userid']) || (isset($_GET['idexp']) && $_GET['idexp']==$j['userid']) || (isset($_POST['dest']) && $_POST['dest']==$j['userid']))
@@ -283,15 +283,15 @@ if($_REQUEST['action']=="writemsg")
 
 if($_REQUEST['action']=="sendpmbymail" && $_FORUMCFG['sendpmbymail']=="Y" && $_FORUMCFG['usemails']=="Y")
 {
-	$query		= $sql->query("SELECT usermail FROM ".$_PRE."user WHERE userid='".$_USER['userid']."'");
-	list($usermail)	= mysql_fetch_array($query);
+	$query		= $sql->query("SELECT usermail FROM "._PRE_."user WHERE userid=%d", $_USER['userid'])->execute();
+	list($usermail)	= $query->fetch_array();
 
 	$forumname	=	formatstrformail(stripslashes(recupDBforMail($_FORUMCFG['forumname'])));
 			
-	$query = $sql->query("SELECT * FROM ".$_PRE."privatemsg WHERE iddest='".$_USER['userid']."'");
+	$query = $sql->query("SELECT * FROM "._PRE_."privatemsg WHERE iddest=%d", $_USER['userid'])->execute();
 	
 	$ok = true;
-	while($Pm=mysql_fetch_array($query))
+	while($Pm=$query->fetch_array())
 	{
 		$Pm['sujet']	= formatstrformail(recupDBforMail($Pm['sujet']));
 		$Pm['msg']	= strip_tags(formatstrformail(recupDBforMail($Pm['msg'])));
@@ -321,15 +321,15 @@ if(empty($_REQUEST['action']))
 	else
 		eval("\$tpl->box['nbnewpm']=\"".$tpl->attlang("multinewpm")."\";");
 	
-	$sql=mysql_query("SELECT * FROM ".$_PRE."privatemsg WHERE iddest=".$_USER['userid']." ORDER BY date DESC");
-	$nb=mysql_num_rows($sql);
+	$pm_db=$sql->query("SELECT * FROM "._PRE_."privatemsg WHERE iddest=%d ORDER BY date DESC", $_USER['userid'])->execute();
+	$nb=$pm_db->num_rows();
 	
 	if($nb==0)
 		$tpl->box['pmcontent']=$tpl->gettemplate("profil_pm","nonewpm");
 	else
 	{
 		$tpl->box['pmcontent']="";
-		while($Respm=mysql_fetch_array($sql))
+		while($Respm=$pm_db->fetch_array())
 		{
 			if($Respm['vu']==0)
 				$Respm['imgpm']="nonlu";

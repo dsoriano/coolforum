@@ -30,7 +30,6 @@
 if (empty($_GET['id']))
 	header("Location: index.php");
 
-require("secret/connect.php");	
 require("admin/functions.php");
 
 
@@ -38,20 +37,20 @@ if(!isset($_GET['action']))
 {
 	$id 			= 	intval($_GET['id']);
 
-	$query			=	$sql->query("SELECT idpost,parent,idforum FROM ".$_PRE."posts WHERE idpost = $id");
-	if(mysql_num_rows($query) > 0)
+	$query			=	$sql->query("SELECT idpost,parent,idforum FROM "._PRE_."posts WHERE idpost = %d", $id)->execute();
+	if($query->num_rows() > 0)
 	{
-		$j			=	mysql_fetch_array($query);
+		$j			=	$query->fetch_array();
 	
 		$parent		=	$j['parent'];
 		
-		$query		=	$sql->query("SELECT idpost FROM ".$_PRE."posts WHERE parent=".$parent);
-		$nb			=	mysql_num_rows($query);
+		$query		=	$sql->query("SELECT idpost FROM "._PRE_."posts WHERE parent=%d", $parent)->execute();
+		$nb			=	$query->num_rows();
 	
 		$page		=	1;
 		$compteur	=	1;
 	
-		while($i=mysql_fetch_array($query))
+		while($i = $query->fetch_array())
 		{
 			if($i['idpost']==$id)
 				break;
@@ -85,24 +84,21 @@ if($_GET['action']=="prec" || $_GET['action']=="suiv")
 	$SessTopic	=	0;
 	////////////////////////////////////////////////////////////////////////////////
 
-	$query=$sql->query("SELECT datederrep FROM ".$_PRE."topics WHERE idtopic='$id'");
-	$i=mysql_fetch_array($query);
+	$query=$sql->query("SELECT datederrep FROM "._PRE_."topics WHERE idtopic=%d", $id)->execute();
+	$i=$query->fetch_array();
 	
 	if($_GET['action']=="prec")
-		$query=$sql->query("SELECT idtopic FROM ".$_PRE."topics WHERE idforum='$forumid' AND datederrep<".$i['datederrep']." ORDER BY datederrep DESC LIMIT 0,1");
+		$query=$sql->query("SELECT idtopic FROM "._PRE_."topics WHERE idforum=%d AND datederrep < %d ORDER BY datederrep DESC LIMIT 0,1", array($forumid, $i['datederrep']))->execute();
 	elseif($_GET['action']=="suiv")
-		$query=$sql->query("SELECT idtopic FROM ".$_PRE."topics WHERE idforum='$forumid' AND datederrep>".$i['datederrep']." ORDER BY datederrep LIMIT 0,1");
+		$query=$sql->query("SELECT idtopic FROM "._PRE_."topics WHERE idforum=%d AND datederrep > %d ORDER BY datederrep LIMIT 0,1", array($forumid, $i['datederrep']))->execute();
 
-	$nb=mysql_num_rows($query);
+	$nb = $query->num_rows();
 	
-	if($nb==0)
-	{
+	if ($nb==0) {
 		require("entete.php");
 		geterror("novalidlink");
-	}
-	else
-	{
-		$j=mysql_fetch_array($query);
+	} else {
+		$j=$query->fetch_array();
 		header("location: detail.php?forumid=$forumid&id=".$j['idtopic']);
 	}
 
@@ -110,16 +106,16 @@ if($_GET['action']=="prec" || $_GET['action']=="suiv")
 
 if($_GET['action']=="msglus")
 {
-	$query = $sql->query("SELECT idtopic,idforum,nbrep FROM ".$_PRE."topics ORDER BY datederrep DESC LIMIT 0,200");
+	$query = $sql->query("SELECT idtopic,idforum,nbrep FROM "._PRE_."topics ORDER BY datederrep DESC LIMIT 0,200")->execute();
 	
 	$TempMsg = array();
 	$TempFrm = array();
 	$TempForums = array();
 	
-	$nb = mysql_num_rows($query);
+	$nb = $query->num_rows();
 	if($nb>0)
 	{
-		while($j=mysql_fetch_array($query))
+		while($j=$query->fetch_array())
 		{
 			$IdString = $j['idtopic'];
 			settype($IdString,"string");
@@ -127,9 +123,9 @@ if($_GET['action']=="msglus")
 			$TempForums[$j['idforum']] = "true";
 		}
 		
-		$query = $sql->query("SELECT forumid,forumtopic,forumposts FROM ".$_PRE."forums");
+		$query = $sql->query("SELECT forumid,forumtopic,forumposts FROM "._PRE_."forums")->execute();
 		
-		while($i = mysql_fetch_array($query))
+		while($i = $query->fetch_array())
 		{
 			if($TempForums[$i['forumid']]=="true")
 				$TempFrm[$i['forumid']] = $i['forumtopic']+$i['forumposts'];

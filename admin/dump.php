@@ -34,8 +34,8 @@ require("entete.php");
     header("Pragma: no-cache");
     header("Expires: 0");
    
-$table		= 	$sql->list_tables();
-$nb_table	=	mysql_num_rows($table);
+$table		= 	$sql->query("SHOW TABLES")->execute();
+$nb_table	=	$table->num_rows();
 
 $chaine		=	"";
 
@@ -51,20 +51,20 @@ $chaine		.=	"# ****************************\n\n";
 
 if($nb_table>0)
 {
-	while($i = mysql_fetch_row($table))
+	while($i = $table->fetch_row())
 	{
-		if(preg_match("|^".$_PRE."|",$i[0]) > 0)
+		if(preg_match("|^"._PRE_."|",$i[0]) > 0)
 		{
 			$chaine		.=	"# ---------- TABLE ".$i[0]." --------------\n";
 			
 			$chaine 	.=	"DROP TABLE ".$i[0].";\n";
 			$chaine		.=	"CREATE TABLE ".$i[0]." (";
 			
-			$query		=	mysql_query("SHOW FIELDS FROM ".$i[0]);
+			$query		=	$sql->query("SHOW FIELDS FROM ".$i[0])->execute();
 			
 			// Définition des colonnes
 			$field		=	"";
-			while($j = mysql_fetch_array($query))
+			while($j = $query->fetch_array())
 			{
 				$field 		.= 	$j['Field']." ".$j['Type'];
 				
@@ -83,9 +83,9 @@ if($nb_table>0)
 			// Définition des index
 			$key			=	array();
 			$cpt			=	0;
-			$query			=	mysql_query("SHOW INDEX FROM ".$i[0]);
+			$query			=	$sql->query("SHOW INDEX FROM ".$i[0])->execute();
 
-			while($j = mysql_fetch_array($query))
+			while($j = $query->fetch_array())
 			{
 				if($j['Index_type'] == "BTREE")
 					$Index_type			=	"";
@@ -123,16 +123,16 @@ if($nb_table>0)
 			$chaine = "";
 			//
 			
-			$query=mysql_query("SELECT * FROM ".$i[0]);
-			$tot_request=mysql_num_rows($query);
+			$query=$sql->query("SELECT * FROM ".$i[0])->execute();
+			$tot_request=$query->num_rows();
 			
 			if($tot_request>0)
 			{
-				while($req=mysql_fetch_row($query))
+				while($req=$query->fetch_row())
 				{
 				   for($z=0;$z<count($req);$z++)
 				   {
-				   	$type = mysql_field_type($query, $z);
+                       $type = $query->fetch_field_direct($z)->type;
 				   	
 				   	if ($type == 'tinyint' || $type == 'smallint' || $type == 'mediumint' || $type == 'int' || $type == 'bigint'  ||$type == 'timestamp')
 				   		$req[$z]="'".$req[$z]."'";

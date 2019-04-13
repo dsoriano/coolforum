@@ -27,14 +27,13 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("secret/connect.php"); 
 require("admin/functions.php");
 
 $_GET['post']		=	intval($_GET['post']);
 $_GET['forumid']	=	intval($_GET['forumid']);
 
-$query				=	$sql->query("SELECT parent FROM ".$_PRE."posts WHERE idpost=".$_GET['post']);
-list($parent)		=	mysql_fetch_array($query);
+$query				=	$sql->query("SELECT parent FROM "._PRE_."posts WHERE idpost=%d",$_GET['post'])->execute();
+list($parent)		=	$query->fetch_array();
 
 // #### définition du lieu ###
 $SessLieu				=	'TOP';
@@ -50,8 +49,8 @@ $ismodo			=	getismodo($_GET['forumid'],$_USER['userid']);
 
 if(($ismodo && $_MODORIGHTS[0])|| $_GENERAL[20])
 {
-	$query			=	$sql->query("SELECT * FROM ".$_PRE."posts WHERE idpost=".$_GET['post']);
-	$tmp			=	mysql_fetch_array($query);
+	$query			=	$sql->query("SELECT * FROM "._PRE_."posts WHERE idpost=%d",$_GET['post'])->execute();
+	$tmp			=	$query->fetch_array();
 
 	$tpl->box['affip'] 	= 	$tmp['postip'];
 	$cache 	               .= 	$tpl->gettemplate("viewip","affip");

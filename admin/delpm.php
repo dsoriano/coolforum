@@ -44,13 +44,13 @@ if($_REQUEST['action'] == "delpm")
 	
 	if($LastVisit>0)
 	{
-		$query = $sql->query("SELECT userid FROM ".$_PRE."user WHERE lastvisit<'".($Now-($LastVisit*86400))."'");
-		$nb = mysql_num_rows($query);
+		$query = $sql->query("SELECT userid FROM "._PRE_."user WHERE lastvisit<'%s'", $Now-($LastVisit*86400))->execute();
+		$nb = $query->num_rows();
 		
 		if($nb>0)
 		{
 			$tmp=array();
-			while($j=mysql_fetch_array($query))
+			while($j=$query->fetch_array())
 				$tmp[]=$j['userid'];
 			$TabQuery[]="iddest IN (".implode(",",$tmp).")";
 		}
@@ -60,13 +60,13 @@ if($_REQUEST['action'] == "delpm")
 	
 	if($NbPm>0)
 	{
-		$query = $sql->query("SELECT userid FROM ".$_PRE."user WHERE nbpmtot>'".$NbPm."'");
-		$nb = mysql_num_rows($query);
+		$query = $sql->query("SELECT userid FROM "._PRE_."user WHERE nbpmtot>%d", $NbPm)->execute();
+		$nb = $query->num_rows();
 		
 		if($nb>0)
 		{
 			$tmp=array();
-			while($j=mysql_fetch_array($query))
+			while($j=$query->fetch_array())
 				$tmp[]=$j['userid'];
 			$TabQuery[]="iddest IN (".implode(",",$tmp).")";
 		}
@@ -86,17 +86,17 @@ if($_REQUEST['action'] == "delpm")
 		$TotalPm=array();
 		$TotalVu=array();
 		
-		$query = $sql->query("SELECT iddest FROM ".$_PRE."privatemsg WHERE ".$Where." GROUP BY iddest");
-		while($j=mysql_fetch_array($query))
+		$query = $sql->query("SELECT iddest FROM "._PRE_."privatemsg WHERE ".$Where." GROUP BY iddest")->execute();
+		while($j=$query->fetch_array())
 			$MbList[]=$j['iddest'];
 		
-		$query = $sql->query("DELETE FROM ".$_PRE."privatemsg WHERE ".$Where);
-		$total = mysql_affected_rows();
+		$query = $sql->query("DELETE FROM "._PRE_."privatemsg WHERE ".$Where)->execute();
+		$total = $query->affected_rows();
 		
-		$query = $sql->query("OPTIMIZE TABLE ".$_PRE."privatemsg");
+		$query = $sql->query("OPTIMIZE TABLE "._PRE_."privatemsg")->execute();
 		
-		$query = $sql->query("SELECT iddest,vu FROM ".$_PRE."privatemsg");
-		while($j=mysql_fetch_array($query))
+		$query = $sql->query("SELECT iddest,vu FROM "._PRE_."privatemsg")->execute();
+		while($j=$query->fetch_array())
 		{
 			$TotalPm[$j['iddest']]++;
 			if($j['vu']=="0")
@@ -104,14 +104,14 @@ if($_REQUEST['action'] == "delpm")
 		}
 		
 		for($i=0;$i<count($MbList);$i++)
-			$query = $sql->query("UPDATE ".$_PRE."user SET nbpmvu='".$TotalVu[$MbList[$i]]."',nbpmtot='".$TotalPm[$MbList[$i]]."' WHERE userid='".$MbList[$i]."'");
+			$query = $sql->query("UPDATE "._PRE_."user SET nbpmvu=%d,nbpmtot=%d WHERE userid=%d", array($TotalVu[$MbList[$i]], $TotalPm[$MbList[$i]], $MbList[$i]))->execute();
 		
 		$tpl->box['admcontent'] = $tpl->gettemplate("adm_delpm","delok");
 	}
 	else
 	{
-		$query = $sql->query("SELECT COUNT(*) AS total FROM ".$_PRE."privatemsg WHERE ".$Where);
-		list($total) = mysql_fetch_array($query);
+		$query = $sql->query("SELECT COUNT(*) AS total FROM "._PRE_."privatemsg WHERE ".$Where)->execute();
+		list($total) = $query->fetch_array();
 		
 		$tpl->box['admcontent'] = $tpl->gettemplate("adm_delpm","confirm");
 	}
@@ -120,11 +120,11 @@ if($_REQUEST['action'] == "delpm")
 
 if(empty($_REQUEST['action']))
 {
-	$query=$sql->query("SELECT COUNT(*) AS nbpmlu FROM ".$_PRE."privatemsg WHERE vu=1");
-	list($nbpm)=mysql_fetch_array($query);
+	$query=$sql->query("SELECT COUNT(*) AS nbpmlu FROM "._PRE_."privatemsg WHERE vu=1")->execute();
+	list($nbpm)=$query->fetch_array();
 	
-	$query=$sql->query("SELECT COUNT(*) AS nbpmnonlu FROM ".$_PRE."privatemsg WHERE vu=0");
-	list($nbpmnonlu)=mysql_fetch_array($query);
+	$query=$sql->query("SELECT COUNT(*) AS nbpmnonlu FROM "._PRE_."privatemsg WHERE vu=0")->execute();
+	list($nbpmnonlu)=$query->fetch_array();
 	
 	$nbtotpm=$nbpm+$nbpmnonlu;
 	

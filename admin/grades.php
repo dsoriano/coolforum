@@ -112,7 +112,7 @@ if($_REQUEST['action'] == "confirmedit")
 		}		
 		
 		$Tabl_to_save 			= 	serialize($All_Grade);
-		$query					=	$sql->query("UPDATE ".$_PRE."config SET valeur = '$Tabl_to_save' WHERE options = 'grades'");
+		$query					=	$sql->query("UPDATE "._PRE_."config SET valeur = '%s' WHERE options = 'grades'", $Tabl_to_save)->execute();
 		
 		unset($_REQUEST['gd_nom'], $_REQUEST['gd_nbmsg'], $_REQUEST['gd_nbpins']);
 		
@@ -171,7 +171,7 @@ if($_REQUEST['action'] == "confdelgrade")
 				
 		array_pop($All_Grade);
 		$Tabl_to_save 			= 	serialize($All_Grade);
-		$query					=	$sql->query("UPDATE ".$_PRE."config SET valeur = '$Tabl_to_save' WHERE options = 'grades'");
+		$query					=	$sql->query("UPDATE "._PRE_."config SET valeur = '%s' WHERE options = 'grades'", $Tabl_to_save)->execute();
 
 		$_REQUEST['action'] = NULLSTR;
 	}
@@ -187,9 +187,9 @@ if($_REQUEST['action'] == "delgrade")
 if($_REQUEST['action'] == "usegrade")
 {
 	if($_REQUEST['use_grades'] == "Y")
-		$query 					= $sql->query("UPDATE ".$_PRE."config SET valeur='Y' WHERE options = 'use_grades'");
+		$query 					= $sql->query("UPDATE "._PRE_."config SET valeur='Y' WHERE options = 'use_grades'")->execute();
 	else
-		$query 					= $sql->query("UPDATE ".$_PRE."config SET valeur='N' WHERE options = 'use_grades'");	
+		$query 					= $sql->query("UPDATE "._PRE_."config SET valeur='N' WHERE options = 'use_grades'")->execute();
 		
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -230,7 +230,7 @@ if($_REQUEST['action'] == "save")
 		
 		$Tabl_to_save 		= 	serialize($All_Grade);
 		
-		$query				=	$sql->query("UPDATE ".$_PRE."config SET valeur = '$Tabl_to_save' WHERE options = 'grades'");
+		$query				=	$sql->query("UPDATE "._PRE_."config SET valeur = '%s' WHERE options = 'grades'", $Tabl_to_save)->execute();
 		
 		unset($_REQUEST['gd_nom'], $_REQUEST['gd_nbmsg'], $_REQUEST['gd_nbpins']);
 	}

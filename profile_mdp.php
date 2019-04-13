@@ -48,7 +48,7 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		$rep=getformatmsg($_POST['rep'],false);
 		
 		if(strlen($quest)>0 && strlen($rep)>0)
-			$query=$sql->query("UPDATE ".$_PRE."userplus SET question='$quest', reponse='$rep' WHERE idplus=".$_USER['userid']);
+			$query=$sql->query("UPDATE "._PRE_."userplus SET question='%s', reponse='%s' WHERE idplus=%d", array($quest, $rep, $_USER['userid']))->execute();
 			
 		else
 			$tpl->box['error2']=$tpl->gettemplate("profil_mdp","errorbox");
@@ -59,8 +59,8 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 
 	if($_REQUEST['action']=="updatemdp")
 	{
-		$query = $sql->query("SELECT password FROM ".$_PRE."user WHERE userid=".$_USER['userid']);
-		list($password)=mysql_fetch_array($query);
+		$query = $sql->query("SELECT password FROM "._PRE_."user WHERE userid=%d",$_USER['userid'])->execute();
+		list($password)=$query->fetch_array();
 		
 		$realpass=getdecrypt(rawurldecode($password),$_FORUMCFG['chainecodage']);
 		
@@ -68,7 +68,7 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		{
 			$newpass=rawurlencode(getencrypt($_POST['newmdp1'],$_FORUMCFG['chainecodage']));
 			
-			$query=$sql->query("UPDATE ".$_PRE."user SET password='$newpass' WHERE userid=".$_USER['userid']);
+			$query=$sql->query("UPDATE "._PRE_."user SET password='%s' WHERE userid=%d", array($newpass, $_USER['userid']))->execute();
 			
 			$tpl->box['profilcontent']=$tpl->gettemplate("profil_mdp","majmdpok");
 			$tpl->box['profilcontent'].=getjsredirect("identify.php",3000);
@@ -87,11 +87,11 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		
 		if($_FORUMCFG['confirmparmail'] < 2)
 		{
-			$query=$sql->query("SELECT question,reponse FROM ".$_PRE."userplus WHERE idplus=".$_USER['userid']);
+			$query=$sql->query("SELECT question,reponse FROM "._PRE_."userplus WHERE idplus=%d",$_USER['userid'])->execute();
 			
-			if(mysql_num_rows($query)>0)
+			if($query->num_rows()>0)
 			{
-				$Result=mysql_fetch_array($query);
+				$Result=$query->fetch_array();
 				$Result['question']=getformatrecup($Result['question']);
 				$Result['reponse']=getformatrecup($Result['reponse']);
 			}

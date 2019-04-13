@@ -62,11 +62,11 @@ $nbtotmsg=$_FORUMCFG['statnbtopics']+$_FORUMCFG['statnbposts'];
 
 // #######################################
 
-$query=$sql->query("SELECT COUNT(*) AS nbpmlu FROM ".$_PRE."privatemsg WHERE vu=1");
-list($nbpm)=mysql_fetch_array($query);
+$query=$sql->query("SELECT COUNT(*) AS nbpmlu FROM "._PRE_."privatemsg WHERE vu=1")->execute();
+list($nbpm)=$query->fetch_array();
 
-$query=$sql->query("SELECT COUNT(*) AS nbpmnonlu FROM ".$_PRE."privatemsg WHERE vu=0");
-list($nbpmnonlu)=mysql_fetch_array($query);
+$query=$sql->query("SELECT COUNT(*) AS nbpmnonlu FROM "._PRE_."privatemsg WHERE vu=0")->execute();
+list($nbpmnonlu)=$query->fetch_array();
 
 $nbtotpm=$nbpm+$nbpmnonlu;
 
@@ -77,8 +77,8 @@ $tpl->box['nbbannis'] = 0;
 $tpl->box['nbattente'] = 0;
 $nbtotmembers = 0;
 		
-$query = $sql->query("SELECT COUNT(*) AS nbuser, ".$_PRE."user.userstatus, ".$_PRE."groups.Nom_group FROM ".$_PRE."user LEFT JOIN ".$_PRE."groups ON ".$_PRE."user.userstatus=".$_PRE."groups.id_group GROUP BY userstatus ORDER BY userstatus");
-while($j=mysql_fetch_array($query))
+$query = $sql->query("SELECT COUNT(*) AS nbuser, "._PRE_."user.userstatus, "._PRE_."groups.Nom_group FROM "._PRE_."user LEFT JOIN "._PRE_."groups ON "._PRE_."user.userstatus="._PRE_."groups.id_group GROUP BY userstatus ORDER BY userstatus")->execute();
+while($j=$query->fetch_array())
 {
 	if($j['userstatus'] < 0)
 		$tpl->box['nbbannis'] += $j['nbuser'];
