@@ -38,15 +38,15 @@ if($_REQUEST['action']=="save")
 	if(!isset($_REQUEST['activeDefaultLogo']) || $_REQUEST['activeDefaultLogo']!="Y")	$_REQUEST['activeDefaultLogo']="N";
 	if(!isset($_REQUEST['activePersoLogo']) || $_REQUEST['activePersoLogo']!="Y")		$_REQUEST['activePersoLogo']="N";
 	if(!isset($_REQUEST['activeExtLogo']) || $_REQUEST['activeExtLogo']!="Y")			$_REQUEST['activeExtLogo']="N";
-	
+
 	$_REQUEST['WidthLogo']	= intval($_REQUEST['WidthLogo']);
 	$_REQUEST['HeightLogo']	= intval($_REQUEST['HeightLogo']);
-	$_REQUEST['SizeLogo']	= intval($_REQUEST['SizeLogo']);		
+	$_REQUEST['SizeLogo']	= intval($_REQUEST['SizeLogo']);
 
 	$chain=$_REQUEST['activateLogos']."-".$_REQUEST['activePersoLogo']."-".$_REQUEST['activeDefaultLogo']."-".$_REQUEST['activeExtLogo']."-".$_REQUEST['WidthLogo']."-".$_REQUEST['HeightLogo']."-".$_REQUEST['SizeLogo'];
-	
+
 	$query=$sql->query("UPDATE "._PRE_."config SET valeur='".$chain."' WHERE options='logos'")->execute();
-	
+
 	$_REQUEST['action'] = NULLSTR;
 }
 
@@ -60,10 +60,10 @@ if($_REQUEST['action']=="uploadnewlogo")
 			case "image/gif":	$ext=".gif";	break;
 			case "image/png":	$ext=".png";	break;
 		}
-		
+
 		$insert_avatar = $sql->query("INSERT INTO "._PRE_."avatars (ext) VALUES ('".$ext."')")->execute();
-		$id=$insert_avatar->insert_id();
-		
+		$id=$sql->insertId();
+
 		$filename="default".$id.$ext;
 		move_uploaded_file($_FILES['logo']['tmp_name'],"../logos/".$filename);
 	}
@@ -78,7 +78,7 @@ if($_REQUEST['action']=="autosearch")
 	while($j=$query->fetch_array())
 		$ListID[]=$j['idlogo'];
 	$ListID="-".implode("-",$ListID)."-";
-	
+
 	// **** recherche des logos qui ne sont pas dans la liste ****
 	$listadd=array();
 	$dir=opendir("../logos");
@@ -87,12 +87,12 @@ if($_REQUEST['action']=="autosearch")
 			if(preg_match("|-".$out[1]."-|",$ListID) == 0 && $out[1][0]>0) // sécurité
 			{
 				$sql->query("INSERT INTO "._PRE_."avatars (idlogo,ext) VALUES (%d,'%s')", array($out[1], $out[2]))->execute();
-				
+
 				$ListID		.=	$out[1]."-"; // sécurité
 				$listadd[]	=	"default".$out[1].$out[2];
 			}
 	closedir($dir);
-	
+
 	// **** combien d'avatars ajoutés ? ****
 	if(count($listadd)>0)
 	{
@@ -100,7 +100,7 @@ if($_REQUEST['action']=="autosearch")
 		$listadd		=	implode("<br>",$listadd);
 		$tpl->box['listadd']	=	$tpl->gettemplate("adm_options_avatars","listadd");
 	}
-	
+
 	$_REQUEST['action'] = NULLSTR;
 }
 
@@ -114,12 +114,12 @@ if($_REQUEST['action']=="delete")
 if(empty($_REQUEST['action']))
 {
 	$checked=array(NULLSTR, NULLSTR, NULLSTR, NULLSTR);
-	
+
 	$tpl->box['listlogos'] = NULLSTR;
 	$tpl->box['defaultlogos'] = NULLSTR;
-	
+
 	$configuration=getconfig();
-	
+
 	$_LOGO = explode("-",$configuration['logos']); // Array: active - upload - gallerie - externe - largeur - hauteur - poids
 
 	if($_LOGO[0]=="Y")	$checked[0]=" CHECKED";
@@ -128,28 +128,28 @@ if(empty($_REQUEST['action']))
 	if($_LOGO[2]=="Y")
 	{
 		$checked[2]=" CHECKED";
-		
+
 		$query = $sql->query("SELECT * FROM "._PRE_."avatars")->execute();
 		$nb = $query->num_rows();
-		
+
 		if($nb>0)
 		{
 			$compt=0;
 			while($j=$query->fetch_array())
 			{
 				$tpl->box['listlogos'] .= $tpl->gettemplate("adm_options_avatars","caselogo");
-				
+
 				$compt++;
 				if($compt%3==0)
 					$tpl->box['listlogos'] .= $tpl->gettemplate("adm_options_avatars","separatelogo");
 			}
 		}
 		else	$tpl->box['listlogos'] = $tpl->gettemplate("adm_options_avatars","nologo");
-		
+
 		$tpl->box['defaultlogos'] = $tpl->gettemplate("adm_options_avatars","defaultlogos");
 	}
-	
-	$cache.=$tpl->gettemplate("adm_options_avatars","optionslist");	
+
+	$cache.=$tpl->gettemplate("adm_options_avatars","optionslist");
 }
 
 require("bas.php");

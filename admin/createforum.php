@@ -27,7 +27,7 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("entete.php"); 
+require("entete.php");
 getlangage("adm_createforum");
 
 $tpl->box['titlesection'] = $tpl->attlang("titleaddforum");
@@ -41,7 +41,7 @@ if($_REQUEST['action']=="save")
 		$openorclose    = "Y";
 	else
 		$openorclose	= "N";
-			
+
 	$testchain	=	preg_replace("/([\s]{1,})/","",$_POST['forumname']);
 
 	if(strlen($testchain)>0)
@@ -49,13 +49,13 @@ if($_REQUEST['action']=="save")
 		$query			=	$sql->query("SELECT forumorder FROM "._PRE_."forums WHERE forumcat=%d", $_POST['cat'])->execute();
 		$nb			=	$query->num_rows();
 		$order			=	$nb+1;
-		
+
 		$forumname		=	getformatmsg($_POST['forumname']);
 		$forumcoment		=	getformatmsg($_POST['forumcoment']);
-		
+
 		$query			=	$sql->query("INSERT INTO "._PRE_."forums (forumcat, forumtitle, forumcomment, forumorder, openforum) VALUES (%d, '%s', '%s', %d, '%s')", array($CatParent, $forumname, $forumcoment, $order, $openorclose))->execute();
-		$IdForum 		= 	$query->insert_id();
-		
+		$IdForum 		= 	$sql->insertId();
+
 		$query					=	$sql->query("SELECT id_group FROM "._PRE_."groups ORDER BY id_group")->execute();
 		while($Group			=	$query->fetch_array())
 		{
@@ -64,14 +64,14 @@ if($_REQUEST['action']=="save")
 				$IntDroitFor 	= 	get_intfromright($_POST['droits'][$Id_Group]);
 			else
 				$IntDroitFor	=	0;
-				
+
 			if(isset($_POST['MaxChar'][$Id_Group]))
 				$MaxChar		=	intval($_POST['MaxChar'][$Id_Group]);
 			else
 				$MaxChar		=	0;
-				
+
 			$query_group		=	$sql->query("REPLACE INTO "._PRE_."groups_perm (id_group, id_forum, droits, MaxChar) VALUES (%d, %d, '%s', %d)", array($Id_Group, $IdForum, $IntDroitFor, $MaxChar))->execute();
-		}	
+		}
 
 		$tpl->box['savemsg'] 	= 	$tpl->attlang("forumsaved");
 	}
@@ -83,16 +83,16 @@ if($_REQUEST['action']=="save")
 
 	$tpl->box['IsSaved']		=	$tpl->gettemplate("adm_createforum","savemsg");
 	$_REQUEST['action'] = NULLSTR;
-		
+
 }
 
 if(empty($_REQUEST['action']))
 {
 	$tpl->box['IsSaved']	=	NULLSTR;
 	$_REQUEST['id'] = 0;
-			
-	$AffRights 	= 	array();		    
-	
+
+	$AffRights 	= 	array();
+
 	if(!$error)
 	{
 		$CatParent = 0;
@@ -103,7 +103,7 @@ if(empty($_REQUEST['action']))
 						      4 => "",
 						      5 => "",
 						      6 => ""),
-					
+
 					2 =>	array(0 => " CHECKED",
 						      1 => " CHECKED",
 						      2 => " CHECKED",
@@ -111,7 +111,7 @@ if(empty($_REQUEST['action']))
 						      4 => " CHECKED",
 						      5 => "",
 						      6 => ""),
-						      
+
 					3 =>	array(0 => " CHECKED",
 						      1 => " CHECKED",
 						      2 => " CHECKED",
@@ -119,7 +119,7 @@ if(empty($_REQUEST['action']))
 						      4 => " CHECKED",
 						      5 => " CHECKED",
 						      6 => " CHECKED"),
-					
+
 					4 =>	array(0 => " CHECKED",
 						      1 => " CHECKED",
 						      2 => " CHECKED",
@@ -132,18 +132,18 @@ if(empty($_REQUEST['action']))
 	{
 		$InfosForum 			= array();
 		$OpenForum			= array(0 => "",1 => "");
-		
+
 		if($openorclose == "Y")
 			$OpenForum[0] 		= " SELECTED";
 		else
 			$OpenForum[1] 		= " SELECTED";
-		
+
 		$droits 			= $_POST['droits'];
 		$MaxChar			= $_POST['MaxChar'];
-		
+
 		$InfosForum['forumtitle'] 	= getrecupforform($_POST['forumname']);
-		$InfosForum['forumcomment'] 	= getrecupforform($_POST['forumcoment']);	
-	}	
+		$InfosForum['forumcomment'] 	= getrecupforform($_POST['forumcoment']);
+	}
 
 	$query=$sql->query("SELECT catid,cattitle FROM "._PRE_."categorie ORDER BY catid")->execute();
 	$nbcat=$query->num_rows();
@@ -159,24 +159,24 @@ if(empty($_REQUEST['action']))
 			$Selected 		= 	"";
 			if($Cats['catid'] == $CatParent)
 				$Selected 	= 	" SELECTED";
-				
+
 			$Cats['cattitle']		=	getformatrecup($Cats['cattitle']);
 			$tpl->box['catlist']     .=	$tpl->gettemplate("adm_createforum","selectcat");
 		}
-		
+
 		$tpl->box['pagedest']		=	"createforum.php";
 		$tpl->box['listedroits'] 		= 	"";
 		$query 				= 	$sql->query("SELECT * FROM "._PRE_."groups ORDER BY id_group")->execute();
 		$NbGroups			= 	$query->num_rows();
 		$i				=	1;
-		
+
 		while($Grp = $query->fetch_array())
 		{
-			
+
 			if($error)
 			{
 				$RightsDefine[$i]	=	array_map("Return_Checked",$droits[$i]);
-				$DefMaxChar 		= 	$MaxChar[$i];							
+				$DefMaxChar 		= 	$MaxChar[$i];
 			}
 			if($Grp['id_group'] > 4)
 				$AffRights 		= 	$RightsDefine[$Grp['parent']];
@@ -189,7 +189,7 @@ if(empty($_REQUEST['action']))
 				$tpl->box['listedroits'] .= 	$tpl->gettemplate("adm_createforum","ligne_droits");
 			$i++;
 		}
-		
+
 		$tpl->box['admcontent']		=	$tpl->gettemplate("adm_createforum","formulaire");
 	}
 }

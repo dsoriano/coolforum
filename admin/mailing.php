@@ -33,7 +33,7 @@ getlangage("adm_mailing");
 if($_REQUEST['action']=="savemailing")
 {
 	$error = "";
-	
+
 	// **** Test du titre ****
 	$testchain=preg_replace("/([\s]{1,})/","",$_POST['Titre']);
 	if(strlen($testchain)==0)
@@ -45,24 +45,24 @@ if($_REQUEST['action']=="savemailing")
 		$error=$tpl->attlang("badmsg");
 
 	if(strlen($error)==0)
-	{		
+	{
 		$Titre = getformatmsg($_POST['Titre']);
 		$Message = getformatmsg($_POST['Message']);
 		$Date = time();
-		
+
 		$query = $sql->query("INSERT INTO "._PRE_."mailing (date,titre,message) VALUES ('%s','%s','%s')", array($Date, $Titre, $Message))->execute();
-		
-		$_GET['id'] = $query->insert_id();
-		
+
+		$_GET['id'] = $sql->insertId();
+
 		$_REQUEST['action'] = "send";
 	}
 	else
 	{
 		$Titre = getrecupforform($_POST['Titre']);
 		$Message = getrecupforform($_POST['Message']);
-		
+
 		$tpl->box['error'] = $tpl->gettemplate("adm_mailing","error");
-		
+
 		$_REQUEST['action'] = NULLSTR;
 	}
 }
@@ -70,42 +70,42 @@ if($_REQUEST['action']=="savemailing")
 if($_REQUEST['action']=="send")
 {
 	$id = intval($_GET['id']);
-	
+
 	// **** définition des limites par boucle ****
 	$Limite = 30;
-	
+
 	if(isset($_GET['debut']))
 		$debut = intval($_GET['debut']);
 	else
 		$debut = 0;
-		
+
 	$fin = $debut + $Limite;
 
 	// **** Sélection du message à envoyer ****
 	$query = $sql->query("SELECT * FROM "._PRE_."mailing WHERE id=%d", $id)->execute();
 	$Mail = $query->fetch_array();
-	
+
 	$Titre = formatstrformail(recupDBforMail($Mail['titre']));
 	$Message = strip_tags(formatstrformail(recupDBforMail($Mail['message'])));
-	
+
 	$forumname	=	$_FORUMCFG['mailforumname'];
-	
+
 	eval("\$Footer = ".$tpl->attlang("mailfooter").";");
 	$Message .= $Footer;
-	
+
 	// **** Nombre de mails au total ****
 	$query = $sql->query("SELECT COUNT(*) AS nbmail FROM "._PRE_."user WHERE mailing='Y' AND userstatus > 0")->execute();
 	//$query = $sql->query("SELECT COUNT(*) AS nbmail FROM "._PRE_."user WHERE userid = 1");
 
 	list($nbmail) = $query->fetch_array();
-	
+
 	// **** Envoi des emails ****
 	$query = $sql->query("SELECT usermail FROM "._PRE_."user WHERE mailing='Y' AND userstatus > 0 ORDER BY userid LIMIT %d,%d", array($debut, $Limite))->execute();
 	//$query = $sql->query("SELECT usermail FROM "._PRE_."user WHERE userid = 1 ORDER BY userid LIMIT $debut,$fin");
 
 	while(list($To) = $query->fetch_array())
 		sendmail($To,$Titre,$Message);
-	
+
 	// **** Rechargement page ou fin ****
 	if($fin < $nbmail)
 	{
@@ -113,15 +113,15 @@ if($_REQUEST['action']=="send")
 		exit;
 	}
 	else
-		$tpl->box['admcontent'] = $tpl->gettemplate("adm_mailing","endmailing");	
-	
+		$tpl->box['admcontent'] = $tpl->gettemplate("adm_mailing","endmailing");
+
 }
 
 if(empty($_REQUEST['action']))
 {
 	$tpl->box['error']		=	NULLSTR;
 	$tpl->box['admcontent'] = $tpl->gettemplate("adm_mailing","mailingform");
-	
+
 }
 
 $cache.=$tpl->gettemplate("adm_mailing","content");
