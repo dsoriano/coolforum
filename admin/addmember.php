@@ -28,7 +28,7 @@
 //*********************************************************************************
 
 require("entete.php");
- 
+
 getlangage("adm_addmembre");
 
 $tpl->box['errorbox']=NULLSTR;
@@ -36,12 +36,12 @@ $tpl->box['errorbox']=NULLSTR;
 if($_REQUEST['action']=="save")
 {
 		$error="";
-		
+
 		//**** test du pseudo ****
 		$testchain	=	preg_replace("/([\s]{1,})/","",$_POST['pseudo']);
 		if(strlen($testchain)==0)
 			$error	=	$tpl->attlang("errorpseudo1");
-			
+
 		$rgpseudo	=	trim($_POST['pseudo']);
 		$rgpseudo	=	getformatmsg($rgpseudo,false);
 		$query		=	$sql->query("SELECT COUNT(*) AS nbpseudos FROM "._PRE_."user WHERE login='%s'", $rgpseudo)->execute();
@@ -53,7 +53,7 @@ if($_REQUEST['action']=="save")
 		$testchain	=	preg_replace("/([\s]{1,})/","",$_POST['password1']);
 		if(strlen($testchain)==0)
 			$error	=	$tpl->attlang("errormdp1");
-			
+
 		if($_POST['password1']!=$_POST['password2'])
 			$error	=	$tpl->attlang("errormdp2");
 
@@ -65,27 +65,27 @@ if($_REQUEST['action']=="save")
 			$regemail=$_POST['email'];
 			$query=$sql->query("SELECT COUNT(*) AS nbmail1 FROM "._PRE_."user WHERE usermail='%s'", $regemail)->execute();
 			list($nbmail1)=$query->fetch_array();
-			
+
 			$query=$sql->query("SELECT COUNT(*) AS nbmail2 FROM "._PRE_."userplus WHERE mailorig='%s'", $regemail)->execute();
 			list($nbmail2)=$query->fetch_array();
-			
+
 			if($nbmail1>0 || $nbmail2>0)
 				$error=$tpl->attlang("errormail2");
-		}			
-			
+		}
+
 		// test question/réponse si confirmation d'email désactivée
 		if ($_FORUMCFG['confirmparmail'] < 2)
 		{
 			$testchain=preg_replace("/([\s]{1,})/","",$_POST['question']);
 			if(strlen($testchain)==0)
-				$error=$tpl->attlang("errorquest");			
+				$error=$tpl->attlang("errorquest");
 			$testchain=preg_replace("/([\s]{1,})/","",$_POST['reponse']);
 			if(strlen($testchain)==0)
 				$error=$tpl->attlang("errorrep");
 		}
 
 		if(strlen($error)==0)
-		{		
+		{
 			$date=time();
 
 			$password=rawurlencode(getencrypt($_POST['password1'],$_FORUMCFG['chainecodage']));
@@ -97,14 +97,14 @@ if($_REQUEST['action']=="save")
 			}
 			else
 				$question	=	$reponse	=	NULLSTR;
-				
-				
+
+
 			$query=$sql->query("INSERT INTO "._PRE_."user (login,password,userstatus,registerdate,usermsg,usermail,timezone,lng) VALUES ('%s','%s',2,'%s',0,'%s','%s','%s')", array($rgpseudo, $password, $date, $regemail, $_FORUMCFG['defaulttimezone'], $_FORUMCFG['defaultlangage']))->execute();
-			$rguserid=$query->insert_id();
-				
+			$rguserid = $sql->insertId();
+
 			$query=$sql->query("INSERT INTO "._PRE_."userplus(idplus,question,reponse,mailorig) VALUES (%d,'%s','%s','%s')", array($rguserid, $question, $reponse, $regemail))->execute();
 			updatemembers();
-				
+
 			$tpl->box['admcontent']=$tpl->gettemplate("adm_addmembre","registerok");
 		}
 		else
@@ -118,7 +118,7 @@ if($_REQUEST['action']=="save")
 if(empty($_REQUEST['action']))
 {
 	$tpl->box['isquestion'] = NULLSTR;
-	
+
 	if(strlen($error)>0)
 		$tpl->box['errormsg']=$tpl->gettemplate("adm_addmembre","errorbox");
 	if($_FORUMCFG['confirmparmail'] < 2)
