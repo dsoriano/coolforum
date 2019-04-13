@@ -44,29 +44,29 @@ function next_steps()
 
 if($_REQUEST['steps']==1)
 {
-	$query = $sql->query("DROP TABLE ".$_PRE."annonces");
-	$query = $sql->query("DROP TABLE ".$_PRE."avatars");
-	$query = $sql->query("DROP TABLE ".$_PRE."banlist");
-	$query = $sql->query("DROP TABLE ".$_PRE."campagnes");
-	$query = $sql->query("DROP TABLE ".$_PRE."categorie");
-	$query = $sql->query("DROP TABLE ".$_PRE."config");
-	$query = $sql->query("DROP TABLE ".$_PRE."forums");
-	$query = $sql->query("DROP TABLE ".$_PRE."groups");
-	$query = $sql->query("DROP TABLE ".$_PRE."groups_perm");
-	$query = $sql->query("DROP TABLE ".$_PRE."language");
-	$query = $sql->query("DROP TABLE ".$_PRE."mailing");
-	$query = $sql->query("DROP TABLE ".$_PRE."moderateur");
-	$query = $sql->query("DROP TABLE ".$_PRE."poll");
-	$query = $sql->query("DROP TABLE ".$_PRE."posts");
-	$query = $sql->query("DROP TABLE ".$_PRE."privatemsg");
-	$query = $sql->query("DROP TABLE ".$_PRE."search");
-	$query = $sql->query("DROP TABLE ".$_PRE."session");
-	$query = $sql->query("DROP TABLE ".$_PRE."skins");
-	$query = $sql->query("DROP TABLE ".$_PRE."smileys");
-	$query = $sql->query("DROP TABLE ".$_PRE."statcamp");
-	$query = $sql->query("DROP TABLE ".$_PRE."topics");
-	$query = $sql->query("DROP TABLE ".$_PRE."user");
-	$query = $sql->query("DROP TABLE ".$_PRE."userplus");
+	$query = $sql->query("DROP TABLE "._PRE_."annonces")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."avatars")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."banlist")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."campagnes")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."categorie")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."config")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."forums")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."groups")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."groups_perm")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."language")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."mailing")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."moderateur")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."poll")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."posts")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."privatemsg")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."search")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."session")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."skins")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."smileys")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."statcamp")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."topics")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."user")->execute();
+	$query = $sql->query("DROP TABLE "._PRE_."userplus")->execute();
 
 	echo("Les tables de votre forum sont maintenant supprimées...");		
 }
