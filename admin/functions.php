@@ -28,7 +28,9 @@
 //*********************************************************************************
 
 require_once realpath(dirname(__FILE__) . '/../secret/config.inc.php');
-require_once realpath(dirname(__FILE__) . '/../lib/vendor/cfFramework/database/databaseFactory.php');
+//require_once realpath(dirname(__FILE__) . '/../lib/vendor/cfFramework/database/databaseFactory.php');
+//require_once realpath(dirname(__FILE__) . '/../include/databaseFactory.php');
+require_once realpath(dirname(__FILE__) . '/../include/database/Database_MySQLi.php');
 
 // ********************************************************
 // *                 CLASSE DE TEMPLATES                  *
@@ -2612,8 +2614,8 @@ function getjsredirect($url,$tplime)
 
 $tps_start 					= 		get_microtime();
 $NbRequest					=		0;
-//$sql 						= 		new SQLConnect;
-$sql = databaseFactory::connect(DB_DRIVER, array(
+
+$sql = Database_MySQLi::getInstance(array(
     'hostname' => DB_HOST,
     'username' => DB_USER,
     'password' => DB_PASSWORD,
