@@ -68,7 +68,7 @@ class Database_MySQLi extends MySQLi
 
 	/**
 	 * Exécute la requête
-	 * @return mysqli_result|boolean
+	 * @return Database_MySQLi_Result|boolean
 	 * @throws Exception
 	 */
 	public function execute()
