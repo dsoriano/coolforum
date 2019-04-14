@@ -35,20 +35,18 @@ if($_REQUEST['action']=="save")
 	$_POST['configz']['indexnews'] = preg_replace("/<script.*?>.*?<\/script>/si","",$_POST['configz']['indexnews']);
 	$_POST['configz']['catseparate'] = preg_replace("/<script.*?>.*?<\/script>/si","",$_POST['configz']['catseparate']);
 
-	if(!isset($_POST['configz']['conn_accueil']) || (isset($_POST['configz']['conn_accueil']) && $_POST['configz']['conn_accueil'] != "Y"))	
+	if(!isset($_POST['configz']['conn_accueil']) || (isset($_POST['configz']['conn_accueil']) && $_POST['configz']['conn_accueil'] != "Y"))
 		$_POST['configz']['conn_accueil'] 	= "N";
 	if(!isset($_POST['configz']['conn_forum']) || (isset($_POST['configz']['conn_forum']) && $_POST['configz']['conn_forum'] != "Y"))
 		$_POST['configz']['conn_forum'] 	= "N";
 	if(!isset($_POST['configz']['conn_topic']) || (isset($_POST['configz']['conn_topic']) && $_POST['configz']['conn_topic'] != "Y"))
 		$_POST['configz']['conn_topic'] 	= "N";
-		
-	for($i=0;$i<count($_POST['configz']);$i++)
-	{
-		$valeur=each($_POST['configz']);
-		$valeur['value'] = getformathtml($valeur['value']);
 
-		$query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($valeur['value'], $valeur['key']))->execute();
-	}
+	foreach ($_POST['configz'] as $key => $value) {
+        $value = getformathtml($value);
+        $query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($value, $key))->execute();
+    }
+
 	$_REQUEST['action'] = NULLSTR;
 }
 
@@ -59,11 +57,11 @@ if(empty($_REQUEST['action']))
 							NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR);
 	$timezn1 = array();
 	$timezn2 = array();
-	
-	
+
+
 	$configuration['indexnews']=getformatrecup($configuration['indexnews']);
 	$configuration['catseparate']=getformatrecup($configuration['catseparate']);
-	
+
 	if($configuration['viewmsgedit']=="Y")
 		$IsSelected[1]=" SELECTED";
 	else
@@ -72,7 +70,7 @@ if(empty($_REQUEST['action']))
 	if($configuration['bbcodeinsign']=="Y")
 		$IsSelected[3]=" SELECTED";
 	else
-		$IsSelected[4]=" SELECTED";	
+		$IsSelected[4]=" SELECTED";
 
 	if($configuration['smileinsign']=="Y")
 		$IsSelected[5]=" SELECTED";
@@ -99,23 +97,23 @@ if(empty($_REQUEST['action']))
 
 	if($configuration['conn_forum'] == "Y")			$IsChecked[1] = " CHECKED";
 	else											$IsChecked[1] = "";
-	
+
 	if($configuration['conn_topic'] == "Y")			$IsChecked[2] = " CHECKED";
 	else											$IsChecked[2] = "";
 
 	//**** affichage du skin par défaut ****
-	$tpl->box['skinlist']	=	"";	
+	$tpl->box['skinlist']	=	"";
 	$query			=	$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname'")->execute();
-	
+
 	while($j=$query->fetch_array())
 	{
 		$selected	=	"";
 		if($configuration['defaultskin']==$j['id'])	$selected=" SELECTED";
-			
+
 		$tpl->box['skinlist'].=$tpl->gettemplate("adm_options_gen","skinlist");
 	}
-	
-	$cache.=$tpl->gettemplate("adm_options_gen","optionslist");	
+
+	$cache.=$tpl->gettemplate("adm_options_gen","optionslist");
 }
 
 require("bas.php");

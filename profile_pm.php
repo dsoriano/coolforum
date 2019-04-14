@@ -41,41 +41,38 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 
 if($_REQUEST['action']=="delmsg")
 {
-	$total=count($_REQUEST['del']);
-	if($total==0)
-		$tpl->box['infomsg']=$tpl->attlang("ifnopmtodel");
-	else
-	{
-		$ok=true;
-		for($i=0;$i<$total;$i++)
-		{
-			$transfert=each($_REQUEST['del']);
-			$query=$sql->query("DELETE FROM "._PRE_."privatemsg WHERE id=%d AND iddest=%d", array($transfert[1], $_USER['userid']))->execute();
-			if(!$query)
-				$ok=false;
+	if (count($_REQUEST['del']) === 0) {
+        $tpl->box['infomsg'] = $tpl->attlang("ifnopmtodel");
+    } else {
+		$ok = true;
+		foreach ($_REQUEST['del'] as $value) {
+			$query = $sql->query("DELETE FROM "._PRE_."privatemsg WHERE id=%d AND iddest=%d", array($value, $_USER['userid']))->execute();
+			if (!$query) {
+                $ok = false;
+            }
 		}
-	
+
 		if($ok)
 			$tpl->box['infomsg']=$tpl->attlang("ifpmdeleted");
 		else
 			$tpl->box['infomsg']=$tpl->attlang("ifpmnotdel");
 	}
 	updatepmstats($_USER['userid']);
-	
-	$tpl->box['profilcontent']=$tpl->gettemplate("profil_pm","infobox");	
+
+	$tpl->box['profilcontent']=$tpl->gettemplate("profil_pm","infobox");
 	$tpl->box['profilcontent'].=getjsredirect("profile.php?p=pm",3000);
 }
 
 if($_REQUEST['action']=="delallmsg")
 {
 	$query = $sql->query("DELETE FROM "._PRE_."privatemsg WHERE iddest=%d", $_USER['userid'])->execute();
-	
+
 	if($query)	$tpl->box['infomsg']=$tpl->attlang("ifpmdeleted");
 	else		$tpl->box['infomsg']=$tpl->attlang("ifpmnotdel");
-	
+
 	updatepmstats($_USER['userid']);
-	
-	$tpl->box['profilcontent']=$tpl->gettemplate("profil_pm","infobox");	
+
+	$tpl->box['profilcontent']=$tpl->gettemplate("profil_pm","infobox");
 	$tpl->box['profilcontent'].=getjsredirect("profile.php?p=pm",3000);
 }
 
@@ -83,15 +80,15 @@ if($_REQUEST['action']=="delallmsg")
 if($_REQUEST['action']=="readmsg")
 {
 	$Id = intval($_REQUEST['id']);
-	
+
 	$query		=	$sql->query("SELECT * FROM "._PRE_."privatemsg WHERE id=%d", $Id)->execute();
 	$tpl->tmp	=	$query->fetch_array();
 	if($tpl->tmp['iddest']!= $_USER['userid'])
 		geterror("notyours");
-	
+
 	$query		=	$sql->query("UPDATE "._PRE_."privatemsg SET vu=1 WHERE id=%d", $Id)->execute();
 	updatepmstats($_USER['userid']);
-	
+
 	$tpl->tmp['sujet']	=	getformatrecup($tpl->tmp['sujet']);
 	$tpl->tmp['date']	=	getlocaltime($tpl->tmp['date']);
 	$tpl->tmp['msg']	=	getformatrecup($tpl->tmp['msg']);
@@ -107,9 +104,9 @@ if($_REQUEST['action']=="readmsg")
 		InitBBcode();
 		$tpl->tmp['msg']=getreturnbbcode($tpl->tmp['msg']);
 	}
-	
+
 	$tpl->box['profilcontent']=$tpl->gettemplate("profil_pm","readpmbox");
-	 
+
 }
 
 if($_REQUEST['action']=="sendmsg")
@@ -121,23 +118,23 @@ if($_REQUEST['action']=="sendmsg")
 	if(strlen($testchain)==0)
 		$error=$tpl->attlang("errorsujet");
 
-	//**** test du message ****		
+	//**** test du message ****
 	$testchain=preg_replace("/([\s]{1,})/","",$_POST['msg']);
 	if(strlen($testchain)==0)
 		$error=$tpl->attlang("errormsg");
-	
+
 	//**** test du destinataire ****
 	$testdest=intval($_POST['dest']);
 	if($testdest < 1)
 		$error=$tpl->attlang("errordest");
-		
+
 	if(strlen($error)==0)
 	{
-		//**** formattage des données ****		
+		//**** formattage des données ****
 		$date	=	time();
 		$dest	=	intval($_POST['dest']);
 		$sujet	=	getformatmsg($_POST['sujet'],false);
-		
+
 		if($_USER['wysiwyg']=="Y")
 		{
 			$msg		=	convert_html_to_bbcode($_POST['msg']);
@@ -148,18 +145,18 @@ if($_REQUEST['action']=="sendmsg")
 
 		$msg		=	test_max_length($msg,$_USER['Max_Pm']);
 		$sujet		=	test_max_length($sujet,$_FORUMCFG['limittopiclength']);
-		
+
 		if(isset($_POST['smilecode']) && $_POST['smilecode']=="non")	$smiles	=	"N";
-			else			$smiles	=	"Y";	
-	
+			else			$smiles	=	"Y";
+
 		if(isset($_POST['bbcode']) && $_POST['bbcode']=="non")	$nobb	=	"N";
 			else			$nobb	=	"Y";
-	
+
 		$username = getformatdbtodb($_USER['username']);
 
 		$query = $sql->query("INSERT INTO "._PRE_."privatemsg (iddest,idexp,date,pseudo,sujet,msg,smiles,bbcode) VALUES (%d,%d,'%s','%s','%s','%s','%s','%s')", array($dest, $_USER['userid'], $date, $username, $sujet, $msg, $smiles, $nobb))->execute();
 		updatepmstats($dest);
-			
+
 		if($query)
 		{
 			if($_FORUMCFG['mailnotify']=="Y")
@@ -170,21 +167,21 @@ if($_REQUEST['action']=="sendmsg")
 				{
 					$forumname	=	$_FORUMCFG['mailforumname'];
 					$username	=	formatstrformail($_USER['username']);
-					
+
 					if(get_magic_quotes_gpc() == 1)
 						$sujet	=	stripslashes($_POST['sujet']);
-					
+
 					eval("\$subject = ".$tpl->attlang("mailsujet").";");
 					eval("\$mesg = ".$tpl->attlang("mailmsg").";");
-					
+
 					@sendmail($zz['usermail'],$subject,$mesg);
 				}
-			}	
+			}
 			$tpl->box['infomsg']	=	$tpl->attlang("msgsent");
 		}
 		else
 			$tpl->box['infomsg']	=	$tpl->attlang("msgnotsent");
-		
+
 		$tpl->box['profilcontent']	=	$tpl->gettemplate("profil_pm","infobox");
 		$tpl->box['profilcontent']       .=	getjsredirect("profile.php?p=pm",3000);
 	}
@@ -194,7 +191,7 @@ if($_REQUEST['action']=="sendmsg")
 		$pm=$_POST;
 		$_REQUEST['action']	=	"writemsg";
 	}
-	
+
 }
 if($_REQUEST['action']=="writemsg")
 {
@@ -208,22 +205,22 @@ if($_REQUEST['action']=="writemsg")
 
 	$table_smileys						=		getloadsmileys();
 	$posteurpseudo						=		getformatrecup($_USER['username']);
-	
+
 	if(isset($_POST['idpm']))
 	{
 		$idpm							=		intval($_POST['idpm']);
 		$getpm							=		$sql->query("SELECT * FROM "._PRE_."privatemsg WHERE id=%d", $idpm)->execute();
 		$pm								=		$getpm->fetch_array();
-		
+
 		//**** formattage du sujet ****
 		$prefixsujet					=		$tpl->attlang("prefsujet");
 		$tpl->box['subject']			=		"";
-		
+
 		if(substr($pm['sujet'],0,strlen($prefixsujet))!=$prefixsujet)
 			$tpl->box['subject']		.=		$prefixsujet;
-			
+
 		$tpl->box['subject']			.=		getformatrecup($pm['sujet']);
-		
+
 		//**** formattage du message ****
 		$pm['msg']						=		preg_replace("/\[quote\](.*?)\[\/quote\]/si","",$pm['msg']);
 		$tpl->box['quotemsg']			=		"[quote]".getformatrecup($pm['msg'])."[/quote]";
@@ -235,7 +232,7 @@ if($_REQUEST['action']=="writemsg")
 	}
 	else
 		$tpl->box['subject']			=		"";
-	
+
 	$LimiteLength 						= 		$_USER['Max_Pm'];
 
 	if($LimiteLength > 0)
@@ -243,7 +240,7 @@ if($_REQUEST['action']=="writemsg")
 	else
 		$tpl->box['limitmsgdef']		=		$tpl->attlang("unlimited");
 	//$tpl->box['profilcontent']	=	$tpl->gettemplate("javascript","compter");
-	
+
 	//**** sélection des pseudos ****
 	if(isset($_GET['pseudosearch']) && strlen($_GET['pseudosearch'])>0)
 	{
@@ -252,7 +249,7 @@ if($_REQUEST['action']=="writemsg")
 	}
 	else
 		$query		=	$sql->query("SELECT userid,login FROM "._PRE_."user WHERE userstatus > 0 ORDER BY login")->execute();
-	
+
 	if($query->num_rows()>0)
 	{
 		$tpl->box['loginlist']="";
@@ -261,23 +258,23 @@ if($_REQUEST['action']=="writemsg")
 			$selected="";
 			if((isset($pm['idexp']) && $pm['idexp']==$j['userid']) || (isset($_GET['idexp']) && $_GET['idexp']==$j['userid']) || (isset($_POST['dest']) && $_POST['dest']==$j['userid']))
 				$selected=" SELECTED";
-			$j['login'] = getformatrecup($j['login']); 
+			$j['login'] = getformatrecup($j['login']);
 			$tpl->box['loginlist'].=$tpl->gettemplate("profil_pm","loginoption");
 		}
 		$tpl->box['loginform']=$tpl->gettemplate("profil_pm","loginselect");
 	}
 	else
 		$tpl->box['loginform']=$tpl->attlang("usernotfound");
-	
-	//$tpl->box['limitmsgdef'] = $_USER['Grp_Pm'];	
+
+	//$tpl->box['limitmsgdef'] = $_USER['Grp_Pm'];
 
 	if($_USER['wysiwyg'] == "Y")
 		$tpl->box['javascript']=$tpl->gettemplate("writebox_wysiwyg","wysiwygjs");
 	else
 		$tpl->box['javascript']=$tpl->gettemplate("entete","getjscompter");
-			
+
 	$tpl->box['boxwritepage']=affwritebox("N");
-	
+
 	$tpl->box['profilcontent']=$tpl->gettemplate("profil_pm","sendmessagebox");
 }
 
@@ -287,9 +284,9 @@ if($_REQUEST['action']=="sendpmbymail" && $_FORUMCFG['sendpmbymail']=="Y" && $_F
 	list($usermail)	= $query->fetch_array();
 
 	$forumname	=	formatstrformail(stripslashes(recupDBforMail($_FORUMCFG['forumname'])));
-			
+
 	$query = $sql->query("SELECT * FROM "._PRE_."privatemsg WHERE iddest=%d", $_USER['userid'])->execute();
-	
+
 	$ok = true;
 	while($Pm=$query->fetch_array())
 	{
@@ -297,18 +294,18 @@ if($_REQUEST['action']=="sendpmbymail" && $_FORUMCFG['sendpmbymail']=="Y" && $_F
 		$Pm['msg']	= strip_tags(formatstrformail(recupDBforMail($Pm['msg'])));
 		$Pm['pseudo']	= formatstrformail(recupDBforMail($Pm['pseudo']));
 		$Pm['date']	= getlocaltime($Pm['date']);
-		
+
 		eval("\$subject = ".$tpl->attlang("archivemailsujet").";");
 		eval("\$mesg = ".$tpl->attlang("archivemailmsg").";");
-		
+
 		if(!@sendmail($usermail,$subject,$mesg))
 			$ok = false;
 	}
-	
+
 	if($ok==true)	$tpl->box['infomsg']=$tpl->attlang("mailsent");
 	else		$tpl->box['infomsg']=$tpl->attlang("mailnotsent");
-	
-	$tpl->box['profilcontent']=$tpl->gettemplate("profil_pm","infobox");	
+
+	$tpl->box['profilcontent']=$tpl->gettemplate("profil_pm","infobox");
 	$tpl->box['profilcontent'].=getjsredirect("profile.php?p=pm",3000);
 }
 
@@ -320,10 +317,10 @@ if(empty($_REQUEST['action']))
 		$tpl->box['nbnewpm']=$tpl->attlang("onenewpm");
 	else
 		eval("\$tpl->box['nbnewpm']=\"".$tpl->attlang("multinewpm")."\";");
-	
+
 	$pm_db=$sql->query("SELECT * FROM "._PRE_."privatemsg WHERE iddest=%d ORDER BY date DESC", $_USER['userid'])->execute();
 	$nb=$pm_db->num_rows();
-	
+
 	if($nb==0)
 		$tpl->box['pmcontent']=$tpl->gettemplate("profil_pm","nonewpm");
 	else
@@ -338,13 +335,13 @@ if(empty($_REQUEST['action']))
 			$Respm['date']=getlocaltime($Respm['date']);
 			$Respm['sujet']=getformatrecup($Respm['sujet']);
 			$tpl->box['pmcontent'].=$tpl->gettemplate("profil_pm","viewpms");
-		}	
+		}
 	}
-	
+
 	if($_FORUMCFG['sendpmbymail']=="Y" && $_FORUMCFG['usemails']=="Y")
 		$tpl->box['sendpmbymail']=$tpl->gettemplate("profil_pm","sendpmbymail");
     else
         $tpl->box['sendpmbymail']=NULLSTR;
-	
+
 	$tpl->box['profilcontent']=$tpl->gettemplate("profil_pm","interfaceaccueil");
 }

@@ -38,21 +38,20 @@ if($_REQUEST['action']=="save")
 		$_POST['configz']['confirmparmail'] = 0;
 		$_POST['configz']['mailnotify'] = "N";
 	}
-	
-	for($i=0;$i<count($_POST['configz']);$i++)
-	{
-		$valeur=each($_POST['configz']);
-		$query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($valeur['value'], $valeur['key']))->execute();
-	}
+
+	foreach ($_POST['configz'] as $key => $value) {
+        $query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($value, $key))->execute();
+    }
+
 	$_REQUEST['action'] = NULLSTR;
 }
 
 if(empty($_REQUEST['action']))
 {
 	$configuration=getconfig();
-	$IsSelected = array( 	NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, 
+	$IsSelected = array( 	NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR,
 							NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLSTR);
-	
+
 	if($configuration['usemails']=="Y")
 		$IsSelected[1]=" SELECTED";
 	else
@@ -71,7 +70,7 @@ if(empty($_REQUEST['action']))
 		$IsSelected[7]=" SELECTED";
 	else
 		$IsSelected[8]=" SELECTED";
-	
+
 	if($configuration['sendpmbymail']=="Y")
 		$IsSelected[9]=" SELECTED";
 	else
@@ -80,11 +79,11 @@ if(empty($_REQUEST['action']))
 	if($configuration['mailfunction']=="normal")
 		$IsSelected[11]=" SELECTED";
 	elseif($configuration['mailfunction']=="online")
-		$IsSelected[12]=" SELECTED";		
+		$IsSelected[12]=" SELECTED";
 	elseif($configuration['mailfunction']=="nexen")
 		$IsSelected[13]=" SELECTED";
-	
-	$cache.=$tpl->gettemplate("adm_options_emails","optionslist");	
+
+	$cache.=$tpl->gettemplate("adm_options_emails","optionslist");
 }
 
 require("bas.php");

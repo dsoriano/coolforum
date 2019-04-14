@@ -333,12 +333,14 @@ if($_REQUEST['action']=="savemsg")
 		else
 		      	$limit=0;
 		reset($cookiespost);
-		      for($aa=0;$aa<count($cookiespost);$aa++)
-		      {
-		      	$blop=each($cookiespost);
-		      	if($aa>=$limit)
-		      		$cookposttransfert[$blop['key']]=$blop['value'];
-		      }
+		$aa = 0;
+		foreach ($cookiespost as $key => $value) {
+		    if ($aa >= $limit) {
+                $cookposttransfert[$key]=$value;
+            }
+		    $aa++;
+        }
+
 		sendcookie($cookiedetails,cookencode($cookposttransfert),-1);
 
 		SetCookie("LimitTimePost",time(),time()+$_FORUMCFG['limittimepost']);

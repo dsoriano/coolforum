@@ -44,24 +44,23 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 if($_REQUEST['action']=="stopnotify")
 {
 	$total=count($_POST['stop']);
-	if($total==0)
-		$tpl->box['infomsg']=$tpl->attlang("nothingchecked");
-	else
-	{
+	if (count($_POST['stop']) === 0) {
+        $tpl->box['infomsg'] = $tpl->attlang("nothingchecked");
+    } else {
 		$ok=true;
 		for($i=0;$i<$total;$i++)
-		{
-			$transfert = each($_POST['stop']);
-			$query = $sql->query("UPDATE "._PRE_."posts SET notifyme='N' WHERE parent=%d AND idmembre=%d", array($transfert[1], $_USER['userid']))->execute();
-			if(!$query)
-				$ok=false;
+		foreach ($_POST['stop'] as $value) {
+			$query = $sql->query("UPDATE "._PRE_."posts SET notifyme='N' WHERE parent=%d AND idmembre=%d", array($value, $_USER['userid']))->execute();
+			if (!$query) {
+                $ok = false;
+            }
 		}
-	
+
 		if($ok)		$tpl->box['infomsg']=$tpl->attlang("stopnotifyok");
 		else		$tpl->box['infomsg']=$tpl->attlang("stopnotifynok");
 	}
-	
-	$tpl->box['profilcontent']=$tpl->gettemplate("profil_notify","infobox");	
+
+	$tpl->box['profilcontent']=$tpl->gettemplate("profil_notify","infobox");
 	$tpl->box['profilcontent'].=getjsredirect("profile.php?p=notify&page=".$_POST['page'],3000);
 }
 
@@ -69,16 +68,16 @@ if($_REQUEST['action']=="stopnotify")
 if(empty($_REQUEST['action']))
 {
 	// Sécurité pour éviter l'affichage des topics appartenant à des forums dont le membre ne posséde pas les droits
-	
+
 	/*$Forbidden = array();
-	
+
 	while(list($ForumID,$ForumRights)=each($_PERMFORUM))
 		if($ForumRights[1]==false)
 			$Forbidden[]=$ForumID;
-	
+
 	if(count($Forbidden)>0)	$Forbidden = " AND idforum NOT IN (".implode(",",$Forbidden).") ";
 	else			$Forbidden = "";*/
-	
+
 	$query=$sql->query("SELECT * FROM "._PRE_."forums")->execute();
 	$nb=$query->num_rows();
 	if($nb>0)
@@ -86,39 +85,39 @@ if(empty($_REQUEST['action']))
 		while($j=$query->fetch_array())
 		{
 			if(isset($_PERMFORUM[$j['forumid']][1]) && $_PERMFORUM[$j['forumid']][1])
-				$maskarray[]=$j['forumid'];	
-		}	
+				$maskarray[]=$j['forumid'];
+		}
 	}
 	$forummask ="'".implode("','",$maskarray)."'";
 	$Forbidden = " AND idforum IN ($forummask) ";
-	
+
 	// Gestion des pages et récupération de la liste des topics où le membre posséde un abonnement
-	
+
 	$query = $sql->query("SELECT "._PRE_."posts.parent FROM "._PRE_."posts WHERE notifyme='Y' AND "._PRE_."posts.idmembre=%d " . $Forbidden . " GROUP BY parent", array($_USER['userid']))->execute();
-	
+
 	$nbtopics_filtered = $query->num_rows();
 
 	if(!isset($_GET['page']))		$page	=	1;
 	else							$page	=	intval($_GET['page']);
-	
+
 	$tpl->box['navpages']=getnumberpages($nbtopics_filtered,"profil_notify",$_FORUMCFG['topicparpage'],$page);
 	if($nbpages>1)
 		$tpl->box['numberpages']=$tpl->gettemplate("profil_notify","boxpages");
 	else
 		$tpl->box['numberpages']=NULLSTR;
-	
+
 	$debut = ($page*$_FORUMCFG['topicparpage'])-$_FORUMCFG['topicparpage'];
-	
+
 	$ListIDTopics = array();
 	while(list($IDTopic)=$query->fetch_array())
 		$ListIDTopics[]=$IDTopic;
-	
-	
+
+
 	// Récupération de la liste des topics à afficher
-	
+
 	$total = 0;
 	$tpl->box['notifycontent'] = NULLSTR;
-	
+
 	if(count($ListIDTopics)>0)
 	{
 		$query = $sql->query("SELECT "._PRE_."topics.idtopic,
@@ -141,12 +140,12 @@ if(empty($_REQUEST['action']))
 				LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid
 				WHERE idtopic IN (%s)
 				ORDER BY "._PRE_."topics.postit DESC,"._PRE_."topics.datederrep DESC LIMIT %d,%d", array(implode(",",$ListIDTopics), $debut, $_FORUMCFG['topicparpage']))->execute();
-		
+
 		$total = $query->num_rows();
-		
+
 		if(isset($_COOKIE['CoolForumDetails']))
 			$cookiespost=cookdecode($_COOKIE['CoolForumDetails']);
-		
+
 		while($Topics=$query->fetch_array())
 		{
 			$forumid	=	$Topics['idforum'];
@@ -155,8 +154,8 @@ if(empty($_REQUEST['action']))
 	}
 	else
 		$tpl->box['notifycontent'] = $tpl->gettemplate("profil_notify","nonotify");
-	
+
 	eval("\$tpl->box['accueilnotifycmt']=\"".$tpl->attlang("accueilnotifycmt")."\";");
-	
+
 	$tpl->box['profilcontent'] = $tpl->gettemplate("profil_notify","interfaceaccueil");
 }

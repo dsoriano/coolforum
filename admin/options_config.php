@@ -32,16 +32,13 @@ getlangage("adm_options_config");
 
 if($_REQUEST['action']=="save")
 {
-	for($i=0;$i<count($_POST['configz']);$i++)
-	{
-		$valeur=each($_POST['configz']);
-		
-		if($valeur['key'] != "forumname" && $valeur['key'] != "sitename")
-			$valeur['value'] = getformathtml($valeur['value']);
+    foreach ($_POST['configz'] as $key => $value) {
+		if($key != "forumname" && $key != "sitename")
+			$value = getformathtml($value);
 		else
-			$valeur['value'] = getformatmsg($valeur['value']);
+			$value = getformatmsg($value);
 
-		$query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($valeur['value'], $valeur['key']))->execute();
+		$query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($value, $key))->execute();
 	}
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -52,14 +49,14 @@ if(empty($_REQUEST['action']))
 	$IsSelected = array();
 	$timezn1 = array();
 	$timezn2 = array();
-	
-	
+
+
 	$configuration['forumname']=getformatrecup($configuration['forumname']);
 	$configuration['sitename']=getformatrecup($configuration['sitename']);
 	$configuration['closeregmsg']=getformatrecup($configuration['closeregmsg']);
 	$configuration['closeforummsg']=getformatrecup($configuration['closeforummsg']);
-	
-	
+
+
 	if($configuration['openforum']=="Y")
 	{
 		$IsSelected[1]=" SELECTED";
@@ -80,7 +77,7 @@ if(empty($_REQUEST['action']))
 	{
 		$IsSelected[3]=NULLSTR;
 		$IsSelected[4]=" SELECTED";
-	}	
+	}
 
 	if($configuration['mustbeidentify']=="Y")
 	{
@@ -92,15 +89,15 @@ if(empty($_REQUEST['action']))
 		$IsSelected[5]=NULLSTR;
 		$IsSelected[6]=" SELECTED";
 	}
-	
+
 	for($i = 0; $i < 25; $i++)
 		if($i == $configuration['defaulttimezone']+12)
 			$timezn2[$i] = " SELECTED";
 		else
 			$timezn2[$i] = NULLSTR;
 	//$timezn2[$configuration['defaulttimezone']+12]=" SELECTED";
-	
-	$cache.=$tpl->gettemplate("adm_options_config","optionslist");	
+
+	$cache.=$tpl->gettemplate("adm_options_config","optionslist");
 }
 
 require("bas.php");
