@@ -1943,7 +1943,7 @@ function updatebirth()
 									"._PRE_."user.userstatus
 									 FROM "._PRE_."userplus 
 									 LEFT JOIN "._PRE_."user ON "._PRE_."user.userid = "._PRE_."userplus.idplus 
-									 WHERE "._PRE_."userplus.birth LIKE \"%s-%%\"")->execute($day);
+									 WHERE "._PRE_."userplus.birth LIKE \"%s-%%\"", $day)->execute();
 	$nb	= $query->num_rows();
 
 	if ($nb>0) {
