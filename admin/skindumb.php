@@ -55,7 +55,7 @@ if($_REQUEST['action']=="import")
 		{
 
 			// Récupération de l'ID du futur skin
-			$query=$sql->query("SELECT id FROM "._PRE_."skins ORDER BY id DESC LIMIT 0,1");
+			$query=$sql->query("SELECT id FROM "._PRE_."skins ORDER BY id DESC LIMIT 0,1")->execute();
 			list($skinid)=$query->fetch_array();
 			$skinid++;
 
@@ -125,8 +125,9 @@ if($_REQUEST['action']=="export")
 		$chaine.="array (\n";
 		reset($list);
 		$list2=array();
-		while(list($key,$val)=each($list))
-			$chaine.="  '".$key."' => '".addslashes($val)."',\n";
+		foreach ($list as $key => $val) {
+            $chaine.="  '".$key."' => '".addslashes($val)."',\n";
+        }
 		$chaine.=")";
 
 		echo($chaine);

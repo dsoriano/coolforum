@@ -35,7 +35,7 @@ $SessForum	=	0;
 $SessTopic	=	0;
 //////////////////////////////
 
-require("entete.php"); 
+require("entete.php");
 
 getlangage("search");
 
@@ -50,10 +50,10 @@ if($_GENERAL[1])
 		$querystring		=	NULLSTR;
 		$Peudo				=	NULLSTR;
 		$tabl_query 		= 	array();
-		
+
 		// ************************************
 		// **** Constitution de la requête ****
-		
+
 		// start requete
 		$querystring		=	"SELECT parent FROM "._PRE_."posts WHERE ";
 
@@ -61,36 +61,36 @@ if($_GENERAL[1])
 		if($_POST['fromtime']=="1")
 			$tabl_query[]	=	"date>".(time()-2592000);
 		if($_POST['fromtime']=="2")
-			$tabl_query[]	=	"date>".(time()-8640000);	
-		
+			$tabl_query[]	=	"date>".(time()-8640000);
+
 		// requete - mot clé
 		if(strlen($_POST['keyword'])>0)
 		{
-			$skeyword					=	getformatmsg($_POST['keyword'],false);		
+			$skeyword					=	getformatmsg($_POST['keyword'],false);
 			if($_POST['in'] == "1")
 				$tabl_query[]			=	"(sujet LIKE \"%$skeyword%\")";
 			elseif ($_POST['in'] == "2")
 				$tabl_query[]			=	"((sujet LIKE \"%$skeyword%\") OR (msg  LIKE \"%$skeyword%\"))";
 		}
-				
+
 		// recherche par pseudo
 		if(strlen($_POST['pseudosearch'])>0)
 		{
 			$Pseudo			=	getformatmsg($_POST['pseudosearch'],false);
-			
+
 			if($_POST['parampseudo']==2) // Si une partie du pseudo
 			{
 				$querysearch			=	$sql->query("SELECT userid FROM "._PRE_."user WHERE login LIKE \"%%%s%%\"", $Pseudo)->execute();
 				$nbquerysearch			=	$querysearch->num_rows();
-				
+
 				if($nbquerysearch>0)
 				{
 					while($trans		=	$querysearch->fetch_array())
 						$trans2[]		=	$trans['userid'];
-	
+
 					$searchpseudo		=	implode($trans2,"','");
 					unset($trans2);
-					
+
 					$tabl_query[]="idmembre IN ('$searchpseudo')";
 				}
 				else
@@ -100,7 +100,7 @@ if($_GENERAL[1])
 			{
 				$querysearch			=	$sql->query("SELECT userid FROM "._PRE_."user WHERE login ='%s'", $Pseudo)->execute();
 				$nbquerysearch			=	$querysearch->num_rows();
-				
+
 				if($nbquerysearch>0)
 				{
 					$trans				=	$querysearch->fetch_array();
@@ -109,12 +109,12 @@ if($_GENERAL[1])
 				}
 				else
 					$errorsearchpseudo	=	true;
-			}			
+			}
 		}
-	
+
 		// sélection des forums autorisés
 		$maskarray						=	array();
-			
+
 		$query							=	$sql->query("SELECT * FROM "._PRE_."forums")->execute();
 		$nb								=	$query->num_rows();
 		if($nb>0)
@@ -122,34 +122,34 @@ if($_GENERAL[1])
 			while($j = $query->fetch_array())
 			{
 				if(isset($_PERMFORUM[$j['forumid']][1]) && $_PERMFORUM[$j['forumid']][1])
-					$maskarray[]=$j['forumid'];	
-			}	
+					$maskarray[]=$j['forumid'];
+			}
 		}
 		$forummask 						=	"'".implode("','",$maskarray)."'";
-		
+
 		// topics auxquels on a participé
 		if(isset($_GET['idmembre']) && intval($_GET['idmembre'])>0 && intval($_GET['forumsearch']) > 0 && in_array(intval($_GET['forumsearch']),$maskarray))
 		{
 			$searchpseudo 				= 	intval($_GET['idmembre']);
-			
+
 			$tabl_query[]				=	"idmembre = $searchpseudo";
 			$tabl_query[]				=	"idforum='$forumsearch'";
 		}
 		elseif(intval($_POST['forumsearch']) > 0) // recherche par forum
 			$tabl_query[]				=	"idforum='$forumsearch'";
 		else // recherche tous forums
-			$tabl_query[]				=	"idforum IN ($forummask)";				
+			$tabl_query[]				=	"idforum IN ($forummask)";
 
 		if($errorsearchpseudo==false && (strlen($searchpseudo)>0 || (strlen($searchpseudo)==0 && strlen($_POST['keyword'])>0) ))
 		{
 			$querystring				.=	implode($tabl_query," AND ")." ORDER BY date DESC";
-			
-			$resultat					=	$sql->query($querystring);
+
+			$resultat					=	$sql->query($querystring)->execute();
 			$nb 						= 	$resultat->num_rows();
 		}
 		else
 			$nb							=	0;
-		
+
 		// ********************************
 		// **** sauvegarde du résultat ****
 		if($nb>0)
@@ -164,7 +164,7 @@ if($_GENERAL[1])
 					$topfinal[$cpt]=$topic;
 					$cpt++;
 				}
-				
+
 			}
 			$sessionsearch=init_session();
 			$sessionstring = implode(',',$topfinal);
@@ -173,26 +173,26 @@ if($_GENERAL[1])
 				$keyword=$Pseudo;
 			else
 				$keyword=getformatmsg($_POST['keyword'],false);
-			
+
 			$insert_search=$sql->query("INSERT INTO "._PRE_."search VALUES('%s','%s','%s','%s')", array($sessionsearch, $keyword, $date, $sessionstring))->execute();
-			
+
 			$tpl->box['searchcontent']=$tpl->gettemplate("search","pleasewait");
 			$tpl->box['searchcontent'].=getjsredirect("find.php?ssearch=$sessionsearch",2000);
-		
+
 		}
 		else
 			$tpl->box['searchcontent'].=$tpl->gettemplate("search","nofound");
 	}
-	
-	
+
+
 	if(empty($_REQUEST['action']))
 	{
 		$tpl->box['pseudosearch'] = NULLSTR;
-		
+
 		$perim=time()-3600;
-		
+
 		$query = $sql->query("DELETE FROM "._PRE_."search WHERE time<%d", $perim)->execute();
-		
+
 		if(isset($_GET['posterid']))
 		{
 			$posterid	= 	intval($_GET['posterid']);
@@ -204,23 +204,23 @@ if($_GENERAL[1])
 				$tpl->box['pseudosearch']	=	getformatdbtodb($j['login']);
 			}
 		}
-		
+
 		$tpl->box['forumlist']="";
 		$isforum=false;
-		
+
 		$query = $sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
 		$nb = $query->num_rows();
-		
+
 		if($nb>0)
 		{
 			$TabForum=array();
-			
+
 			$sqlforums = $sql->query("SELECT * FROM "._PRE_."forums ORDER BY forumcat,forumorder")->execute();
 			$nbforums=$sqlforums->num_rows();
-			
+
 			if($nbforums>0)
 				while($TabForum[]=$sqlforums->fetch_array());
-				
+
 			while($Cats=$query->fetch_array())
 			{
 				$addforum="";
@@ -237,19 +237,19 @@ if($_GENERAL[1])
 					$tpl->box['forumlist'].=$tpl->gettemplate("search","addcatform");
 					$tpl->box['forumlist'].=$addforum;
 				}
-			}		
+			}
 		}
-		
+
 		if($isforum)
 			$tpl->box['searchcontent']=$tpl->gettemplate("search","searchform");
 		else
 			$tpl->box['searchcontent']=$tpl->gettemplate("search","cantsearch");
 	}
-	
+
 	$cache.=$tpl->gettemplate("search","accueilsearch");
-	
+
 	$tps = number_format(get_microtime() - $tps_start,4);
-	
+
 	$cache.=$tpl->gettemplate("baspage","endhtml");
 	$tpl->output($cache);
 }

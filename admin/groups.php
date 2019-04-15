@@ -244,7 +244,7 @@ if($_REQUEST['action'] == "newgroup")
 	else
 	{
 		//$id = intval($_REQUEST['id']);
-		$query = $sql->query("SELECT * FROM "._PRE_."groups WHERE id_group='$parentgroup'");
+		$query = $sql->query("SELECT * FROM "._PRE_."groups WHERE id_group=%d", [$parentgroup])->execute();
 
 		$Droits_gen = $query->fetch_array();
 

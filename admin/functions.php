@@ -27,10 +27,8 @@
 //*                                                                               *
 //*********************************************************************************
 
-require_once realpath(dirname(__FILE__) . '/../secret/config.inc.php');
-//require_once realpath(dirname(__FILE__) . '/../lib/vendor/cfFramework/database/databaseFactory.php');
-//require_once realpath(dirname(__FILE__) . '/../include/databaseFactory.php');
-require_once realpath(dirname(__FILE__) . '/../include/database/Database_MySQLi.php');
+require_once __DIR__ . '/../secret/config.inc.php';
+require_once __DIR__ . '/../include/database/Database_MySQLi.php';
 
 // ********************************************************
 // *                 CLASSE DE TEMPLATES                  *
@@ -1715,7 +1713,7 @@ function getreturnbbcode($msg,$topic=false)
 	// **** gestion de la balise des messages cachés ****
 	if($_FORUMCFG['canpostmsgcache']=="Y" && preg_match("|\[cache\]|",$msg) > 0 && $topic==true)
 	{
-		$isposter=$sql->query("SELECT COUNT(*) AS present FROM "._PRE_."posts WHERE parent='".$DetailMsg['parent']."' AND idmembre=".$_USER['userid']);
+		$isposter=$sql->query("SELECT COUNT(*) AS present FROM "._PRE_."posts WHERE parent=%d AND idmembre=%d", [$DetailMsg['parent'], $_USER['userid']])->execute();
 		$isrespond=$isposter->fetch_array();
 
 		if($isrespond['present']>0)

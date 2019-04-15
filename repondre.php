@@ -515,7 +515,7 @@ if($_REQUEST['action']=="form")
 
 		if($_FORUMCFG['canpostmsgcache']=="Y")
 		{
-			$query=$sql->query("SELECT idpost FROM "._PRE_."posts WHERE parent='$Parent' ORDER BY date LIMIT 0,1");
+			$query=$sql->query("SELECT idpost FROM "._PRE_."posts WHERE parent=%d ORDER BY date LIMIT 0,1", [$Parent])->execute();
 			list($IdTopic) = $query->fetch_array();
 		}
 
