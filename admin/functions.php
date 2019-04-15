@@ -2619,6 +2619,8 @@ $sql = Database_MySQLi::getInstance(array(
     'database' => DB_NAME
 ));
 
+$sql->set_charset('latin1');
+
 $tpl 						= 		new Template;
 
 $_FORUMCFG					=		getconfig();
