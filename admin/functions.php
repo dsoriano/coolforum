@@ -920,7 +920,7 @@ function getcolorsearch($chain)
 	global $SearchOrig, $SearchReplace;
 
 	$chain	=	stripslashes($chain);
-	if (count($SearchOrig)>0) {
+	if (isset($SearchOrig) && count($SearchOrig)>0) {
         return(str_replace($SearchOrig,$SearchReplace,$chain));
     } else {
         return($chain);
@@ -2524,7 +2524,7 @@ function affdetailtopic($annonce=0,$cit=true)
 			$DetailMsg['msgpost']=getreturnbbcode($DetailMsg['msgpost']);
 	}
 
-	if(count($SearchOrig)>0)
+	if(isset($SearchOrig) && count($SearchOrig)>0)
 		$DetailMsg['msgpost'] = preg_replace("/(.+?)((<(.*?)>)|$)/sie","getcolorsearch('\\1').stripslashes('\\2')",$DetailMsg['msgpost']);
 
 	$DetailMsg['msgpost'] = censuredwords($DetailMsg['msgpost']);
