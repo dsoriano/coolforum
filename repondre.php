@@ -170,8 +170,6 @@ if($_REQUEST['action']=="savemsg")
 		$testchain		=	preg_replace("/<img .*?>/si","[img]",$_POST['msg']);	// Les images ne doivent pas être supprimées par la ligne en dessous
 		$testchain		=	strip_tags($testchain);									// Supprime les balises HTML
 		$testchain		=	preg_replace("/(\r\n|\n)/si","",$testchain);			// Supprime les retour à la ligne
-		if(get_magic_quotes_gpc() == 1)
-			$testchain	=	stripslashes($testchain);							// Supprime les \
 
 		$trans			=	get_html_translation_table(HTML_ENTITIES);				// |
 		$trans 			= 	array_flip($trans);										// > Remplace les entitées HTML par leur caractère équivalent

@@ -168,9 +168,6 @@ if($_REQUEST['action']=="sendmsg")
 					$forumname	=	$_FORUMCFG['mailforumname'];
 					$username	=	formatstrformail($_USER['username']);
 
-					if(get_magic_quotes_gpc() == 1)
-						$sujet	=	stripslashes($_POST['sujet']);
-
 					eval("\$subject = ".$tpl->attlang("mailsujet").";");
 					eval("\$mesg = ".$tpl->attlang("mailmsg").";");
 

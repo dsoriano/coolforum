@@ -86,9 +86,6 @@ function teststring($string)
 
 function getformatmsg($msg,$activenl2br=true)
 {
-	if(get_magic_quotes_gpc()==0)
-		$msg=addslashes($msg);
-
 	$msg=htmlentities($msg, ENT_COMPAT,'ISO-8859-1', true);
 
 	if($activenl2br)

@@ -1413,8 +1413,6 @@ function change_smilies_to_code($msg)
 
 function convert_html_to_bbcode($msg)
 {
-	if(get_magic_quotes_gpc()==1)
-		$msg = stripslashes($msg);
 
 	// #### TRANSFORMATION DES SMILEYS ####
 
@@ -1973,11 +1971,8 @@ function getformatpreview($msg)
 {
 	$msg = htmlentities($msg, ENT_COMPAT,'ISO-8859-1', true);
 
-	if (get_magic_quotes_gpc() == 0) {
-        $msg = addslashes($msg);
-    }
 
-	$msg = addslashes($msg);
+	$msg = addslashes(addslashes($msg));
 
 	$msg = nl2br($msg);
 	return($msg);
@@ -1985,19 +1980,11 @@ function getformatpreview($msg)
 
 function getformathtml($msg)
 {
-	if (get_magic_quotes_gpc()==0) {
-        $msg=addslashes($msg);
-    }
-
 	return($msg);
 }
 
 function getformatmsg($msg,$activenl2br=true)
 {
-	if (get_magic_quotes_gpc()==0) {
-        $msg=addslashes($msg);
-    }
-
 	$msg = htmlentities($msg, ENT_COMPAT,'ISO-8859-1', true);
 
 	if ($activenl2br) {
@@ -2050,21 +2037,11 @@ function getrecupforform($msg, $squote = false)
         $msg = htmlentities($msg, ENT_COMPAT,'ISO-8859-1', true);
     }
 
-	if (get_magic_quotes_gpc()==1 & get_magic_quotes_runtime()==0) {
-        $msg=stripslashes($msg);
-    } elseif(get_magic_quotes_gpc()==0 & get_magic_quotes_runtime()==1) {
-        $msg=addslashes($msg);
-    }
-
 	return($msg);
 }
 
 function getrecupfromcookie($cook)
 {
-	if (get_magic_quotes_gpc()==0) {
-        $cook	=	addslashes($cook);
-    }
-
 	return($cook);
 }
 
@@ -2207,10 +2184,6 @@ function test_max_length($msg, $maxlength)
 {
 	$chaine		=	strip_tags($msg);								// Supprime les balises HTML
 	$chaine		=	preg_replace("/(\r\n|\n)/si","",$chaine);		// Supprime les retour à la ligne
-						// Supprime les \
-	if (get_magic_quotes_gpc()==1 & get_magic_quotes_runtime()==0) {	// Supprime les \
-		$chaine=stripslashes($chaine);
-    }
 
 	$trans		=	get_html_translation_table(HTML_ENTITIES);		// |
 	$trans 		= 	array_flip($trans);								// > Remplace les entitées HTML par leur caractère équivalent
@@ -2608,6 +2581,11 @@ function getjsredirect($url,$tplime)
 // ********************************************************
 // *               INITIALISATION DU FORUM                *
 // ********************************************************
+
+if (get_magic_quotes_gpc() !== false) {
+    ini_set('magic_quotes_gpc', 0);
+    ini_set('magic_quotes_runtime', 0);
+}
 
 $tps_start 					= 		get_microtime();
 $NbRequest					=		0;

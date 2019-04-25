@@ -34,10 +34,7 @@ $tpl->box['resultrequest'] = NULLSTR;
 
 if($_REQUEST['action']=="exec")
 {
-	if(get_magic_quotes_gpc() == 1)
-		$request = stripslashes($_POST['request']);
-	else
-		$request = $_POST['request'];
+    $request = $_POST['request'];
 
 	$query = $sql->query($request)->execute();
 
