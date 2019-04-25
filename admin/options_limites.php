@@ -32,19 +32,18 @@ getlangage("adm_options_limites");
 
 if($_REQUEST['action']=="save")
 {
-	for($i=0;$i<count($_POST['configz']);$i++)
-	{
-		$valeur=each($_POST['configz']);
-		$valeur['value'] = intval($valeur['value']);
-		$query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($valeur['value'], $valeur['key']))->execute();
-	}
+    foreach ($_POST['configz'] as $key => $value) {
+        $value = intval($value);
+        $query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($value, $key))->execute();
+    }
+
 	$_REQUEST['action'] = NULLSTR;
 }
 
 if(empty($_REQUEST['action']))
 {
 	$configuration=getconfig();
-	$cache.=$tpl->gettemplate("adm_options_limites","optionslist");	
+	$cache.=$tpl->gettemplate("adm_options_limites","optionslist");
 }
 
 require("bas.php");

@@ -170,8 +170,6 @@ if($_REQUEST['action']=="savemsg")
 		$testchain		=	preg_replace("/<img .*?>/si","[img]",$_POST['msg']);	// Les images ne doivent pas être supprimées par la ligne en dessous
 		$testchain		=	strip_tags($testchain);									// Supprime les balises HTML
 		$testchain		=	preg_replace("/(\r\n|\n)/si","",$testchain);			// Supprime les retour à la ligne
-		if(get_magic_quotes_gpc() == 1)
-			$testchain	=	stripslashes($testchain);							// Supprime les \
 
 		$trans			=	get_html_translation_table(HTML_ENTITIES);				// |
 		$trans 			= 	array_flip($trans);										// > Remplace les entitées HTML par leur caractère équivalent
@@ -333,12 +331,14 @@ if($_REQUEST['action']=="savemsg")
 		else
 		      	$limit=0;
 		reset($cookiespost);
-		      for($aa=0;$aa<count($cookiespost);$aa++)
-		      {
-		      	$blop=each($cookiespost);
-		      	if($aa>=$limit)
-		      		$cookposttransfert[$blop['key']]=$blop['value'];
-		      }
+		$aa = 0;
+		foreach ($cookiespost as $key => $value) {
+		    if ($aa >= $limit) {
+                $cookposttransfert[$key]=$value;
+            }
+		    $aa++;
+        }
+
 		sendcookie($cookiedetails,cookencode($cookposttransfert),-1);
 
 		SetCookie("LimitTimePost",time(),time()+$_FORUMCFG['limittimepost']);
@@ -513,7 +513,7 @@ if($_REQUEST['action']=="form")
 
 		if($_FORUMCFG['canpostmsgcache']=="Y")
 		{
-			$query=$sql->query("SELECT idpost FROM "._PRE_."posts WHERE parent='$Parent' ORDER BY date LIMIT 0,1");
+			$query=$sql->query("SELECT idpost FROM "._PRE_."posts WHERE parent=%d ORDER BY date LIMIT 0,1", [$Parent])->execute();
 			list($IdTopic) = $query->fetch_array();
 		}
 

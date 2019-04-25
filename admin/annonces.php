@@ -201,7 +201,7 @@ if($_REQUEST['action']=="edit")
 
 	if($_REQUEST['id']>0 && strlen($error)==0)
 	{
-		$query							=		$sql->query("SELECT * FROM "._PRE_."annonces WHERE idpost=".$_REQUEST['id']);
+		$query							=		$sql->query("SELECT * FROM "._PRE_."annonces WHERE idpost=%d", [$_REQUEST['id']])->execute();
 		$Ann							=		$query->fetch_array();
 
 		$Ann['sujet']  					= 		getformatrecup($Ann['sujet']);

@@ -58,21 +58,21 @@ function insert_table($nom, $query, $sql)
     }
 }
 
-function testemail($email) 
-{ 
+function testemail($email)
+{
     return( preg_match('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`a-z{|}~]+'.
-                 '@'. 
-                 '([-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]{2,}\.){1,3}'. 
+                 '@'.
+                 '([-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]{2,}\.){1,3}'.
                  '[-!#$%&\'*+\\.\/0-9=?A-Z^_`a-z{|}~]{2,4}$/',
                  $email) > 0 );
 }
 
-function testurl($url) 
+function testurl($url)
 {
 	if(preg_match("'^(http|ftp|https):\/\/([a-zA-Z0-9-\/\.@:%=?&;~_]+(?<![\.:%?&;]))$'",$url)==0)
 		return false;
 	else
-		return true; 
+		return true;
 }
 
 function teststring($string)
@@ -81,46 +81,43 @@ function teststring($string)
 	if(strlen($testchain)==0)
 		return false;
 	else
-		return true;	
+		return true;
 }
 
 function getformatmsg($msg,$activenl2br=true)
 {
-	if(get_magic_quotes_gpc()==0)
-		$msg=addslashes($msg);
-		
 	$msg=htmlentities($msg, ENT_COMPAT,'ISO-8859-1', true);
-	
+
 	if($activenl2br)
 		$msg=nl2br($msg);
 	return($msg);
 }
 
-function getencrypt($txt,$cle) 
-{ 
-	srand((double)microtime()*1000000); 
+function getencrypt($txt,$cle)
+{
+	srand((double)microtime()*1000000);
 	$getencrypt_key = md5(rand(0,32000));
-		
-	$ctr=0; 
-	$tmp = ""; 
-	for ($i=0;$i<strlen($txt);$i++) 
+
+	$ctr=0;
+	$tmp = "";
+	for ($i=0;$i<strlen($txt);$i++)
 	{
-		if ($ctr==strlen($getencrypt_key)) 
+		if ($ctr==strlen($getencrypt_key))
 			$ctr=0;
 		$aff1 = substr($getencrypt_key,$ctr,1);
-		
+
 		$tmp.= $aff1.(substr($txt,$i,1) ^ $aff1);
 		$ctr++;
 	}
-	
+
 	$ctr=0;
 	$code="";
 	for ($i=0;$i<strlen($tmp);$i++)
 	{
-		if ($ctr==strlen($cle)) 
+		if ($ctr==strlen($cle))
 			$ctr=0;
 		$code.=(substr($tmp,$i,1)) ^ (substr($cle,$ctr,1));
-		$ctr++;	
+		$ctr++;
 	}
 return($code);
 }
@@ -131,7 +128,7 @@ function updatemembers($sql)
 	$query = $sql->query("SELECT login FROM "._PRE_."user WHERE userstatus <> 0 ORDER BY registerdate DESC")->execute();
 	$nbuser = $query->num_rows();
 	list($lastmember) = $query->fetch_row();
-	
+
 	if (get_magic_quotes_runtime()==0) {
         $lastmember=addslashes($lastmember);
     }
@@ -153,7 +150,7 @@ if ($_REQUEST['steps'] == 5) {
 
 	$query = $sql->query("SELECT COUNT(*) as nbentry FROM "._PRE_."user")->execute();
 	list($nbentry) = $query->fetch_row();
-	
+
 	if ($nbentry == 0) {
 		$query = $sql->query("SELECT valeur FROM "._PRE_."config WHERE options='confirmparmail'")->execute();
 		list($confirmparmail) = $query->fetch_row();
@@ -176,14 +173,14 @@ if ($_REQUEST['steps'] == 5) {
 		if (!testemail($_POST['adminmail'])) {
             $error = "email non valide";
         }
-			
+
 		if(strlen($error)==0)
 		{
 			$pseudo = getformatmsg($_POST['pseudo']);
 			$pass1 = $_POST['pass1'];
 			$adminmail = $_POST['adminmail'];
 			$urlweb = $_POST['urlweb'];
-			
+
 			if($confirmparmail == 3)
 			{
 				$quest	=	"";
@@ -194,11 +191,11 @@ if ($_REQUEST['steps'] == 5) {
 				$quest	=	getformatmsg($_POST['quest']);
 				$rep	=	getformatmsg($_POST['rep']);
 			}
-						
+
 			$query = $sql->query("SELECT valeur FROM "._PRE_."config WHERE options='chainecodage'")->execute();
 			list($codage) = $query->fetch_row();
 			$password=rawurlencode(getencrypt($pass1,$codage));
-			
+
 			$query = $sql->query("INSERT INTO "._PRE_."user (login,password,userstatus,registerdate,usermsg,usermail,usersite,timezone,lng) VALUES ('%s', '%s', 4 , %d, 0, '%s','%s',0,'fr')", array($pseudo, $password, time(), $adminmail, $urlweb))->execute();
 			$query = $sql->query("INSERT INTO "._PRE_."userplus (idplus,mailorig,question,reponse) VALUES (1,'%s','%s', '%s')", array($adminmail, $quest, $rep))->execute();
 
@@ -220,7 +217,7 @@ if ($_REQUEST['steps'] == 5) {
 			$urlweb = $_POST['urlweb'];
 			$quest = "";
 			$rep = "";
-			
+
 			if(isset($_POST['quest']))
 				$quest = $_POST['quest'];
 			if(isset($_POST['rep']))
@@ -229,7 +226,7 @@ if ($_REQUEST['steps'] == 5) {
 	}
 	else
 		echo("Erreur: L'administrateur a déjà été créé...");
-	
+
 }
 
 if ($_REQUEST['steps']==4) {
@@ -248,7 +245,7 @@ if ($_REQUEST['steps']==4) {
 		$quest			=	"";
 		$rep			=	"";
 	}
-	
+
 	echo("<u>Configuration du compte de l'administrateur du forum</u><p>
 
 	<form action=\"install.php\" method=\"post\">
@@ -274,7 +271,7 @@ if ($_REQUEST['steps']==4) {
 	    <td class=\"corp\" bgcolor=\"#265789\"><font size=2><b>Adresse de votre site web :</b></font><br><font size=1>(ex: http://www.monsite.com)</font></td>
 	    <td bgcolor=\"#537FAC\"><input type=text name=\"urlweb\" class=\"form\" value=\"$urlweb\"></td>
 	  </tr>");
-	
+
 	if($confirmparmail > 4)
 		echo("	  <tr>
 	    <td class=\"corp\" bgcolor=\"#265789\"><font size=2><b>Question: (vous sera posée afin de <BR>récupérer votre mot de passe en cas de perte)</b></font></td>
@@ -284,7 +281,7 @@ if ($_REQUEST['steps']==4) {
 	    <td class=\"corp\" bgcolor=\"#265789\"><font size=2><b>Réponse: (Réponse qu'il vous faudra<BR>donner pour récupérer votre mot de passe)</b></font></td>
 	    <td bgcolor=\"#537FAC\"><input type=text name=\"rep\" class=\"form\" value=\"$rep\"></td>
 	  </tr>");
-	  		
+
 	echo("</table><p>
 	
 	<center><font class=\"corp2\" size=1>* champs obligatoires</font></center><p>
@@ -293,22 +290,22 @@ if ($_REQUEST['steps']==4) {
 	<input type=\"hidden\" name=\"steps\" value=\"".($_REQUEST['steps']+1)."\">
 	<input type=\"submit\" value=\"Continuer ->>\" class=\"form\">
 	</form>");
-	
-	
+
+
 }
 
 if($_REQUEST['steps']==3)
 {
 	$error = "";
 	$ok = true;
-	
+
 	if(!testemail($_POST['mail']))
 		$error 	= 	"email non valide";
 	if(!testurl($_POST['urlforum']))
 		$error 	= 	"url du forum non valide";
 	if(!teststring($_POST['forumname']))
 		$error 	= 	"nom du forum non valide";
-		
+
 	if(strlen($error)==0)
 	{
 		$date=time();
@@ -316,8 +313,8 @@ if($_REQUEST['steps']==3)
 		$sitename		=		getformatmsg($_POST['sitename']);
 		$siteurl		=		getformatmsg($_POST['siteurl']);
 		$mail			=		getformatmsg($_POST['mail']);
-		$urlforum		=		getformatmsg($_POST['urlforum']);			
-		
+		$urlforum		=		getformatmsg($_POST['urlforum']);
+
 		if($_POST['canmail'] == "Y")
 		{
 			$canmail	=		3;
@@ -329,16 +326,16 @@ if($_REQUEST['steps']==3)
 			$usemails	=		"N";
 		}
 
-		srand((double)microtime()*1000000); 
+		srand((double)microtime()*1000000);
 		$codage 		= 		md5(rand(0,32000));
-		
+
 		echo("<u>Insertion des valeurs de base dans les tables</u><p>
 	
 		<table border=1 bordercolor=\"black\" cellpadding=10 cellspacing=0 style=\"border-collapse: collapse;\" align=center>
 		  <TR>
 		    <TD class=\"corp\" bgcolor=\"#537FAC\">
 		      <font size=2><b>");
-		
+
 			insert_table(_PRE_."config","INSERT INTO "._PRE_."config VALUES ('openforum', 'Y')", $sql);
 			insert_table(_PRE_."config","INSERT INTO "._PRE_."config VALUES ('closeforummsg', 'Le forum est actuellement fermé, veuillez revenir plus tard.')", $sql);
 			insert_table(_PRE_."config","INSERT INTO "._PRE_."config VALUES ('forumname', '$forumname')", $sql);
@@ -399,7 +396,7 @@ if($_REQUEST['steps']==3)
 			echo("<center>");
 			affseparate();
 			echo("</center>");
-			
+
 			insert_table(_PRE_."skins","INSERT INTO "._PRE_."skins VALUES (1, 'bg1', '#909090')", $sql);
 			insert_table(_PRE_."skins","INSERT INTO "._PRE_."skins VALUES (1, 'bg2', '#C1C1C1')", $sql);
 			insert_table(_PRE_."skins","INSERT INTO "._PRE_."skins VALUES (1, 'bordercolor', 'black')", $sql);
@@ -428,11 +425,11 @@ if($_REQUEST['steps']==3)
 			insert_table(_PRE_."skins","INSERT INTO "._PRE_."skins VALUES (1, 'font', 'verdana')", $sql);
 			insert_table(_PRE_."skins","INSERT INTO "._PRE_."skins VALUES (1, 'affdegrad', 'Y')", $sql);
 			insert_table(_PRE_."skins","INSERT INTO "._PRE_."skins VALUES (1, 'searchcolor', 'orange')", $sql);
-			
+
 			echo("<center>");
 			affseparate();
 			echo("</center>");
-			
+
 			insert_table(_PRE_."smileys","INSERT INTO "._PRE_."smileys VALUES (1, 'smile1.gif', '::)', 1)", $sql);
 			insert_table(_PRE_."smileys","INSERT INTO "._PRE_."smileys VALUES (2, 'smile2.gif', '::(', 2)", $sql);
 			insert_table(_PRE_."smileys","INSERT INTO "._PRE_."smileys VALUES (3, 'smile3.gif', '::o', 3)", $sql);
@@ -455,11 +452,11 @@ if($_REQUEST['steps']==3)
 			insert_table(_PRE_."smileys","INSERT INTO "._PRE_."smileys VALUES (20, 'smile20.gif', ':sleep:', 20)", $sql);
 			insert_table(_PRE_."smileys","INSERT INTO "._PRE_."smileys VALUES (21, 'smile21.gif', ':cry:', 21)", $sql);
 			insert_table(_PRE_."smileys","INSERT INTO "._PRE_."smileys VALUES (22, 'smile22.gif', ':bomb:', 22)", $sql);
-			
+
 			echo("<center>");
 			affseparate();
 			echo("</center>");
-			
+
 			insert_table(_PRE_."avatars","INSERT INTO "._PRE_."avatars VALUES (1,'.gif')", $sql);
 			insert_table(_PRE_."avatars","INSERT INTO "._PRE_."avatars VALUES (2,'.gif')", $sql);
 			insert_table(_PRE_."avatars","INSERT INTO "._PRE_."avatars VALUES (3,'.gif')", $sql);
@@ -482,7 +479,7 @@ if($_REQUEST['steps']==3)
 			echo("<center>");
 			affseparate();
 			echo("</center>");
-			
+
 			insert_table(_PRE_."language","INSERT INTO "._PRE_."language VALUES (1, 'fr', 'français')", $sql);
 
 			echo("<center>");
@@ -498,7 +495,7 @@ if($_REQUEST['steps']==3)
 	    </td>
 	  </tr>
 	</table><p>");
-	
+
 	if($ok)
 		next_steps();
 	}
@@ -510,8 +507,8 @@ if($_REQUEST['steps']==3)
 		$siteurl = $_POST['siteurl'];
 		$urlforum = $_POST['urlforum'];
 		$mail = $_POST['mail'];
-		$canmail = $_POST['canmail'];	
-	}		
+		$canmail = $_POST['canmail'];
+	}
 }
 
 if($_REQUEST['steps']==2)
@@ -528,10 +525,10 @@ if($_REQUEST['steps']==2)
 		$siteurl 		= "";
 		$urlforum 		= "";
 		$mail 			= "";
-		
+
 		$parse=parse_url($_SERVER['HTTP_REFERER']);
 		$urlforum=$parse['scheme']."://".$parse['host']."/";
-					
+
 		$path=explode("/",$parse['path']);
 		for($i=1;$i<count($path)-2;$i++)
 			$urlforum.=$path[$i]."/";
@@ -577,13 +574,13 @@ if($_REQUEST['steps']==2)
 	<input type=\"hidden\" name=\"action\" value=\"install\">
 	<input type=\"hidden\" name=\"steps\" value=\"".($_REQUEST['steps']+1)."\">
 	<input type=\"submit\" value=\"Continuer ->>\" class=\"form\">
-	</form>");	
-	
+	</form>");
+
 }
 
 if ($_REQUEST['steps']==1) {
 	$ok = true;
-	
+
 	echo('<u>Création des tables nécessaires</u><p>
 
 	<table border="1" bordercolor="black" cellpadding="10" cellspacing="0" style="border-collapse: collapse;" align="center">
@@ -895,16 +892,16 @@ if ($_REQUEST['steps']==1) {
 	    </td>
 	  </tr>
 	</table><p>");
-	
+
 	if ($ok) {
 		next_steps();
     }
-	
+
 }
 
 if(empty($_REQUEST['steps']))
 {
-		
+
 	echo("Vous vous apprêtez à installer <font color=\"red\">CoolForum v0.8 beta</font> sur votre serveur.<P>
 	Avant de commencer à configurer votre forum, vérifiez que les tables suivantes n'existent pas déjà dans votre base de données MySQL:<BR>
 	<table border=1 bordercolor=\"black\" cellpadding=10 cellspacing=0 style=\"border-collapse: collapse;\">
@@ -942,6 +939,6 @@ if(empty($_REQUEST['steps']))
 	<input type=\"hidden\" name=\"action\" value=\"install\">
 	<input type=\"hidden\" name=\"steps\" value=\"1\">
 	<input type=\"submit\" value=\"Continuer ->>\" class=\"form\">	
-	</form>");	
+	</form>");
 
 }

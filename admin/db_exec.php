@@ -34,18 +34,15 @@ $tpl->box['resultrequest'] = NULLSTR;
 
 if($_REQUEST['action']=="exec")
 {
-	if(get_magic_quotes_gpc() == 1)
-		$request = stripslashes($_POST['request']);
-	else
-		$request = $_POST['request'];
-	
+    $request = $_POST['request'];
+
 	$query = $sql->query($request)->execute();
-	
+
 	$TheRequest = getformatmsg($request);
 	if($query)
 	{
 		if(preg_match("/INSERT|UPDATE|DELETE/i",$request) > 0)
-			$NbLgnChange = $query->affected_rows();
+			$NbLgnChange = $sql->affectedRows();
 		elseif(preg_match("|SELECT|i",$request) > 0)
 			$NbLgnChange = $query->num_rows();
 		else
@@ -57,7 +54,7 @@ if($_REQUEST['action']=="exec")
 	{
 		$errnumber = $sql->errno();
 		$errphrase = $sql->error();
-		
+
 		$tpl->box['resultrequest'] = $tpl->gettemplate("adm_db_exec","sqlnok");
 	}
 	$_REQUEST['action'] = NULLSTR;;
@@ -65,7 +62,7 @@ if($_REQUEST['action']=="exec")
 
 if(empty($_REQUEST['action']))
 {
-	$tpl->box['admcontent']=$tpl->gettemplate("adm_db_exec","formsql");	
+	$tpl->box['admcontent']=$tpl->gettemplate("adm_db_exec","formsql");
 }
 
 $cache.=$tpl->gettemplate("adm_db_exec","content");

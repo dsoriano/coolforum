@@ -27,15 +27,15 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("entete.php"); 
+require("entete.php");
 getlangage("adm_modifcat");
 
 function getplace($cat,$position)
 {
 	global $Pos,$tpl,$sql;
-	
+
 	$query=$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
-	
+
 	while($Pos=$query->fetch_array())
 	{
 		if($cat==$Pos['catid'])
@@ -57,7 +57,7 @@ if($_REQUEST['action']=="changepos")
 	elseif ($_GET['changeto']>$_GET['place'])
 	{
 		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=catorder-1 WHERE catorder<=%d AND catorder>=%d", array($_GET['changeto'], $_GET['place']))->execute();
-		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=%d WHERE catid=%d")->execute($_GET['changeto'], $_GET['cat']);
+		$query=$sql->query("UPDATE "._PRE_."categorie SET catorder=%d WHERE catid=%d", [$_GET['changeto'], $_GET['cat']])->execute();
 	}
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -66,10 +66,10 @@ if($_REQUEST['action']=="modify")
 {
 	$query = $sql->query("SELECT * FROM "._PRE_."categorie WHERE catid=".$_GET['id'])->execute();
 	$Lescat=$query->fetch_array();
-	
+
 	$Lescat['cattitle']=getformatrecup($Lescat['cattitle']);
 	$Lescat['catcoment']=getformatrecup($Lescat['catcoment']);
-	
+
 	$tpl->box['admcontent']=$tpl->gettemplate("adm_modifcat","modifform");
 }
 
@@ -77,7 +77,7 @@ if($_REQUEST['action']=="save")
 {
 	$nom=getformatmsg($_POST['nom']);
 	$coment=getformatmsg($_POST['coment']);
-	
+
 	$query=$sql->query("UPDATE "._PRE_."categorie SET cattitle='%s',catcoment='%s' WHERE catid=%d", array($nom, $coment, $_POST['id']))->execute();
 	$_REQUEST['action'] = NULLSTR;
 }
@@ -86,10 +86,10 @@ if($_REQUEST['action']=="save")
 if(empty($_REQUEST['action']))
 {
 	$tpl->box['catlist'] = NULLSTR;
-	
+
 	$query=$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
 	$nb=$query->num_rows();
-	
+
 	if ($nb==0)
 		$tpl->box['catlist']=$tpl->gettemplate("adm_modifcat","nocatfound");
 	else

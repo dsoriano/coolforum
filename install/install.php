@@ -43,7 +43,7 @@ function exec_request()
 	if($continue==true)
 	{
 		if($c <= $compteur)
-		{	
+		{
 			$query=$sql->query($update['sql'])->execute();
 			if($query)
 				echo($update['ok']."<br>");
@@ -56,13 +56,13 @@ function exec_request()
 			}
 		}
 		$compteur++;
-	}	
+	}
 }
 
 function affseparate()
 {
 	global $c, $compteur,$continue;
-	
+
 	if(($c <= $compteur) && $continue)
 		echo("<p><font color=red>##########</font><p>");
 }
@@ -70,7 +70,7 @@ function affseparate()
 function next_step()
 {
 	global $_GET, $continue;
-	
+
 	if($continue)
 		echo("<form action=\"install.php\" method=\"get\">
 		<input type=\"hidden\" name=\"action\" value=\"update\">
@@ -83,7 +83,7 @@ function next_step()
 function end_maj()
 {
 	global $start_key, $ForumDBVersion , $lastversion, $version;
-	
+
 	if($ForumDBVersion==$lastversion)
 		echo("Votre forum a été mis à jour correctement.<p>
 		
@@ -105,8 +105,8 @@ require_once '../secret/config.inc.php';
 // ################################################################################
 //                               CONNEXION A MYSQL
 
-require_once '../lib/vendor/cfFramework/database/databaseFactory.php';
-$sql = databaseFactory::connect(DB_DRIVER, array(
+require_once  __DIR__ . '/../include/database/Database_MySQLi.php';
+$sql = Database_MySQLi::getInstance(array(
     'hostname' => DB_HOST,
     'username' => DB_USER,
     'password' => DB_PASSWORD,
@@ -148,7 +148,7 @@ $version[] = "0.8 beta";
 <html>
 <head>
 <title>Mise à jour CoolForum</title>
-	
+
 <style type="text/css">
 a.men:link{color: white; text-decoration:underline;}
 a.men:visited{color: white; text-decoration:underline;}
@@ -157,14 +157,14 @@ a.men:hover{color: white; text-decoration:none;}
 a.lien:link{color: black; text-decoration: underline;}
 a.lien:visited{color: black; text-decoration: underline;}
 a.lien:hover{color: black; text-decoration:none;}
-	
+
 .form{background:#265789; color:white; font: 8pt verdana; border-style:solid; border-color:black; border-width:1;}
 .form2{background:#A4B6C9; color:black; font: 8pt ; border-style:solid; border-color:; border-width:1;}
 
 .corp{font-family:verdana; color:white;}
 .corp2{font-family:verdana; color:black;}
 </style>
-	
+
 </head>
 <body bgcolor="#909090">
 
@@ -176,7 +176,7 @@ a.lien:hover{color: black; text-decoration:none;}
     <td height="89" width="30" nowrap><img src="images/bghautdroit.gif" alt="" /></td>
   </tr>
 </table>
-	
+
 <table border="0" width="100%" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" nowrap style="background:url('images/bggauche.gif') transparent repeat top left;">&nbsp;</td>
@@ -195,7 +195,7 @@ a.lien:hover{color: black; text-decoration:none;}
     <td width="30" nowrap style="background: url('images/bgdroite.gif') transparent repeat top left">&nbsp;</td>
   </tr>
 </table>
-	
+
 <table border="0" width="100%" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" nowrap style="background: url('images/bggauche.gif') transparent repeat top left;">&nbsp;</td>
@@ -214,24 +214,24 @@ if($_REQUEST['action'] == "update")
 		echo($sql->error());
     }
 	$nb		=	$query->num_rows();
-		
+
 	if ($nb>0) {
 		list($ForumDBVersion)	=	$query->fetch_array();
-	
-		$nbTotalVersions 		= 	count($version);		
+
+		$nbTotalVersions 		= 	count($version);
 		$lastversion			= 	$version[$nbTotalVersions-1];
-		
+
 		for($i = 0; $i < $nbTotalVersions; $i++) {
 			if ($version[$i] == $ForumDBVersion) {
 				$start_key		=	$i;
             }
         }
 	}
-	
+
 	if (!isset($_GET['module'])) {
 		if ($nb>0) {
 			echo("Nous avons détecté que la version <font color=red>".$ForumDBVersion."</font> est installée.<p>");
-			
+
 			$nbSteps=$nbTotalVersions-$start_key-1;
 			if ($nbSteps==0) {
 				echo("La dernière version est déjà installée. Aucune mise à jour disponible");
@@ -244,14 +244,14 @@ if($_REQUEST['action'] == "update")
 					<tr>
 					  <td class=\"corp\" bgcolor=\"#537FAC\">
 					  <font size=2>");
-					  
+
 					for ($i = $start_key; $i < ($nbTotalVersions-1); $i++) {
 						echo("- Mise à jour de la version <font color=silver><b>".$version[$i]."</b></font> à la version <font color=silver><b>".$version[$i+1]."</b></font><br>");
 					}
 					echo("</font></td>
 					</tr>
 					</table><p>");
-				}			
+				}
 				echo("<hr color=\"black\">
 					<center><font color=\"red\"><u>ATTENTION</u></font></center><p>
 					Nous vous rappelons qu'avant toute mise à jour de votre base de donnée, vous <u>DEVEZ</u> effectuer une sauvegarde de celle-ci.
@@ -267,7 +267,7 @@ if($_REQUEST['action'] == "update")
 					<input type=submit value=\"Commencer la mise à jour\" class=\"form\">
 					</form>");
 			}
-			
+
 			echo("<hr color=\"black\"><p>
 				Si pendant l'installation le script rencontre un problème lors d'une requête, il vous donnera un code d'erreur que vous devez noter.
 				Aprés avoir identifié et éventuellement réparé ce problème, insérez le code d'erreur ci-dessous et cliquez sur le bouton \"Continuer\",
@@ -277,13 +277,13 @@ if($_REQUEST['action'] == "update")
 					Entrez le code d'erreur: <input type=\"text\" name=\"errorcode\" value=\"\" class=\"form\">
 					<input type=submit value=\"Reprendre la mise à jour\" class=\"form\">
 					<input type=\"hidden\" name=\"action\" value=\"update\">
-					</form>");			
-				 
+					</form>");
+
 		}
 	} else {
 		$Module_Name=str_replace(" ","_",$version[$_GET['module']]);
 		include("./upd_" . $Module_Name . ".php");
-	
+
 	}
 }
 
@@ -299,7 +299,7 @@ if ($_REQUEST['action'] == "install") {
 //		   SUPPRESSION	        	//
 
 if ($_REQUEST['action']=="delete") {
-	include("mod_delete.php");	
+	include("mod_delete.php");
 }
 
 //////////////////////////////////////////////////
@@ -310,7 +310,7 @@ if (empty($_REQUEST['action'])) {
 	Bienvenue dans l'installation de <font color="red">CoolForum</font>.<p>
 	<hr color="red" width=250>
 	Ce script va vous permettre d'installer votre nouveau forum, de mettre à jour votre forum actuel ou bien supprimer les tables MySQL du forum.<p>
-	
+
 	Choisissez votre type d'installation:<br>
 	<form action="install.php" method="post">
 	<select name="action" class="form">

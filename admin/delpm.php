@@ -27,7 +27,7 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("entete.php"); 
+require("entete.php");
 getlangage("adm_delpm");
 
 if($_REQUEST['action'] == "delpm")
@@ -35,18 +35,18 @@ if($_REQUEST['action'] == "delpm")
 	$Old		=	intval($_POST['old']);
 	$NbPm		=	intval($_POST['nbpm']);
 	$LastVisit	=	intval($_POST['lastvisit']);
-	
+
 	$TabQuery	=	array();
 	$Now		=	time();
-	
+
 	if($Old>0)
 		$TabQuery[]="date<'".($Now-($Old*86400))."'";
-	
+
 	if($LastVisit>0)
 	{
 		$query = $sql->query("SELECT userid FROM "._PRE_."user WHERE lastvisit<'%s'", $Now-($LastVisit*86400))->execute();
 		$nb = $query->num_rows();
-		
+
 		if($nb>0)
 		{
 			$tmp=array();
@@ -57,12 +57,12 @@ if($_REQUEST['action'] == "delpm")
 		else
 			$TabQuery[]="iddest='0'";
 	}
-	
+
 	if($NbPm>0)
 	{
 		$query = $sql->query("SELECT userid FROM "._PRE_."user WHERE nbpmtot>%d", $NbPm)->execute();
 		$nb = $query->num_rows();
-		
+
 		if($nb>0)
 		{
 			$tmp=array();
@@ -73,28 +73,28 @@ if($_REQUEST['action'] == "delpm")
 		else
 			$TabQuery[]="iddest='0'";
 	}
-	
+
 	if($_POST['statut']=="lu")		$TabQuery[]="vu='1'";
 	elseif($_POST['statut']=="nonlu")	$TabQuery[]="vu='0'";
-	
+
 	if(count($TabQuery)==0)			$Where="iddest='0'"; // sécurité pour éviter de sélectionner tous les messages
 	else					$Where=implode(" AND ",$TabQuery);
-	
+
 	if($_POST['confirm']=="Y")
 	{
 		$MbList=array();
 		$TotalPm=array();
 		$TotalVu=array();
-		
+
 		$query = $sql->query("SELECT iddest FROM "._PRE_."privatemsg WHERE ".$Where." GROUP BY iddest")->execute();
 		while($j=$query->fetch_array())
 			$MbList[]=$j['iddest'];
-		
+
 		$query = $sql->query("DELETE FROM "._PRE_."privatemsg WHERE ".$Where)->execute();
-		$total = $query->affected_rows();
-		
+		$total = $sql->affectedRows();
+
 		$query = $sql->query("OPTIMIZE TABLE "._PRE_."privatemsg")->execute();
-		
+
 		$query = $sql->query("SELECT iddest,vu FROM "._PRE_."privatemsg")->execute();
 		while($j=$query->fetch_array())
 		{
@@ -102,32 +102,32 @@ if($_REQUEST['action'] == "delpm")
 			if($j['vu']=="0")
 				$TotalVu[$j['iddest']]++;
 		}
-		
+
 		for($i=0;$i<count($MbList);$i++)
 			$query = $sql->query("UPDATE "._PRE_."user SET nbpmvu=%d,nbpmtot=%d WHERE userid=%d", array($TotalVu[$MbList[$i]], $TotalPm[$MbList[$i]], $MbList[$i]))->execute();
-		
+
 		$tpl->box['admcontent'] = $tpl->gettemplate("adm_delpm","delok");
 	}
 	else
 	{
 		$query = $sql->query("SELECT COUNT(*) AS total FROM "._PRE_."privatemsg WHERE ".$Where)->execute();
 		list($total) = $query->fetch_array();
-		
+
 		$tpl->box['admcontent'] = $tpl->gettemplate("adm_delpm","confirm");
 	}
-	
+
 }
 
 if(empty($_REQUEST['action']))
 {
 	$query=$sql->query("SELECT COUNT(*) AS nbpmlu FROM "._PRE_."privatemsg WHERE vu=1")->execute();
 	list($nbpm)=$query->fetch_array();
-	
+
 	$query=$sql->query("SELECT COUNT(*) AS nbpmnonlu FROM "._PRE_."privatemsg WHERE vu=0")->execute();
 	list($nbpmnonlu)=$query->fetch_array();
-	
+
 	$nbtotpm=$nbpm+$nbpmnonlu;
-	
+
 	$tpl->box['admcontent'] = $tpl->gettemplate("adm_delpm","accueil");
 }
 

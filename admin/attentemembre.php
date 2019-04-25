@@ -36,62 +36,57 @@ if($_REQUEST['action']=="del")
 {
 	if(isset($_POST['todel']) && count($_POST['todel'])>0)
 	{
-		for($i=0;$i<count($_POST['todel']);$i++)
-		{
-			$trans=each($_POST['todel']);
-			$query=$sql->query("DELETE FROM "._PRE_."user WHERE userid=%d", $trans['value'])->execute();
-			$query=$sql->query("DELETE FROM "._PRE_."userplus WHERE idplus=%d", $trans['value'])->execute();
-		}
-		
+	    foreach ($_POST['todel'] as $todel) {
+            $query=$sql->query("DELETE FROM "._PRE_."user WHERE userid=%d", $todel)->execute();
+            $query=$sql->query("DELETE FROM "._PRE_."userplus WHERE idplus=%d", $todel)->execute();
+        }
+
 		$query=$sql->query("OPTIMIZE TABLE "._PRE_."user")->execute();
 		updatemembers();
 	}
-	
+
 	if(isset($_POST['tovalid']) && count($_POST['tovalid'])>0)
 	{
-		for($i=0;$i<count($_POST['tovalid']);$i++)
-		{
-			$trans 		= 	each($_POST['tovalid']);
-			
+	    foreach ($_POST['tovalid'] as $value) {
 			if($_FORUMCFG['confirmparmail'] == 2)
 			{
-				$query	=	$sql->query("SELECT login, password, usermail FROM "._PRE_."user WHERE userid=%d",$trans['value'])->execute();
+				$query	=	$sql->query("SELECT login, password, usermail FROM "._PRE_."user WHERE userid=%d",$value)->execute();
 				list($username, $userpass, $mail) = $query->fetch_array();
-				
+
 				$username	=	formatstrformail($username);
-				
+
 				$userpass	=	rawurldecode($userpass);
 				$userpass	=	getdecrypt($userpass, $_FORUMCFG['chainecodage']);
 				$userpass	=	formatstrformail(stripslashes(recupDBforMail($userpass)));
-				
+
 				$forumname	=	$_FORUMCFG['mailforumname'];
-				
+
 				eval("\$subject = ".$tpl->attlang("mailsujet").";");
 				eval("\$msg = ".$tpl->attlang("mailmsg").";");
-				
+
 				if(!sendmail($mail,$subject,$msg))
 				{
 					$tpl->box['error']=$tpl->gettemplate("adm_attentemembre","errormail");
 					break;
 				}
-				
+
 			}
-			
+
 			if(strlen($tpl->box['error']) == 0)
-				$query = $sql->query("UPDATE "._PRE_."user SET userstatus=2 WHERE userid=%d",$trans['value'])->execute();
+				$query = $sql->query("UPDATE "._PRE_."user SET userstatus=2 WHERE userid=%d",$value)->execute();
 		}
 		updatemembers();
 	}
-	
+
 	$_REQUEST['action'] = NULLSTR;;
 }
 
 if(empty($_REQUEST['action']))
 {
-	
+
 	$query=$sql->query("SELECT userid,login,registerdate FROM "._PRE_."user WHERE userstatus=0 ORDER BY registerdate")->execute();
 	$nb=$query->num_rows();
-	
+
 	if($nb==0)
 		$tpl->box['listmember']=$tpl->gettemplate("adm_attentemembre","ifnoattmb");
 	else
@@ -104,9 +99,9 @@ if(empty($_REQUEST['action']))
 			$Mb['registerdate']=getlocaltime($Mb['registerdate']);
 			$tpl->box['listmember'].=$tpl->gettemplate("adm_attentemembre","lignemember");
 			$i++;
-		}			
-	}	
-	
+		}
+	}
+
 	$tpl->box['admcontent']=$tpl->gettemplate("adm_attentemembre","listmembre");
 }
 

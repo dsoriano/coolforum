@@ -74,7 +74,7 @@ if (!isset($_COOKIE['listeforum_coolforum']) || !isset($zecook[$_GET['forumid'].
     sendcookie("listeforum_coolforum",cookencode($zecook),-1);
 }
 
-$cookiedetails="CoolForumDetails";    
+$cookiedetails="CoolForumDetails";
 if (isset($_COOKIE[$cookiedetails])) {
 	$cookiespost=cookdecode($_COOKIE[$cookiedetails]);
 }
@@ -92,7 +92,7 @@ if (!isset($_COOKIE[$cookiedetails]) || !isset($cookiespost[$IdString."m"]) || (
 
     sendcookie($cookiedetails,cookencode($cookposttransfert),-1);
 }
-	
+
 if (!$_PERMFORUM[$_GET['forumid']][2]) {
 	geterror("call_loginbox");
 }
@@ -144,13 +144,13 @@ if ($nbpages>1) {
 $debut = ($p * $_FORUMCFG['msgparpage']) - $_FORUMCFG['msgparpage'];
 
 // ##### Gestion de la recherche #####
+$SearchOrig 	= 	array();
+$SearchReplace 	= 	array();
+
 if (isset($_GET['s'])) {
-	$SearchOrig 	= 	array();
-	$SearchReplace 	= 	array();
-	
 	$s 		= 	getformatmsg($_GET['s']);
 	$s 		= 	urldecode($s);
-	
+
 	$SearchOrig 	= 	explode('+',$s);
 	foreach($SearchOrig as $SearchMask) {
 		$SearchReplace[] = stripslashes($tpl->gettemplate('detail','SearchMask'));
@@ -165,7 +165,7 @@ if ($_FORUMCFG['repflash']=="Y" && $_PERMFORUM[$_GET['forumid']][3]==true && $To
 		$posteurpseudo 				= 	getformatrecup($_USER['username']);
 		$tpl->box['pseudobox'] 		= 	$tpl->gettemplate("detail","boxmembre");
 	}
-	
+
 	$LimiteLength 					= 	$_PERMFORUM[$_GET['forumid']]['MaxChar'];
 
 	if ($LimiteLength > 0) {
@@ -210,9 +210,9 @@ $tpl->box['forumcontent'] = "";
 if ($TopicInfo['poll']>0) {
 	$pollreq	=	$sql->query("SELECT * FROM "._PRE_."poll WHERE id=%d", $TopicInfo['poll'])->execute();
 	$sd		=	$pollreq->fetch_array();
-	
+
 	$tpl->box['questpoll'] = getformatrecup($sd['question']);
-	
+
 	if (preg_match("|-".$_USER['userid']."-|",$sd['votants']) == 0 && $_USER['userid'] != 0 && $TopicInfo['opentopic'] == "Y") {
 		$tpl->box['buttonvote']	=	$tpl->gettemplate("detail","votebutton");
 		$canvote		=	true;
@@ -220,7 +220,7 @@ if ($TopicInfo['poll']>0) {
 		$tpl->box['buttonvote']	=	"";
 		$canvote		=	false;
 	}
-	
+
 	$nbrep		=	explode(" >> ",$sd['rep']);
 	$choix		=	explode(" >> ",$sd['choix']);
 	$nbtotalrep	=	0;
@@ -228,9 +228,9 @@ if ($TopicInfo['poll']>0) {
 	for ($i = 0; $i < count($choix); $i++) {
 		$nbtotalrep += $nbrep[$i];
     }
-		
+
 	$swapbgcolor=true;
-	
+
 	$tpl->box['pollchoice'] = "";
 	for ($i=0;$i<count($choix);$i++) {
 		if ($swapbgcolor) {
@@ -238,7 +238,7 @@ if ($TopicInfo['poll']>0) {
         } else {
 			$pollbgcolor=$_SKIN['bgtable2'];
         }
-	
+
 		if ($nbtotalrep>0) {
 			$percent = round(($nbrep[$i]*100)/$nbtotalrep);
         } else {
@@ -257,13 +257,13 @@ if ($TopicInfo['poll']>0) {
 
 
 $topicpassed = false;
-	
+
 while ($DetailMsg = $query->fetch_array()) {
 	if (!$topicpassed && $debut == 0) {
 		$IdTopic = $DetailMsg['idpost'];
 		$topicpassed = true;
 	}
-	
+
 	$PrintRedirect	=	"idpost=".$DetailMsg['idpost'];
 	$tpl->box['affsujetpost']=NULLSTR;
 	$tpl->box['forumcontent'].=affdetailtopic();

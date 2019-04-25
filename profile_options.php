@@ -49,22 +49,22 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 	if ($_POST['action']=="save")
 	{
 		$error="";
-	
+
 		//**** test de l'email ****
 		if(!testemail($_POST['usermail']))
-			$error=$tpl->attlang("error1");		
+			$error=$tpl->attlang("error1");
 
 		//**** test du site web ****
 		if(preg_match("'^www\\.(([a-zA-Z0-9.\/@:%=?~_#\-]|&amp;)+)(?<![\.:#%?])$'",$_POST['usersite']))
 			$_POST['usersite']	=	"http://".$_POST['usersite'];
-		
+
 		if(!preg_match("'^(http|ftp|https):\/\/([a-zA-Z0-9-\/\.@:%=?&;~_]+(?<![\.:%?&;]))$'",$_POST['usersite']))
-			$_POST['usersite']="";	
-				
+			$_POST['usersite']="";
+
 		//**** formattage du skin ****
 		if($_USER['userskin'] != $_POST['skin'])	$skin	=	intval($_POST['skin']);
 			else					$skin	=	$_USER['userskin'];
-		
+
 		//**** upload / enregistrement du logo ****
 		if(isset($_POST['deletelogo']) && $_POST['deletelogo']=="Y")
 			$filename="";
@@ -72,17 +72,17 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		{
 			if(preg_match("|^[a-zA-Z0-9_\.-]+$|",$_POST['infologo']) > 0 && $_LOGO[2]=="Y")
 				$filename=$_POST['infologo'];
-			elseif(strlen($_POST['extlogo'])>0 && $_LOGO[3]=="Y")
+			elseif(isset($_POST['extlogo']) && strlen($_POST['extlogo'])>0 && $_LOGO[3]=="Y")
 			{
 				$Size = @getimagesize($_POST['extlogo']);
-				
+
 				if($Size && preg_match("'^(http|ftp|https):\/\/([a-zA-Z0-9-\/\.@:%~_])+(.gif|.jpg|.jpeg|.png)$'",$_POST['extlogo']) && ($Size[2]=="1" || $Size[2]=="2" || $Size[2]=="3"))
 				{
 					if($Size[0]<($_LOGO[4]+1) && $Size[1]<($_LOGO[5]+1))
 						$filename="\"".$_POST['extlogo']."\" ".$Size[3];
 					else
 						$error=$tpl->attlang("logoerror2");
-						
+
 				}
 				else
 					$error=$tpl->attlang("logoerror3");
@@ -112,32 +112,32 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 			{
 				$query 	= 	$sql->query("SELECT userlogo FROM "._PRE_."user WHERE userid=%d", $_USER['userid'])->execute();
 				$j	=	$query->fetch_array();
-		
+
 				if(!empty($j['userlogo']))
 					$filename=$j['userlogo'];
 			}
 		}
-		
+
 		if(strlen($error)==0)
 		{
 			//*** formattage variables diverses ***
-			//$site		=	getformatmsg($_POST['usersite'],false);		
+			//$site		=	getformatmsg($_POST['usersite'],false);
 			$citation	=	getformatmsg($_POST['usercitation'],false);
 			$sign		=	getformatmsg($_POST['usersign']);
 			$lng		=	getformatmsg($_POST['lng'],false);
-			
+
 			// **** test des limites ****
 			$citation	=	test_max_length($citation,$_USER['Max_Cit']);
 			$sign		=	test_max_length($sign,$_USER['Max_Sign']);
-			
+
 			$timezone	=	intval($_POST['timezone']);
-	
+
 			if($_POST['showmail']=="N")	$showmail	=	"N";
 				else			$showmail	=	"Y";
-	
+
 			if($_POST['showusersite']=="N")	$showusersite	=	"N";
 				else			$showusersite	=	"Y";
-	
+
 			if(isset($_POST['notifypm']) && $_POST['notifypm']=="N")	$notifypm	=	"N";
 				else			$notifypm	=	"Y";
 
@@ -146,7 +146,7 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 
 			if($_POST['mailing']=="N")	$mailing	=	"N";
 				else			$mailing	=	"Y";
-						
+
 			if($_POST['wysiwyg']=="N")	$wysiwyg	=	"N";
 				else			$wysiwyg	=	"Y";
 
@@ -173,24 +173,24 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		else
 			$_POST['action']="profile";
 	}
-	
+
 	if($_POST['action']=="profile")
 	{
 		$timezn = array();
 		array_rempl($timezn,0,24,NULLSTR);
-		
+
 		if(strlen($error)==0)
 		{
 			$tpl->box['error']	= NULLSTR;
 			$query			=	$sql->query("SELECT login,usermsg,usermail,usersite,usersign,usercitation,showmail,showusersite,userlogo,skin,timezone,lng,notifypm,popuppm,mailing,wysiwyg FROM "._PRE_."user WHERE userid=%d",$_USER['userid'])->execute();
 			$Result			=	$query->fetch_array();
 
-			
+
 			//**** preview de la signature ****
 			$PreviewUserSign = getformatrecup($Result['usersign']);
-			
+
 			$tpl->box['previewusersign'] = NULLSTR;
-			
+
 			if(!empty($PreviewUserSign))
 			{
 				if($_FORUMCFG['smileinsign']=="Y")
@@ -205,8 +205,8 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 				}
 				$tpl->box['previewusersign'] = $tpl->gettemplate("profil_options","previewusersign");
 			}
-			
-	
+
+
 			$Result['usercitation']	=	getformatrecup($Result['usercitation']);
 			$Result['usersign']	=	getformatrecup($Result['usersign'],true);
 		}
@@ -219,7 +219,7 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 			$Result['usercitation']	=	getrecupforform($Result['usercitation']);
 			$Result['login']		=	htmlentities($_USER['username'], ENT_COMPAT,'ISO-8859-1', true);
 		}
-		
+
 		//**** sélection du timezone ****
 		$timezn[$Result['timezone']+12]=" SELECTED";
 
@@ -250,18 +250,18 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		//**** bbcode autorisé dans signature? ****
 		$tpl->box['whatis'] 						= 	$tpl->attlang("bbcodeare");
 		if($_FORUMCFG['bbcodeinsign']=="Y")	$tpl->box['yesorno']	=	$tpl->attlang("allow1");
-			else				$tpl->box['yesorno']	=	$tpl->attlang("disabled1");		
+			else				$tpl->box['yesorno']	=	$tpl->attlang("disabled1");
 		$Result['canusebbcode']						=	$tpl->gettemplate("profil_options","isallowed");
 
 		//**** smileys autorisés dans signature? ****
 		$tpl->box['whatis'] 						= 	$tpl->attlang("smileysare");
 		if($_FORUMCFG['smileinsign']=="Y")	$tpl->box['yesorno']	=	$tpl->attlang("allow2");
-			else				$tpl->box['yesorno']	=	$tpl->attlang("disabled2");		
-		$Result['canusesmileys']						=	$tpl->gettemplate("profil_options","isallowed");		
-		
-		//**** notification pour pm? ****	
+			else				$tpl->box['yesorno']	=	$tpl->attlang("disabled2");
+		$Result['canusesmileys']						=	$tpl->gettemplate("profil_options","isallowed");
+
+		//**** notification pour pm? ****
 		if($_FORUMCFG['mailnotify']=="Y")
-		{	
+		{
 			if ($Result['notifypm']=="Y")
 			{
 				$Result['checknotifypmY'] 	=	"CHECKED";
@@ -276,7 +276,7 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		}
 		else
 			$tpl->box['mailnotify']=NULLSTR;
-		
+
 		//**** popup pour pm? ****
 		if ($Result['popuppm']=="Y")
 		{
@@ -288,13 +288,13 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 			$Result['checkpopuppmN'] =	"CHECKED";
 			$Result['checkpopuppmY'] =	NULLSTR;
 		}
-		
+
 		//**** les logos sont-ils activés ?? ****
 		if($_LOGO[0]=="Y")
-		{		
+		{
 			//**** peut-on uploader des logos? ****
             $tpl->box['persologo'] = $_LOGO[1] == "Y" ? $tpl->gettemplate("profil_options","uploadlogobox") : NULLSTR;
-			
+
 			//**** peut-on utiliser la collection de logos? ****
             $tpl->box['defaultlogo'] = $_LOGO[2]=="Y" ? $tpl->gettemplate("profil_options","logocollection") : NULLSTR;
 
@@ -309,13 +309,13 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 				elseif(preg_match("|^\"http://|",$Result['userlogo']) == 0)
 					$tpl->box['logo'] = $tpl->gettemplate("profil_options","affavatar");
 			}
-			else	$tpl->box['logo'] = $tpl->attlang("nologonow");	
-						
+			else	$tpl->box['logo'] = $tpl->attlang("nologonow");
+
 			//**** chargement du template ****
-			$tpl->box['logotpl']=$tpl->gettemplate("profil_options","logotpl");	
-			
+			$tpl->box['logotpl']=$tpl->gettemplate("profil_options","logotpl");
+
 		}
-		
+
 		// **** option mailing ****
 		if($_FORUMCFG['usemails']=="Y")
 		{
@@ -329,10 +329,10 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 				$Result['mailingN'] =	"CHECKED";
 				$Result['mailingY'] =	NULLSTR;
 			}
-							
+
 			$tpl->box['mailing'] = $tpl->gettemplate("profil_options","mailing");
 		}
-		
+
 		// **** interface WYSIWYG ? ****
 		if($Result['wysiwyg'] == "Y")
 		{
@@ -344,18 +344,18 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 			$Result['wysiwygN'] = 	"CHECKED";
 			$Result['wysiwygY'] = 	NULLSTR;
 		}
-		
+
 		//**** affichage du skin utilisé ****
-		$tpl->box['skinlist']	=	"";	
+		$tpl->box['skinlist']	=	"";
 		$query			=	$sql->query("SELECT * FROM "._PRE_."skins WHERE propriete='skinname'")->execute();
 		while($j=$query->fetch_array())
 		{
 			$selected	=	"";
 			if($Result['skin']==$j['id'])	$selected=" SELECTED";
-			
+
 			$tpl->box['skinlist'].=$tpl->gettemplate("profil_options","skinlist");
 		}
-		
+
 		//**** sélection de la langue ****
 		$tpl->box['lnglist']	=	"";
 		$query			=	$sql->query("SELECT * FROM "._PRE_."language")->execute();
@@ -363,10 +363,10 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 		{
 			$selected	=	"";
 			if($Result['lng']==$j['code'])	$selected=" SELECTED";
-			
+
 			$tpl->box['lnglist'].=$tpl->gettemplate("profil_options","lnglist");
 		}
-		
-			
+
+
 		$tpl->box['profilcontent']=$tpl->gettemplate("profil_options","optionsform");
 	}

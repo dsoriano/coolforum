@@ -219,7 +219,7 @@ if (!$canedit) {
             }
 
 
-			$msg		=	test_max_length($msg,$_PERMFORUM['MaxChar']);
+			$msg		=	test_max_length($msg,$_PERMFORUM[$forumid]['MaxChar']);
 			$sujet		=	test_max_length($sujet,$_FORUMCFG['limittopiclength']);
 
 			// **** traitement de l'icône ****
@@ -228,7 +228,7 @@ if (!$canedit) {
 			$bbita1="";
 			$bbita2="";
 
-			if ($_POST['bbcode'] == "non") { // test si bbcode actif ou non
+			if (isset($_POST['bbcode']) && $_POST['bbcode'] == "non") { // test si bbcode actif ou non
                 $nobb		=	"N";
             } else {
                 $nobb		=	"Y";
@@ -236,7 +236,7 @@ if (!$canedit) {
                 $bbita2		=	"[/ita]";
             }
 
-			if ($_POST['smilecode'] == "non") { // active ou non smileys
+			if (isset($_POST['smilecode']) && $_POST['smilecode'] == "non") { // active ou non smileys
                 $smiles		=	"N";
             } else {
                 $smiles		=	"Y";

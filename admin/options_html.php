@@ -35,12 +35,11 @@ if($_REQUEST['action']=="save")
 
 	$_POST['configz']['ajouthtml'] 	= 	getformathtml($_POST['configz']['ajouthtml']);
 	$_POST['configz']['htmlbas'] 	= 	getformathtml($_POST['configz']['htmlbas']);
-	
-	for($i=0;$i<count($_POST['configz']);$i++)
-	{
-		$valeur=each($_POST['configz']);
-		$query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($valeur['value'], $valeur['key']))->execute();
-	}
+
+	foreach ($_POST['configz'] as $key => $value) {
+        $query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($value, $key))->execute();
+    }
+
 	$_REQUEST['action'] = NULLSTR;
 }
 
@@ -48,13 +47,13 @@ if(empty($_REQUEST['action']))
 {
 	$IsSelected = array(	NULLSTR, NULLSTR, NULLSTR);
 	$configuration=getconfig();
-	
+
 	if($configuration['usepub']=="Y")
 		$IsSelected[1]=" SELECTED";
 	else
 		$IsSelected[2]=" SELECTED";
-			
-	$cache.=$tpl->gettemplate("adm_options_html","optionslist");	
+
+	$cache.=$tpl->gettemplate("adm_options_html","optionslist");
 }
 
 require("bas.php");

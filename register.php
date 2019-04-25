@@ -111,10 +111,7 @@ if($_USER['userid']==0)
 
 				if($_FORUMCFG['confirmparmail']=="3")
 				{
-					if(get_magic_quotes_gpc() == 1)
-						$mailpseudo	=	stripslashes(urlencode(trim($_POST['pseudo'])));
-					else
-						$mailpseudo	=	urlencode(trim($_POST['pseudo']));
+				    $mailpseudo	=	urlencode(trim($_POST['pseudo']));
 
 					$password = md5($password);
 

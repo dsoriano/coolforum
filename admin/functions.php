@@ -27,10 +27,8 @@
 //*                                                                               *
 //*********************************************************************************
 
-require_once realpath(dirname(__FILE__) . '/../secret/config.inc.php');
-//require_once realpath(dirname(__FILE__) . '/../lib/vendor/cfFramework/database/databaseFactory.php');
-//require_once realpath(dirname(__FILE__) . '/../include/databaseFactory.php');
-require_once realpath(dirname(__FILE__) . '/../include/database/Database_MySQLi.php');
+require_once __DIR__ . '/../secret/config.inc.php';
+require_once __DIR__ . '/../include/database/Database_MySQLi.php';
 
 // ********************************************************
 // *                 CLASSE DE TEMPLATES                  *
@@ -46,48 +44,48 @@ class Template
 	var $infomember	=	array();
 	var $globales 	= 	array(); // chaines des globables pour eval()
 	var $LNG 	= 	array(); //tableau langages
-	
+
 	function evalue($name)
 	{
 		$glob = "";
-		
+
 		if(!empty($this->globales[$name]))
 			$glob 	= 	"global \$".$this->globales[$name].";";
-			
+
 		$templ		=	$this->tplcode[$name];
 		eval("$glob \$templ=\"$templ\";");
 		return($templ);
 	}
-	
+
 	function forme($templ)
 	{
 		$templ		=	preg_replace("'\/\*(.*?)\*\/'si","",$templ); // On supprimer les commentaires
 		$templ		=	addslashes(addslashes($templ)); // double backslash
- 
- 
+
+
 		// **** evaluation des variables de langages ****
-		
+
 		if(get_magic_quotes_runtime()==0)
 			$templ		=	addslashes($templ); // 1 backslash
 		$templ		=	str_replace("\$","\\\\\\\\\\\\\\$",$templ);//\\\$
 		$templ		=	preg_replace("/{%LNG\[([^\[]+)\]%}/","\".\$this->LNG['\\1'].\"",$templ); // On transforme les variables de langage
-		
+
 		eval("\$templ=\"$templ\";");
-		
-		// **** éclatement du fichier ****		
-		
+
+		// **** éclatement du fichier ****
+
 		$tpleclate	=	explode("<!--********** TPL NAME = ",$templ); // Eclatement général des templates
-		
+
 		// **** traitement bloc par bloc ****
-		
+
 		for($i=1;$i<count($tpleclate);$i++)
 		{
 			$temp		=	explode(" **********-->",$tpleclate[$i]);
 			$tplname	=	$temp[0];
-			
+
 			$this->tplcode[$tplname]=$temp[1];
 			$this->tplcode[$tplname]=preg_replace("/^(\r\n)+/","",$this->tplcode[$tplname]);
-			
+
 			preg_match_all("/{%::(.*?)%}/",$this->tplcode[$tplname],$out,PREG_PATTERN_ORDER);
 			if(count($out[1])>0)
 			{
@@ -96,45 +94,45 @@ class Template
 					$out[1][$j]		=	preg_replace("'\[(.*?)\]'","",$out[1][$j]);
 					$tabl[$out[1][$j]]	=	$out[1][$j];
 				}
-						
+
 				$this->globales[$tplname]	=	implode(",\$",$tabl);
-				
+
 			}
 			$this->tplcode[$tplname]	=	preg_replace("/{%([^\[]+)\[([^\]]+)\]%}/","{%\\1['\\2']%}", $this->tplcode[$tplname]);
 			$this->tplcode[$tplname]	=	preg_replace("/{%::(.*?)%}/","\".\$\\1.\"",$this->tplcode[$tplname]); // On transforme les variables globales
-			
+
 			$this->tplcode[$tplname]	=	preg_replace("/{%(.*?)%}/","\".\$this->\\1.\"",$this->tplcode[$tplname]); // On transforme les variables de classe
 			unset($out);
 		}
-			
+
 	}
-	
+
 	function gettemplate($filename,$tpl)
 	{
 		if(empty($this->isloaded[$filename]))
 			$this->loadfile($filename);
-			
+
 		$chaine		=	$this->evalue($tpl);
 		return($chaine);
 	}
-	
+
 	function loadfile($file)
 	{
 		global $_SKIN,$_SERVER;
-		
+
 		if(preg_match("|admin/|",$_SERVER['REQUEST_URI']) > 0)	$prefix="../";
 		else						$prefix="";
-			
+
 		$temp			=	implode("",file($prefix."templates/".$_SKIN['reptpl']."/tpl_".$file.".html"));
 		$this->forme($temp);
 		$this->isloaded[$file]	=	true;
 	}
-	
+
 	function attlang($param)
 	{
-		return($this->LNG[$param]);	
+		return($this->LNG[$param]);
 	}
-	
+
 	function output($tmpl)
 	{
 		echo(stripslashes(stripslashes($tmpl)));
@@ -145,16 +143,16 @@ class Template
 // *                 FONCTIONS SYSTEMES                   *
 // ********************************************************
 function get_microtime()
-{  
-	list($tps_usec, $tps_sec) = explode(" ",microtime());  
-	return ((float)$tps_usec + (float)$tps_sec);  
+{
+	list($tps_usec, $tps_sec) = explode(" ",microtime());
+	return ((float)$tps_usec + (float)$tps_sec);
 }
 
 function get_rightfromint($tableau,$int)
 {
 	$i 	= 	20;
 	$Mask 	= 	1 << $i;
-	
+
 	while($Mask>0)
 	{
 		if($int >= $Mask)
@@ -174,20 +172,20 @@ function get_intfromright($tableau)
 {
 	$i 	= 	1;
 	$int 	= 	0;
-	
+
 	foreach($tableau as $key => $value)
 	{
 		if($value == 'true')
 			$int += $i << $key;
 	}
-	return($int);	
+	return($int);
 }
 
 function addToArray(&$array, $key, $val)
 {
    $tempArray = array($key => $val);
    $array = array_merge ($array, $tempArray);
-} 
+}
 
 
 function array_rempl(&$array, $start, $end, $value)
@@ -208,49 +206,49 @@ function stopaction($msg='')
 function geterror($error)
 {
 	global $tpl,$cache,$_FORUMCFG,$tps,$tps_start, $sql;
-	
+
 	getlangage("error");
-	
+
 	if ($error == "closedforum") {
         $tpl->box['errorcontent'] = $_FORUMCFG['closeforummsg'];
     } elseif($error == "initcookie") {
 		sendcookie("CoolForumID","",0);
 		sendcookie("listeforum_coolforum","",0);
 		sendcookie("nbpmvu","0",-1);
-	
+
 		$forums_id	=	$sql->query("SELECT forumid FROM "._PRE_."forums")->execute();
 		$nb	=	$forums_id->num_rows();
-	
+
 		if ($nb>0) {
 			while ($j = $forums_id->fetch_array()) {
 				$name	=	"CoolForumDetails".$j['forumid'];
 				sendcookie($name,"",0);
-			}	
+			}
 		}
-			
+
 		sendcookie("CF_LastINI",time(),-1);
-		$tpl->box['errorcontent']	=	$tpl->gettemplate("error","initcookie");		
+		$tpl->box['errorcontent']	=	$tpl->gettemplate("error","initcookie");
 	} else {
         $tpl->box['errorcontent']	=	$tpl->gettemplate("error",$error);
     }
-	
+
 	$cache .=	$tpl->gettemplate("error","errorbox");
 	$tps 	= 	number_format(get_microtime() - $tps_start,4);
 	$cache .=	$tpl->gettemplate("baspage","endhtml");
-	
+
 	$tpl->output($cache);
 	exit;
-	
-}  
+
+}
 
 //********** FONCTION D'ENVOI DE COOKIES **********
 function sendcookie($name,$value,$expire)
 {
 	global $_FORUMCFG;
-	
+
 	if($expire==-1)
 		$expire=mktime(0,0,0,1,1,2010);
-		
+
 	if(empty($_FORUMCFG['cookiedomain']))	setcookie($name,$value,$expire,$_FORUMCFG['cookierep']);
 	else					setcookie($name,$value,$expire,$_FORUMCFG['cookierep'],".".$_FORUMCFG['cookiedomain']);
 }
@@ -259,14 +257,14 @@ function sendcookie($name,$value,$expire)
 function sendmail($To,$Subject,$Msg)
 {
 	global $_FORUMCFG;
-	
+
 	switch ($_FORUMCFG['mailfunction'])
 	{
 		case "normal":
 			if(!mail($To,$Subject,$Msg,"From: ".inversemail($_FORUMCFG['contactmail'])."\nReply-To: ".inversemail($_FORUMCFG['contactmail'])."\nX-Priority: 1"))
 				return false;
 			break;
-			
+
 		case "online":
 			if(!email("webmaster",$To,$Subject,$Msg))
 				return false;
@@ -277,36 +275,36 @@ function sendmail($To,$Subject,$Msg)
 				return false;
 			break;
 	}
-	
-	return true;			
+
+	return true;
 }
 
 //********** FONCTIONS ENCODAGE/DECODAGE **********
-function getencrypt($txt,$cle) 
-{ 
-	srand((double)microtime()*1000000); 
+function getencrypt($txt,$cle)
+{
+	srand((double)microtime()*1000000);
 	$getencrypt_key = md5(rand(0,32000));
-		
-	$ctr=0; 
-	$tmp = ""; 
-	for ($i=0;$i<strlen($txt);$i++) 
+
+	$ctr=0;
+	$tmp = "";
+	for ($i=0;$i<strlen($txt);$i++)
 	{
-		if ($ctr==strlen($getencrypt_key)) 
+		if ($ctr==strlen($getencrypt_key))
 			$ctr=0;
 		$aff1 = substr($getencrypt_key,$ctr,1);
-		
+
 		$tmp.= $aff1.(substr($txt,$i,1) ^ $aff1);
 		$ctr++;
 	}
-	
+
 	$ctr=0;
 	$code="";
 	for ($i=0;$i<strlen($tmp);$i++)
 	{
-		if ($ctr==strlen($cle)) 
+		if ($ctr==strlen($cle))
 			$ctr=0;
 		$code.=(substr($tmp,$i,1)) ^ (substr($cle,$ctr,1));
-		$ctr++;	
+		$ctr++;
 	}
 return($code);
 }
@@ -317,13 +315,13 @@ function getdecrypt($tplxt,$cle)
 	$decode="";
 	for ($i=0;$i<strlen($tplxt);$i++)
 	{
-		if ($ctr==strlen($cle)) 
+		if ($ctr==strlen($cle))
 			$ctr=0;
 		$decode.=(substr($tplxt,$i,1)) ^ (substr($cle,$ctr,1));
-		$ctr++;	
-	}	
+		$ctr++;
+	}
 	$tmp = "";
-	for ($i=0;$i<strlen($decode);$i+=2) 
+	for ($i=0;$i<strlen($decode);$i+=2)
 	{
 		$tmp.= (substr($decode,$i,1))^(substr($decode,$i+1,1));
 	}
@@ -333,13 +331,13 @@ function getdecrypt($tplxt,$cle)
 function getconfig()
 {
 	global $sql;
-	
+
 	$result=$sql->query("SELECT * FROM "._PRE_."config")->execute();
 	while($j=$result->fetch_array())
 	{
 		$tableau[$j['options']]=$j['valeur'];
 	}
-	
+
 	$tableau['catseparate']=htmlentities($tableau['catseparate'], ENT_COMPAT,'ISO-8859-1', true);
 	return($tableau);
 }
@@ -347,29 +345,29 @@ function getconfig()
 function getlangage($file)
 {
 	global $_USER,$_FORUMCFG,$tpl,$_SERVER;
-	
+
 	if(preg_match("|admin/|",$_SERVER['REQUEST_URI']) > 0)
 		$prefix="../";
 	else
 		$prefix="";
-		
+
 	if(!isset($_USER['lng']))
 		$lng=$_FORUMCFG['defaultlangage'];
 	else
 		$lng=$_USER['lng'];
-	
+
 	include($prefix."lng/" . $lng . "/lng_" . $file . ".php");
 }
 
 function getforumname($id)
 {
 	global $_USER, $sql, $_GENERAL;
-	
+
 	$id = intval($id);
-	
+
 	$query 	= 	$sql->query("SELECT "._PRE_."forums.forumid,"._PRE_."forums.forumtitle,"._PRE_."forums.forumcat,"._PRE_."forums.openforum,"._PRE_."forums.forumtopic,"._PRE_."forums.forumposts,"._PRE_."categorie.cattitle,"._PRE_."categorie.catid FROM "._PRE_."forums,"._PRE_."categorie WHERE "._PRE_."forums.forumid='$id' AND "._PRE_."categorie.catid="._PRE_."forums.forumcat")->execute();
 	$nb 	= 	$query->num_rows();
-	
+
 	if ($nb==0) {
         geterror("novalidlink");
     } else {
@@ -385,13 +383,13 @@ function getforumname($id)
 function getnumberpages($nb,$template,$nbmax,&$page)
 {
 	global $_GET,$nbpages,$_FORUMCFG,$tpl;
-	
+
 	$chaine="";
 	/*if (empty($_GET['page']))
 		$page=1;
 	else
 		$page=$_GET['page'];*/
-	
+
 	$nbpages=Ceil($nb/$nbmax);
 	if($nbpages>1)
 	{
@@ -404,10 +402,10 @@ function getnumberpages($nb,$template,$nbmax,&$page)
 
 		if($page<6)	$debut=1;
 		else	$debut=$page-4;
-			
+
 		if($nbpages-$page<5)	$fin=$nbpages;
 		else	$fin=$page+5;
-			
+
 		for($i=$debut; $i<($fin+1); $i++)
 		{
 			$tpl->box['pagenumber']=$i;
@@ -434,18 +432,18 @@ function getpagestopic($nb,$id,$page)
 	global $forumid,$nbpagepost,$_FORUMCFG,$tpl;
 	$chaine="";
 	$nb++;
-	
+
 	if(empty($forumid))
 		$forumid=$tpl->tmp['forumid'];
-	
+
 	$nbpagepost=Ceil($nb/$_FORUMCFG['msgparpage']);
-	
+
 	if($nbpagepost>1)
 	{
 		$flagpoint=0;
 		//$chaine.=" (aller page: ";
 		$tpl->box['cachepages'] = "";
-			
+
 		for($i=1; $i<($nbpagepost+1); $i++)
 		{
 			if($i>3 && $i<$nbpagepost && $nbpagepost>4)
@@ -454,7 +452,7 @@ function getpagestopic($nb,$id,$page)
 				{
 					$tpl->box['cachepages'] .=" ...";
 					$flagpoint=1;
-				}			
+				}
 			}
 			else
 			{
@@ -484,7 +482,7 @@ function getuserid()
 		$j 						= 		unserialize(urldecode($_COOKIE['CoolForumID']));
 		$j['userpass']			=		getdecrypt(rawurldecode($j['userpass']),$_FORUMCFG['chainecodage']);
 		$j['userid'] 				= 		intval($j['userid']);
-		
+
 		$query 					= $sql->query("SELECT 	"._PRE_."user.userid, 
 										"._PRE_."user.login AS username,
 										"._PRE_."user.password,
@@ -502,10 +500,10 @@ function getuserid()
 									FROM "._PRE_."user
 									LEFT JOIN "._PRE_."groups ON "._PRE_."groups.id_group = "._PRE_."user.userstatus 
 									WHERE "._PRE_."user.userid=%d", $j['userid'])->execute();
-							
+
 		$x						=		$query->fetch_array();
 		$temppass				=		getdecrypt(rawurldecode($x['password']),$_FORUMCFG['chainecodage']);
-		
+
 		if($j['userpass'] == $temppass)
 		{
 			$user 				= 		$x;
@@ -516,12 +514,12 @@ function getuserid()
 	}
 	else
 		$errorset				=		true;
-	
+
 	if($errorset)
 	{
 		$query 					= 		$sql->query("SELECT * FROM "._PRE_."groups WHERE id_group = 1")->execute();
 		$user					= 		$query->fetch_array();
-		
+
 		$user['username']		=		NULLSTR;
 		$user['userstatus']		=		1;
 		$user['userid']			=		0;
@@ -532,24 +530,24 @@ function getuserid()
 		$user['lastpost']		=		0;
 		$user['wysiwyg']		=		"N";
 	}
-	
+
 	// Chargement droits généraux
 	$_GENERAL 					= 		get_rightfromint($_GENERAL,$user['Droits_generaux']);
-	
+
 	// Chargement droits des forums
 	$request 					= 		$sql->query("SELECT * FROM "._PRE_."groups_perm WHERE id_group = %d", $user['userstatus'])->execute();
 	$nb 						= 		$request->num_rows();
-			
+
 	if($nb>0)
 		while($i = $request->fetch_array())
 		{
 			$temp_array = array();
 			$temp_array = get_rightfromint($temp_array,$i['droits']);
-			
+
 			$_PERMFORUM[$i['id_forum']] = $temp_array;
 			$_PERMFORUM[$i['id_forum']]['MaxChar'] = $i['MaxChar'];
 		}
-		
+
 return($user);
 }
 
@@ -558,21 +556,21 @@ return($user);
 function getismodo($forum)
 {
 	global $_MODORIGHTS, $_USER, $sql, $_GENERAL;
-	
+
 	array_rempl($_MODORIGHTS,0,8,false);
-	
+
 	if($_GENERAL[19])
 	{
 		if($_GENERAL[20])
 		{
 			$_MODORIGHTS 		=		get_rightfromint($_MODORIGHTS,511);
-			return true;			
+			return true;
 		}
 		else
-		{	
+		{
 			$query				=		$sql->query("SELECT idusermodo, modorights FROM "._PRE_."moderateur WHERE idusermodo=%d AND forumident='%s'", array($_USER['userid'],$forum))->execute();
 			$nb					=		$query->num_rows();
-			
+
 			if($nb>0)
 			{
 				$j				=		$query->fetch_array();
@@ -589,27 +587,27 @@ function getismodo($forum)
 function getrightedit($idpost,$forumid)
 {
 	global $_MODORIGHTS, $sql, $_USER, $_FORUMCFG, $_GENERAL, $_PERMFORUM;
-	
+
 	$query					=	$sql->query("SELECT idforum,idmembre,parent FROM "._PRE_."posts WHERE idpost=%d", $idpost)->execute();
 	$j						=	$query->fetch_array();
-	
+
 	$ismodo					=	false;
 	$ismodo					=	getismodo($forumid);
-		
+
 	if ($_GENERAL[20]) {
         return true;
     } elseif ($ismodo && $forumid==$j['idforum']) {
         return true;
     } elseif($_USER['userstatus']>1) {
 		$parent				=	$j['parent'];
-		
+
 		if($j['idmembre']==$_USER['userid'])
 		{
 			if(!isset($_PERMFORUM[$forumid][6]) || !$_PERMFORUM[$forumid][6])
 			{
 				$query		=	$sql->query("SELECT idpost FROM "._PRE_."posts WHERE parent=%d ORDER BY date DESC", $parent)->execute();
 				$i			=	$query->fetch_array();
-					
+
 				if($i['idpost']==$idpost)		return true;
 				else						return false;
 			}
@@ -622,7 +620,7 @@ function getrightedit($idpost,$forumid)
 
 function init_session()
 {
-	srand((double)microtime()*1000000); 
+	srand((double)microtime()*1000000);
 	$session = md5(rand(0,32000));
 	return($session);
 }
@@ -632,25 +630,25 @@ function getsession()
 {
 	global $_COOKIE, $_USER, $sql, $SessLieu, $SessForum, $SessTopic;
 	$tablename								=		array();
-	
+
 	if(!empty($SessLieu))
 	{
 		$pseudo 								= 		getformatdbtodb($_USER['username']);
-	
+
 		if(!isset($_COOKIE['CF_sessionID']))
 	   		$_COOKIE['CF_sessionID'] 			= 		init_session();
-	
+
 		$now									=		time();
 		$perim									=		$now - 300;
-		
+
 		$delsql									=		$sql->query("DELETE FROM "._PRE_."session WHERE time<%d", $perim)->execute();
-	
+
 		$query									=		$sql->query("SELECT sessionID, username, userid, userstatus, typelieu, forumid, topicid FROM "._PRE_."session")->execute();
 		$nb										=		$query->num_rows();
-		
+
 		$found 									= 		false;
 		$i										=		0;
-		
+
 		if($nb>0)
 		{
 			while($j=$query->fetch_array())
@@ -661,7 +659,7 @@ function getsession()
 					$tablename[$i]['name']		=	$j['username'];
 					$tablename[$i]['status']	=	$j['userstatus'];
 					$tablename[$i]['userid']	=	$j['userid'];
-					$found 						= 	true;	
+					$found 						= 	true;
 					$tablename[$i]['typelieu']	=	$SessLieu;
 					$tablename[$i]['forumid']	=	$SessForum;
 					$tablename[$i]['topicid']	=	$SessTopic;
@@ -672,7 +670,7 @@ function getsession()
 					$tablename[$i]['name']		=	$_USER['username'];
 					$tablename[$i]['status']	=	$_USER['userstatus'];
 					$tablename[$i]['userid']	=	$_USER['userid'];
-					$found 						= 	true;		
+					$found 						= 	true;
 					$tablename[$i]['typelieu']	=	$SessLieu;
 					$tablename[$i]['forumid']	=	$SessForum;
 					$tablename[$i]['topicid']	=	$SessTopic;
@@ -685,12 +683,12 @@ function getsession()
 					$tablename[$i]['typelieu']	=	$j['typelieu'];
 					$tablename[$i]['forumid']	=	$j['forumid'];
 					$tablename[$i]['topicid']	=	$j['topicid'];
-				}				
+				}
 				$i++;
 			}
-			
-		}	
-		
+
+		}
+
 		if(!$found)
 		{
 			$query								=	$sql->query("INSERT into "._PRE_."session (sessionID, username, userid, userstatus, time, typelieu, forumid, topicid) VALUES ('%s','%s', %d,'%s','%s','%s','%s','%s')", array($_COOKIE['CF_sessionID'], $pseudo, $_USER['userid'], $_USER['userstatus'], $now, $SessLieu, $SessForum, $SessTopic))->execute();
@@ -700,31 +698,31 @@ function getsession()
 			$tablename[$i]['typelieu']			=	$SessLieu;
 			$tablename[$i]['forumid']			=	$SessForum;
 			$tablename[$i]['topicid']			=	$SessTopic;
-									
+
 			$LastINI							=	isset($_COOKIE['CF_LastINI']) ? (int)$_COOKIE['CF_LastINI'] : 0;
 			if($_USER['userid'] > 0)
 				$query							=	$sql->query("UPDATE "._PRE_."user SET lastvisit = %d WHERE userid = %d", array($LastINI, $_USER['userid']))->execute();
-		}	
-		
+		}
+
 		sendcookie("CF_sessionID",$_COOKIE['CF_sessionID'],-1);
 		sendcookie("CF_LastINI",$now,-1);
 	}
-	return($tablename);	
+	return($tablename);
 
 }
 
 function get_connected($Lieu = "",$forumid = 0, $topicid = 0)
 {
 	global $NombreConnectes, $tpl;
-	
+
 	$InfoMember['nbmembres']		=	0;
 	$InfoMember['nbguests']		=	0;
 	$InfoMember['nbtotalvisit']	=	0;
-	
+
 	$NbTotalcon					=	count($NombreConnectes);
 	$ListMembres				=	array();
 	$nameconnect				=	array();
-	
+
 	// **** Définition du nbre de membres et d'invités selon le lieu ****
 	for($i = 0; $i < $NbTotalcon; $i++)
 	{
@@ -733,15 +731,15 @@ function get_connected($Lieu = "",$forumid = 0, $topicid = 0)
 		if($Lieu == "TOP" && $Lieu == $NombreConnectes[$i]['typelieu'] && $forumid == $NombreConnectes[$i]['forumid'] && $topicid == $NombreConnectes[$i]['topicid'])
 			$mbvalid = true;
 		elseif($Lieu == "FOR" && ($Lieu == $NombreConnectes[$i]['typelieu'] || $NombreConnectes[$i]['typelieu'] == "TOP") && $forumid == $NombreConnectes[$i]['forumid'])
-			$mbvalid = true;	
+			$mbvalid = true;
 		elseif(strlen($Lieu) > 0 && $Lieu != "TOP" && $Lieu != "FOR" && $Lieu == $NombreConnectes[$i]['typelieu'])
 			$mbvalid = true;
-		
+
 		if(strlen($Lieu) == 0)
 			$mbvalid = true;
-			
+
 		if($mbvalid)
-		{		
+		{
 			if(!empty($NombreConnectes[$i]['name']))
 			{
 				$InfoMember['nbmembres']++;
@@ -749,11 +747,11 @@ function get_connected($Lieu = "",$forumid = 0, $topicid = 0)
 			}
 			else
 				$InfoMember['nbguests']++;
-		}		
+		}
 	}
-	
+
 	$InfoMember['nbtotalvisit']	=	$InfoMember['nbmembres'] + $InfoMember['nbguests'];
-	
+
 	// **** Formattage des membres pour affichage ****
 	if($InfoMember['nbmembres']>0)
 	{
@@ -768,21 +766,21 @@ function get_connected($Lieu = "",$forumid = 0, $topicid = 0)
 function getjumpforum($template="entete")
 {
 	global $_USER, $tpl, $sql, $_PERMFORUM;
-	
+
 	$query					=		$sql->query("SELECT * FROM "._PRE_."categorie ORDER BY catorder")->execute();
 	$nb						=		$query->num_rows();
-	
+
 	$tpl->box['forumlist']	=		"";
-	
+
 	if($nb>0)
 	{
 		$sqlforums			=		$sql->query("SELECT forumid,forumcat,forumtitle FROM "._PRE_."forums ORDER BY forumcat,forumorder")->execute();
 		$nbforums			=		$sqlforums->num_rows();
-		
+
 		if ($nbforums>0) {
             while($TabForum[] = 	$sqlforums->fetch_array());
         }
-		
+
 		$i = 0;
 		while($Cats = $query->fetch_array())
 		{
@@ -796,48 +794,47 @@ function getjumpforum($template="entete")
 					$tpl->box['FJforumid']=$TabForum[$i]['forumid'];
 					$chaine.=$tpl->gettemplate($template,"forumjumpfor");
 				}
-			}			
-			
+			}
+
 			if(strlen($chaine)>0)
 			{
 				$tpl->box['FJcatname']=getformatrecup($Cats['cattitle']);
-				$tpl->box['forumlist'].=$tpl->gettemplate($template,"forumjumpcat").$chaine;				
+				$tpl->box['forumlist'].=$tpl->gettemplate($template,"forumjumpcat").$chaine;
 			}
 		}
-		$tpl->box['forumjump']=$tpl->gettemplate($template,"structforumjump");	
+		$tpl->box['forumjump']=$tpl->gettemplate($template,"structforumjump");
 	}
 }
 
 function getskin()
 {
 	global $_SKIN, $_USER, $sql, $_POST, $_FORUMCFG, $ListColorGroup;
-	
+
 	if($_FORUMCFG['defaultskin']<$_USER['userskin'])
 		$order="DESC";
 	else
 		$order="ASC";
-	
+
 	$query=$sql->query("SELECT propriete,valeur FROM "._PRE_."skins WHERE id=%d OR id=%d ORDER BY id %s", array($_USER['userskin'],$_FORUMCFG['defaultskin'],$order))->execute();
-	
+
 	while (list($skcle,$skvalue) = $query->fetch_array()) {
 		if (empty($_SKIN[$skcle])) {
             addToArray($_SKIN,$skcle,$skvalue);
         }
 			//$_SKIN[$skcle]=$skvalue;
-			
+
 		if (preg_match("|^grp|",$skcle) > 0) {
             $ListColorGroup[] = intval(str_replace("grp","",$skcle));
         }
 	}
-		
+
 	if (!empty($_POST['skins']) && count($_POST['skins'])>0 && isset($_POST['act']) && $_POST['act']=="preview") {
-		for ($i=0;$i<count($_POST['skins']);$i++) {
-			$valeur=each($_POST['skins']);
-			if (strlen($valeur['value'])>0) {
+		foreach ($_POST['slins'] as $key => $value) {
+			if (strlen($value)>0) {
 				if (empty($_SKIN[$skcle])) {
-                    addToArray($_SKIN,$valeur['key'],$valeur['value']);
+                    addToArray($_SKIN,$key,$value);
                 } else {
-                    $_SKIN[$valeur['key']]=$valeur['value'];
+                    $_SKIN[$key]=$value;
                 }
             }
 		}
@@ -847,16 +844,16 @@ function getskin()
 function getloadsmileys()
 {
 	global $sql;
-	
+
 	$query = $sql->query("SELECT imgsmile,codesmile FROM "._PRE_."smileys ORDER BY ordersmile ASC")->execute();
-	
+
 	$i=0;
 	while ($j = $query->fetch_array()) {
 		$tplable_smileys[$i]['code']=getformatrecup($j['codesmile']);
 		$tplable_smileys[$i]['img']=$j['imgsmile'];
 		$i++;
 	}
-	
+
 	return($tplable_smileys);
 }
 
@@ -872,7 +869,7 @@ function getreturnsmilies($msg)
     }
 
 	for ($i=0;$i<count($table_smileys);$i++) {
-		$msg = str_replace($table_smileys[$i]['code'],"<img src=\"".$prefix."smileys/".$table_smileys[$i]['img']."\" align=absmiddle>", $msg);	
+		$msg = str_replace($table_smileys[$i]['code'],"<img src=\"".$prefix."smileys/".$table_smileys[$i]['img']."\" align=absmiddle>", $msg);
 	}
 
 	return($msg);
@@ -881,7 +878,7 @@ function getreturnsmilies($msg)
 function InitBBcode()
 {
 	global $BBcodeHTML,$tpl, $_FORUMCFG, $ListWords, $ListWordsRpl;
-	
+
 	$BBcodeHTML['codeopen']		= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","bbcodeopen"))));
 	$BBcodeHTML['codeclose']	= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","bbcodeclose"))));
 	$BBcodeHTML['urlauto1'] 	= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","bburlauto1"))));
@@ -905,7 +902,7 @@ function InitBBcode()
 	$BBcodeHTML['quoteopen']	= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","bbquoteopen"))));
 	$BBcodeHTML['quoteclose']	= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","bbquoteclose"))));
 	$BBcodeHTML['msgcache1'] 	= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","msgcache1"))));
-	$BBcodeHTML['msgcache2'] 	= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","msgcache2"))));	
+	$BBcodeHTML['msgcache2'] 	= 	trim(stripslashes(stripslashes($tpl->gettemplate("entete","msgcache2"))));
 
 	if (strlen($_FORUMCFG['censuredwords'])>0) {
 		$Rpl="**************************************************************************************************";
@@ -915,15 +912,15 @@ function InitBBcode()
 			$ListWords[$i] = "'([^a-zA-Z])".addslashes(getformatmsg($ListWords[$i]))."([^a-zA-Z]|\Z|\s)'si";
 		}
 	}
-	
+
 }
 
 function getcolorsearch($chain)
 {
 	global $SearchOrig, $SearchReplace;
-	
+
 	$chain	=	stripslashes($chain);
-	if (count($SearchOrig)>0) {
+	if (isset($SearchOrig) && count($SearchOrig)>0) {
         return(str_replace($SearchOrig,$SearchReplace,$chain));
     } else {
         return($chain);
@@ -937,12 +934,12 @@ function getcolorsearch($chain)
 function get_htmlmoztocss($color)
 {
 	$color	=	strtolower($color);
-	
+
 	switch($color)
 	{
 		case 'aqua':
 		  $rgb	=	'0, 255, 255';
-		  break;	
+		  break;
 		case 'black':
 		  $rgb	=	'0, 0, 0';
 		  break;
@@ -990,16 +987,16 @@ function get_htmlmoztocss($color)
 		  break;
 		default:
 		  $array_dec		=	array();
-			
+
 		  $color			=	substr($color,1,strlen($color));
 		  $array_dec[0]		=	hexdec(substr($color,0,2));
 		  $array_dec[1]		=	hexdec(substr($color,2,2));
 		  $array_dec[2]		=	hexdec(substr($color,4,2));
-			
+
 		  $rgb			=	implode(", ",$array_dec);
 		  break;
 	}
-	
+
 	$text = "<span style=\"color: rgb(".$rgb.");\">";
 	return($text);
 }
@@ -1009,19 +1006,19 @@ function css_process($chaine, $statut='')
 {
 	static $close_tag	=	"";
 	$to_return		=	"";
-	
+
 	if ($statut == 'open') {
 		if (NAVIGATEUR == "MOZILLA") {
 			$css			=	preg_replace("/<(span|font|br) (.*?)>/si","\\2",$chaine);
 			$css			=	str_replace("\" ","\"----",$css);
 			$temp_options	=	explode("----",$css);
-	
+
 			foreach ($temp_options AS $html_options) {
 				if (substr($html_options,0,6) == "style=") {
 					$html_options	=	preg_replace("/style=\"(.*?);\"/si","\\1",$html_options);
-					
+
 					$temp_array = explode("; ",$html_options);
-					
+
 					foreach ($temp_array AS $value) {
 						switch ($value)
 						{
@@ -1032,7 +1029,7 @@ function css_process($chaine, $statut='')
 							case 'font-style: italic' :
 							  $to_return .= '[ita]';
 							  $close_tag  = '[/ita]'.$close_tag;
-							  break;				
+							  break;
 							case 'text-decoration: underline' :
 							  $to_return .= '[under]';
 							  $close_tag  = '[/under]'.$close_tag;
@@ -1048,16 +1045,16 @@ function css_process($chaine, $statut='')
 							  	$decstring	=	preg_replace("/color: rgb\((.*?)\)/","\\1",$value);
 							  	$array_dec	=	explode(", ",$decstring);
 							  	$hexstring	=	"";
-							  	
+
 							  	foreach ($array_dec AS $dec_value) {
 							  		$tempvalue		=	dechex($dec_value);
 							  		if (strlen($tempvalue)==1) {
                                         $tempvalue	=	"0".$tempvalue;
                                     }
-							  		
+
 							  		$hexstring		.=	$tempvalue;
 							  	}
-							  	
+
 							  	$to_return .=	'[color=#'.$hexstring.']';
 							  	$close_tag  = '[/color]'.$close_tag;
 							  }
@@ -1073,7 +1070,7 @@ function css_process($chaine, $statut='')
 		} elseif(NAVIGATEUR == "MSIE") {
 			$css			=	preg_replace("/<font (.*?)>/si","\\1",$chaine);
 			$temp_options	=	explode(" ",$css);
-			
+
 			foreach ($temp_options AS $html_options) {
 				if (substr($html_options,0,5) == "face=") {
 					$html_options	=	preg_replace("/face=(.*?)/si","\\1",$html_options);
@@ -1088,7 +1085,7 @@ function css_process($chaine, $statut='')
 					$to_return		.=	'[color='.$html_options.']';
 					$close_tag		=	'[/color]'.$close_tag;
 				}
-			}			
+			}
 		}
 	} elseif($statut == 'close') {
 		$to_return	=	$close_tag;
@@ -1096,7 +1093,7 @@ function css_process($chaine, $statut='')
 	} else {
         $to_return	=	$chaine;
     }
-	
+
 	return($to_return);
 }
 
@@ -1105,31 +1102,31 @@ function css_process($chaine, $statut='')
 function div_process($chaine, $statut='')
 {
 	static $active_tag	=	"";
-	
+
 	if($statut == 'open')
 	{
 		$chaine		=	preg_replace("/<div (.*?)>/si","\\1",$chaine);
 		$chaine		=	str_replace("\"","",$chaine);
-		
+
 		// **** si CODE ****
 		if(preg_match("|class=code_class|",$chaine) > 0)
 		{
 			$active_tag	=	"code";
 			return("[code]");
 		}
-		
+
 		// **** si QUOTE ****
 		elseif(preg_match("|class=quote_class|",$chaine) > 0)
 		{
 			$active_tag	=	"quote";
 			return("[quote]");
 		}
-		
+
 		// **** si ALIGN ****
 		elseif(preg_match("|text-align|",$chaine) > 0)
 		{
 			$chaine		=	preg_replace("/style=text-align: (.*?);/si","\\1",$chaine);
-			
+
 			switch($chaine)
 			{
 				case 'left':
@@ -1139,14 +1136,14 @@ function div_process($chaine, $statut='')
 				case 'center':
 					$active_tag		=	"center";
 					$to_return		=	"[center]";
-					break;	
+					break;
 				case 'right':
 					$active_tag		=	"right";
 					$to_return		=	"[right]";
 					break;
 			}
-			
-			return($to_return);			
+
+			return($to_return);
 		}
 	}
 	elseif($statut == 'close')
@@ -1170,42 +1167,42 @@ function div_process($chaine, $statut='')
 				$to_return	=	"[/right]";
 				break;
 		}
-		
+
 		$active_tag		=	"";
 		return($to_return);
 	}
 	else
-		return($chaine);			
+		return($chaine);
 }
 
 function code_process($chaine, $statut='')
 {
 	global $BBcodeHTML;
-	
+
 	if($statut == 'open')
 		return($BBcodeHTML['codeopen']);
 	elseif($statut == 'close')
 		return($BBcodeHTML['codeclose']);
 	else
-		return(strip_tags($chaine));			
+		return(strip_tags($chaine));
 }
 
 function quote_process($chaine, $statut='')
 {
 	global $BBcodeHTML;
-	
+
 	if($statut == 'open')
 		return($BBcodeHTML['quoteopen']);
 	elseif($statut == 'close')
 		return($BBcodeHTML['quoteclose']);
 	else
-		return($chaine);			
+		return($chaine);
 }
 
 function color_process($chaine, $statut='')
 {
 	global $BBcodeHTML;
-	
+
 	if($statut == 'open')
 	{
 		$chaine		=	preg_replace("/\[color=(.*?)\]/si",$BBcodeHTML['coloropen'],$chaine);
@@ -1214,13 +1211,13 @@ function color_process($chaine, $statut='')
 	elseif($statut == 'close')
 		return($BBcodeHTML['colorclose']);
 	else
-		return($chaine);			
+		return($chaine);
 }
 
 function size_process($chaine, $statut='')
 {
 	global $BBcodeHTML;
-	
+
 	if($statut == 'open')
 	{
 		$chaine		=	preg_replace("/\[size=(.*?)\]/si",$BBcodeHTML['sizeopen'],$chaine);
@@ -1229,13 +1226,13 @@ function size_process($chaine, $statut='')
 	elseif($statut == 'close')
 		return($BBcodeHTML['sizeclose']);
 	else
-		return($chaine);			
+		return($chaine);
 }
 
 function font_process($chaine, $statut='')
 {
 	global $BBcodeHTML;
-	
+
 	if($statut == 'open')
 	{
 		$chaine		=	preg_replace("/\[font=(.*?)\]/si",$BBcodeHTML['fontopen'],$chaine);
@@ -1244,13 +1241,13 @@ function font_process($chaine, $statut='')
 	elseif($statut == 'close')
 		return($BBcodeHTML['fontclose']);
 	else
-		return($chaine);			
+		return($chaine);
 }
 
 function code_edit_process($chaine, $statut='')
 {
 	global $_SKIN;
-	
+
 	if($statut == 'open')
 	{
 		if(NAVIGATEUR == "MSIE")
@@ -1264,21 +1261,21 @@ function code_edit_process($chaine, $statut='')
 	{
 		if(NAVIGATEUR == "MSIE")
 			$chaine	=	str_replace("<br />","<br>",$chaine);
-			
+
 		$chaine		=	str_replace(" ","&nbsp;",$chaine);
 		$chaine		=	htmlentities($chaine, ENT_COMPAT,'ISO-8859-1', true);
-		
+
 		if(NAVIGATEUR == "MSIE")
 			$chaine	=	str_replace("&lt;br&gt;","<br>",$chaine);
 	}
-		
+
 	return($chaine);
 }
 
 function quote_edit_process($chaine, $statut='')
 {
 	global $_SKIN;
-	
+
 	if($statut == 'open')
 	{
 		if(NAVIGATEUR == "MSIE")
@@ -1288,14 +1285,14 @@ function quote_edit_process($chaine, $statut='')
 	}
 	elseif($statut == 'close')
 		$chaine		=	"</DIV><br>";
-		
+
 	return($chaine);
 }
 
 function font_edit_process($chaine, $statut='')
 {
 	global $_SKIN;
-	
+
 	if($statut == 'open')
 	{
 		if(NAVIGATEUR == "MSIE")
@@ -1305,7 +1302,7 @@ function font_edit_process($chaine, $statut='')
 	}
 	elseif($statut == 'close')
 		$chaine		=	"</font>";
-		
+
 	return($chaine);
 }
 
@@ -1322,14 +1319,14 @@ function size_edit_process($chaine, $statut='')
 	}
 	elseif($statut == 'close')
 		$chaine	=	"</font>";
-		
+
 	return($chaine);
 }
 
 function color_edit_process($chaine, $statut='')
 {
 	global $_SKIN;
-	
+
 	if($statut == 'open')
 	{
 		if(NAVIGATEUR == "MSIE")
@@ -1339,12 +1336,12 @@ function color_edit_process($chaine, $statut='')
 	}
 	elseif($statut == 'close')
 	{
-		if(NAVIGATEUR == "MSIE")		
+		if(NAVIGATEUR == "MSIE")
 			$chaine		=	"</font>";
 		elseif(NAVIGATEUR == "MOZILLA")
 			$chaine		=	"</span>";
 	}
-	
+
 	return($chaine);
 }
 
@@ -1352,12 +1349,12 @@ function color_edit_process($chaine, $statut='')
 function parser($tableau, $chaine)
 {
 	$tabl			=	preg_split("/(".$tableau['open']."|".$tableau['close'].")/si", $chaine, -1, PREG_SPLIT_DELIM_CAPTURE);
-	
+
 	$process_list	=	array();
 	$start 			= 	array();
-	
+
 	$niv			=	0;
-	
+
 	foreach($tabl AS $key => $value)
 	{
 		if(preg_match("/".$tableau['open']."/si",$value) == 1)
@@ -1370,9 +1367,9 @@ function parser($tableau, $chaine)
 			if(isset($start[$niv]))
 			{
 				$end						=	$key;
-				
+
 				$tabl[$start[$niv]]			=	$tableau['function']($tabl[$start[$niv]],'open');
-				
+
 				if(strlen($tableau['function']) > 0 && !in_array($key, $process_list))
 				{
 					for($i = $start[$niv]+1; $i < $end; $i++)
@@ -1386,7 +1383,7 @@ function parser($tableau, $chaine)
 
 				$process_list[]				=	$start[$niv];
 				$process_list[]				=	$end;
-								
+
 				unset($start[$niv]);
 				$niv--;
 			}
@@ -1407,7 +1404,7 @@ function change_smilies_to_code($msg)
 	global $_SERVER, $_FORUMCFG;
 
 	$table_smileys	=	getloadsmileys();
-	
+
 	for($i=0;$i<count($table_smileys);$i++)
 		$msg = preg_replace("'<IMG src=\"".$_FORUMCFG['urlforum']."smileys/".$table_smileys[$i]['img']."\".*?>'si",$table_smileys[$i]['code'],$msg);
 
@@ -1416,11 +1413,9 @@ function change_smilies_to_code($msg)
 
 function convert_html_to_bbcode($msg)
 {
-	if(get_magic_quotes_gpc()==1)
-		$msg = stripslashes($msg);
-	
+
 	// #### TRANSFORMATION DES SMILEYS ####
-	
+
 	$msg		=	change_smilies_to_code($msg);
 	$msg		=	str_replace("&amp;","&",$msg);
 
@@ -1438,28 +1433,28 @@ function convert_html_to_bbcode($msg)
 
 		$regex['bold']['mask']		=	"/<STRONG>(.*?)<\/STRONG>/si";
 		$regex['bold']['replace']	=	"[bold]\\1[/bold]";
-		
+
 		$regex['ita']['mask']		=	"/<EM>(.*?)<\/EM>/si";
 		$regex['ita']['replace']	=	"[ita]\\1[/ita]";
 
 		$regex['under']['mask']		=	"/<U>(.*?)<\/U>/si";
 		$regex['under']['replace']	=	"[under]\\1[/under]";
-		
+
 		$regex['left']['mask']		=	"/<P align=left>(.*?)<\/P>/si";
 		$regex['left']['replace']	=	"[left]\\1[/left]";
-		
+
 		$regex['center']['mask']	=	"/<P align=center>(.*?)<\/P>/si";
 		$regex['center']['replace']	=	"[center]\\1[/center]";
-		
+
 		$regex['right']['mask']		=	"/<P align=right>(.*?)<\/P>/si";
 		$regex['right']['replace']	=	"[right]\\1[/right]";
-		
+
 		$regex['mail']['mask']		=	"/<A href=\"mailto:(.*?)\">(.*?)<\/A>/si";
 		$regex['mail']['replace']	=	"[mail]\\1[/mail]";
-		
+
 		$regex['url']['mask']		=	"/<A href=\"(?!(?i)javascript:)(.*?)\">(.*?)<\/A>/si";
 		$regex['url']['replace']	=	"[url=\\1]\\2[/url]";
-		
+
 		$regex['img']['mask']		=	"/<IMG .*src=\"(.*?)\".*?>/si";
 		$regex['img']['replace']	=	"[img]\\1[/img]";
 
@@ -1480,7 +1475,7 @@ function convert_html_to_bbcode($msg)
 		$msg		=	str_replace("<BR>","\n",$msg);
 		$msg		=	str_replace("&nbsp;"," ",$msg);
 		$msg		=	strip_tags($msg);
-	
+
 	}
 	elseif(NAVIGATEUR == "MOZILLA")
 	{
@@ -1502,13 +1497,13 @@ function convert_html_to_bbcode($msg)
 		$_parser[3]['open']			=	"<br .*?>";
 		$_parser[3]['close']		=	"<\/br>";
 		$_parser[3]['function']		=	"css_process";
-		
+
 		$regex['mail']['mask']		=	"/<A href=\"mailto:(.*?)\">(.*?)<\/A>/si";
 		$regex['mail']['replace']	=	"[mail]\\1[/mail]";
-		
+
 		$regex['url']['mask']		=	"/<A href=\"(?!(?i)javascript:)(.*?)\">(.*?)<\/A>/si";
 		$regex['url']['replace']	=	"[url=\\1]\\2[/url]";
-		
+
 		$regex['img']['mask']		=	"/<IMG .*src=\"(.*?)\">/si";
 		$regex['img']['replace']	=	"[img]\\1[/img]";
 
@@ -1521,7 +1516,7 @@ function convert_html_to_bbcode($msg)
 		$msg		=	preg_replace($regex['url']['mask'],$regex['url']['replace'],$msg);
 		$msg		=	preg_replace($regex['img']['mask'],$regex['img']['replace'],$msg);
 
-		
+
 		$msg		=	strip_tags($msg);
 		$msg		=	str_replace("&nbsp;"," ",$msg);
 
@@ -1543,7 +1538,7 @@ function change_code_to_smileys($msg)
 
 	for($i=0;$i<count($table_smileys);$i++)
 	{
-		$msg = str_replace($table_smileys[$i]['code'],"<img src=\"".$_FORUMCFG['urlforum']."smileys/".$table_smileys[$i]['img']."\">", $msg);	
+		$msg = str_replace($table_smileys[$i]['code'],"<img src=\"".$_FORUMCFG['urlforum']."smileys/".$table_smileys[$i]['img']."\">", $msg);
 	}
 
 	return($msg);
@@ -1554,22 +1549,22 @@ function get_html_from_bbcode($chaine)
 	global $_SKIN;
 
 	// #### TRANSFORMATION DES SMILEYS ####
-	
+
 	$chaine		=	change_code_to_smileys($chaine);
-	
+
 	$regex		=	array();
 
 	$_parser[0]['open']			=	"\[code\]";
 	$_parser[0]['close']		=	"\[\/code\]";
 	$_parser[0]['function']		=	"code_edit_process";
-		
+
 	$_parser[1]['open']			=	"\[quote\]";
 	$_parser[1]['close']		=	"\[\/quote\]";
 	$_parser[1]['function']		=	"quote_edit_process";
 
 	$_parser[2]['open']			=	"\[font=.*?\]";
 	$_parser[2]['close']		=	"\[\/font\]";
-	$_parser[2]['function']		=	"font_edit_process";		
+	$_parser[2]['function']		=	"font_edit_process";
 
 	$_parser[3]['open']			=	"\[size=.*?\]";
 	$_parser[3]['close']		=	"\[\/size\]";
@@ -1578,7 +1573,7 @@ function get_html_from_bbcode($chaine)
 	$_parser[4]['open']			=	"\[color=.*?\]";
 	$_parser[4]['close']		=	"\[\/color\]";
 	$_parser[4]['function']		=	"color_edit_process";
-	
+
 	if(NAVIGATEUR == "MSIE")
 	{
 		$search		=	array(	"/\[bold\](.*?)\[\/bold\]/si",
@@ -1611,8 +1606,8 @@ function get_html_from_bbcode($chaine)
 						"/\[right\](.*?)\[\/right\]/si",
 						"/\[mail\](.*?)\[\/mail\]/si",
 						"/\[url=(.*?)\](.*?)\[\/url\]/si",
-						"/\[img\](.*?)\[\/img\]/si");		
-		
+						"/\[img\](.*?)\[\/img\]/si");
+
 		$replace	=	array(	"<span style=\"font-weight: bold;\">\\1</span>",
 						"<span style=\"font-style: italic;\">\\1</span>",
 						"<span style=\"text-decoration: underline;\">\\1</span>",
@@ -1622,7 +1617,7 @@ function get_html_from_bbcode($chaine)
 						"<A href=\"mailto:\\1\">\\1</A>",
 						"<A href=\"\\1\">\\2</A>",
 						"<IMG src=\"\\1\">");
-	
+
 	}
 
 	$chaine		=	parser($_parser[0],$chaine);
@@ -1630,11 +1625,11 @@ function get_html_from_bbcode($chaine)
 	$chaine		=	parser($_parser[2],$chaine);
 	$chaine		=	parser($_parser[3],$chaine);
 	$chaine		=	parser($_parser[4],$chaine);
-	
+
 	$chaine		=	preg_replace($search,$replace,$chaine);
 
 	return($chaine);
-}	
+}
 
 // ##################################################################
 // #### TRANSFORME LE BBCODE EN HTML POUR AFFICHAGE SUR LE FORUM ####
@@ -1643,27 +1638,27 @@ function get_html_from_bbcode($chaine)
 function format_bbcode_to_html($chaine)
 {
 	global $BBcodeHTML;
-	
+
 	$chaine	=	trim($chaine);
 	$chaine	=	str_replace('<br />','',$chaine);
 	$chaine =	str_replace('\\\"','\"',$chaine);
-	
-	return $chaine;	
+
+	return $chaine;
 }
 
 function getreturnbbcode($msg,$topic=false)
 {
 	global $bground, $_SKIN, $_USER, $_FORUMCFG, $DetailMsg, $sql, $BBcodeHTML;
 	$regex		=	array();
-	
+
 	$_parser[0]['open']			=	"\[code\]";
 	$_parser[0]['close']		=	"\[\/code\]";
-	$_parser[0]['function']		=	"code_process";	
+	$_parser[0]['function']		=	"code_process";
 
 	$_parser[1]['open']			=	"\[quote\]";
 	$_parser[1]['close']		=	"\[\/quote\]";
-	$_parser[1]['function']		=	"quote_process";	
-	
+	$_parser[1]['function']		=	"quote_process";
+
 	$_parser[2]['open']			=	"\[color=.*?\]";
 	$_parser[2]['close']		=	"\[\/color\]";
 	$_parser[2]['function']		=	"color_process";
@@ -1675,7 +1670,7 @@ function getreturnbbcode($msg,$topic=false)
 	$_parser[4]['open']			=	"\[font=.*?\]";
 	$_parser[4]['close']		=	"\[\/font\]";
 	$_parser[4]['function']		=	"font_process";
-	
+
 	$msg	=	parser($_parser[0],$msg);
 	$msg	=	parser($_parser[1],$msg);
 	$msg	=	parser($_parser[2],$msg);
@@ -1693,10 +1688,10 @@ function getreturnbbcode($msg,$topic=false)
 		      "/\[under\](.*?)\[\/under\]/si",
 		      "/\[center\](.*?)\[\/center\]/si",
 		      "/\[left\](.*?)\[\/left\]/si",
-		      "/\[right\](.*?)\[\/right\]/si",		      
+		      "/\[right\](.*?)\[\/right\]/si",
 		      "/\[url=(?!(?i)javascript:)(.*?)\](.*?)\[\/url\]/si",
 		      "/\[\!([\/]{0,1})(code|quote|mail|img|bold|ita|under|center|font|size|color|url)\]/si");
-		      
+
 	$replace=array($BBcodeHTML['urlauto1'],
 		       $BBcodeHTML['urlauto2'],
 		       $BBcodeHTML['swf'],
@@ -1710,19 +1705,19 @@ function getreturnbbcode($msg,$topic=false)
 		       $BBcodeHTML['right'],
 		       $BBcodeHTML['url'],
 		       "[\\1\\2]");
-				
+
 	$msg=preg_replace($search,$replace,$msg);
-	
+
 	// **** gestion de la balise des messages cachés ****
 	if($_FORUMCFG['canpostmsgcache']=="Y" && preg_match("|\[cache\]|",$msg) > 0 && $topic==true)
 	{
-		$isposter=$sql->query("SELECT COUNT(*) AS present FROM "._PRE_."posts WHERE parent='".$DetailMsg['parent']."' AND idmembre=".$_USER['userid']);
+		$isposter=$sql->query("SELECT COUNT(*) AS present FROM "._PRE_."posts WHERE parent=%d AND idmembre=%d", [$DetailMsg['parent'], $_USER['userid']])->execute();
 		$isrespond=$isposter->fetch_array();
-		
+
 		if($isrespond['present']>0)
 			$msg=preg_replace("/\[cache\](.*?)\[\/cache\]/si",$BBcodeHTML['msgcache1'],$msg);
 		else
-			$msg=preg_replace("/\[cache\](.*?)\[\/cache\]/si",$BBcodeHTML['msgcache2'],$msg);	
+			$msg=preg_replace("/\[cache\](.*?)\[\/cache\]/si",$BBcodeHTML['msgcache2'],$msg);
 	}
 
 	return($msg);
@@ -1731,27 +1726,27 @@ function getreturnbbcode($msg,$topic=false)
 function censuredwords($msg)
 {
 	global $_FORUMCFG, $ListWords, $ListWordsRpl;
-	
+
 	if(strlen($_FORUMCFG['censuredwords'])>0)
 		$msg=preg_replace($ListWords,$ListWordsRpl,$msg);
-	return($msg);	
+	return($msg);
 }
 
 function getquote($id)
 {
 	global $sql, $tpl, $QuoteName, $OrigMsg, $QuoteMsg, $_USER;
-	
+
 	$query 						= 	$sql->query("SELECT pseudo,msg FROM "._PRE_."posts WHERE idpost=%d", $id)->execute();
 	list($QuoteName,$OrigMsg) 	= 	$query->fetch_array();
-	
+
 	$QuoteName 					= 	getformatrecup($QuoteName);
 	$OrigMsg   					= 	getformatrecup($OrigMsg);
-	
+
 	$QuoteMsg					=	preg_replace("/\[quote\](.*?)\[\/quote\]/si","",$OrigMsg);
 	$QuoteMsg					=	preg_replace("/\[cache\](.*?)\[\/cache\]/si",$tpl->gettemplate("repondre","msgcache"),$QuoteMsg);
 
 	$msg						= 	$tpl->gettemplate("repondre","origmsg");
-	
+
 	return($msg);
 }
 
@@ -1764,7 +1759,7 @@ function gettopictitle($id,$annonce=false)
         $query = $sql->query("SELECT idforum,sujet,nbrep,opentopic,poll FROM "._PRE_."topics WHERE idtopic=%d",$id)->execute();
     }
 	$nb = $query->num_rows();
-	
+
 	if($nb==0)
 		return false;
 	else
@@ -1777,14 +1772,14 @@ function gettopictitle($id,$annonce=false)
 function updateforumlastposter($idforum)
 {
 	global $sql;
-	
+
 	$query = $sql->query("SELECT COUNT(*) AS nbtopic FROM "._PRE_."topics WHERE idforum=%d",$idforum)->execute();
 	list($nbtopic)=$query->fetch_array();
-	
+
 	$query = $sql->query("SELECT COUNT(*) AS nbmsg FROM "._PRE_."posts WHERE idforum=%d",$idforum)->execute();
 	list($nbmsg)=$query->fetch_array();
 	$nbmsg = $nbmsg - $nbtopic;
-	
+
 	if($nbtopic>0)
 	{
 		$query = $sql->query("SELECT idpost,date,idmembre,pseudo FROM "._PRE_."posts WHERE idforum=%d ORDER BY date DESC", $idforum)->execute();
@@ -1794,26 +1789,26 @@ function updateforumlastposter($idforum)
 	{
 		$i['pseudo']="";
 		$i['date']=0;
-		$i['idpost']=0;	
+		$i['idpost']=0;
 	}
-	
-	$i['pseudo'] = getformatdbtodb($i['pseudo']);	
+
+	$i['pseudo'] = getformatdbtodb($i['pseudo']);
 	$query=$sql->query("UPDATE "._PRE_."forums SET forumtopic=%d ,forumposts=%d ,lastforumposter='%s', lastdatepost='%s', lastidpost=%d WHERE forumid=%d", array($nbtopic, $nbmsg, $i['pseudo'], $i['date'], $i['idpost'], $idforum))->execute();
 }
 
 function updatetopiclastposter($idpost)
 {
 	global $sql;
-	
+
 	$query = $sql->query("SELECT COUNT(*) AS nbpost FROM "._PRE_."posts WHERE parent=%d", $idpost)->execute();
 	list($nbpost) = $query->fetch_array();
 	$nbpost--;
-	
+
 	$query = $sql->query("SELECT idpost,date,idmembre,pseudo FROM "._PRE_."posts WHERE parent=%d ORDER BY date DESC", $idpost)->execute();
 	$j = $query->fetch_array();
-	
+
 	//à voir !!
-	
+
 	$j['pseudo'] = getformatdbtodb($j['pseudo']);
 	$query = $sql->query("UPDATE "._PRE_."topics SET nbrep=%d, derposter='%s', idderpost=%d, datederrep='%s', idderpost=%d WHERE idtopic=%d", array($nbpost, $j['pseudo'], $j['idmembre'], $j['date'], $j['idpost'], $idpost))->execute();
 }
@@ -1821,21 +1816,21 @@ function updatetopiclastposter($idpost)
 function updatenbtopics()
 {
 	global $sql, $_FORUMCFG;
-	
+
 	$query = $sql->query("SELECT COUNT(*) AS nbtopics FROM "._PRE_."topics")->execute();
 	list($nbtopics) = $query->fetch_array();
-	
+
 	$query = $sql->query("UPDATE "._PRE_."config SET valeur=%d WHERE options='statnbtopics'", $nbtopics)->execute();
-	$_FORUMCFG['statnbtopics'] = $nbtopics;	
+	$_FORUMCFG['statnbtopics'] = $nbtopics;
 }
 
 function updatenbposts()
 {
 	global $sql,$_FORUMCFG;
-	
+
 	$query = $sql->query("SELECT COUNT(*) AS nbposts FROM "._PRE_."posts")->execute();
 	list($nbposts) = $query->fetch_array();
-	
+
 	$nbposts = $nbposts - $_FORUMCFG['statnbtopics'];
 	$query = $sql->query("UPDATE "._PRE_."config SET valeur=%d WHERE options='statnbposts'", $nbposts)->execute();
 }
@@ -1843,13 +1838,13 @@ function updatenbposts()
 function updatemembers()
 {
 	global $sql;
-	
+
 	$query = $sql->query("SELECT login FROM "._PRE_."user WHERE userstatus <> '0' ORDER BY registerdate DESC")->execute();
 	$nbuser = $query->num_rows();
 	list($lastmember) = $query->fetch_array();
-	
+
 	$lastmember = getformatdbtodb($lastmember);
-	
+
 	$query = $sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='statnbuser'", $nbuser)->execute();
 	$query = $sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='statlastmember'", $lastmember)->execute();
 }
@@ -1858,13 +1853,13 @@ function updatemembers()
 function updatestatsmembers()
 {
 	global $sql;
-	
+
 	$query = $sql->query("SELECT COUNT(*) AS nbmb FROM "._PRE_."user")->execute();
 	list($nbmb) = $query->fetch_array();
-	
+
 	$query = $sql->query("SELECT login FROM "._PRE_."user ORDER BY registerdate DESC LIMIT 0,1")->execute();
 	list($lastpseudo) = $query->fetch_array();
-	
+
 	$query = $sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='statnbuser'", $nbmb)->execute();
 	$query = $sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='statlastmember'", $lastpseudo)->execute();
 }
@@ -1872,13 +1867,13 @@ function updatestatsmembers()
 function updatepmstats($user)
 {
 	global $sql,$_USER;
-	
+
 	$query = $sql->query("SELECT COUNT(*) AS nbpm,vu FROM "._PRE_."privatemsg WHERE iddest='%d' GROUP BY vu", $user)->execute();
 	$nb = $query->num_rows();
-	
+
 	$nbpmtot=0;
 	$nbpmnew=0;
-	
+
 	if ($nb>0) {
 		while($j = $query->fetch_array()) {
 			if ($j['vu']==0) {
@@ -1887,9 +1882,9 @@ function updatepmstats($user)
 			$nbpmtot+=$j['nbpm'];
 		}
 	}
-	
+
 	$query = $sql->query("UPDATE "._PRE_."user SET nbpmtot=%d, nbpmvu=%d WHERE userid=%d", array($nbpmtot, $nbpmnew, $user))->execute();
-	
+
 	if ($user == $_USER['userid'] && $nbpmnew < $_USER['nbpmvu']) {
         sendcookie("nbpmvu",$nbpmnew,-1);
     }
@@ -1898,11 +1893,11 @@ function updatepmstats($user)
 function getfuseauhoraire()
 {
 	global $_USER,$_FORUMCFG;
-	
+
 	$zone=$_USER['timezone'];
-	
+
 	$fuseaux = array();
-	
+
 	$fuseaux[-12] = "GMT -12:00, Eniwetok";
 	$fuseaux[-11] = "GMT -11:00, Samoa";
 	$fuseaux[-10] = "GMT -10:00, Hawaii";
@@ -1928,42 +1923,42 @@ function getfuseauhoraire()
 	$fuseaux[10]  = "GMT +10:00, Sydney, Melbourne, Guam";
 	$fuseaux[11]  = "GMT +11:00, Magadan, Soloman Is.";
 	$fuseaux[12]  = "GMT +12:00, Fiji, Wellington, Auckland";
-	
-	return($fuseaux[$zone]);	
+
+	return($fuseaux[$zone]);
 }
 
 function updatebirth()
 {
 	global $sql,$tpl,$_FORUMCFG;
-	
+
 	$day	= gmstrftime("%d-%m",time()+(($_FORUMCFG['defaulttimezone'] + intval(date("I")))*3600));
 	$year	= gmstrftime("%Y",time()+(($_FORUMCFG['defaulttimezone'] + intval(date("I")))*3600));
 
-	
+
 	$query	= $sql->query("SELECT 	"._PRE_."userplus.birth,
 									"._PRE_."user.userid,
 									"._PRE_."user.login,
 									"._PRE_."user.userstatus
 									 FROM "._PRE_."userplus 
 									 LEFT JOIN "._PRE_."user ON "._PRE_."user.userid = "._PRE_."userplus.idplus 
-									 WHERE "._PRE_."userplus.birth LIKE \"%s-%%\"")->execute($day);
+									 WHERE "._PRE_."userplus.birth LIKE \"%s-%%\"", $day)->execute();
 	$nb	= $query->num_rows();
-	
+
 	if ($nb>0) {
 		while ($j = $query->fetch_array()) {
 			$j['birth'] = explode("-",$j['birth']);
 			$j['login'] = getformatrecup($j['login']);
 			$tpl->box['age'] = $year-$j['birth'][2];
-			
+
 			$tpl->box['user'] = getformatpseudo($j['login'],$j['userstatus'],$j['userid']); // tpl: 2 x addslashes
 			$birth[] = $tpl->gettemplate("entete","formatbirth");
 		}
-		
+
 		$birth = implode(", ",$birth);
 	} else {
         $birth = "";
     }
-	
+
 	$_FORUMCFG['birth'] = stripslashes(stripslashes($birth));
 	$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='birth'", stripslashes($birth))->execute();
 }
@@ -1975,34 +1970,23 @@ function updatebirth()
 function getformatpreview($msg)
 {
 	$msg = htmlentities($msg, ENT_COMPAT,'ISO-8859-1', true);
-	
-	if (get_magic_quotes_gpc() == 0) {
-        $msg = addslashes($msg);
-    }
-		
-	$msg = addslashes($msg);
-		
+
+
+	$msg = addslashes(addslashes($msg));
+
 	$msg = nl2br($msg);
-	return($msg);	
+	return($msg);
 }
 
 function getformathtml($msg)
 {
-	if (get_magic_quotes_gpc()==0) {
-        $msg=addslashes($msg);
-    }
-		
 	return($msg);
 }
 
 function getformatmsg($msg,$activenl2br=true)
 {
-	if (get_magic_quotes_gpc()==0) {
-        $msg=addslashes($msg);
-    }
-
 	$msg = htmlentities($msg, ENT_COMPAT,'ISO-8859-1', true);
-	
+
 	if ($activenl2br) {
         $msg=nl2br($msg);
     }
@@ -2016,7 +2000,7 @@ function getformatmsghtml($msg,$activenl2br=true)
 
 	$msg = str_replace("&amp;lt;","&lt;",$msg);
 	$msg = str_replace("&amp;gt;","&gt;",$msg);
-		
+
 	if ($activenl2br) {
         $msg=nl2br($msg);
     }
@@ -2031,7 +2015,7 @@ function getformatrecup($msg,$strip=false)
 	if (get_magic_quotes_runtime()==0) {
         $msg=addslashes($msg);
     }
-		
+
 	$msg = addslashes($msg);
 	return($msg);
 }
@@ -2041,7 +2025,7 @@ function getformatdbtodb($msg)
 	if (get_magic_quotes_runtime()==0) {
         $msg=addslashes($msg);
     }
-		
+
 	return($msg);
 }
 
@@ -2052,29 +2036,19 @@ function getrecupforform($msg, $squote = false)
     } else {
         $msg = htmlentities($msg, ENT_COMPAT,'ISO-8859-1', true);
     }
-		
-	if (get_magic_quotes_gpc()==1 & get_magic_quotes_runtime()==0) {
-        $msg=stripslashes($msg);
-    } elseif(get_magic_quotes_gpc()==0 & get_magic_quotes_runtime()==1) {
-        $msg=addslashes($msg);
-    }
-	
-	return($msg);		
+
+	return($msg);
 }
 
 function getrecupfromcookie($cook)
 {
-	if (get_magic_quotes_gpc()==0) {
-        $cook	=	addslashes($cook);
-    }
-		
 	return($cook);
 }
 
 function getlocaltime($time,$format=0)
 {
 	global $_USER;
-	
+
 	$decalage		=	($_USER['timezone']+intval(date("I"))) * 3600;
 	if ($format==1) {
         $result		=	gmstrftime("%d/%m/%Y",$time+$decalage);
@@ -2087,7 +2061,7 @@ function getlocaltime($time,$format=0)
 function getformatpseudo($pseudo,$status,$userid)
 {
 	global $tpl;
-	
+
 	if ($status<0) {
         $tpl->box['mbstatus']="ban";
     } else {
@@ -2095,13 +2069,13 @@ function getformatpseudo($pseudo,$status,$userid)
     }
 	$tpl->box['mbpseudo']=getformatrecup($pseudo);
 	$tpl->box['mbuserid']=$userid;
-	
+
 	if ($status>1 || $status<0) {
         $chaine=$tpl->gettemplate("entete","mbpseudolink");
     } else {
         $chaine=$tpl->gettemplate("entete","mbpseudo");
     }
-	return($chaine);		
+	return($chaine);
 }
 
 function cookdecode($tabl)
@@ -2112,7 +2086,7 @@ function cookdecode($tabl)
 		$transitintestinal=explode("-",$transfert[$i]);
 		$IdString = $transitintestinal[0];
 
-		$chaine[$IdString."m"]=$transitintestinal[1];	
+		$chaine[$IdString."m"]=$transitintestinal[1];
 	}
 	return($chaine);
 }
@@ -2121,17 +2095,17 @@ function cookencode($tabl,$reverse=false)
 {
     $transfert = array();
     $chaine = '';
-	for ($i=0;$i<count($tabl);$i++) {
-		$dif = each($tabl);
-		$transfert[$i] = intval($dif['key'])."-".$dif['value'];
-	}
-	
+
+    foreach ($tabl as $key => $value) {
+        $transfert[] = (string)(int)$key . "-" . $value;
+    }
+
 	if ($reverse) {
         $transfert = array_reverse($transfert);
     }
-		
-	if (count($tabl)>0) {
-        $chaine=implode("_",$transfert);
+
+	if (count($tabl) > 0) {
+        $chaine = implode("_",$transfert);
     }
 	return($chaine);
 }
@@ -2139,7 +2113,7 @@ function cookencode($tabl,$reverse=false)
 function getemail($email)
 {
 	global $_FORUMCFG;
-	
+
 	$email = str_replace("@",$_FORUMCFG['emailmask'],$email);
 	return($email);
 }
@@ -2147,9 +2121,9 @@ function getemail($email)
 function inversemail($email)
 {
 	global $_FORUMCFG;
-	
+
 	$email = str_replace($_FORUMCFG['emailmask'],"@",$email);
-	return($email);	
+	return($email);
 }
 
 function formatstrformail($str)
@@ -2165,38 +2139,38 @@ function recupDBforMail($msg)
 	if (get_magic_quotes_runtime()==1) {
         $msg=stripslashes($msg);
     }
-		
+
 	//$msg=stripslashes($msg);
-	return($msg);	
+	return($msg);
 }
 
-function testemail($email) 
-{ 
+function testemail($email)
+{
     return( preg_match('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`a-z{|}~]+'.
-                 '@'. 
-                 '([-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]{2,}\.){1,3}'. 
+                 '@'.
+                 '([-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]{2,}\.){1,3}'.
                  '[-!#$%&\'*+\\.\/0-9=?A-Z^_`a-z{|}~]{2,4}$/',
                  $email) > 0 );
 }
 
-function testurl($url) 
+function testurl($url)
 {
 	if(preg_match("/^(http|ftp|https):\/\/([a-z0-9-\/\.@:%=?&;]+(?<![\.:%?&;]))$/",$url)==0)
 		return false;
 	else
-		return true; 
+		return true;
 }
 
 function testlength($var,$maxlength,$null="",$max="")
 {
 	global $tpl,$error,$_POST;
-	
+
 	if (strlen($null) > 0) {
 		$testchain=preg_replace("/([\s]{1,})/","",$_POST[$var]);
 		if(strlen($testchain)==0)
 			$error=$tpl->attlang($null);
 	}
-	
+
 	if ($maxlength > 0 && strlen($_POST[$var])>$maxlength) {
 		if (strlen($max)>0) {
             $error=$tpl->attlang($max);
@@ -2210,22 +2184,18 @@ function test_max_length($msg, $maxlength)
 {
 	$chaine		=	strip_tags($msg);								// Supprime les balises HTML
 	$chaine		=	preg_replace("/(\r\n|\n)/si","",$chaine);		// Supprime les retour à la ligne
-						// Supprime les \
-	if (get_magic_quotes_gpc()==1 & get_magic_quotes_runtime()==0) {	// Supprime les \
-		$chaine=stripslashes($chaine);
-    }
 
 	$trans		=	get_html_translation_table(HTML_ENTITIES);		// |
 	$trans 		= 	array_flip($trans);								// > Remplace les entitées HTML par leur caractère équivalent
 	$chaine		=	strtr($chaine,$trans);							// |
-	
+
 	$trop_plein	=	strlen($chaine) - $maxlength;
-	
+
 	if ($trop_plein > 0 && $maxlength > 0) {
         $msg	=	substr($msg,0,-($trop_plein));
     }
 
-	return($msg);			
+	return($msg);
 }
 
 
@@ -2243,7 +2213,7 @@ function Return_Checked($value)
 	if($value)
 		return(" CHECKED");
 	else
-		return("");	
+		return("");
 }
 
 
@@ -2255,7 +2225,7 @@ function affforumlist($cat)
 {
 global $zecook,$tpl,$Forums,$TabForum,$TabModos,$_USER,$_PERMFORUM,$_FORUMRIGHTS, $modoname;
 	$chaine="";
-	
+
 	for($cpt=0;$cpt<count($TabForum);$cpt++)
 		if($TabForum[$cpt]['forumcat']==$cat)
 		{
@@ -2276,7 +2246,7 @@ global $zecook,$tpl,$Forums,$TabForum,$TabModos,$_USER,$_PERMFORUM,$_FORUMRIGHTS
 				}
 				else
 					$Forums['imgforum']="closed";
-				
+
 				if($Forums['lastdatepost']>0)
 				{
 					$Forums['lastdatepost']=getlocaltime($Forums['lastdatepost']);
@@ -2284,11 +2254,11 @@ global $zecook,$tpl,$Forums,$TabForum,$TabModos,$_USER,$_PERMFORUM,$_FORUMRIGHTS
 					$tpl->box['infolastpost']=$tpl->gettemplate("forumlist","iflastpost");
 				}
 				else
-					$tpl->box['infolastpost']=$tpl->gettemplate("forumlist","ifnolastpost");	
+					$tpl->box['infolastpost']=$tpl->gettemplate("forumlist","ifnolastpost");
 
 				$modoname = "";
 				$tpl->box['modonames'] = "";
-				
+
 				for($cpt2=0;$cpt2<count($TabModos);$cpt2++)
 					if($TabModos[$cpt2]['forumident']==$Forums['forumid'])
 					{
@@ -2297,11 +2267,11 @@ global $zecook,$tpl,$Forums,$TabForum,$TabModos,$_USER,$_PERMFORUM,$_FORUMRIGHTS
 					}
 				if(strlen($modoname)>0)
 				{
-					$tpl->box['modolist'] = $tpl->gettemplate("forumlist","modolist");	
-				}				
+					$tpl->box['modolist'] = $tpl->gettemplate("forumlist","modolist");
+				}
 				else
-					$tpl->box['modolist']="&nbsp;";					
-				
+					$tpl->box['modolist']="&nbsp;";
+
 				$chaine.=$tpl->gettemplate("forumlist","ifforum");
 			}
 		}
@@ -2312,11 +2282,11 @@ return($chaine);
 function affwritebox($cancache="Y")
 {
 global $table_smileys, $cachedir, $tpl, $_FORUMCFG, $Parent, $_USER;
-	
+
 	// On définit le template selon wysiwyg ou non
 	if($_USER['wysiwyg']=="Y")		$tpl_writebox	=	"writebox_wysiwyg";
 	else					$tpl_writebox	=	"writebox";
-		
+
 	if (!empty($tpl->box['quotemsg']) && strlen($tpl->box['quotemsg'])>0)
 	{
 		if($_USER['wysiwyg'] == "Y")
@@ -2326,16 +2296,16 @@ global $table_smileys, $cachedir, $tpl, $_FORUMCFG, $Parent, $_USER;
 	}
 	else
 		$tpl->box['quotemsg']=NULLSTR;
-	
+
 	$compt=0;
 	$tpl->box['smileybox']="";
 	for($zz=0;$zz<18;$zz++)
 	{
 		$tpl->box['smileybox'].="\t\t";
-		
+
 		if($compt%3!=0)
-			$tpl->box['smileybox'].="&nbsp; &nbsp;";		
-		
+			$tpl->box['smileybox'].="&nbsp; &nbsp;";
+
 		if($_USER['wysiwyg']=="Y")
 			$tpl->box['smileybox'].="<img src=\"".$cachedir."smileys/".$table_smileys[$zz]['img']."\" onClick=\"addsmile('".$table_smileys[$zz]['img']."');\" border=0>";
 		else
@@ -2347,15 +2317,15 @@ global $table_smileys, $cachedir, $tpl, $_FORUMCFG, $Parent, $_USER;
 		else
 			$tpl->box['smileybox'].="\n";
 	}
-	
+
 
 	if($_FORUMCFG['canpostmsgcache']=="Y" && $cancache=="Y" && $Parent==0)
 		$tpl->box['cancache']=$tpl->gettemplate($tpl_writebox,"addcachebutton");
 	else
 		$tpl->box['cancache']=NULLSTR;
-	
+
 	$chaine=$tpl->gettemplate($tpl_writebox,"wrtboxaccueil");
-	
+
 return($chaine);
 }
 
@@ -2382,10 +2352,10 @@ global $cookiespost,$_GET,$page,$tpl,$Topics;
 		}
 	}
 	$tpl->box['pretopic']="";
-	
+
 	if(!empty($Topics['postit']) && $Topics['postit']=="1")
 		$tpl->box['pretopic'].=$tpl->gettemplate($template,"ifpostittopic");
-			
+
 	if(!empty($Topics['poll']) && $Topics['poll']>0)
 		$tpl->box['pretopic'].=$tpl->gettemplate($template,"iftopicpoll");
 
@@ -2399,24 +2369,24 @@ global $cookiespost,$_GET,$page,$tpl,$Topics;
 		$tpl->box['linkpage']="detail";
 	$Topics['sujet']=getformatrecup($Topics['sujet']);
 	$tpl->box['topic']=$tpl->gettemplate($template,"topiclinktomsg");
-	
+
 	if(empty($Topics['nbrep']))			$Topics['nbrep'] = 0;
 	$tpl->box['affichepages']=getpagestopic($Topics['nbrep'],$Topics['idtopic'],$page);
-	
+
 	if($Topics['userid']==0)
-		$Topics['userstatus'] = 0;	
+		$Topics['userstatus'] = 0;
 	$Topics['loginposter']=getformatpseudo($Topics['pseudo'],$Topics['userstatus'],$Topics['userid']);
 	$Topics['derposter'] = getformatrecup($Topics['derposter']);
 	$Topics['datederrep']=getlocaltime($Topics['datederrep']);
-	
+
 	if($annonce==0)
 		$tpl->box['gotobutton']=$tpl->gettemplate($template,"linklastmsg");
 	else
 		$tpl->box['gotobutton']= NULLSTR;
-	
+
 	$chaine=$tpl->gettemplate($template,"lignetopic");
 	unset($tpl->box['pretopic'],$tpl->box['gotobutton']);
-	
+
 return($chaine);
 }
 
@@ -2425,7 +2395,7 @@ return($chaine);
 function affdetailtopic($annonce=0,$cit=true)
 {
 	global $tpl,$DetailMsg,$_FORUMCFG, $IdTopic, $NombreConnectes, $SearchOrig, $SearchReplace, $Grades;
-	
+
 	// **** Initialisation variables ****
 	$chaine								=		NULLSTR;
 	$tpl->box['affusergrade']			=		NULLSTR;
@@ -2441,7 +2411,7 @@ function affdetailtopic($annonce=0,$cit=true)
 		$tpl->box['affregisterdate']	=		NULLSTR;
 		$tpl->box['isconnected']		=		NULLSTR;
 		$tpl->box['buttonpm']			=		NULLSTR;
-	
+
 	// **** Si c'est un membre ****
 	if($DetailMsg['posterid']>0)
 	{
@@ -2449,7 +2419,7 @@ function affdetailtopic($annonce=0,$cit=true)
 		$connected 					= 		false;
 		$DetailMsg['pseudo']		=		$DetailMsg['login'];
 		$Key_Grade					=		0;
-		
+
 		// **** gestion des grades ****
 		if($_FORUMCFG['use_grades'] == "Y" && is_array($Grades))
 		{
@@ -2463,21 +2433,21 @@ function affdetailtopic($annonce=0,$cit=true)
 				}
 			}
 			$tpl->box['grade']		=		$Grades[$Key_Grade][0];
-			
+
 			for($i=0; $i< $Grades[$Key_Grade][2];$i++)
 				$tpl->box['affpins'] 	.=		trim($tpl->gettemplate("detail", "imgpins"));
-		
+
 			$tpl->box['affusergrade']	=		$tpl->gettemplate("detail", "usergrade");
 		}
-		
+
 		// **** connecté ou pas ? ****
 		for($i = 0; $i < count($NombreConnectes); $i++)
 			if($NombreConnectes[$i]['userid'] == $DetailMsg['posterid'])
 				$connected 			= 		true;
-				
+
 		if($connected)		$tpl->box['isconnected'] 		= 		$tpl->gettemplate("detail","connecty");
 		else				$tpl->box['isconnected'] 		= 		$tpl->gettemplate("detail","connectn");
-		
+
 		// **** gestion du logo ****
 		if(preg_match("|^\"http://|",$DetailMsg['userlogo']) > 0)
 		{
@@ -2486,7 +2456,7 @@ function affdetailtopic($annonce=0,$cit=true)
 		}
 		elseif(!empty($DetailMsg['userlogo']) && $_FORUMCFG['logos'][0] == "Y")
 			$tpl->box['affuserlogo']		=		$tpl->gettemplate("detail","userlogo");
-	
+
 		// **** gestion date d'enregistrement ****
 		if (!empty($DetailMsg['registerdate']))
 		{
@@ -2505,20 +2475,20 @@ function affdetailtopic($annonce=0,$cit=true)
 	}
 	else
 		$tpl->box['affusercitation']	=		NULLSTR;
-		
+
 	$DetailMsg['formatpseudo']=getformatpseudo($DetailMsg['pseudo'],$DetailMsg['userstatus'],$DetailMsg['userid']);
-	
+
 	if(!empty($DetailMsg['sujetpost']))
 	{
 		$DetailMsg['sujetpost']=getformatrecup($DetailMsg['sujetpost']);
 		$tpl->box['affsujetpost']=$tpl->gettemplate("detail","msgsujet");
 	}
-	
+
 	$DetailMsg['datepost']=getlocaltime($DetailMsg['datepost']);
-	
+
 	if($DetailMsg['smiles']=="Y")
 		$DetailMsg['msgpost']=getreturnsmilies($DetailMsg['msgpost']);
-	
+
 	if($DetailMsg['afbbcode']=="Y")
 	{
 		if($DetailMsg['idpost']==$IdTopic)
@@ -2526,14 +2496,14 @@ function affdetailtopic($annonce=0,$cit=true)
 		else
 			$DetailMsg['msgpost']=getreturnbbcode($DetailMsg['msgpost']);
 	}
-	
-	if(count($SearchOrig)>0)
+
+	if(isset($SearchOrig) && count($SearchOrig)>0)
 		$DetailMsg['msgpost'] = preg_replace("/(.+?)((<(.*?)>)|$)/sie","getcolorsearch('\\1').stripslashes('\\2')",$DetailMsg['msgpost']);
-	
+
 	$DetailMsg['msgpost'] = censuredwords($DetailMsg['msgpost']);
-		
+
 	$tpl->box['affmessage']=getformatrecup($DetailMsg['msgpost']);
-	
+
 	if(!empty($DetailMsg['usersign']))
 	{
 		$DetailMsg['usersign']=getformatrecup($DetailMsg['usersign']);
@@ -2560,7 +2530,7 @@ function affdetailtopic($annonce=0,$cit=true)
 		$tpl->box['buttonsite']=$tpl->gettemplate("detail","buttonweb");
 	else
 		$tpl->box['buttonsite']=NULLSTR;
-		
+
 	/*if (!empty($DetailMsg['usericq']) && $DetailMsg['showicq']=="Y")
 		$tpl->box['buttonicq']=$tpl->gettemplate("detail","buttonicq");*/
 
@@ -2569,26 +2539,26 @@ function affdetailtopic($annonce=0,$cit=true)
 		$tpl->box['buttonpm']=$tpl->gettemplate("detail","buttonpm");
 		$tpl->box['buttonsearch']=$tpl->gettemplate("detail","buttonsearch");
 	}
-	
+
 	if($annonce==0)
 	{
 		if($cit == true)
 			$tpl->box['buttonquote']=$tpl->gettemplate("detail","buttonquote");
 		else
 			$tpl->box['buttonquote']="";
-			
+
 		$tpl->box['buttonedit']=$tpl->gettemplate("detail","buttonedit");
 		$tpl->box['buttonip']=$tpl->gettemplate("detail","buttonip");
 		$tpl->box['buttonalert']=$tpl->gettemplate("detail","buttonalert");
 	}
-	
+
 	$chaine=$tpl->gettemplate("detail","boxmsg");
-	
+
 	$tpl->box['affsujetpost']=$tpl->box['affusercitation']=$tpl->box['affuserlogo']=$tpl->box['affregisterdate']=$tpl->box['affsujetpost']=$tpl->box['affusersign']=$tpl->box['isconnected']="";
 	$tpl->box['buttonmail']=$tpl->box['buttonsite']=$tpl->box['buttonicq']=$tpl->box['buttonpm']=$tpl->box['buttonsearch']=$tpl->box['buttonquote']=$tpl->box['buttonedit']=$tpl->box['buttonip']=$tpl->box['buttonalert']="";
 	unset($DetailMsg);
-	
-	return($chaine);		
+
+	return($chaine);
 }
 
 
@@ -2599,10 +2569,10 @@ function affdetailtopic($annonce=0,$cit=true)
 function getjsredirect($url,$tplime)
 {
 	global $tpl;
-	
+
 	$tpl->box['urlredirect']	=	$url;
 	$tpl->box['timeredirect']	=	$tplime;
-	
+
 	$chaine						=	$tpl->gettemplate("entete","getjsredirect");
 	return($chaine);
 
@@ -2611,6 +2581,11 @@ function getjsredirect($url,$tplime)
 // ********************************************************
 // *               INITIALISATION DU FORUM                *
 // ********************************************************
+
+if (get_magic_quotes_gpc() !== false) {
+    ini_set('magic_quotes_gpc', 0);
+    ini_set('magic_quotes_runtime', 0);
+}
 
 $tps_start 					= 		get_microtime();
 $NbRequest					=		0;
@@ -2621,6 +2596,8 @@ $sql = Database_MySQLi::getInstance(array(
     'password' => DB_PASSWORD,
     'database' => DB_NAME
 ));
+
+$sql->set_charset('latin1');
 
 $tpl 						= 		new Template;
 

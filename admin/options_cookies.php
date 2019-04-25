@@ -34,22 +34,21 @@ if($_REQUEST['action']=="save")
 {
 	if($_POST['initialize']=="Y")
 		$_POST['configz']['initialise']=time();
-	
-	for($i=0;$i<count($_POST['configz']);$i++)
-	{
-		$valeur=each($_POST['configz']);
-		$query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($valeur['value'], $valeur['key']))->execute();
-	}
+
+	foreach ($_POST['configz'] as $key => $value) {
+        $query=$sql->query("UPDATE "._PRE_."config SET valeur='%s' WHERE options='%s'", array($value, $key))->execute();
+    }
+
 	$_REQUEST['action'] = NULLSTR;
 }
 
 if(empty($_REQUEST['action']))
 {
 	$configuration=getconfig();
-	
+
 	$configuration['initialise']=getlocaltime($configuration['initialise']);
-	
-	$cache.=$tpl->gettemplate("adm_options_cookies","optionslist");	
+
+	$cache.=$tpl->gettemplate("adm_options_cookies","optionslist");
 }
 
 require("bas.php");
