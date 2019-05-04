@@ -236,6 +236,7 @@ $_FORUMCFG['statlastmember'] = getformatrecup($_FORUMCFG['statlastmember']);
 
 $cache .= $tpl->gettemplate("index", "accueilgeneral");
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start, 4);
 $cache .= $tpl->gettemplate("baspage", "endhtml");
 $tpl->output($cache);

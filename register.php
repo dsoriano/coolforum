@@ -252,6 +252,7 @@ else
 
 $cache.=$tpl->gettemplate("register","accueilregister");
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache.=$tpl->gettemplate("baspage","endhtml");

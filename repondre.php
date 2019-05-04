@@ -111,6 +111,9 @@ if($_REQUEST['action']=="preview")
 
 	$cache.=$tpl->gettemplate("writebox","msgpreview");
 
+    $NBRequest = Database_MySQLi::getNbRequests();
+    $tps = number_format(get_microtime() - $tps_start,4);
+
 	$cache.=$tpl->gettemplate("baspage","endhtml");
 	$tpl->output($cache);
 }
@@ -534,6 +537,7 @@ if($_REQUEST['action']=="form")
 
 	$cache.=$tpl->gettemplate("repondre","repaccueil");
 
+    $NBRequest = Database_MySQLi::getNbRequests();
 	$tps = number_format(get_microtime() - $tps_start,4);
 
 	$cache.=$tpl->gettemplate("baspage","endhtml");

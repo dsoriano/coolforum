@@ -165,7 +165,7 @@ if(!isset($_COOKIE['listeforum_coolforum']) || !isset($zecook[$_GET['forumid']."
       sendcookie("listeforum_coolforum",cookencode($zecook),-1);
     }
 
-$cookiedetails						=	"CoolForumDetails";    
+$cookiedetails						=	"CoolForumDetails";
 if(isset($_COOKIE[$cookiedetails]))
 	$cookiespost					=	cookdecode($_COOKIE[$cookiedetails]);
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,7 +200,7 @@ if($_FORUMCFG['conn_forum'] == "Y")
 	}
 	else
 		$tpl->box['listconnected']	=	NULLSTR;
-			
+
 	$tpl->box['boxconnected']		=	$tpl->gettemplate("entete","boxconnectes");
 }
 else
@@ -275,7 +275,7 @@ $resultat 	= $sql->query("SELECT
 			FROM "._PRE_."topics 
 			LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid 
 			WHERE "._PRE_."topics.idforum=%d AND datederrep>%d ORDER BY "._PRE_."topics.postit DESC, "._PRE_."topics.%s %s LIMIT %d,%d", array($ForumInfo['forumid'], $from, $sort, $order, $debut, $_FORUMCFG['topicparpage']))->execute();
-  
+
 $total		=	$resultat->num_rows();
 
 if($total==0)
@@ -295,10 +295,10 @@ else
 // #### Divers permissions + options #### //////////////////////////////////////
 if(isset($_PERMFORUM[$ForumInfo['forumid']][2]) && $_PERMFORUM[$ForumInfo['forumid']][2])		$tpl->box['canread']  	=  $tpl->attlang("youcan");
 else																							$tpl->box['canread']  	=  $tpl->attlang("youcant");
-	
+
 if(isset($_PERMFORUM[$ForumInfo['forumid']][4]) && $_PERMFORUM[$ForumInfo['forumid']][4])		$tpl->box['cantopic']  	=  $tpl->attlang("youcan");
 else																							$tpl->box['cantopic']  	=  $tpl->attlang("youcant");
-	
+
 if(isset($_PERMFORUM[$ForumInfo['forumid']][3]) && $_PERMFORUM[$ForumInfo['forumid']][3])		$tpl->box['canrep']    	=  $tpl->attlang("youcan");
 else																							$tpl->box['canrep']    	=  $tpl->attlang("youcant");
 
@@ -334,10 +334,10 @@ $cache.=$tpl->gettemplate("list","boxlist");
 
 
 
-
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache.=$tpl->gettemplate("baspage","endhtml");
 $tpl->output($cache);
-	
+
 

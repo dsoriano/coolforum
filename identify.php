@@ -48,7 +48,7 @@ if($_REQUEST['action']=="questrep")
 	$repuser	=	getformatmsg($_POST['repuser'],false);
 	$query		=	$sql->query("SELECT "._PRE_."userplus.reponse,"._PRE_."user.password FROM "._PRE_."userplus LEFT JOIN "._PRE_."user ON "._PRE_."userplus.idplus="._PRE_."user.userid WHERE "._PRE_."userplus.idplus=%d AND "._PRE_."userplus.reponse='%s'", array($iduser, $repuser))->execute();
 	$nb		=	$query->num_rows();
-	
+
 	if($nb==1 && $_FORUMCFG['confirmparmail']==0)
 	{
 		$j=$query->fetch_array();
@@ -69,10 +69,10 @@ if($_REQUEST['action']=="sendmdp")
 {
 	$pseudo	=	getformatmsg($_POST['pseudo'],false);
 	$mail 	= 	getformatmsg($_POST['mail']);
-	
+
 	$query = $sql->query("SELECT "._PRE_."user.userid,"._PRE_."user.login,"._PRE_."user.password,"._PRE_."user.usermail,"._PRE_."userplus.question,"._PRE_."userplus.reponse FROM "._PRE_."user LEFT JOIN "._PRE_."userplus ON "._PRE_."userplus.idplus="._PRE_."user.userid WHERE "._PRE_."user.login='%s' AND "._PRE_."user.usermail='%s'", array($pseudo, $mail))->execute();
 	$nb=$query->num_rows();
-	
+
 	if($nb==1)
 	{
 		$Result=$query->fetch_array();
@@ -93,11 +93,11 @@ if($_REQUEST['action']=="sendmdp")
 
 			$forumname	=	$_FORUMCFG['mailforumname'];
 			$passwd		=	formatstrformail(stripslashes(recupDBforMail($passwd)));
-		
+
 			eval("\$msg			=	\"".$tpl->attlang("mailmsg")."\";");
 			eval("\$subject			=	".$tpl->attlang("mailsubject").";");
 			$email				=	$Result['usermail'];
-		
+
 			if(!sendmail($email,$subject,$msg))
 				$tpl->box['logincontent']	=	$tpl->attlang("errormail");
 			else
@@ -109,7 +109,7 @@ if($_REQUEST['action']=="sendmdp")
 		$tpl->box['logincontent']=$tpl->attlang("errordonnees");
 		$GLOBALS['action']="mdp";
 	}
-		
+
 }
 
 if($_REQUEST['action']=="mdp")
@@ -123,7 +123,7 @@ if(empty($_REQUEST['action']))
 			$tpl->box['errorbox']	=	$tpl->gettemplate("identify","errorbox");
 		else
 			$tpl->box['errorbox']	=	NULLSTR;
-			
+
 		$tpl->box['logincontent']=$tpl->gettemplate("identify","loginbox");
 	}
 	else
@@ -132,6 +132,7 @@ if(empty($_REQUEST['action']))
 
 $cache.=$tpl->gettemplate("identify","identifyaccueil");
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 $cache.=$tpl->gettemplate("baspage","endhtml");
 $tpl->output($cache);

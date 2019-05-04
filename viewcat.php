@@ -102,13 +102,13 @@ $cache				   .=		$tpl->gettemplate("treenav","hierarchy");
 // #### Affichage des forums #### //////////////////////////////////////////////
 $sqlforums 				= 	$sql->query("SELECT * FROM "._PRE_."forums WHERE forumcat=%d ORDER BY forumorder", $CatInfo['catid'])->execute();
 $nbforums				=	$sqlforums->num_rows();
-	
+
 if($nbforums>0)
 	while($TabForum[]	=	$sqlforums->fetch_array());
 
 $sqlmodo 				= 	$sql->query("SELECT * FROM "._PRE_."moderateur ORDER BY forumident,modoorder")->execute();
 $nbmodos				=	$sqlmodo->num_rows();
-	
+
 if($nbmodos>0)
 	while($TabModos[]	=	$sqlmodo->fetch_array());
 
@@ -120,8 +120,8 @@ if(strlen($tpl->box['forumlist'])>0)
 	{
 		$CatInfo['catcoment']		=	getformatrecup($CatInfo['catcoment']);
 		$tpl->box['catcoment']		=	$tpl->gettemplate("viewcat","catcoment");
-	}			
-			
+	}
+
 	$tpl->box['affforumcontent']   .=	$tpl->gettemplate("viewcat","affcategorie");
 	$tpl->box['affforumcontent']   .=	$tpl->box['forumlist'];
 }
@@ -133,7 +133,7 @@ $cache .= $tpl->gettemplate("viewcat","accueilgeneral");
 
 
 
-
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache.=$tpl->gettemplate("baspage","endhtml");

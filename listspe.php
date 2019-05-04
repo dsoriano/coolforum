@@ -54,7 +54,7 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 $ForumMask=array();
 $Topics=array();
 $tpl->box['topiclist']=$tpl->box['numberpages']=NULLSTR;
-	
+
 $query=$sql->query("SELECT * FROM "._PRE_."forums")->execute();
 $nb=$query->num_rows();
 
@@ -76,27 +76,27 @@ if($nb > 0)
 {
 	while(list($t)=$query->fetch_array())
 		$Topics[]=$t;
-	
+
 	$UrlKeyWord = urlencode($KeyWords);
-	$cookiedetails="CoolForumDetails";    
+	$cookiedetails="CoolForumDetails";
 	if(isset($_COOKIE[$cookiedetails]))
 		$cookiespost=cookdecode($_COOKIE[$cookiedetails]);
-	
+
 	if(empty($_REQUEST['page']))	$page=1;
 	else				$page=intval($_REQUEST['page']);
 	if($page < 1)			$page=1;
 
 	if(!isset($_GET['page']) || empty($_GET['page']))		$page	=	1;
 	else													$page	= intval($_GET['page']);
-	
+
 	$tpl->box['numberpages']=getnumberpages($nb,"listspe",$_FORUMCFG['topicparpage'],$page);
-	
+
 	$debut=($page*$_FORUMCFG['topicparpage'])-$_FORUMCFG['topicparpage'];
-	
+
 	if($nb > ($debut+$_FORUMCFG['topicparpage']))	$fin=$debut+$_FORUMCFG['topicparpage'];
 	else						$fin=$nb;
-	
-	
+
+
 	$query = $sql->query("SELECT "._PRE_."topics.idtopic,
 		"._PRE_."topics.idforum AS forumid,
 		"._PRE_."topics.sujet,
@@ -114,14 +114,14 @@ if($nb > 0)
 		FROM "._PRE_."topics 
 	LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid 
 	WHERE idtopic IN ('" . implode("','",$Topics) . "') LIMIT %d,%d", array($debut, $fin))->execute();
-	
+
 	while($Topics=$query->fetch_array())
 	{
 		$forumid = $Topics['forumid'];
 		$tpl->box['topiclist'].=afftopiclist(0,"listspe");
 		unset($forumid);
 	}
-	
+
 }
 else
 	$tpl->box['topiclist']=$tpl->gettemplate("listspe","nonewmsg");
@@ -129,6 +129,7 @@ else
 
 $cache.=$tpl->gettemplate("listspe","boxlist");
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache.=$tpl->gettemplate("baspage","endhtml");

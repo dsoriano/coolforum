@@ -281,6 +281,7 @@ $PrintRedirect = "idtopic=".$_GET['id'];
 
 $cache .= $tpl->gettemplate("detail","boxdetail");
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache.=$tpl->gettemplate("baspage","endhtml");

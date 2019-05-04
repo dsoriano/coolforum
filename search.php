@@ -248,6 +248,7 @@ if($_GENERAL[1])
 
 	$cache.=$tpl->gettemplate("search","accueilsearch");
 
+    $NBRequest = Database_MySQLi::getNbRequests();
 	$tps = number_format(get_microtime() - $tps_start,4);
 
 	$cache.=$tpl->gettemplate("baspage","endhtml");

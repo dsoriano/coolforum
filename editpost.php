@@ -427,6 +427,7 @@ if (!$canedit) {
 
 $cache .= $tpl->gettemplate("editpost","pagestruct");
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache .= $tpl->gettemplate("baspage","endhtml");
