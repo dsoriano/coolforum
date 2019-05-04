@@ -205,7 +205,7 @@ function stopaction($msg='')
 //********** FONCTION GESTION MESSAGES D'ERREUR **********
 function geterror($error)
 {
-	global $tpl,$cache,$_FORUMCFG,$tps,$tps_start, $sql;
+	global $tpl,$cache,$_FORUMCFG,$tps,$tps_start, $sql,$NBRequest;
 
 	getlangage("error");
 
@@ -233,6 +233,7 @@ function geterror($error)
     }
 
 	$cache .=	$tpl->gettemplate("error","errorbox");
+    $NBRequest = Database_MySQLi::getNbRequests();
 	$tps 	= 	number_format(get_microtime() - $tps_start,4);
 	$cache .=	$tpl->gettemplate("baspage","endhtml");
 

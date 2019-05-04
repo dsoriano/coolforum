@@ -47,7 +47,7 @@ if($_USER['userstatus'] > 1)
 
 	if(!isset($_REQUEST['p']))
 		$_REQUEST['p'] = NULLSTR;
-		
+
 	switch ($_REQUEST['p'])
 	{
 		case "profile":
@@ -69,7 +69,7 @@ if($_USER['userstatus'] > 1)
 			include("profile_accueil.php");
 			break;
 	}
-	
+
 }
 else
 	$tpl->box['profilcontent']=$tpl->gettemplate("profil","idrequired");
@@ -79,6 +79,7 @@ if($_FORUMCFG['usemails']=="Y" && $_FORUMCFG['mailnotify']=="Y")
 
 $cache.=$tpl->gettemplate("profil","profilaccueil");
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache.=$tpl->gettemplate("baspage","endhtml");

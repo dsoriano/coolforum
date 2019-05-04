@@ -66,10 +66,10 @@ if($query->num_rows()==1)
 }
 else
 	$errorlink=false;
-	
+
 if(!$errorlink)
 	geterror("novalidlink");
-	
+
 $TopicInfo=gettopictitle($_GET['id'],true);
 if(!$TopicInfo)
 	geterror("novalidlink");
@@ -105,14 +105,14 @@ if($nb>0)
 {
 	$DetailMsg=$query->fetch_array();
 	$tpl->box['forumcontent'].=affdetailtopic(1);
-	
+
 	if($DetailMsg['poll']>0)
 	{
 		$pollreq	=	$sql->query("SELECT * FROM "._PRE_."poll WHERE id=%d", $DetailMsg['poll'])->execute();
 		$sd		=	$pollreq->fetch_array();
-		
+
 		$tpl->box['questpoll'] = getformatrecup($sd['question']);
-		
+
 		if(preg_match("|-".$_USER['userid']."-|",$sd['votants']) == 0 && $_USER['userstatus']>1)
 		{
 			$tpl->box['buttonvote']	=	$tpl->gettemplate("detail","votebutton");
@@ -123,16 +123,16 @@ if($nb>0)
 			$tpl->box['buttonvote']	=	"";
 			$canvote		=	false;
 		}
-		
+
 		$nbrep		=	explode(" >> ",$sd['rep']);
 		$choix		=	explode(" >> ",$sd['choix']);
 		$nbtotalrep	=	0;
-	
+
 		for($i=0; $i<count($choix);$i++)
 			$nbtotalrep += $nbrep[$i];
-			
+
 		$swapbgcolor=true;
-		
+
 		$tpl->box['pollchoice']="";
 		for($i=0;$i<count($choix);$i++)
 		{
@@ -140,7 +140,7 @@ if($nb>0)
 				$pollbgcolor=$_SKIN['bgtable1'];
 			else
 				$pollbgcolor=$_SKIN['bgtable2'];
-		
+
 			if($nbtotalrep>0)
 				$percent=round(($nbrep[$i]*100)/$nbtotalrep);
 			else
@@ -149,7 +149,7 @@ if($nb>0)
 			if($canvote)
 				$tpl->box['radiopoll']=$tpl->gettemplate("detail","votechoice");
 			$tpl->box['pollchoice'].=$tpl->gettemplate("detail","lignesondage");
-	
+
 			$swapbgcolor=!$swapbgcolor;
 		}
 		$tpl->box['affpoll']=$tpl->gettemplate("detail","boxsondage");
@@ -158,6 +158,7 @@ if($nb>0)
 
 $cache.=$tpl->gettemplate("detail","boxdetail");
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache.=$tpl->gettemplate("baspage","endhtml");

@@ -35,7 +35,7 @@ $SessForum	=	0;
 $SessTopic	=	0;
 //////////////////////////////
 
-require("entete.php"); 
+require("entete.php");
 
 getlangage("stats");
 
@@ -46,28 +46,28 @@ if($_GENERAL[0])
 	{
 		$query=$sql->query("SELECT COUNT(*) AS nbsmiles FROM "._PRE_."smileys")->execute();
 		list($tpl->box['nbsmiles'])=$query->fetch_array();
-		
+
 		$tpl->box['nbtopics']=$_FORUMCFG['statnbtopics'];
 		$tpl->box['nbrep']=$_FORUMCFG['statnbposts'];
 		$tpl->box['nbmsg']= $_FORUMCFG['statnbtopics']+$_FORUMCFG['statnbposts'];
-		
+
 		//// les dates
 		$date=explode(" - ",strftime("%d - %m - %Y",time()));
 		$thismonth= mktime(0,0,0,$date[1],1,$date[2]);
 		$thisday= mktime(0,0,0,$date[1],$date[0],$date[2]);
-		
+
 		$query=$sql->query("SELECT COUNT(*) AS nbdays FROM "._PRE_."posts WHERE date > %d", $thismonth)->execute();
 		list($tpl->box['postthismonth'])=$query->fetch_array();
-	
+
 		$query=$sql->query("SELECT COUNT(*) AS nbdays FROM "._PRE_."posts WHERE date > %d", $thisday)->execute();
 		list($tpl->box['postthisday'])=$query->fetch_array();
-		
+
 		//// les membres
 		$tpl->box['groups_stats']="";
 		$tpl->box['nbbannis']=0;
 		$tpl->box['nbattente']=0;
-		
-		
+
+
 		$query = $sql->query("SELECT COUNT(*) AS nbuser, "._PRE_."user.userstatus, "._PRE_."groups.Nom_group FROM "._PRE_."user LEFT JOIN "._PRE_."groups ON "._PRE_."user.userstatus="._PRE_."groups.id_group GROUP BY userstatus ORDER BY userstatus")->execute();
 		while($j=$query->fetch_array())
 		{
@@ -79,29 +79,29 @@ if($_GENERAL[0])
 			{
 				$tpl->box['group_name'] = $j['Nom_group'];
 				$tpl->box['nb_users']   = $j['nbuser'];
-				$tpl->box['groups_stats'] .= $tpl->gettemplate("stats","groups_stats");				
+				$tpl->box['groups_stats'] .= $tpl->gettemplate("stats","groups_stats");
 			}
 		}
-		
+
 		$tpl->box['maxusers']=$_FORUMCFG['topmembers'];
-		$tpl->box['timetopmembers']=getlocaltime($_FORUMCFG['timetopmembers']);																			
-		
+		$tpl->box['timetopmembers']=getlocaltime($_FORUMCFG['timetopmembers']);
+
 		$query=$sql->query("SELECT forumtopic+forumposts AS maxmsg, forumtitle FROM "._PRE_."forums ORDER BY maxmsg DESC")->execute();
-	
+
 		list($tpl->box['maxforummsg'],$tpl->box['maxforumname'])=$query->fetch_array();
-		
+
 		$query=$sql->query("SELECT SUM("._PRE_."topics.nbvues) AS Fnbvues,"._PRE_."forums.forumtitle FROM "._PRE_."topics LEFT JOIN "._PRE_."forums ON "._PRE_."forums.forumid="._PRE_."topics.idforum GROUP BY "._PRE_."topics.idforum ORDER BY Fnbvues DESC")->execute();
 		list($tpl->box['maxvues'],$tpl->box['forummaxvues'])=$query->fetch_array();
-		
+
 		$tpl->box['statscontent']=$tpl->gettemplate("stats","statsgeneral");
 	}
-	
+
 	if($_REQUEST['action']=="tenbesttopics")
 	{
 		// sélection des forums autorisés
-		
+
 		$maskarray=array();
-		
+
 		$query=$sql->query("SELECT * FROM "._PRE_."forums")->execute();
 		$nb=$query->num_rows();
 		if($nb>0)
@@ -110,10 +110,10 @@ if($_GENERAL[0])
 			{
 				if(isset($_PERMFORUM[$j['forumid']][1]) && $_PERMFORUM[$j['forumid']][1])
 					$maskarray[]=$j['forumid'];
-			}	
+			}
 		}
 		$forummask ="'".implode("','",$maskarray)."'";
-	
+
 		$query=$sql->query("SELECT "._PRE_."topics.idtopic,
 					"._PRE_."topics.idforum,
 					"._PRE_."topics.sujet,
@@ -131,10 +131,10 @@ if($_GENERAL[0])
 				FROM "._PRE_."topics
 				LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid
 				WHERE "._PRE_."topics.idforum IN ($forummask) ORDER BY "._PRE_."topics.nbvues DESC LIMIT 0,10")->execute();
-		
+
 		//$TitleStat=$tpl->gettemplate("stats",4);
 		$CptStats=1;
-		
+
 		$tpl->box['topicscontent']="";
 		while($Topics=$query->fetch_array())
 		{
@@ -145,31 +145,31 @@ if($_GENERAL[0])
 				$Topics['loginposter']=$Topics['pseudo'];
 			$Topics['datederrep']=getlocaltime($Topics['datederrep']);
 			$Topics['sujet']=getformatrecup($Topics['sujet']);
-			
+
 			if(!empty($Topics['postit']) && $Topics['postit']=="1")
 				$tpl->box['pretopic'].=$tpl->gettemplate("stats","ifpostittopic");
-					
+
 			if(!empty($Topics['poll']) && $Topics['poll']>0)
 				$tpl->box['pretopic'].=$tpl->gettemplate("stats","iftopicpoll");
-			
+
 			$forumid = $Topics['idforum'];
 			$tpl->box['topic']=$tpl->gettemplate("stats","topiclinktomsg");
 			$tpl->box['affichepages']= getpagestopic($Topics['nbrep']+1, $Topics['idtopic'],1);
-			
+
 			$tpl->box['gotobutton']=$tpl->gettemplate("stats","linklastmsg");
-			
+
 			$tpl->box['topicscontent'].=$tpl->gettemplate("stats","lignetopic");
-			$CptStats++;	
+			$CptStats++;
 		}
 		$tpl->box['statscontent']=$tpl->gettemplate("stats","structure1");
 	}
-	
+
 	if($_REQUEST['action']=="tenbestrep")
 	{
 		// sélection des forums autorisés
-		
+
 		$maskarray=array();
-		
+
 		$query=$sql->query("SELECT * FROM "._PRE_."forums")->execute();
 		$nb=$query->num_rows();
 		if($nb>0)
@@ -178,13 +178,13 @@ if($_GENERAL[0])
 			{
 				if(isset($_PERMFORUM[$j['forumid']][1]) && $_PERMFORUM[$j['forumid']][1])
 					$maskarray[]=$j['forumid'];
-			}	
+			}
 		}
 		$forummask ="'".implode("','",$maskarray)."'";
 		//echo($forummask);
-		
+
 		//$query=$sql->query("SELECT idpost,idforum,sujet,date,nbrep,nbvues,datederrep,derposter,icone,idmembre FROM CF_posts WHERE parent=0 ORDER BY nbvues DESC");
-	
+
 		$query=$sql->query("SELECT "._PRE_."topics.idtopic,
 					"._PRE_."topics.idforum,
 					"._PRE_."topics.sujet,
@@ -202,43 +202,43 @@ if($_GENERAL[0])
 				FROM "._PRE_."topics
 				LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid
 				WHERE "._PRE_."topics.idforum IN ($forummask) ORDER BY "._PRE_."topics.nbrep DESC LIMIT 0,10")->execute();
-		
+
 		//$TitleStat=$tpl->gettemplate("stats",4);
 		$CptStats=1;
-		
+
 		$tpl->box['topicscontent']="";
 		while($Topics=$query->fetch_array())
 		{
 			$tpl->box['pretopic'] = NULLSTR;
-			
+
 			if($Topics['idmembre']>0)
 				$Topics['loginposter']=$Topics['login'];
 			else
 				$Topics['loginposter']=$Topics['pseudo'];
-				
+
 			$Topics['datederrep']=getlocaltime($Topics['datederrep']);
 			$Topics['sujet']=getformatrecup($Topics['sujet']);
 
 			if(!empty($Topics['postit']) && $Topics['postit']=="1")
 				$tpl->box['pretopic'].=$tpl->gettemplate("stats","ifpostittopic");
-					
+
 			if(!empty($Topics['poll']) && $Topics['poll']>0)
 				$tpl->box['pretopic'].=$tpl->gettemplate("stats","iftopicpoll");
-			
+
 			$forumid = $Topics['idforum'];
 			$tpl->box['topic']=$tpl->gettemplate("stats","topiclinktomsg");
 			$tpl->box['affichepages']= getpagestopic($Topics['nbrep']+1, $Topics['idtopic'],1);
-			
+
 			$tpl->box['topic']=$tpl->gettemplate("stats","topiclinktomsg");
-			
+
 			$tpl->box['gotobutton']=$tpl->gettemplate("stats","linklastmsg");
-					
+
 			$tpl->box['topicscontent'].=$tpl->gettemplate("stats","lignetopic");
-			$CptStats++;	
+			$CptStats++;
 		}
 		$tpl->box['statscontent']=$tpl->gettemplate("stats","structure1");
 	}
-	
+
 	if($_REQUEST['action']=="tenbestuser")
 	{
 		$tpl->box['filter']	=	NULLSTR;
@@ -246,7 +246,7 @@ if($_GENERAL[0])
 		$tpl->box['before'] = 	NULLSTR;
 
 		$query=$sql->query("SELECT userid,login,userstatus,registerdate,usermsg,usermail,usersite,showmail,showusersite FROM "._PRE_."user WHERE userstatus<>0 ORDER BY usermsg DESC LIMIT 0,10")->execute();
-		
+
 		//$TitleStat=$tpl->gettemplate("stats",15);
 		$tpl->box['topicscontent']="";
 		$CptStats=1;
@@ -254,7 +254,7 @@ if($_GENERAL[0])
 		{
 			$Topics['registerdate']=getlocaltime($Topics['registerdate'],1);
 			$Topics['loginposter']=getformatpseudo($Topics['login'],$Topics['userstatus'],$Topics['userid']);
-			
+
 			if($Topics['showmail']=="Y")
 			{
 				$Topics['usermail']=getemail($Topics['usermail']);
@@ -262,27 +262,27 @@ if($_GENERAL[0])
 			}
 			else
 				$tpl->box['email']="&nbsp;";
-			
+
 			if($Topics['showusersite']=="Y" && strlen($Topics['usersite'])>0)
 				$tpl->box['siteweb']=$tpl->gettemplate("stats","siteweblink");
 			else
 				$tpl->box['siteweb']="&nbsp;";
-			
-						
+
+
 			$tpl->box['topicscontent'].=$tpl->gettemplate("stats","lignemb");
-			$CptStats++;	
+			$CptStats++;
 		}
 		$tpl->box['statscontent']=$tpl->gettemplate("stats","structure2");
 	}
-	
+
 	if($_REQUEST['action']=="listmember")
 	{
 		$tpl->box['topicscontent'] = NULLSTR;
 		//$TitleStat=$tpl->gettemplate("stats",6);
-		
+
 		if(!isset($_GET['debut']))	$debut=0;
 		else						$debut= intval($_GET['debut']);
-		
+
 		if(isset($_GET['letter']) && $_GET['letter']=="0")
 		{
 			$Where = "AND login NOT REGEXP('^[a-zA-Z]')";
@@ -298,26 +298,26 @@ if($_GENERAL[0])
 			$Where = NULLSTR;
 			$letter = NULLSTR;
 		}
-		
+
 		$tpl->box['filter']=$tpl->gettemplate("stats","mbfilter");
-		
+
 		$query=$sql->query("SELECT COUNT(*) AS tot FROM "._PRE_."user WHERE userstatus>0 ".$Where)->execute();
 		if($query)
 			$total=$query->fetch_array();
-		
+
 		if($total['tot']>0)
 		{
 			$query=$sql->query("SELECT userid,login,userstatus,registerdate,usermsg,usermail,usersite,showmail,showusersite FROM "._PRE_."user WHERE userstatus<>0 ".$Where." ORDER BY login LIMIT %d,20", $debut)->execute();
-			
+
 			$tpl->box['affstats']="";
-			
+
 			$CptStats=$debut+1;
-			
+
 			while($Topics=$query->fetch_array())
 			{
 				$Topics['registerdate']=getlocaltime($Topics['registerdate'],1);
 				$Topics['loginposter']=getformatpseudo($Topics['login'],$Topics['userstatus'],$Topics['userid']);
-				
+
 				if($Topics['showmail']=="Y")
 				{
 					$Topics['usermail']=getemail($Topics['usermail']);
@@ -325,20 +325,20 @@ if($_GENERAL[0])
 				}
 				else
 					$tpl->box['email']="&nbsp;";
-				
+
 				if($Topics['showusersite']=="Y" && strlen($Topics['usersite'])>0)
 					$tpl->box['siteweb']=$tpl->gettemplate("stats","siteweblink");
 				else
 					$tpl->box['siteweb']="&nbsp;";
-				
-							
+
+
 				$tpl->box['topicscontent'].=$tpl->gettemplate("stats","lignemb");
-				$CptStats++;	
+				$CptStats++;
 			}
 		}
 		else
 			$tpl->box['topicscontent']=$tpl->gettemplate("stats","nomb");
-			
+
 		if($debut>0)
 		{
 			$tpl->box['debut']=$debut-20;
@@ -346,7 +346,7 @@ if($_GENERAL[0])
 		}
 		else
 			$tpl->box['before']=$tpl->gettemplate("stats","beforenolink");
-		
+
 		if(($debut+20)<$total['tot'])
 		{
 			$tpl->box['debut']=$debut+20;
@@ -354,20 +354,20 @@ if($_GENERAL[0])
 		}
 		else
 			$tpl->box['next']=$tpl->gettemplate("stats","nextnolink");
-		
+
 		//$tpl->box[statscontent]=$tpl->gettemplate("stats",14);
-	
+
 		$tpl->box['statscontent']=$tpl->gettemplate("stats","structure2");
 	}
-	
+
 	if($_REQUEST['action']=="connected")
 	{
 		$MbConnected=0;
-		
+
 		foreach($NombreConnectes as $Connected)
 			if($Connected['userid']>0)
 				$MbConnected++;
-		
+
 		if($MbConnected > 0)
 		{
 			$Members	= array();
@@ -375,38 +375,38 @@ if($_GENERAL[0])
 			$TopicsMask	= array();
 			$ForumInfo	= array();
 			$TopicInfo	= array();
-			
+
 			if(empty($_GET['debut']))	$debut=0;
 			else				$debut=intval($_GET['debut']);
 			if($debut < 0)			$debut=0;
-			
+
 			$query = $sql->query("SELECT username,userid,userstatus,typelieu,forumid,topicid FROM "._PRE_."session WHERE userid<>'0' ORDER BY username LIMIT %d,20", $debut)->execute();
-			
+
 			while($j=$query->fetch_array())
 				$Members[]=$j;
-			
+
 			foreach($Members as $MemberInfo)
 			{
 				if($MemberInfo['forumid']>0 && !empty($_PERMFORUM[$MemberInfo['forumid']][0]) && $_PERMFORUM[$MemberInfo['forumid']][0]==true)
 				{
 					$ForumsMask[]=$MemberInfo['forumid'];
-					
+
 					if($MemberInfo['topicid']>0 && !empty($_PERMFORUM[$MemberInfo['forumid']][1]) && $_PERMFORUM[$MemberInfo['forumid']][1]==true)
 						$TopicsMask[]=$MemberInfo['topicid'];
 				}
 			}
-			
+
 			if(count($ForumsMask)>0)
 			{
 				$query = $sql->query("SELECT forumid,forumtitle FROM "._PRE_."forums WHERE forumid IN ('".implode("','",$ForumsMask)."')")->execute();
-				
+
 				while(list($ForumId,$ForumTitle)=$query->fetch_array())
 					$ForumInfo[$ForumId]=getformatrecup($ForumTitle);
-				
+
 				if(count($TopicsMask)>0)
 				{
 					$query = $sql->query("SELECT idtopic,sujet,idderpost FROM "._PRE_."topics WHERE idtopic IN ('".implode("','",$TopicsMask)."')")->execute();
-					
+
 					while($j=$query->fetch_array())
 					{
 						$TopicInfo[$j['idtopic']]=$j;
@@ -414,19 +414,19 @@ if($_GENERAL[0])
 					}
 				}
 			}
-			
+
 			reset($Members);
 			$tpl->box['listconnected']=NULLSTR;
-			
+
 			foreach($Members as $MemberInfo)
 			{
 				$MemberInfo['pseudo']=getformatpseudo($MemberInfo['username'],$MemberInfo['userstatus'],$MemberInfo['userid']);
-				
+
 				if($MemberInfo['forumid']>0 && !empty($_PERMFORUM[$MemberInfo['forumid']][0]) && $_PERMFORUM[$MemberInfo['forumid']][0]==true)
 				{
 					$ForumTitle = $ForumInfo[$MemberInfo['forumid']];
 					$tpl->box['typelieu']=$tpl->gettemplate("stats","typelieu_for");
-					
+
 					if($MemberInfo['topicid']>0 && !empty($_PERMFORUM[$MemberInfo['forumid']][1]) && $_PERMFORUM[$MemberInfo['forumid']][1]==true)
 					{
 						$Topic = $TopicInfo[$MemberInfo['topicid']];
@@ -436,17 +436,17 @@ if($_GENERAL[0])
 				else
 				{
 					$TypeLieuUrl = NULLSTR;
-					
+
 					switch($MemberInfo['typelieu'])
 					{
 						case "ACC":
 							$TypeLieu	= $tpl->attlang("acc");
-							$TypeLieuUrl	= "index.php"; 
+							$TypeLieuUrl	= "index.php";
 							break;
 						case "SEA":
 							$TypeLieu	= $tpl->attlang("sea");
 							if($_GENERAL[1])
-								$TypeLieuUrl	= "search.php"; 
+								$TypeLieuUrl	= "search.php";
 							break;
 						case "ADM":
 							$TypeLieu	= $tpl->attlang("adm");
@@ -466,17 +466,17 @@ if($_GENERAL[0])
 							break;
 						default:
 							$TypeLieu	= $tpl->attlang("acc");
-							$TypeLieuUrl	= "index.php"; 
+							$TypeLieuUrl	= "index.php";
 							break;
 					}
-					
+
 					if(strlen($TypeLieuUrl)>0)	$tpl->box['typelieu']=$tpl->gettemplate("stats","typelieuurl");
 					else				$tpl->box['typelieu']=$tpl->gettemplate("stats","typelieu");
 				}
-				
+
 				$tpl->box['listconnected'].=$tpl->gettemplate("stats","ligneconnected");
 			}
-			
+
 			if($debut > 0)
 			{
 				$tpl->box['debut']=$debut-20;
@@ -484,7 +484,7 @@ if($_GENERAL[0])
 			}
 			else
 				$tpl->box['before']=$tpl->gettemplate("stats","connectedbeforenolink");
-			
+
 			if(($debut+20) < $MbConnected)
 			{
 				$tpl->box['debut']=$debut+20;
@@ -492,17 +492,18 @@ if($_GENERAL[0])
 			}
 			else
 				$tpl->box['next']=$tpl->gettemplate("stats","connectednextnolink");
-					
+
 		}
 		else
 			$tpl->box['listconnected']=$tpl->gettemplate("stats","nombconnected");
-		
+
 		$tpl->box['statscontent']=$tpl->gettemplate("stats","structure3");
 	}
-	
+
 	$cache.=$tpl->gettemplate("stats","pageconfig");
 	$tps = number_format(get_microtime() - $tps_start,4);
-	
+
+    $NBRequest = Database_MySQLi::getNbRequests();
 	$cache.=$tpl->gettemplate("baspage","endhtml");
 	$tpl->output($cache);
 }

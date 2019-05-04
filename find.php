@@ -59,32 +59,32 @@ $cache.=$tpl->gettemplate("treenav","hierarchy");
 //------------- INITIALISATION DU FORUM --------------------
 
 $tpl->box['topiclist']="";
-	
+
 if($nb>0)
 {
 	$UrlKeyWord = urlencode($KeyWords);
-	$cookiedetails="CoolForumDetails";    
+	$cookiedetails="CoolForumDetails";
 	if(isset($_COOKIE[$cookiedetails]))
 		$cookiespost=cookdecode($_COOKIE[$cookiedetails]);
-	
+
 	$tpl->temp['topfinal']=explode(',',$j['search']);
 	$tpl->temp['counttopfinal']=count($tpl->temp['topfinal']);
 
 	if(!isset($_GET['page']) || empty($_GET['page']))		$page	=	1;
 	else													$page	= intval($_GET['page']);
-	
+
 	$tpl->box['navpages']=getnumberpages($tpl->temp['counttopfinal'],"search",$_FORUMCFG['topicparpage'],$page);
 	if($nbpages>1)
 		$tpl->box['numberpages']	=	$tpl->gettemplate("search","boxpages");
 
-	
+
 	$debut=($page*$_FORUMCFG['topicparpage'])-$_FORUMCFG['topicparpage'];
-	
+
 	if($tpl->temp['counttopfinal']>($debut+$_FORUMCFG['topicparpage']))
 		$fin=$debut+$_FORUMCFG['topicparpage'];
 	else
 		$fin=$tpl->temp['counttopfinal'];
-	
+
 	$query=$sql->query("SELECT "._PRE_."topics.idtopic,
 			"._PRE_."topics.idforum AS forumid,
 			"._PRE_."topics.sujet,
@@ -102,20 +102,21 @@ if($nb>0)
  		FROM "._PRE_."topics 
 		LEFT JOIN "._PRE_."user ON "._PRE_."topics.idmembre="._PRE_."user.userid 
 		WHERE "._PRE_."topics.idtopic IN (%s) ORDER BY "._PRE_."topics.datederrep DESC LIMIT %d,%d", array($j['search'], $debut, $fin))->execute();
-	
-	
+
+
 	while($Topics=$query->fetch_array())
 	{
 		$forumid = $Topics['forumid'];
 		$tpl->box['topiclist'].=afftopiclist(0,"search");
 		unset($forumid);
-	}	
+	}
 }
 else
 	$tpl->box['searchresult']=$tpl->gettemplate("search","errorsearch");
 
 $cache.=$tpl->gettemplate("search","boxlist");
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache.=$tpl->gettemplate("baspage","endhtml");

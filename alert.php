@@ -60,10 +60,10 @@ if ($_USER['userstatus'] > 1) {
 	if ($_REQUEST['action'] == "sendmail") {
 		$url2 =	$_FORUMCFG['urlforum']."gotopost.php?id=$idpost";
 		$username = formatstrformail($_USER['username']);
-		
+
 		eval("\$subject = ".$tpl->attlang("mailsujet").";");
 		eval("\$mesg = ".$tpl->attlang("mailmsg").";");
-		
+
 		if (sendmail(inversemail($_FORUMCFG['contactmail']),$subject,$mesg)) {
             $tpl->box['alertcontent'] = $tpl->attlang("emailok");
         } else {
@@ -78,9 +78,9 @@ if ($_USER['userstatus'] > 1) {
 		$tpl->box['HTTP_REFERER']	=	$_SERVER['HTTP_REFERER'];
 		$tpl->box['alertcontent']	=	$tpl->gettemplate("alert","msgalert");
 	}
-	
+
 	$cache .= $tpl->gettemplate("alert","accueilalert");
-	
+
 } else {
 	geterror("call_loginbox");
 }
@@ -89,6 +89,7 @@ if (isset($go) && $go == 1) {
 	$cache.=getjsredirect($url."#".$idpost,4000);
 }
 
+$NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
 $cache .= $tpl->gettemplate("baspage","endhtml");
