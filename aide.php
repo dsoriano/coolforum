@@ -30,9 +30,9 @@
 require("admin/functions.php");
 
 // #### définition du lieu ###
-$SessLieu	=	'HLP';
-$SessForum	=	0;
-$SessTopic	=	0;
+$_SESSION['SessLieu']	=	_LOCATION_HELP_;
+$_SESSION['SessForum']	=	0;
+$_SESSION['SessTopic']	=	0;
 //////////////////////////////
 
 require("entete.php");
@@ -41,6 +41,7 @@ getlangage("aide");
 
 $cache .= $tpl->gettemplate("aide","aidegenerale");
 
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 

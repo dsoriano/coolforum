@@ -44,9 +44,9 @@ if(isset($_GET['p']))
 	$_GET['p'] = intval($_GET['p']);
 
 // #### définition du lieu ###
-$SessLieu	=	'FOR';
-$SessForum	=	$_GET['forumid'];
-$SessTopic	=	0;
+$_SESSION['SessLieu']	=	_LOCATION_FORUM_;
+$_SESSION['SessForum']	=	$_GET['forumid'];
+$_SESSION['SessTopic']	=	0;
 //////////////////////////////
 
 require("entete.php");
@@ -158,6 +158,7 @@ if($nb>0)
 
 $cache.=$tpl->gettemplate("detail","boxdetail");
 
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 

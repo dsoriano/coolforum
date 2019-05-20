@@ -44,9 +44,9 @@ $tpl->box['treenav']			=		NULLSTR;
 $error							=		NULLSTR;
 
 // #### définition du lieu ###
-$SessLieu	=	'TOP';
-$SessForum	=	$forumid;
-$SessTopic	=	$post;
+$_SESSION['SessLieu']	=	_LOCATION_TOPIC_;
+$_SESSION['SessForum']	=	$forumid;
+$_SESSION['SessTopic']	=	$post;
 //////////////////////////////
 
 require("entete.php");
@@ -427,6 +427,7 @@ if (!$canedit) {
 
 $cache .= $tpl->gettemplate("editpost","pagestruct");
 
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 

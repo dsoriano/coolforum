@@ -41,15 +41,15 @@ if(!isset($_GET['action']))
 	if($query->num_rows() > 0)
 	{
 		$j			=	$query->fetch_array();
-	
+
 		$parent		=	$j['parent'];
-		
+
 		$query		=	$sql->query("SELECT idpost FROM "._PRE_."posts WHERE parent=%d", $parent)->execute();
 		$nb			=	$query->num_rows();
-	
+
 		$page		=	1;
 		$compteur	=	1;
-	
+
 		while($i = $query->fetch_array())
 		{
 			if($i['idpost']==$id)
@@ -63,9 +63,9 @@ if(!isset($_GET['action']))
 				}
 				else
 					$compteur++;
-		
+
 			}
-		
+
 		}
 		header("location: detail.php?forumid=".$j['idforum']."&id=$parent&p=$page#$id");
 	}
@@ -79,21 +79,21 @@ if($_GET['action']=="prec" || $_GET['action']=="suiv")
 	$forumid = intval ($_GET['forumid']);
 
 	// #### Définition du lieu #### ///////////////////////////////////////////////
-	$SessLieu	=	'FOR';
-	$SessForum	=	$forumid;
-	$SessTopic	=	0;
+	$_SESSION['SessLieu']	=	_LOCATION_FORUM_;
+	$_SESSION['SessForum']	=	$forumid;
+	$_SESSION['SessTopic']	=	0;
 	////////////////////////////////////////////////////////////////////////////////
 
 	$query=$sql->query("SELECT datederrep FROM "._PRE_."topics WHERE idtopic=%d", $id)->execute();
 	$i=$query->fetch_array();
-	
+
 	if($_GET['action']=="prec")
 		$query=$sql->query("SELECT idtopic FROM "._PRE_."topics WHERE idforum=%d AND datederrep < %d ORDER BY datederrep DESC LIMIT 0,1", array($forumid, $i['datederrep']))->execute();
 	elseif($_GET['action']=="suiv")
 		$query=$sql->query("SELECT idtopic FROM "._PRE_."topics WHERE idforum=%d AND datederrep > %d ORDER BY datederrep LIMIT 0,1", array($forumid, $i['datederrep']))->execute();
 
 	$nb = $query->num_rows();
-	
+
 	if ($nb==0) {
 		require("entete.php");
 		geterror("novalidlink");
@@ -107,11 +107,11 @@ if($_GET['action']=="prec" || $_GET['action']=="suiv")
 if($_GET['action']=="msglus")
 {
 	$query = $sql->query("SELECT idtopic,idforum,nbrep FROM "._PRE_."topics ORDER BY datederrep DESC LIMIT 0,200")->execute();
-	
+
 	$TempMsg = array();
 	$TempFrm = array();
 	$TempForums = array();
-	
+
 	$nb = $query->num_rows();
 	if($nb>0)
 	{
@@ -122,19 +122,19 @@ if($_GET['action']=="msglus")
 			$TempMsg["$IdString"] = $j['nbrep']+1;
 			$TempForums[$j['idforum']] = "true";
 		}
-		
+
 		$query = $sql->query("SELECT forumid,forumtopic,forumposts FROM "._PRE_."forums")->execute();
-		
+
 		while($i = $query->fetch_array())
 		{
 			if($TempForums[$i['forumid']]=="true")
 				$TempFrm[$i['forumid']] = $i['forumtopic']+$i['forumposts'];
 		}
-		
+
 		sendcookie("listeforum_coolforum",cookencode($TempFrm),-1);
 		sendcookie("CoolForumDetails",cookencode($TempMsg,true),-1);
 	}
-				
-	
-	header("location: index.php");	
+
+
+	header("location: index.php");
 }

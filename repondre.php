@@ -60,9 +60,9 @@ if(empty($_REQUEST['action']))
 unset($error);
 
 // #### définition du lieu ###
-$SessLieu	=	'TOP';
-$SessForum	=	$ForumID;
-$SessTopic	=	$Parent;
+$_SESSION['SessLieu']	=	_LOCATION_TOPIC_;
+$_SESSION['SessForum']	=	$ForumID;
+$_SESSION['SessTopic']	=	$Parent;
 //////////////////////////////
 
 require("entete.php");
@@ -111,6 +111,7 @@ if($_REQUEST['action']=="preview")
 
 	$cache.=$tpl->gettemplate("writebox","msgpreview");
 
+    session_write_close();
     $NBRequest = Database_MySQLi::getNbRequests();
     $tps = number_format(get_microtime() - $tps_start,4);
 
@@ -537,6 +538,7 @@ if($_REQUEST['action']=="form")
 
 	$cache.=$tpl->gettemplate("repondre","repaccueil");
 
+    session_write_close();
     $NBRequest = Database_MySQLi::getNbRequests();
 	$tps = number_format(get_microtime() - $tps_start,4);
 

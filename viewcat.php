@@ -47,9 +47,9 @@ $_GET['catid']						=	intval($_GET['catid']);
 
 
 // #### Définition du lieu #### ///////////////////////////////////////////////
-$SessLieu	=	'ACC';
-$SessForum	=	0;
-$SessTopic	=	0;
+$_SESSION['SessLieu']	=	_LOCATION_HOME_;
+$_SESSION['SessForum']	=	0;
+$_SESSION['SessTopic']	=	0;
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -132,7 +132,7 @@ $cache .= $tpl->gettemplate("viewcat","accueilgeneral");
 
 
 
-
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 

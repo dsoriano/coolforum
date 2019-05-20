@@ -267,7 +267,9 @@ if($_REQUEST['action']=="popuppm")
 	$cache .= $tpl->gettemplate("popup","popuppm");
 }
 
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
+
 $cache.=$tpl->gettemplate("baspage","endhtml");
 $tpl->output($cache);

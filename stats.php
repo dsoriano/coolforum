@@ -30,9 +30,9 @@
 require("admin/functions.php");
 
 // #### définition du lieu ###
-$SessLieu	=	'STA';
-$SessForum	=	0;
-$SessTopic	=	0;
+$_SESSION['SessLieu']	=	_LOCATION_STATS_;
+$_SESSION['SessForum']	=	0;
+$_SESSION['SessTopic']	=	0;
 //////////////////////////////
 
 require("entete.php");
@@ -501,9 +501,11 @@ if($_GENERAL[0])
 	}
 
 	$cache.=$tpl->gettemplate("stats","pageconfig");
+
+    session_write_close();
+    $NBRequest = Database_MySQLi::getNbRequests();
 	$tps = number_format(get_microtime() - $tps_start,4);
 
-    $NBRequest = Database_MySQLi::getNbRequests();
 	$cache.=$tpl->gettemplate("baspage","endhtml");
 	$tpl->output($cache);
 }

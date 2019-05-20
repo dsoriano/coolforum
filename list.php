@@ -124,9 +124,9 @@ $stringtoinsert=$strorderby.$strfromdate.$strsortby;
 
 
 // #### Définition du lieu #### ///////////////////////////////////////////////
-$SessLieu	=	'FOR';
-$SessForum	=	intval($_GET['forumid']);
-$SessTopic	=	0;
+$_SESSION['SessLieu']	=	_LOCATION_FORUM_;
+$_SESSION['SessForum']	=	(int)$_GET['forumid'];
+$_SESSION['SessTopic']	=	0;
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -186,7 +186,7 @@ if(!$_PERMFORUM[$_GET['forumid']][1])
 
 
 // #### Gestion des connectés #### /////////////////////////////////////////////
-$InfoMember							=	get_connected($SessLieu,$SessForum);
+$InfoMember							=	get_connected();
 
 if($_FORUMCFG['conn_forum'] == "Y")
 {
@@ -333,7 +333,7 @@ $cache.=$tpl->gettemplate("list","boxlist");
 
 
 
-
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 

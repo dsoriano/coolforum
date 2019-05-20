@@ -30,9 +30,9 @@
 require("admin/functions.php");
 
 // #### définition du lieu ###
-$SessLieu	=	'SEA';
-$SessForum	=	0;
-$SessTopic	=	0;
+$_SESSION['SessLieu']	=	_LOCATION_SEARCH_;
+$_SESSION['SessForum']	=	0;
+$_SESSION['SessTopic']	=	0;
 //////////////////////////////
 
 require("entete.php");
@@ -248,6 +248,7 @@ if($_GENERAL[1])
 
 	$cache.=$tpl->gettemplate("search","accueilsearch");
 
+    session_write_close();
     $NBRequest = Database_MySQLi::getNbRequests();
 	$tps = number_format(get_microtime() - $tps_start,4);
 

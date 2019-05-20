@@ -42,9 +42,9 @@ if (isset($_COOKIE['listeforum_coolforum'])) {
 
 
 // #### définition du lieu ###
-$SessLieu = 'ACC';
-$SessForum = 0;
-$SessTopic = 0;
+$_SESSION['SessLieu'] = _LOCATION_HOME_;
+$_SESSION['SessForum'] = 0;
+$_SESSION['SessTopic'] = 0;
 //////////////////////////////
 
 require("entete.php");
@@ -236,8 +236,10 @@ $_FORUMCFG['statlastmember'] = getformatrecup($_FORUMCFG['statlastmember']);
 
 $cache .= $tpl->gettemplate("index", "accueilgeneral");
 
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start, 4);
+
 $cache .= $tpl->gettemplate("baspage", "endhtml");
 $tpl->output($cache);
 /////////////////////////////////////////////////////////////////////////////////
