@@ -27,6 +27,8 @@
 //*                                                                               *
 //*********************************************************************************
 
+use Database\Database_MySQLi;
+
 require("admin/functions.php");
 
 if(!isset($_REQUEST['action']))		$_REQUEST['action'] = NULLSTR;

@@ -28,6 +28,8 @@
 //*********************************************************************************
 
 
+use Database\Database_MySQLi;
+
 require("admin/functions.php");
 
 

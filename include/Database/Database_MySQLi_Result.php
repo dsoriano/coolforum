@@ -1,6 +1,7 @@
 <?php
+namespace Database;
 
-class Database_MySQLi_Result extends MySQLi_Result
+class Database_MySQLi_Result extends \MySQLi_Result
 {
     public function num_rows()
     {

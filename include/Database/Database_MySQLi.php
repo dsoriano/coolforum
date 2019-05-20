@@ -1,8 +1,7 @@
 <?php
+namespace Database;
 
-require_once 'Database_MySQLi_Result.php';
-
-class Database_MySQLi extends MySQLi
+class Database_MySQLi extends \MySQLi
 {
 	protected static $_instance = null;
 
@@ -69,7 +68,7 @@ class Database_MySQLi extends MySQLi
 	/**
 	 * Exécute la requête
 	 * @return Database_MySQLi_Result|boolean
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function execute()
 	{

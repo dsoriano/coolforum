@@ -27,10 +27,11 @@
 //*                                                                               *
 //*********************************************************************************
 
-require_once __DIR__ . '/../secret/config.inc.php';
-require_once __DIR__ . '/../include/database/Database_MySQLi.php';
-require_once __DIR__ . '/../include/sessions/Session.php';
+use Database\Database_MySQLi;
+use Session\Session;
 
+require_once __DIR__ . '/../include/autoload.php';
+require_once __DIR__ . '/../secret/config.inc.php';
 
 define('_LOCATION_FORUM_', 'FOR');
 define('_LOCATION_HOME_', 'ACC');
