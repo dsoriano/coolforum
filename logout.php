@@ -29,7 +29,9 @@
 
 require("admin/functions.php");
 
+Session::remove('user');
 sendcookie("CoolForumID","", 0);
 
-header("location: index.php");	
+header("location: index.php");
+die;
 

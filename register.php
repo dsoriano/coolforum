@@ -30,9 +30,9 @@
 require("admin/functions.php");
 
 // #### définition du lieu ###
-$SessLieu	=	'ACC';
-$SessForum	=	0;
-$SessTopic	=	0;
+$_SESSION['SessLieu']	=	_LOCATION_HOME_;
+$_SESSION['SessForum']	=	0;
+$_SESSION['SessTopic']	=	0;
 //////////////////////////////
 
 require("entete.php");
@@ -252,6 +252,7 @@ else
 
 $cache.=$tpl->gettemplate("register","accueilregister");
 
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 

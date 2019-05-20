@@ -71,7 +71,7 @@ $tpl->box['grpcolor'] 			= 	NULLSTR;
 
 foreach ($ListColorGroup AS $gpcolor) {
 	$groupcolor 				= 	$_SKIN['grp'.$gpcolor];
-	$tpl->box['grpcolor'] 	   .=	$tpl->gettemplate("entete","groupscolor");	
+	$tpl->box['grpcolor'] 	   .=	$tpl->gettemplate("entete","groupscolor");
 }
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -82,7 +82,7 @@ foreach ($ListColorGroup AS $gpcolor) {
 
 // #### Update session #### ////////////////////////////////////////////////////
 if (preg_match("|popup.php|",$_SERVER['REQUEST_URI']) == 0) {
-	$NombreConnectes			=	getsession();
+	$NombreConnectes			=	$session->checkConnected();
 }
 
 
@@ -136,9 +136,9 @@ if (!isset($nocache)) {
 	if ($_FORUMCFG['usepub']=="Y") {
 		$date								=		time();
 		$result 							= 		array();
-		
+
 		$query								=		$sql->query("SELECT * FROM "._PRE_."campagnes WHERE dtedebut < %d", $date)->execute();
-	
+
 		if ($query->num_rows() > 0) {
 			while ($i = $query->fetch_array()) {
 				if (($i['typefin'] == "aff" && $i['nbaffichages'] < $i['fincamp']) || ($i['typefin'] == "click" && $i['clicks'] < $i['fincamp']) || ($i['typefin'] == "date" && $date < $i['fincamp'])) {
@@ -147,21 +147,21 @@ if (!isset($nocache)) {
                     }
                 }
             }
-			
+
 			if (count($result) > 0) {
 				$nocamp 					= 	rand(0,(count($result)-1));
-				
+
 				$date_derniere_vue_camp		=	strftime("%Y-%m-%d",$result[$nocamp]['lastvue']);
 			  	$date_maintenant			=	strftime("%Y-%m-%d",$date);
 			  	$inserchampcamp				=	$result[$nocamp]['id']."-".strftime("%Y%m%d",$result[$nocamp]['lastvue']);
-		
+
 			  	if ($date_derniere_vue_camp == $date_maintenant) {
 			  		$query					=	$sql->query("UPDATE "._PRE_."campagnes SET nbaffichages = nbaffichages+1, lastvue = %d, todayvue = todayvue+1 WHERE id = %d", array($date, $result[$nocamp]['id']))->execute();
                 } else {
 			  		$query					=	$sql->query("INSERT INTO "._PRE_."statcamp (iddate,vu,clicks) VALUES (%d,%d,%d)", array($inserchampcamp, $result[$nocamp]['todayvue'], $result[$nocamp]['todayclick']))->execute();
 			  		$query					=	$sql->query("UPDATE "._PRE_."campagnes SET nbaffichages=nbaffichages+1, lastvue = %d, todayvue = 1, todayclick = 0 WHERE id = %d", array($date, $result[$nocamp]['id']))->execute();
 			  	}
-		
+
 			 	if (strlen($result[$nocamp]['regie'])==0)  {
 			 		$idads 					= 	$result[$nocamp]['id'];
 			 		$adsban 				= 	$result[$nocamp]['banniere'];
@@ -177,23 +177,23 @@ if (!isset($nocache)) {
         }
 	}
 	////////////////////////////////////////////////////////////////////////////
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	// #### Affichage de HTML haut #### ///////////////////////////////////////
 	else {
         $tpl->box['ajouthtml'] = !empty($_FORUMCFG['ajouthtml']) ? stripslashes($_FORUMCFG['ajouthtml']) : "&nbsp;";
 	}
 	////////////////////////////////////////////////////////////////////////////
-	
-	
-	
-	
-	
-		
+
+
+
+
+
+
 	$cache								   .=	$tpl->gettemplate("entete","logo");
 
     $tpl->box['administrer'] = $_GENERAL[20] ? $tpl->gettemplate("entete","administrer") : NULLSTR;
@@ -239,7 +239,7 @@ if ($_USER['userid'] == 0 && $_FORUMCFG['mustbeidentify'] == "Y" && preg_match("
 if (!isset($_COOKIE['nbpmvu'])) {
 	$_COOKIE['nbpmvu'] = 0;
 }
-	
+
 if ($_USER['popuppm']=="Y" && $_USER['nbpmvu']>$_COOKIE['nbpmvu']) {
 	$cache .= $tpl->gettemplate("entete","jspopuppm");
 	sendcookie("nbpmvu",$_USER['nbpmvu'],-1);

@@ -30,89 +30,90 @@
 require("admin/functions.php");
 
 // #### définition du lieu ###
-$SessLieu				=	'ACC';
-$SessForum				=	0;
-$SessTopic				=	0;
+$_SESSION['SessLieu']				=	_LOCATION_HOME_;
+$_SESSION['SessForum']				=	0;
+$_SESSION['SessTopic']				=	0;
 //////////////////////////////
 
 
-$tablo=parse_url($_SERVER['HTTP_REFERER']);
+$tablo = parse_url($_SERVER['HTTP_REFERER']);
 
-if(!isset($tablo['path']))		$tablo['path'] = NULLSTR;
-if(!isset($tablo['query']))		$tablo['query'] = NULLSTR;
-$redirecturl=basename($tablo['path'])."?".$tablo['query'];
-//echo("test:" $redirecturl);
+$tablo['path'] = isset($tablo['path']) ? $tablo['path'] : NULLSTR;
+$tablo['query'] = isset($tablo['query']) ? $tablo['query'] : NULLSTR;
 
-if(empty($_REQUEST['action']))
-{
-	$pseudo=getformatmsg($_POST['pseudo'],false);
-	$query=$sql->query("SELECT userid,login,password,usermail,userstatus FROM "._PRE_."user WHERE login='%s'", $pseudo)->execute();
-	$nb=$query->num_rows();
-	
-	if($nb==0)
-		header("location: identify.php?error=1");
-	
-	else
-	{
-		$j=$query->fetch_array();
-		if($j['userstatus']==0)
-		{
-			require("entete.php");
-			if($_FORUMCFG['confirmparmail']==3)
-				geterror("confirmregister");
-			else
-				geterror("waitforadmin");
-		}
-		$tmp=rawurldecode($j['password']);
-		$passwd=getdecrypt($tmp,$_FORUMCFG['chainecodage']);
-		
-		if($passwd==$_POST['password'])
-		{
-			$send['userid']=$j['userid'];
-			$send['username']=$j['login'];
-			$send['userpass']=$tmp;
-			
-			switch ($_POST['duree'])
-			{
-			case "0":
-				sendcookie("CoolForumID",urlencode(serialize($send)),time()+3600*24);
-				break;
-			case "1":
-				sendcookie("CoolForumID",urlencode(serialize($send)),time()+86400*30);
-				break;
-			case "2":
-				sendcookie("CoolForumID",urlencode(serialize($send)),time()+86400*365);
-				break;
-			case "3":
-				sendcookie("CoolForumID",urlencode(serialize($send)),mktime(0,0,0,1,1,2010));
-				break;
-			}
-			
-			if(!isset($_COOKIE['CF_LastINI']))
-				sendcookie("CF_LastINI",time(),-1);
-			
-			if(isset($_COOKIE['CF_sessionID']))
-			{
-				$_COOKIE['CF_sessionID'] = getrecupfromcookie($_COOKIE['CF_sessionID']);
-				$now	=	time();
-				$query	=	$sql->query("DELETE FROM "._PRE_."session WHERE username='%s'", $pseudo)->execute();
-				$query	=	$sql->query("UPDATE "._PRE_."session SET username='%s', userid=%d, userstatus=%d, time=%d  WHERE sessionID='%s'", array($pseudo, $j['userid'], $j['userstatus'], $now, $_COOKIE['CF_sessionID']))->execute();
-			}
-			
-			if(isset($_POST['backurl']))
-			{
-				$tablo=parse_url($_POST['referrer']);
-				$redirecturl=basename($tablo['path'])."?".$tablo['query'];	
-				header("location: $redirecturl");
-			}
-			else
-				header("location: index.php");
-			exit; 
-		}
-		else
-			header("location: identify.php?error=1");
-	}
+$redirecturl = basename($tablo['path'])."?".$tablo['query'];
+
+
+if (empty($_REQUEST['action'])) {
+    $pseudo = getformatmsg($_POST['pseudo'], false);
+    $query = $sql->query("SELECT 
+            userid,
+            login AS username,
+            password,
+            usermail,
+            userstatus 
+        FROM " . _PRE_ . "user WHERE login='%s'", $pseudo)->execute();
+    $nb = $query->num_rows();
+
+    if ($query->num_rows() === 0) {
+        header("location: identify.php?error=1");
+        die;
+    }
+
+    $j = $query->fetch_array(MYSQLI_ASSOC);
+    if ($j['userstatus'] == 0) {
+        require("entete.php");
+        if ($_FORUMCFG['confirmparmail'] == 3)
+            geterror("confirmregister");
+        else
+            geterror("waitforadmin");
+    }
+    $tmp = rawurldecode($j['password']);
+    $passwd = getdecrypt($tmp, $_FORUMCFG['chainecodage']);
+
+    if($passwd !== $_POST['password']) {
+        header("location: identify.php?error=1");
+        die;
+    }
+
+    // Set session
+    Session::set('user', $j);
+
+    // Set Cookie
+    $send['userid']     = $j['userid'];
+    $send['username']   = $j['login'];
+    $send['userpass']   = $tmp;
+
+    switch ($_POST['duree']) {
+        case "0":
+            sendcookie("CoolForumID", urlencode(serialize($send)), time() + 3600 * 24);
+            break;
+        case "1":
+            sendcookie("CoolForumID", urlencode(serialize($send)), time() + 86400 * 30);
+            break;
+        case "2":
+            sendcookie("CoolForumID", urlencode(serialize($send)), time() + 86400 * 365);
+            break;
+        case "3":
+            sendcookie("CoolForumID", urlencode(serialize($send)), mktime(0, 0, 0, 1, 1, 2010));
+            break;
+    }
+
+    if (!isset($_COOKIE['CF_LastINI'])) {
+        sendcookie("CF_LastINI", time(), -1);
+    }
+
+    if (isset($_POST['backurl'])) {
+        $tablo = parse_url($_POST['referrer']);
+        $redirecturl = basename($tablo['path']) . "?" . $tablo['query'];
+        header("location: $redirecturl");
+        die;
+    }
+
+    header("location: index.php");
+    die;
 }
+
 if($_REQUEST['action']=="savepoll")
 {
 
@@ -124,27 +125,27 @@ if($_REQUEST['action']=="savepoll")
 		$choixpoll 	= 	intval($_POST['choixpoll']);
 		$idpoll		=	intval($_POST['idpoll']);
 		$id		=	intval($_POST['id']);
-		$forumid	=	intval($_POST['forumid']);		
-		
+		$forumid	=	intval($_POST['forumid']);
+
 		$query	=	$sql->query("SELECT * FROM "._PRE_."poll WHERE id='%d'", $idpoll)->execute();
 		$nb	=	$query->num_rows();
-		
+
 		if($nb==1)
 		{
 			$j	=	$query->fetch_array();
-			
+
 			$nbrep	=	explode(" >> ",$j['rep']);
-			
+
 			if($choixpoll >= 0 && $choixpoll < count($nbrep) && preg_match("|-".$_USER['userid']."-|",$j['votants']) == 0)
 			{
 				$nbrep[$choixpoll]++;
-				
+
 				$chainerep 	= 	implode(" >> ",$nbrep);
 				$participant	=	$j['votants'].$_USER['userid']."-";
 				$query 		= 	$sql->query("UPDATE "._PRE_."poll SET rep='%s', votants='%d' WHERE id=%d", array($chainerep, $participant, $j['id']))->execute();
 			}
 		}
 	}
-	
+
 	header("location: $redirecturl");
 }

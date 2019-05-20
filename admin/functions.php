@@ -29,6 +29,19 @@
 
 require_once __DIR__ . '/../secret/config.inc.php';
 require_once __DIR__ . '/../include/database/Database_MySQLi.php';
+require_once __DIR__ . '/../include/sessions/Session.php';
+
+
+define('_LOCATION_FORUM_', 'FOR');
+define('_LOCATION_HOME_', 'ACC');
+define('_LOCATION_SEARCH_', 'SEA');
+define('_LOCATION_ADMIN_', 'ADM');
+define('_LOCATION_STATS_', 'STA');
+define('_LOCATION_HELP_', 'HLP');
+define('_LOCATION_PROFILE_', 'PRO');
+define('_LOCATION_TOPIC_', 'TOP');
+
+
 
 // ********************************************************
 // *                 CLASSE DE TEMPLATES                  *
@@ -233,10 +246,12 @@ function geterror($error)
     }
 
 	$cache .=	$tpl->gettemplate("error","errorbox");
+
+    session_write_close();
     $NBRequest = Database_MySQLi::getNbRequests();
 	$tps 	= 	number_format(get_microtime() - $tps_start,4);
-	$cache .=	$tpl->gettemplate("baspage","endhtml");
 
+	$cache .=	$tpl->gettemplate("baspage","endhtml");
 	$tpl->output($cache);
 	exit;
 
@@ -473,83 +488,106 @@ function getpagestopic($nb,$id,$page)
 // #### CHARGEMENT IDENTIFICATION MEMBRE ####
 function getuserid()
 {
-	global $_COOKIE, $tpl, $sql, $_FORUMCFG, $_PERMFORUM, $_FORUMINTER, $_GENERAL;
+    global $_COOKIE, $sql, $_FORUMCFG, $_PERMFORUM, $_FORUMINTER, $_GENERAL;
 
-	$user 						= 		array();
-	$errorset 					= 		false;
+    try {
+        $user = Session::get('user', []);
 
-	if(isset($_COOKIE['CoolForumID']))
-	{
-		$j 						= 		unserialize(urldecode($_COOKIE['CoolForumID']));
-		$j['userpass']			=		getdecrypt(rawurldecode($j['userpass']),$_FORUMCFG['chainecodage']);
-		$j['userid'] 				= 		intval($j['userid']);
 
-		$query 					= $sql->query("SELECT 	"._PRE_."user.userid, 
-										"._PRE_."user.login AS username,
-										"._PRE_."user.password,
-										"._PRE_."user.userstatus,
-										"._PRE_."user.skin AS userskin,
-										"._PRE_."user.timezone,
-										"._PRE_."user.lng,
-										"._PRE_."user.popuppm,
-										"._PRE_."user.lastpost,
-										"._PRE_."user.lastvisit,
-										"._PRE_."user.nbpmtot,
-										"._PRE_."user.nbpmvu,
-										"._PRE_."user.wysiwyg,
-										"._PRE_."groups.*
-									FROM "._PRE_."user
-									LEFT JOIN "._PRE_."groups ON "._PRE_."groups.id_group = "._PRE_."user.userstatus 
-									WHERE "._PRE_."user.userid=%d", $j['userid'])->execute();
+        if (isset($user['userid'])) { // If user exists in session
+            $query = $sql->query("SELECT 
+                    " . _PRE_ . "user.userstatus,
+                    " . _PRE_ . "user.skin AS userskin,
+                    " . _PRE_ . "user.timezone,
+                    " . _PRE_ . "user.lng,
+                    " . _PRE_ . "user.popuppm,
+                    " . _PRE_ . "user.lastpost,
+                    " . _PRE_ . "user.nbpmtot,
+                    " . _PRE_ . "user.nbpmvu,
+                    " . _PRE_ . "groups.*
+                FROM " . _PRE_ . "user
+                LEFT JOIN " . _PRE_ . "groups ON " . _PRE_ . "groups.id_group = " . _PRE_ . "user.userstatus 
+                WHERE " . _PRE_ . "user.userid=%d", $user['userid'])->execute();
 
-		$x						=		$query->fetch_array();
-		$temppass				=		getdecrypt(rawurldecode($x['password']),$_FORUMCFG['chainecodage']);
+            if ($query->num_rows() === 0) {
+                throw new Exception();
+            }
 
-		if($j['userpass'] == $temppass)
-		{
-			$user 				= 		$x;
-			$user['password'] 	= 		"";
-		}
-		else
-			$errorset			=		true;
-	}
-	else
-		$errorset				=		true;
+            $user = array_merge($user, $query->fetch_array(MYSQLI_ASSOC));
+        } elseif (isset($_COOKIE['CoolForumID'])) { // If user cookie exists
+            $cookie = unserialize(urldecode($_COOKIE['CoolForumID']));
+            $cookie['userpass'] = getdecrypt(rawurldecode($cookie['userpass']), $_FORUMCFG['chainecodage']);
+            $cookie['userid'] = (int)$cookie['userid'];
 
-	if($errorset)
-	{
-		$query 					= 		$sql->query("SELECT * FROM "._PRE_."groups WHERE id_group = 1")->execute();
-		$user					= 		$query->fetch_array();
+            $query = $sql->query("SELECT 
+                    " . _PRE_ . "user.userid, 
+                    " . _PRE_ . "user.login AS username,
+                    " . _PRE_ . "user.password,
+                    " . _PRE_ . "user.usermail,
+                    " . _PRE_ . "user.userstatus,
+                    " . _PRE_ . "user.skin AS userskin,
+                    " . _PRE_ . "user.timezone,
+                    " . _PRE_ . "user.lng,
+                    " . _PRE_ . "user.popuppm,
+                    " . _PRE_ . "user.lastpost,
+                    " . _PRE_ . "user.lastvisit,
+                    " . _PRE_ . "user.nbpmtot,
+                    " . _PRE_ . "user.nbpmvu,
+                    " . _PRE_ . "user.wysiwyg,
+                    " . _PRE_ . "groups.*
+                FROM " . _PRE_ . "user
+                LEFT JOIN " . _PRE_ . "groups ON " . _PRE_ . "groups.id_group = " . _PRE_ . "user.userstatus 
+                WHERE " . _PRE_ . "user.userid=%d", $cookie['userid'])->execute();
 
-		$user['username']		=		NULLSTR;
-		$user['userstatus']		=		1;
-		$user['userid']			=		0;
-		$user['lastvisit']		=		0;
-		$user['userskin']		=		$_FORUMCFG['defaultskin'];
-		$user['timezone'] 		= 		$_FORUMCFG['defaulttimezone'];
-		$user['popuppm'] 		= 		"N";
-		$user['lastpost']		=		0;
-		$user['wysiwyg']		=		"N";
-	}
+            if ($query->num_rows() === 0) {
+                throw new Exception();
+            }
 
-	// Chargement droits généraux
-	$_GENERAL 					= 		get_rightfromint($_GENERAL,$user['Droits_generaux']);
+            $tempuser = $query->fetch_array(MYSQLI_ASSOC);
+            $temppass = getdecrypt(rawurldecode($tempuser['password']), $_FORUMCFG['chainecodage']);
 
-	// Chargement droits des forums
-	$request 					= 		$sql->query("SELECT * FROM "._PRE_."groups_perm WHERE id_group = %d", $user['userstatus'])->execute();
-	$nb 						= 		$request->num_rows();
+            if ($cookie['userpass'] !== $temppass) {
+                throw new Exception();
+            }
 
-	if($nb>0)
-		while($i = $request->fetch_array())
-		{
-			$temp_array = array();
-			$temp_array = get_rightfromint($temp_array,$i['droits']);
+            unset ($tempuser['password']);
+            $user = array_merge($user, $query->fetch_array(MYSQLI_ASSOC));
+        } else {
+            throw new Exception();
+        }
+    } catch (Exception $e) {
+        $query = $sql->query("SELECT * FROM " . _PRE_ . "groups WHERE id_group = 1")->execute();
+        $user = $query->fetch_array(MYSQLI_ASSOC);
 
-			$_PERMFORUM[$i['id_forum']] = $temp_array;
-			$_PERMFORUM[$i['id_forum']]['MaxChar'] = $i['MaxChar'];
-		}
+        $user['username']       = NULLSTR;
+        $user['userstatus']     = 1;
+        $user['userid']         = 0;
+        $user['lastvisit']      = 0;
+        $user['userskin']       = $_FORUMCFG['defaultskin'];
+        $user['timezone']       = $_FORUMCFG['defaulttimezone'];
+        $user['popuppm']        = "N";
+        $user['lastpost']       = 0;
+        $user['wysiwyg']        = "N";
+    }
 
-return($user);
+    // Chargement droits généraux
+    $_GENERAL = get_rightfromint($_GENERAL, $user['Droits_generaux']);
+
+    // Chargement droits des forums
+    $request = $sql->query("SELECT * FROM " . _PRE_ . "groups_perm WHERE id_group = %d", $user['userstatus'])->execute();
+
+    if ($request->num_rows() > 0) {
+        while ($i = $request->fetch_array()) {
+            $temp_array = array();
+            $temp_array = get_rightfromint($temp_array, $i['droits']);
+
+            $_PERMFORUM[$i['id_forum']] = $temp_array;
+            $_PERMFORUM[$i['id_forum']]['MaxChar'] = $i['MaxChar'];
+        }
+    }
+
+    Session::set('user', $user);
+    return ($user);
 }
 
 
@@ -627,141 +665,129 @@ function init_session()
 }
 
 // #### ENREGISTRMEMENT DE LA SESSION POUR CHAQUE MEMBRE / INVITE ####
-function getsession()
+//function getsession()
+//{
+//	global $_COOKIE, $_USER, $sql, $SessLieu, $SessForum, $SessTopic;
+//	$tablename								=		array();
+//
+//	if(!empty($SessLieu))
+//	{
+//		$pseudo 								= 		getformatdbtodb($_USER['username']);
+//
+//		if(!isset($_COOKIE['CF_sessionID']))
+//	   		$_COOKIE['CF_sessionID'] 			= 		init_session();
+//
+//		$now									=		time();
+//		$perim									=		$now - 300;
+//
+//		$delsql									=		$sql->query("DELETE FROM "._PRE_."session WHERE time<%d", $perim)->execute();
+//
+//		$query									=		$sql->query("SELECT sessionID, username, userid, userstatus, typelieu, forumid, topicid FROM "._PRE_."session")->execute();
+//		$nb										=		$query->num_rows();
+//
+//		$found 									= 		false;
+//		$i										=		0;
+//
+//		if($nb>0)
+//		{
+//			while($j=$query->fetch_array())
+//			{
+//				if($_USER['userid']>0 && $_USER['username']==$j['username']) // si trouvé membre
+//				{
+//					$updsess					=	$sql->query("UPDATE "._PRE_."session SET sessionID='%s', time=%d, typelieu='%s', forumid=%d, topicid=%d WHERE username='%s'", array($_COOKIE['CF_sessionID'], $now, $SessLieu, $SessForum, $SessTopic, $pseudo))->execute();
+//					$tablename[$i]['name']		=	$j['username'];
+//					$tablename[$i]['status']	=	$j['userstatus'];
+//					$tablename[$i]['userid']	=	$j['userid'];
+//					$found 						= 	true;
+//					$tablename[$i]['typelieu']	=	$SessLieu;
+//					$tablename[$i]['forumid']	=	$SessForum;
+//					$tablename[$i]['topicid']	=	$SessTopic;
+//				}
+//				elseif($j['sessionID']==$_COOKIE['CF_sessionID']) // sinon si les sessions concordent => soit invité soit vient de se logguer
+//				{
+//					$updsess					=	$sql->query("UPDATE "._PRE_."session SET username='%s', userid=%d, userstatus=%d, time=%d, typelieu='%s', forumid=%d, topicid=%d  WHERE sessionID='%s'", array($pseudo, $_USER['userid'], $_USER['userstatus'], $now, $SessLieu, $SessForum, $SessTopic, $_COOKIE['CF_sessionID']))->execute();
+//					$tablename[$i]['name']		=	$_USER['username'];
+//					$tablename[$i]['status']	=	$_USER['userstatus'];
+//					$tablename[$i]['userid']	=	$_USER['userid'];
+//					$found 						= 	true;
+//					$tablename[$i]['typelieu']	=	$SessLieu;
+//					$tablename[$i]['forumid']	=	$SessForum;
+//					$tablename[$i]['topicid']	=	$SessTopic;
+//				}
+//				else //sinon ce n'est pas moi
+//				{
+//					$tablename[$i]['name']		=	$j['username'];
+//					$tablename[$i]['status']	=	$j['userstatus'];
+//					$tablename[$i]['userid']	=	$j['userid'];
+//					$tablename[$i]['typelieu']	=	$j['typelieu'];
+//					$tablename[$i]['forumid']	=	$j['forumid'];
+//					$tablename[$i]['topicid']	=	$j['topicid'];
+//				}
+//				$i++;
+//			}
+//
+//		}
+//
+//		if(!$found)
+//		{
+//			$query								=	$sql->query("INSERT into "._PRE_."session (sessionID, username, userid, userstatus, time, typelieu, forumid, topicid) VALUES ('%s','%s', %d,'%s','%s','%s','%s','%s')", array($_COOKIE['CF_sessionID'], $pseudo, $_USER['userid'], $_USER['userstatus'], $now, $SessLieu, $SessForum, $SessTopic))->execute();
+//			$tablename[$i]['name']				=	$_USER['username'];
+//			$tablename[$i]['status']			=	$_USER['userstatus'];
+//			$tablename[$i]['userid']			=	$_USER['userid'];
+//			$tablename[$i]['typelieu']			=	$SessLieu;
+//			$tablename[$i]['forumid']			=	$SessForum;
+//			$tablename[$i]['topicid']			=	$SessTopic;
+//
+//			$LastINI							=	isset($_COOKIE['CF_LastINI']) ? (int)$_COOKIE['CF_LastINI'] : 0;
+//			if($_USER['userid'] > 0)
+//				$query							=	$sql->query("UPDATE "._PRE_."user SET lastvisit = %d WHERE userid = %d", array($LastINI, $_USER['userid']))->execute();
+//		}
+//
+//		sendcookie("CF_sessionID",$_COOKIE['CF_sessionID'],-1);
+//		sendcookie("CF_LastINI",$now,-1);
+//	}
+//	return($tablename);
+//
+//}
+
+function get_connected()
 {
-	global $_COOKIE, $_USER, $sql, $SessLieu, $SessForum, $SessTopic;
-	$tablename								=		array();
+    global $NombreConnectes;
 
-	if(!empty($SessLieu))
-	{
-		$pseudo 								= 		getformatdbtodb($_USER['username']);
+    $InfoMember = [
+        'nbmembres' => 0,
+        'nbguests' => 0,
+        'nbtotalvisit' => 0,
+        'listconnected' => '',
+    ];
 
-		if(!isset($_COOKIE['CF_sessionID']))
-	   		$_COOKIE['CF_sessionID'] 			= 		init_session();
 
-		$now									=		time();
-		$perim									=		$now - 300;
+    $ListMembres = array_filter($NombreConnectes, function ($membre) use (&$InfoMember) {
+        if ($membre['typelieu'] === $_SESSION['SessLieu'] && $membre['forumid'] === $_SESSION['SessForum'] && $membre['topicid'] === $_SESSION['SessTopic']) {
+            if ($membre['userid'] > 0) {
+                $InfoMember['nbmembres']++;
+                return true;
+            } else {
+                $InfoMember['nbguests']++;
+            }
+        }
 
-		$delsql									=		$sql->query("DELETE FROM "._PRE_."session WHERE time<%d", $perim)->execute();
+        return false;
+    });
 
-		$query									=		$sql->query("SELECT sessionID, username, userid, userstatus, typelieu, forumid, topicid FROM "._PRE_."session")->execute();
-		$nb										=		$query->num_rows();
+    $InfoMember['nbtotalvisit'] = $InfoMember['nbmembres'] + $InfoMember['nbguests'];
 
-		$found 									= 		false;
-		$i										=		0;
+    // Formattage des membres pour affichage
+    if ($InfoMember['nbmembres'] > 0) {
+        $nameconnect = [];
+        foreach ($ListMembres as $membre) {
+            $nameconnect[] = "<b>" . getformatpseudo($membre['name'], $membre['status'], $membre['userid']) . "</b>";
+        }
 
-		if($nb>0)
-		{
-			while($j=$query->fetch_array())
-			{
-				if($_USER['userid']>0 && $_USER['username']==$j['username']) // si trouvé membre
-				{
-					$updsess					=	$sql->query("UPDATE "._PRE_."session SET sessionID='%s', time=%d, typelieu='%s', forumid=%d, topicid=%d WHERE username='%s'", array($_COOKIE['CF_sessionID'], $now, $SessLieu, $SessForum, $SessTopic, $pseudo))->execute();
-					$tablename[$i]['name']		=	$j['username'];
-					$tablename[$i]['status']	=	$j['userstatus'];
-					$tablename[$i]['userid']	=	$j['userid'];
-					$found 						= 	true;
-					$tablename[$i]['typelieu']	=	$SessLieu;
-					$tablename[$i]['forumid']	=	$SessForum;
-					$tablename[$i]['topicid']	=	$SessTopic;
-				}
-				elseif($j['sessionID']==$_COOKIE['CF_sessionID']) // sinon si les sessions concordent => soit invité soit vient de se logguer
-				{
-					$updsess					=	$sql->query("UPDATE "._PRE_."session SET username='%s', userid=%d, userstatus=%d, time=%d, typelieu='%s', forumid=%d, topicid=%d  WHERE sessionID='%s'", array($pseudo, $_USER['userid'], $_USER['userstatus'], $now, $SessLieu, $SessForum, $SessTopic, $_COOKIE['CF_sessionID']))->execute();
-					$tablename[$i]['name']		=	$_USER['username'];
-					$tablename[$i]['status']	=	$_USER['userstatus'];
-					$tablename[$i]['userid']	=	$_USER['userid'];
-					$found 						= 	true;
-					$tablename[$i]['typelieu']	=	$SessLieu;
-					$tablename[$i]['forumid']	=	$SessForum;
-					$tablename[$i]['topicid']	=	$SessTopic;
-				}
-				else //sinon ce n'est pas moi
-				{
-					$tablename[$i]['name']		=	$j['username'];
-					$tablename[$i]['status']	=	$j['userstatus'];
-					$tablename[$i]['userid']	=	$j['userid'];
-					$tablename[$i]['typelieu']	=	$j['typelieu'];
-					$tablename[$i]['forumid']	=	$j['forumid'];
-					$tablename[$i]['topicid']	=	$j['topicid'];
-				}
-				$i++;
-			}
+        $InfoMember['listconnected'] = implode(", ", $nameconnect);
+    }
 
-		}
-
-		if(!$found)
-		{
-			$query								=	$sql->query("INSERT into "._PRE_."session (sessionID, username, userid, userstatus, time, typelieu, forumid, topicid) VALUES ('%s','%s', %d,'%s','%s','%s','%s','%s')", array($_COOKIE['CF_sessionID'], $pseudo, $_USER['userid'], $_USER['userstatus'], $now, $SessLieu, $SessForum, $SessTopic))->execute();
-			$tablename[$i]['name']				=	$_USER['username'];
-			$tablename[$i]['status']			=	$_USER['userstatus'];
-			$tablename[$i]['userid']			=	$_USER['userid'];
-			$tablename[$i]['typelieu']			=	$SessLieu;
-			$tablename[$i]['forumid']			=	$SessForum;
-			$tablename[$i]['topicid']			=	$SessTopic;
-
-			$LastINI							=	isset($_COOKIE['CF_LastINI']) ? (int)$_COOKIE['CF_LastINI'] : 0;
-			if($_USER['userid'] > 0)
-				$query							=	$sql->query("UPDATE "._PRE_."user SET lastvisit = %d WHERE userid = %d", array($LastINI, $_USER['userid']))->execute();
-		}
-
-		sendcookie("CF_sessionID",$_COOKIE['CF_sessionID'],-1);
-		sendcookie("CF_LastINI",$now,-1);
-	}
-	return($tablename);
-
-}
-
-function get_connected($Lieu = "",$forumid = 0, $topicid = 0)
-{
-	global $NombreConnectes, $tpl;
-
-	$InfoMember['nbmembres']		=	0;
-	$InfoMember['nbguests']		=	0;
-	$InfoMember['nbtotalvisit']	=	0;
-
-	$NbTotalcon					=	count($NombreConnectes);
-	$ListMembres				=	array();
-	$nameconnect				=	array();
-
-	// **** Définition du nbre de membres et d'invités selon le lieu ****
-	for($i = 0; $i < $NbTotalcon; $i++)
-	{
-		$mbvalid = false;
-
-		if($Lieu == "TOP" && $Lieu == $NombreConnectes[$i]['typelieu'] && $forumid == $NombreConnectes[$i]['forumid'] && $topicid == $NombreConnectes[$i]['topicid'])
-			$mbvalid = true;
-		elseif($Lieu == "FOR" && ($Lieu == $NombreConnectes[$i]['typelieu'] || $NombreConnectes[$i]['typelieu'] == "TOP") && $forumid == $NombreConnectes[$i]['forumid'])
-			$mbvalid = true;
-		elseif(strlen($Lieu) > 0 && $Lieu != "TOP" && $Lieu != "FOR" && $Lieu == $NombreConnectes[$i]['typelieu'])
-			$mbvalid = true;
-
-		if(strlen($Lieu) == 0)
-			$mbvalid = true;
-
-		if($mbvalid)
-		{
-			if(!empty($NombreConnectes[$i]['name']))
-			{
-				$InfoMember['nbmembres']++;
-				$ListMembres[]	=	$i;
-			}
-			else
-				$InfoMember['nbguests']++;
-		}
-	}
-
-	$InfoMember['nbtotalvisit']	=	$InfoMember['nbmembres'] + $InfoMember['nbguests'];
-
-	// **** Formattage des membres pour affichage ****
-	if($InfoMember['nbmembres']>0)
-	{
-		foreach($ListMembres as $val)
-			$nameconnect[]	=	"<b>".getformatpseudo($NombreConnectes[$val]['name'],$NombreConnectes[$val]['status'],$NombreConnectes[$val]['userid'])."</b>";
-		$InfoMember['listconnected']	=	implode(", ",$nameconnect);
-	}
-
-	return($InfoMember);
+    return ($InfoMember);
 }
 
 function getjumpforum($template="entete")
@@ -2591,6 +2617,7 @@ if (get_magic_quotes_gpc() !== false) {
 $tps_start 					= 		get_microtime();
 $NbRequest					=		0;
 
+// Database connection
 $sql = Database_MySQLi::getInstance(array(
     'hostname' => DB_HOST,
     'username' => DB_USER,
@@ -2600,6 +2627,9 @@ $sql = Database_MySQLi::getInstance(array(
 
 $sql->set_charset('latin1');
 
+// Sessions init
+$session = new Session($sql);
+
 $tpl 						= 		new Template;
 
 $_FORUMCFG					=		getconfig();
@@ -2608,7 +2638,9 @@ $_FORUMCFG['contactmail']	=		getemail($_FORUMCFG['contactmail']);
 $_FORUMCFG['forumname']		=		getformatrecup($_FORUMCFG['forumname']);
 $_FORUMCFG['sitename']		=		getformatrecup($_FORUMCFG['sitename']);
 
+$session->setGc($_FORUMCFG['next_session_gc']);
+
 define("NULLSTR","");
 
-$ForumVersion				=	"0.8.5 beta";
-$ForumDBVersion				=	"0.8 beta";
+$ForumVersion				=	"0.9 beta";
+$ForumDBVersion				=	"0.9 beta";

@@ -36,9 +36,9 @@ $query				=	$sql->query("SELECT parent FROM "._PRE_."posts WHERE idpost=%d",$_GE
 list($parent)		=	$query->fetch_array();
 
 // #### définition du lieu ###
-$SessLieu				=	'TOP';
-$SessForum				=	$_GET['forumid'];
-$SessTopic				=	$parent;
+$_SESSION['SessLieu']				=	_LOCATION_TOPIC_;
+$_SESSION['SessForum']				=	$_GET['forumid'];
+$_SESSION['SessTopic']				=	$parent;
 //////////////////////////////
 
 require("entete.php");
@@ -59,6 +59,7 @@ if(($ismodo && $_MODORIGHTS[0])|| $_GENERAL[20])
 else
 	geterror("call_loginbox");
 
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 

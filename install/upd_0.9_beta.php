@@ -27,71 +27,54 @@
 //*                                                                               *
 //*********************************************************************************
 
-require("admin/functions.php");
+$update = [];
 
-$idpost	= isset($_REQUEST['idpost']) ? (int)$_REQUEST['idpost'] : 0;
+switch($_GET['steps']) {
+    case 1:
+        $update['sql']="TRUNCATE " . _PRE_ . "session";
+        $update['ok']="Table "._PRE_."session vidée";
+        $update['nok']="Problème lors du vidage de la table "._PRE_."session";
 
-if ($idpost > 0) {
-	$query = $sql->query("SELECT parent, idforum FROM "._PRE_."posts WHERE idpost = %d", $idpost)->execute();
-	list($parent, $idforum) = $query->fetch_array();
-} else {
-	$parent = 0;
-	$idforum = 0;
+        exec_request();
+        affseparate();
+
+        $update['sql']="ALTER TABLE `" . _PRE_ . "session` 
+            CHANGE `sessionID` `id` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
+            CHANGE `time` `access` DATETIME NOT NULL,
+            ADD `bot` TINYINT NOT NULL DEFAULT '0' AFTER `id`,
+            ADD `data` TEXT NOT NULL AFTER `topicid`,
+            ADD INDEX (`access`),
+            ADD INDEX (`bot`)";
+        $update['ok']="Table "._PRE_."session modifiée";
+        $update['nok']="Problème lors de la modification de la table "._PRE_."session";
+
+        exec_request();
+        next_step();
+        break;
+
+    case 2:
+        $next_gc = date('Y-m-d H:i:s', strtotime( 'now + 1 hour'));
+
+        $update['sql']="INSERT INTO "._PRE_."config VALUES ('next_session_gc', '$next_gc')";
+        $update['ok']="Valeur <i>next_session_gc</i> insérée dans table configuration";
+        $update['nok']="Valeur <i>next_session_gc</i> non insérée dans table configuration";
+
+        exec_request();
+        affseparate();
+
+        // #####################################
+        // #### MODIFICATIONS VERSION DE DB ####
+        // #####################################
+
+        $update['sql']="UPDATE "._PRE_."config SET valeur='0.9 beta' WHERE options='ForumDBVersion'";
+        $update['ok']="Version de DB mise à jour";
+        $update['nok']="Version de DB non mise à jour";
+
+        exec_request();
+        next_step();
+        break;
+
+    case 3:
+        end_maj();
+        break;
 }
-
-
-// #### définition du lieu ###
-$_SESSION['SessLieu']				=	_LOCATION_TOPIC_;
-$_SESSION['SessForum']				=	$idforum;
-$_SESSION['SessTopic']				=	$parent;
-//////////////////////////////
-
-require("entete.php");
-
-getlangage("alert");
-
-if (isset($_REQUEST['url'])) {
-	$tablurl	=	explode("&",$_REQUEST['url']);
-	$tablurl	=	array_map("getformatmsg",$tablurl);
-	$url		=	implode("&",$tablurl);
-}
-
-if ($_USER['userstatus'] > 1) {
-	if ($_REQUEST['action'] == "sendmail") {
-		$url2 =	$_FORUMCFG['urlforum']."gotopost.php?id=$idpost";
-		$username = formatstrformail($_USER['username']);
-
-		eval("\$subject = ".$tpl->attlang("mailsujet").";");
-		eval("\$mesg = ".$tpl->attlang("mailmsg").";");
-
-		if (sendmail(inversemail($_FORUMCFG['contactmail']),$subject,$mesg)) {
-            $tpl->box['alertcontent'] = $tpl->attlang("emailok");
-        } else {
-            $tpl->box['alertcontent'] = $tpl->attlang("emailnotok");
-        }
-
-		$go = 1;
-	}
-
-	if (empty($_REQUEST['action'])) {
-		$tpl->box['idpost']	=	intval($_GET['idpost']);
-		$tpl->box['HTTP_REFERER']	=	$_SERVER['HTTP_REFERER'];
-		$tpl->box['alertcontent']	=	$tpl->gettemplate("alert","msgalert");
-	}
-
-	$cache .= $tpl->gettemplate("alert","accueilalert");
-
-} else {
-	geterror("call_loginbox");
-}
-
-if (isset($go) && $go == 1) {
-	$cache.=getjsredirect($url."#".$idpost,4000);
-}
-
-session_write_close();
-$NBRequest = Database_MySQLi::getNbRequests();
-$tps = number_format(get_microtime() - $tps_start,4);
-
-$cache .= $tpl->gettemplate("baspage","endhtml");
-$tpl->output($cache);

@@ -40,9 +40,9 @@ if ($_GET['id'] == 0 || $_GET['forumid'] == 0) {
 }
 
 // #### définition du lieu ###
-$SessLieu	=	'TOP';
-$SessForum	=	$_GET['forumid'];
-$SessTopic	=	$_GET['id'];
+$_SESSION['SessLieu']	=	_LOCATION_TOPIC_;
+$_SESSION['SessForum']	=	$_GET['forumid'];
+$_SESSION['SessTopic']	=	$_GET['id'];
 //////////////////////////////
 
 
@@ -98,7 +98,7 @@ if (!$_PERMFORUM[$_GET['forumid']][2]) {
 }
 
 // #### Connectés ####
-$InfoMember	=	get_connected($SessLieu, $SessForum, $SessTopic);
+$InfoMember	=	get_connected();
 
 if ($_FORUMCFG['conn_topic'] == "Y") {
     $tpl->box['statsconnectes']		=	NULLSTR;
@@ -281,6 +281,7 @@ $PrintRedirect = "idtopic=".$_GET['id'];
 
 $cache .= $tpl->gettemplate("detail","boxdetail");
 
+session_write_close();
 $NBRequest = Database_MySQLi::getNbRequests();
 $tps = number_format(get_microtime() - $tps_start,4);
 
