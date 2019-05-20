@@ -27,6 +27,8 @@
 //*                                                                               *
 //*********************************************************************************
 
+use Database\Database_MySQLi;
+
 $nocache=true;
 
 require("admin/functions.php");

@@ -27,6 +27,8 @@
 //*                                                                               *
 //*********************************************************************************
 
+use Database\Database_MySQLi;
+
 require_once 'admin/functions.php';
 
 

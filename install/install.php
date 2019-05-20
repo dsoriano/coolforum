@@ -30,6 +30,11 @@
 // ################################################################################
 //                            DEFINITION DES FONCTIONS
 
+use Database\Database_MySQLi;
+
+require_once  __DIR__ . '/../include/autoload.php';
+require_once '../secret/config.inc.php';
+
 function geterrorcode()
 {
  global $compteur,$_GET, $sql;
@@ -100,12 +105,10 @@ function end_maj()
 	}
 }
 
-require_once '../secret/config.inc.php';
-
 // ################################################################################
 //                               CONNEXION A MYSQL
 
-require_once  __DIR__ . '/../include/database/Database_MySQLi.php';
+
 $sql = Database_MySQLi::getInstance(array(
     'hostname' => DB_HOST,
     'username' => DB_USER,

@@ -1,4 +1,8 @@
 <?php
+namespace Session;
+
+use Database\Database_MySQLi;
+
 /**
  * Class Session
  *

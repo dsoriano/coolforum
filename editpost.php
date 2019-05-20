@@ -27,6 +27,8 @@
 //*                                                                               *
 //*********************************************************************************
 
+use Database\Database_MySQLi;
+
 require("admin/functions.php");
 
 $posterid = isset($_REQUEST['posterid']) ? (int)$_REQUEST['posterid'] : 0;

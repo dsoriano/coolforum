@@ -27,6 +27,8 @@
 //*                                                                               *
 //*********************************************************************************
 
+use Database\Database_MySQLi;
+
 require("admin/functions.php");
 
 $tpl->box['numberpages'] = NULLSTR;
