@@ -544,15 +544,14 @@ function getuserid()
                 throw new Exception();
             }
 
-            $tempuser = $query->fetch_array(MYSQLI_ASSOC);
-            $temppass = getdecrypt(rawurldecode($tempuser['password']), $_FORUMCFG['chainecodage']);
+            $user = $query->fetch_array(MYSQLI_ASSOC);
+            $temppass = getdecrypt(rawurldecode($user['password']), $_FORUMCFG['chainecodage']);
 
             if ($cookie['userpass'] !== $temppass) {
                 throw new Exception();
             }
 
-            unset ($tempuser['password']);
-            $user = array_merge($user, $query->fetch_array(MYSQLI_ASSOC));
+            unset ($user['password']);
         } else {
             throw new Exception();
         }
